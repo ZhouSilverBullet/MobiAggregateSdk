@@ -1,0 +1,5 @@
+include ':gdt'
+include ':core'
+include ':csj'
+include ':app'
+rootProject.name = "MobiAggregateSdk"
