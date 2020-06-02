@@ -2,6 +2,7 @@ package com.mobi.gdt;
 
 import android.content.Context;
 
+import com.mobi.core.AdProviderManager;
 import com.qq.e.comm.managers.GDTADManager;
 
 /**
@@ -36,6 +37,9 @@ public class GdtSession {
         this.appId = gdtAdAppId;
 
         GDTADManager.getInstance().initWith(context, gdtAdAppId);
+
+        AdProviderManager.get().putProvider(AdProviderManager.TYPE_GDT,
+                new GdtProvider(AdProviderManager.TYPE_GDT));
     }
 
     public String getAppId() {

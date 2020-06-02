@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
+import com.mobi.core.IAdProvider;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.core.utils.ScreenUtils;
@@ -18,9 +19,13 @@ import com.mobi.core.utils.ScreenUtils;
  * @date 2020/6/1 18:12
  * @Dec 略
  */
-public class CsjProvider {
+public class CsjProvider implements IAdProvider {
     public static final String TAG = "CsjProvider";
-    public String mProviderType = "CsjProvider";
+    public String mProviderType;
+
+    public CsjProvider(String providerType) {
+        mProviderType = providerType;
+    }
 
     public void splash(final Activity activity,
                        final String codeId,

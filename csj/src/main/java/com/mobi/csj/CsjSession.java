@@ -6,6 +6,7 @@ import com.bytedance.sdk.openadsdk.TTAdConfig;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
+import com.mobi.core.AdProviderManager;
 
 /**
  * @author zhousaito
@@ -35,6 +36,10 @@ public class CsjSession {
         mContext = context.getApplicationContext();
         mTTAdManager = TTAdSdk.init(context.getApplicationContext(),
                 buildConfig(context, appId, appName));
+
+        AdProviderManager.get().putProvider(AdProviderManager.TYPE_CSJ,
+                new CsjProvider(AdProviderManager.TYPE_CSJ));
+
     }
 
     public TTAdManager getAdManager() {

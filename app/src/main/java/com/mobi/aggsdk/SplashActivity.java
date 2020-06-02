@@ -1,12 +1,14 @@
 package com.mobi.aggsdk;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobi.core.MobiAggregateSdk;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.csj.CsjProvider;
@@ -48,7 +50,12 @@ public class SplashActivity extends AppCompatActivity {
 //            }
 //        });
 
-        new GdtProvider().splash(this, Const.GDT_SPLASH_ID, clRoot, new ISplashAdListener() {
+        MobiAggregateSdk.showSplash(this, clRoot, new ISplashAdListener() {
+            @Override
+            public void onAdStartRequest(@NonNull String providerType) {
+
+            }
+
             @Override
             public void onAdFail(String type, String s) {
 
@@ -56,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAdClicked(String type) {
-
+//                startActivity(new Intent(SplashActivity.this, MainActivity.class));
             }
 
             @Override
@@ -66,7 +73,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAdDismissed(String type) {
-
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
             }
 
             @Override
@@ -79,6 +86,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        finish();
+//        finish();
     }
 }

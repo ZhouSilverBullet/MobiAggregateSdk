@@ -1,5 +1,7 @@
 package com.mobi.core.listener;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -7,6 +9,12 @@ package com.mobi.core.listener;
  * @Dec 略
  */
 public interface ISplashAdListener {
+    /**
+     * 开始
+     * @param providerType
+     */
+    void onAdStartRequest(@NonNull String providerType);
+
     /**
      * csj # onTimeout , onError
      *

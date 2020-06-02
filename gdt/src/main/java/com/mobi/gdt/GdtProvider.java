@@ -3,6 +3,7 @@ package com.mobi.gdt;
 import android.app.Activity;
 import android.view.ViewGroup;
 
+import com.mobi.core.IAdProvider;
 import com.mobi.core.listener.ISplashAdListener;
 import com.qq.e.ads.splash.SplashAD;
 import com.qq.e.ads.splash.SplashADListener;
@@ -14,15 +15,22 @@ import com.qq.e.comm.util.AdError;
  * @date 2020/6/1 18:12
  * @Dec 略
  */
-public class GdtProvider {
+public class GdtProvider implements IAdProvider {
     public static final String TAG = "GdtProvider";
-    public String mProviderType = "GdtProvider";
+    public String mProviderType;
 
+    public GdtProvider(String providerType) {
+        mProviderType = providerType;
+    }
 
     public void splash(final Activity activity,
                        final String codeId,
                        final ViewGroup splashContainer,
                        final ISplashAdListener listener) {
+
+        if (listener != null) {
+            listener.onAdStartRequest(mProviderType);
+        }
 
         SplashAD splashAD = new SplashAD(activity, GdtSession.get().getAppId(), codeId, new SplashADListener() {
             @Override
