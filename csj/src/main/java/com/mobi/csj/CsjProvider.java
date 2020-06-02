@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
+import com.mobi.core.BaseAdProvider;
 import com.mobi.core.IAdProvider;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.utils.LogUtils;
@@ -19,12 +20,11 @@ import com.mobi.core.utils.ScreenUtils;
  * @date 2020/6/1 18:12
  * @Dec 略
  */
-public class CsjProvider implements IAdProvider {
+public class CsjProvider extends BaseAdProvider {
     public static final String TAG = "CsjProvider";
-    public String mProviderType;
 
     public CsjProvider(String providerType) {
-        mProviderType = providerType;
+        super(providerType);
     }
 
     public void splash(final Activity activity,
@@ -43,36 +43,33 @@ public class CsjProvider implements IAdProvider {
                 .setImageAcceptedSize(appWidth, appHeight)
                 .build();
 
+        callbackSplashStartRequest(listener);
+
         adNative.loadSplashAd(adSlot, new TTAdNative.SplashAdListener() {
             @Override
             public void onError(int code, String errorMsg) {
                 LogUtils.e(TAG, "csj splash:" + errorMsg);
-                if (listener != null) {
-                    listener.onAdFail(mProviderType, "错误码：" + codeId + "，errorMsg：" + errorMsg);
-                }
+
+                callbackSplashFail("错误码：" + codeId + "，errorMsg：" + errorMsg, listener);
             }
 
             @Override
             public void onTimeout() {
                 LogUtils.e(TAG, "csj splash: onTimeout");
-                if (listener != null) {
-                    listener.onAdFail(mProviderType, "请求超时");
-                }
+
+                callbackSplashFail("请求超时", listener);
             }
 
             @Override
             public void onSplashAdLoad(TTSplashAd ad) {
                 LogUtils.d(TAG, "csj开屏广告请求成功");
                 if (ad == null) {
-                    if (listener != null) {
-                        listener.onAdFail(mProviderType, "请求成功，但是返回的广告为null");
-                    }
+
+                    callbackSplashFail("请求成功，但是返回的广告为null", listener);
                     return;
                 }
 
-                if (listener != null) {
-                    listener.onAdLoaded(mProviderType);
-                }
+                callbackSplashLoaded(listener);
 
                 //获取SplashView
                 View view = ad.getSplashView();
@@ -86,9 +83,8 @@ public class CsjProvider implements IAdProvider {
                 } else {
 //                    goToMainActivity();
                     //activity已经销毁了，或者传进来的container为null
-                    if (listener != null) {
-                        listener.onAdDismissed(mProviderType);
-                    }
+
+                    callbackSplashDismissed(listener);
                 }
 
                 //设置SplashView的交互监听器
@@ -96,19 +92,16 @@ public class CsjProvider implements IAdProvider {
                     @Override
                     public void onAdClicked(View view, int type) {
                         Log.d(TAG, "onAdClicked");
-//                        showToast("开屏广告点击");
-                        if (listener != null) {
-                            listener.onAdClicked(mProviderType);
-                        }
+
+                        callbackSplashClicked(listener);
                     }
 
                     @Override
                     public void onAdShow(View view, int type) {
                         Log.d(TAG, "onAdShow");
 //                        showToast("开屏广告展示");
-                        if (listener != null) {
-                            listener.onAdExposure(mProviderType);
-                        }
+
+                        callbackSplashExposure(listener);
                     }
 
                     @Override
@@ -117,9 +110,7 @@ public class CsjProvider implements IAdProvider {
 //                        showToast("开屏广告跳过");
 //                        goToMainActivity();
 
-                        if (listener != null) {
-                            listener.onAdDismissed(mProviderType);
-                        }
+                        callbackSplashDismissed(listener);
 
                     }
 
@@ -128,9 +119,8 @@ public class CsjProvider implements IAdProvider {
                         Log.d(TAG, "onAdTimeOver");
 //                        showToast("开屏广告倒计时结束");
 //                        goToMainActivity();
-                        if (listener != null) {
-                            listener.onAdDismissed(mProviderType);
-                        }
+                        callbackSplashDismissed(listener);
+
                     }
                 });
             }
