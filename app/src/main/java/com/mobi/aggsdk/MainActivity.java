@@ -2,6 +2,7 @@ package com.mobi.aggsdk;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnReward(View view) {
-        MobiAggregateSdk.showRewardView(this, "901121365", true, new IRewardAdListener() {
+        MobiAggregateSdk.showRewardView(this, "2090845242931421", true, new IRewardAdListener() {
             @Override
             public void onAdFail(String type, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);

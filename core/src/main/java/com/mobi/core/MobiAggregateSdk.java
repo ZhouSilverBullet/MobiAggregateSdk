@@ -18,6 +18,8 @@ public class MobiAggregateSdk {
     public static final String CSJ_SPLASH_ID = "801121648";
     public static final String GDT_SPLASH_ID = "8863364436303842593";
 
+    public static final String CSJ_REWARD_ID = "901121365";
+
     public static void showSplash(final Activity activity,
                                   final ViewGroup splashContainer,
                                   final ISplashAdListener listener) {
@@ -45,7 +47,7 @@ public class MobiAggregateSdk {
                                       final String codeId,
                                       boolean supportDeepLink,
                                       final IRewardAdListener listener) {
-        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
+        AdProviderManager.get().getProvider(AdProviderManager.TYPE_GDT)
                 .rewardVideo(activity, codeId, supportDeepLink, listener);
     }
 }
