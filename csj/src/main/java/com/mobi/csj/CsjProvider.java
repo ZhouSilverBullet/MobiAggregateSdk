@@ -1,23 +1,32 @@
 package com.mobi.csj;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
+import com.bytedance.sdk.openadsdk.TTNativeAd;
+import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.IAdProvider;
+import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
+import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.core.utils.ScreenUtils;
+
+import java.util.List;
 
 /**
  * @author zhousaito
@@ -37,7 +46,7 @@ public class CsjProvider extends BaseAdProvider {
                        final ViewGroup splashContainer,
                        final ISplashAdListener listener) {
 
-        TTAdNative adNative = CsjSession.get().getAdManager().createAdNative(activity);
+        TTAdNative adNative = createAdNative(activity.getApplicationContext());
 
         int appHeight = ScreenUtils.getAppHeight();
         int appWidth = ScreenUtils.getAppWidth();
@@ -135,7 +144,8 @@ public class CsjProvider extends BaseAdProvider {
     public void fullscreen(final Activity activity,
                            final String codeId,
                            int orientation, boolean supportDeepLink, final IFullScreenVideoAdListener listener) {
-        TTAdNative adNative = CsjSession.get().getAdManager().createAdNative(activity);
+        TTAdNative adNative = createAdNative(activity.getApplicationContext());
+
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(codeId)
                 //模板广告需要设置期望个性化模板广告的大小,单位dp,全屏视频场景，只要设置的值大于0即可
@@ -212,7 +222,7 @@ public class CsjProvider extends BaseAdProvider {
                             boolean supportDeepLink,
                             final IRewardAdListener listener) {
 
-        TTAdNative adNative = CsjSession.get().getAdManager().createAdNative(activity);
+        TTAdNative adNative = createAdNative(activity.getApplicationContext());
         AdSlot adSlot = new AdSlot.Builder()
                 .setImageAcceptedSize(1080, 1920)
                 .setCodeId(codeId)
@@ -226,11 +236,11 @@ public class CsjProvider extends BaseAdProvider {
         adNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
             @Override
             public void onError(int code, String errorMsg) {
-//                AdStatistical.trackAD(activity, Constants.TT_KEY, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
+//                AdStatistical.trackAD(activity, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
                 //加载错误
                 if (listener != null) {
                     listener.onAdFail(mProviderType, "code：" + code + " errorMsg: " + errorMsg);
-                    // listener.onAdClose(Constants.TT_KEY);
+                    // listener.onAdClose(mProviderType);
                 }
             }
 
@@ -239,7 +249,7 @@ public class CsjProvider extends BaseAdProvider {
 
                 if (listener != null) {
                     listener.onAdLoad(mProviderType);
-                    // listener.onAdClose(Constants.TT_KEY);
+                    // listener.onAdClose(mProviderType);
                 }
 
                 //加载成功
@@ -258,7 +268,7 @@ public class CsjProvider extends BaseAdProvider {
                         if (listener != null) {
                             listener.onAdClick(mProviderType);
                         }
-//                        AdStatistical.trackAD(activity, Constants.TT_KEY, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_TRUE);
+//                        AdStatistical.trackAD(activity, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_TRUE);
                     }
 
                     @Override
@@ -306,7 +316,7 @@ public class CsjProvider extends BaseAdProvider {
 //                if (bean.getSort_type() == Constants.SORT_TYPE_SERVICE_ORDER) {
 //                    showTTVideo();
 //                } else {
-//                    recordRenderSuccess(Constants.TT_KEY);
+//                    recordRenderSuccess(mProviderType);
 //                    if (firstCome) {
 //                        showTTVideo();
 //                        firstCome = false;
@@ -322,5 +332,244 @@ public class CsjProvider extends BaseAdProvider {
                 }
             }
         });
+    }
+
+    public void interactionExpress(Activity activity,
+                                   String codeId,
+                                   boolean supportDeepLink,
+                                   ViewGroup viewContainer,
+                                   float expressViewWidth,
+                                   float expressViewHeight,
+                                   IInteractionAdListener listener) {
+
+        TTAdNative adNative = createAdNative(activity.getApplicationContext());
+        //设置广告参数
+        AdSlot adSlot = new AdSlot.Builder()
+                .setCodeId(codeId) //广告位id
+                .setSupportDeepLink(supportDeepLink)
+                .setAdCount(1) //请求广告数量为1到3条
+                .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight) //期望个性化模板广告view的size,单位dp
+                .setImageAcceptedSize(640, 320)//这个参数设置即可，不影响个性化模板广告的size
+                .build();
+        //加载广告
+        adNative.loadInteractionExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
+            @Override
+            public void onError(int code, String message) {
+//                TToast.show(NativeExpressActivity.this, "load error : " + code + ", " + message);
+                viewContainer.removeAllViews();
+            }
+
+            @Override
+            public void onNativeExpressAdLoad(List<TTNativeExpressAd> ads) {
+                if (ads == null || ads.size() == 0) {
+                    return;
+                }
+                TTNativeExpressAd mTTAd = ads.get(0);
+                bindAdListener(activity, mTTAd, viewContainer);
+                mTTAd.render();//调用render开始渲染广告
+            }
+        });
+
+
+//        //在合适的时机，释放广告的资源
+//        @Override
+//        protected void onDestroy () {
+//            super.onDestroy();
+//            if (mTTAd != null) {
+//                //调用destroy()方法释放
+//                mTTAd.destroy();
+//            }
+//        }
+    }
+
+    //绑定广告行为
+    private void bindAdListener(final Activity activity, TTNativeExpressAd ad, final ViewGroup viewContainer) {
+        ad.setExpressInteractionListener(new TTNativeExpressAd.AdInteractionListener() {
+
+            @Override
+            public void onAdDismiss() {
+//                TToast.show(mContext, "广告关闭");
+            }
+
+            @Override
+            public void onAdClicked(View view, int type) {
+//                TToast.show(mContext, "广告被点击");
+            }
+
+            @Override
+            public void onAdShow(View view, int type) {
+//                TToast.show(mContext, "广告展示");
+            }
+
+            @Override
+            public void onRenderFail(View view, String msg, int code) {
+//                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
+//                TToast.show(mContext, msg + " code:" + code);
+            }
+
+            @Override
+            public void onRenderSuccess(View view, float width, float height) {
+                //返回view的宽高 单位 dp
+//                TToast.show(mContext, "渲染成功");
+                //在渲染成功回调时展示广告，提升体验
+//                viewContainer.removeAllViews();
+//                viewContainer.addView(view);
+                ad.showInteractionExpressAd(activity);
+            }
+        });
+
+        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+            return;
+        }
+
+        //可选，下载监听设置
+        ad.setDownloadListener(new TTAppDownloadListener() {
+            @Override
+            public void onIdle() {
+//                TToast.show(InteractionExpressActivity.this, "点击开始下载", Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+//                if (!mHasShowDownloadActive) {
+//                    mHasShowDownloadActive = true;
+//                    TToast.show(InteractionExpressActivity.this, "下载中，点击暂停", Toast.LENGTH_LONG);
+//                }
+            }
+
+            @Override
+            public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+//                TToast.show(InteractionExpressActivity.this, "下载暂停，点击继续", Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+//                TToast.show(InteractionExpressActivity.this, "下载失败，点击重新下载", Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onInstalled(String fileName, String appName) {
+//                TToast.show(InteractionExpressActivity.this, "安装完成，点击图片打开", Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onDownloadFinished(long totalBytes, String fileName, String appName) {
+//                TToast.show(InteractionExpressActivity.this, "点击安装", Toast.LENGTH_LONG);
+            }
+        });
+
+    }
+
+    private TTAdNative createAdNative(Context context) {
+        return CsjSession.get().getAdManager().createAdNative(context);
+    }
+
+    @Override
+    public void express(Activity activity,
+                        String codeId,
+                        boolean supportDeepLink,
+                        ViewGroup viewContainer,
+                        int aDViewWidth,
+                        int aDViewHeight,
+                        IExpressListener mListener) {
+        int DEFAULT_COUNT = 1;
+
+        TTAdNative mTTAdNative = createAdNative(activity.getApplicationContext());
+
+//        if (mHeightAuto) {
+//            ADViewHeight = 0;
+//        }
+
+        AdSlot adSlot = new AdSlot.Builder()
+                .setCodeId(codeId)
+                .setSupportDeepLink(supportDeepLink)
+                .setAdCount(DEFAULT_COUNT)
+                .setExpressViewAcceptedSize(aDViewWidth, aDViewHeight)
+                .setImageAcceptedSize(640, 320)
+                .build();
+        mTTAdNative.loadNativeExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
+            //加载失败
+            @Override
+            public void onError(int i, String s) {
+//                AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
+//                mBearingView.removeAllViews();
+                if (mListener != null) {
+                    mListener.onLoadFailed(mProviderType, i, s);
+                }
+            }
+
+            //加载成功
+            @Override
+            public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
+                if (list == null || list.size() <= 0) {
+                    return;
+                }
+                TTNativeExpressAd mTTAd = list.get(0);
+                bindTTAdListener(mTTAd, viewContainer, mListener);
+                mTTAd.render();
+//                recordRenderSuccess(mProviderType);
+//                renderTTAD();
+            }
+        });
+    }
+
+    private void bindTTAdListener(TTNativeExpressAd ad, ViewGroup viewContainer, IExpressListener mListener) {
+        ad.setExpressInteractionListener(new TTNativeExpressAd.AdInteractionListener() {
+            @Override
+            public void onAdDismiss() {
+                if (mListener != null) {
+                    mListener.onAdDismissed(mProviderType);
+                }
+            }
+
+            @Override
+            public void onAdClicked(View view, int i) {
+                //广告被点击
+                if (mListener != null) {
+                    mListener.onAdClick(mProviderType);
+                }
+//                AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_TRUE);
+            }
+
+            @Override
+            public void onAdShow(View view, int i) {
+                //广告显示
+                if (mListener != null) {
+                    mListener.onAdShow(mProviderType);
+                }
+            }
+
+            @Override
+            public void onRenderFail(View view, String s, int i) {
+                //广告渲染失败
+                if (mListener != null) {
+                    mListener.onLoadFailed(mProviderType, i, s);
+                }
+            }
+
+            @Override
+            public void onRenderSuccess(View view, float v, float v1) {
+                //广告渲染成功
+//                if (firstCome) {
+//                    renderTTAD();
+//                    firstCome = false;
+//                }
+                //render上去
+                viewContainer.addView(ad.getExpressAdView());
+                ad.render();
+
+                if (mListener != null) {
+                    mListener.onAdRenderSuccess(mProviderType);
+                }
+
+            }
+        });
+
+        //TODO downLoad 后面可以提供出去
+        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+            return;
+        }
+
+
     }
 }

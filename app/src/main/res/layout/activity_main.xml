@@ -14,14 +14,31 @@
         android:text="信息流广告" />
 
     <Button
-        android:onClick="btnFullScreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="btnFullScreen"
         android:text="全屏广告" />
 
     <Button
-        android:onClick="btnReward"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="btnReward"
         android:text="显示激励视频" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="btnInteraction"
+        android:text="显示插屏广告" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="btnExpress"
+        android:text="显示信息流广告" />
+
+    <FrameLayout
+        android:id="@+id/flContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

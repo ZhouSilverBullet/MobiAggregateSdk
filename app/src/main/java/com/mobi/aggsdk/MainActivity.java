@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
@@ -20,7 +21,9 @@ import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.aggsdk.config.TTAdManagerHolder;
 import com.mobi.aggsdk.utils.TToast;
 import com.mobi.core.MobiAggregateSdk;
+import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
+import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.csj.CsjSession;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
     private Context mContext;
+    private ViewGroup flContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mContext = this;
+
+        flContainer = findViewById(R.id.flContainer);
 
 //        AdSlot adSlot = new AdSlot.Builder()
 //                .setCodeId("1028117") //广告位id
@@ -145,6 +151,104 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCached(String type) {
                 LogUtils.e(TAG, "onCached type : " + type);
+            }
+        });
+    }
+
+    public void btnInteraction(View view) {
+        MobiAggregateSdk.showInteractionExpress(this, flContainer, "8020259898964453", true, new IInteractionAdListener() {
+            @Override
+            public void onAdFail(String type, String errorMsg) {
+                LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
+            }
+
+            @Override
+            public void onADReceive(String type) {
+                LogUtils.e(TAG, "onADReceive type : " + type);
+
+            }
+
+            @Override
+            public void onADOpened(String type) {
+                LogUtils.e(TAG, "onADOpened type : " + type);
+
+            }
+
+            @Override
+            public void onADExposure(String type) {
+                LogUtils.e(TAG, "onADExposure type : " + type);
+
+            }
+
+            @Override
+            public void onAdLoad(String type) {
+                LogUtils.e(TAG, "onAdLoad type : " + type);
+
+            }
+
+            @Override
+            public void onAdShow(String type) {
+                LogUtils.e(TAG, "onAdShow type : " + type);
+            }
+
+            @Override
+            public void onAdClick(String type) {
+                LogUtils.e(TAG, "onAdLoad type : " + type);
+            }
+
+            @Override
+            public void onAdClose(String providerType) {
+                LogUtils.e(TAG, "onAdClose type : " + providerType);
+            }
+
+            @Override
+            public void onVideoComplete(String providerType) {
+                LogUtils.e(TAG, "onVideoComplete type : " + providerType);
+            }
+
+            @Override
+            public void onSkippedVideo(String providerType) {
+                LogUtils.e(TAG, "onSkippedVideo type : " + providerType);
+            }
+
+            @Override
+            public void onRewardVerify(String providerType, boolean rewardVerify, int rewardAmount, String rewardName) {
+                LogUtils.e(TAG, "onRewardVerify type : " + providerType);
+            }
+
+            @Override
+            public void onCached(String type) {
+                LogUtils.e(TAG, "onCached type : " + type);
+            }
+        });
+    }
+
+    public void btnExpress(View view) {
+        MobiAggregateSdk.showExpress(this, flContainer, "901121125", true, new IExpressListener() {
+            @Override
+            public void onAdClick(String type) {
+                LogUtils.e(TAG, "onAdClick type : " + type);
+            }
+
+            @Override
+            public void onLoadFailed(String type, int faildCode, String faildMsg) {
+                LogUtils.e(TAG, "onLoadFailed type : " + type + " faildCode : " + faildCode + ", faildMsg: " + faildMsg);
+            }
+
+            @Override
+            public void onAdDismissed(String type) {
+                LogUtils.e(TAG, "onAdDismissed type : " + type);
+
+            }
+
+            @Override
+            public void onAdRenderSuccess(String type) {
+                LogUtils.e(TAG, "onAdRenderSuccess type : " + type);
+            }
+
+            @Override
+            public void onAdShow(String type) {
+                LogUtils.e(TAG, "onAdShow type : " + type);
             }
         });
     }
