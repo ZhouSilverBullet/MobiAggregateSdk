@@ -26,6 +26,7 @@ public class MobiAggregateSdk {
 
     public static final String CSJ_INTERACTION_ID = "901121797";
 
+    public static final String CSJ_EXPRESS_ID = "901121125";
     public static final String GDT_EXPRESS_ID = "2000629911207832";
 
     public static void showSplash(final Activity activity,
@@ -92,18 +93,22 @@ public class MobiAggregateSdk {
      * @param listener
      */
     public static void showExpress(final Activity activity,
-                                              final ViewGroup viewContainer,
-                                              final String codeId,
-                                              boolean supportDeepLink,
-                                              final IExpressListener listener) {
+                                   final ViewGroup viewContainer,
+                                   final String codeId,
+                                   boolean supportDeepLink,
+                                   int aDViewWidth,
+                                   int aDViewHeight,
+                                   int loadCount,
+                                   final IExpressListener listener) {
 
-        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
+        AdProviderManager.get().getProvider(AdProviderManager.TYPE_GDT)
                 .express(activity,
                         codeId,
                         supportDeepLink,
                         viewContainer,
-                        300,
-                        300,
+                        aDViewWidth,
+                        aDViewHeight,
+                        loadCount,
                         listener);
     }
 }

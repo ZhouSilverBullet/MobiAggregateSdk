@@ -471,6 +471,7 @@ public class CsjProvider extends BaseAdProvider {
                         ViewGroup viewContainer,
                         int aDViewWidth,
                         int aDViewHeight,
+                        int loadCount,
                         IExpressListener mListener) {
         int DEFAULT_COUNT = 1;
 

@@ -224,32 +224,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnExpress(View view) {
-        MobiAggregateSdk.showExpress(this, flContainer, "901121125", true, new IExpressListener() {
-            @Override
-            public void onAdClick(String type) {
-                LogUtils.e(TAG, "onAdClick type : " + type);
-            }
+        MobiAggregateSdk.showExpress(this, flContainer, MobiAggregateSdk.GDT_EXPRESS_ID,
+                true, 300, 300, 1, new IExpressListener() {
+                    @Override
+                    public void onAdClick(String type) {
+                        LogUtils.e(TAG, "onAdClick type : " + type);
+                    }
 
-            @Override
-            public void onLoadFailed(String type, int faildCode, String faildMsg) {
-                LogUtils.e(TAG, "onLoadFailed type : " + type + " faildCode : " + faildCode + ", faildMsg: " + faildMsg);
-            }
+                    @Override
+                    public void onLoadFailed(String type, int faildCode, String faildMsg) {
+                        LogUtils.e(TAG, "onLoadFailed type : " + type + " faildCode : " + faildCode + ", faildMsg: " + faildMsg);
+                    }
 
-            @Override
-            public void onAdDismissed(String type) {
-                LogUtils.e(TAG, "onAdDismissed type : " + type);
+                    @Override
+                    public void onAdDismissed(String type) {
+                        LogUtils.e(TAG, "onAdDismissed type : " + type);
 
-            }
+                    }
 
-            @Override
-            public void onAdRenderSuccess(String type) {
-                LogUtils.e(TAG, "onAdRenderSuccess type : " + type);
-            }
+                    @Override
+                    public void onAdRenderSuccess(String type) {
+                        LogUtils.e(TAG, "onAdRenderSuccess type : " + type);
+                    }
 
-            @Override
-            public void onAdShow(String type) {
-                LogUtils.e(TAG, "onAdShow type : " + type);
-            }
-        });
+                    @Override
+                    public void onAdShow(String type) {
+                        LogUtils.e(TAG, "onAdShow type : " + type);
+                    }
+                });
     }
 }

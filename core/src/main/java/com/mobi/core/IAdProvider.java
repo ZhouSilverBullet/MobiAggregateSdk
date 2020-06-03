@@ -60,6 +60,7 @@ public interface IAdProvider {
                          ViewGroup viewContainer,
                          int aDViewWidth,
                          int aDViewHeight,
+                         int loadCount,
                          IExpressListener listener) {
     }
 }
