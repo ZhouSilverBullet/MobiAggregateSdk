@@ -1,6 +1,7 @@
 package com.mobi.core;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.view.ViewGroup;
 
 import com.mobi.core.listener.IExpressListener;
@@ -101,7 +102,13 @@ public class MobiAggregateSdk {
                                    int loadCount,
                                    final IExpressListener listener) {
 
-        AdProviderManager.get().getProvider(AdProviderManager.TYPE_GDT)
+//        FragmentManager fragmentManager =
+//                activity.getFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .add(new AdFragment(), "mobiad")
+//                .commitAllowingStateLoss();
+
+        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
                 .express(activity,
                         codeId,
                         supportDeepLink,

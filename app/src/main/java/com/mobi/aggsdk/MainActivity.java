@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnExpress(View view) {
-        MobiAggregateSdk.showExpress(this, flContainer, MobiAggregateSdk.GDT_EXPRESS_ID,
+        MobiAggregateSdk.showExpress(this, flContainer, MobiAggregateSdk.CSJ_EXPRESS_ID,
                 true, 300, 300, 1, new IExpressListener() {
                     @Override
                     public void onAdClick(String type) {

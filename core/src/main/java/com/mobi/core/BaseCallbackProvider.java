@@ -105,4 +105,9 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     }
 
     ////////////信息流回调 end //////////
+
+
+    public String getProviderType() {
+        return mProviderType;
+    }
 }

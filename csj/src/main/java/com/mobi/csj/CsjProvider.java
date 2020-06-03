@@ -25,6 +25,7 @@ import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.core.utils.ScreenUtils;
+import com.mobi.csj.wrapper.NativeExpressAdWrapper;
 
 import java.util.List;
 
@@ -473,104 +474,81 @@ public class CsjProvider extends BaseAdProvider {
                         int aDViewHeight,
                         int loadCount,
                         IExpressListener mListener) {
-        int DEFAULT_COUNT = 1;
 
-        TTAdNative mTTAdNative = createAdNative(activity.getApplicationContext());
+        NativeExpressAdWrapper nativeExpressAdWrap = new NativeExpressAdWrapper(
+                activity,
+                this,
+                codeId,
+                supportDeepLink,
+                viewContainer,
+                aDViewWidth,
+                aDViewHeight,
+                loadCount,
+                mListener);
 
-//        if (mHeightAuto) {
-//            ADViewHeight = 0;
-//        }
+        nativeExpressAdWrap.createNativeExpressAD();
 
-        AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(codeId)
-                .setSupportDeepLink(supportDeepLink)
-                .setAdCount(DEFAULT_COUNT)
-                .setExpressViewAcceptedSize(aDViewWidth, aDViewHeight)
-                .setImageAcceptedSize(640, 320)
-                .build();
-        mTTAdNative.loadNativeExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
-            //加载失败
-            @Override
-            public void onError(int i, String s) {
-//                AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
-//                mBearingView.removeAllViews();
-                if (mListener != null) {
-                    mListener.onLoadFailed(mProviderType, i, s);
-                }
-            }
 
-            //加载成功
-            @Override
-            public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
-                if (list == null || list.size() <= 0) {
-                    return;
-                }
-                TTNativeExpressAd mTTAd = list.get(0);
-                bindTTAdListener(mTTAd, viewContainer, mListener);
-                mTTAd.render();
-//                recordRenderSuccess(mProviderType);
-//                renderTTAD();
-            }
-        });
+
     }
 
-    private void bindTTAdListener(TTNativeExpressAd ad, ViewGroup viewContainer, IExpressListener mListener) {
-        ad.setExpressInteractionListener(new TTNativeExpressAd.AdInteractionListener() {
-            @Override
-            public void onAdDismiss() {
-                if (mListener != null) {
-                    mListener.onAdDismissed(mProviderType);
-                }
-            }
-
-            @Override
-            public void onAdClicked(View view, int i) {
-                //广告被点击
-                if (mListener != null) {
-                    mListener.onAdClick(mProviderType);
-                }
-//                AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_TRUE);
-            }
-
-            @Override
-            public void onAdShow(View view, int i) {
-                //广告显示
-                if (mListener != null) {
-                    mListener.onAdShow(mProviderType);
-                }
-            }
-
-            @Override
-            public void onRenderFail(View view, String s, int i) {
-                //广告渲染失败
-                if (mListener != null) {
-                    mListener.onLoadFailed(mProviderType, i, s);
-                }
-            }
-
-            @Override
-            public void onRenderSuccess(View view, float v, float v1) {
-                //广告渲染成功
-//                if (firstCome) {
-//                    renderTTAD();
-//                    firstCome = false;
+//    private void bindTTAdListener(TTNativeExpressAd ad, ViewGroup viewContainer, IExpressListener mListener) {
+//        ad.setExpressInteractionListener(new TTNativeExpressAd.AdInteractionListener() {
+//            @Override
+//            public void onAdDismiss() {
+//                if (mListener != null) {
+//                    mListener.onAdDismissed(mProviderType);
 //                }
-                //render上去
-                viewContainer.addView(ad.getExpressAdView());
-                ad.render();
-
-                if (mListener != null) {
-                    mListener.onAdRenderSuccess(mProviderType);
-                }
-
-            }
-        });
-
-        //TODO downLoad 后面可以提供出去
-        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-            return;
-        }
-
-
-    }
+//            }
+//
+//            @Override
+//            public void onAdClicked(View view, int i) {
+//                //广告被点击
+//                if (mListener != null) {
+//                    mListener.onAdClick(mProviderType);
+//                }
+////                AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_TRUE);
+//            }
+//
+//            @Override
+//            public void onAdShow(View view, int i) {
+//                //广告显示
+//                if (mListener != null) {
+//                    mListener.onAdShow(mProviderType);
+//                }
+//            }
+//
+//            @Override
+//            public void onRenderFail(View view, String s, int i) {
+//                //广告渲染失败
+//                if (mListener != null) {
+//                    mListener.onLoadFailed(mProviderType, i, s);
+//                }
+//            }
+//
+//            @Override
+//            public void onRenderSuccess(View view, float v, float v1) {
+//                //广告渲染成功
+////                if (firstCome) {
+////                    renderTTAD();
+////                    firstCome = false;
+////                }
+//                //render上去
+//                viewContainer.addView(ad.getExpressAdView());
+//                ad.render();
+//
+//                if (mListener != null) {
+//                    mListener.onAdRenderSuccess(mProviderType);
+//                }
+//
+//            }
+//        });
+//
+//        //TODO downLoad 后面可以提供出去
+//        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+//            return;
+//        }
+//
+//
+//    }
 }

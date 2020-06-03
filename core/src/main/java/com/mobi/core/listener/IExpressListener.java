@@ -1,5 +1,7 @@
 package com.mobi.core.listener;
 
+import android.util.Log;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -9,7 +11,7 @@ package com.mobi.core.listener;
 public interface IExpressListener {
     void onAdClick(String type);//广告被点击
 
-    void onLoadFailed(String type, int faildCode, String faildMsg);//广告加载失败
+    void onLoadFailed(String type, int code, String errorMsg);//广告加载失败
 
     void onAdDismissed(String type);//广告被关闭
 
@@ -42,4 +44,52 @@ public interface IExpressListener {
     }
 
     ///////// GDT end //////////////
+
+
+    ///////// CSJ start //////////////
+
+    /**
+     * 点击开始下载
+     */
+    default void onIdle(String type) {
+
+    }
+
+    /**
+     * 下载中
+     */
+    default void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+
+    }
+
+    /**
+     * 下载暂停
+     *
+     */
+    default void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+
+    }
+
+    /**
+     * 下载失败
+     *
+     */
+    default void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+
+    }
+
+    /**
+     * 下载完成
+     */
+    default void onDownloadFinished(long totalBytes, String fileName, String appName) {
+
+    }
+
+    /**
+     * 安装完成
+     */
+    default void onInstalled(String fileName, String appName) {
+
+    }
+    ///////// CSJ end //////////////
 }

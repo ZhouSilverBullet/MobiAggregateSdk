@@ -125,6 +125,9 @@ public class NativeExpressAdWrapper implements NativeExpressAD.NativeExpressADLi
 
     @Override
     public void onRenderFail(NativeExpressADView nativeExpressADView) {
+        if (mViewContainer != null) {
+            mViewContainer.removeAllViews();
+        }
         //广告渲染失败
         if (mAdProvider != null) {
             mAdProvider.callbackExpressLoadFailed(MobiConstantValue.GDT_ERROR_RENDER_CODE,
