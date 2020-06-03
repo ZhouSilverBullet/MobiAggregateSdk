@@ -3,6 +3,8 @@ package com.mobi.core;
 import android.app.Activity;
 import android.view.ViewGroup;
 
+import com.mobi.core.listener.IFullScreenVideoAdListener;
+import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 
 /**
@@ -32,5 +34,18 @@ public class MobiAggregateSdk {
         }
         AdProviderManager.get().getProvider(providerKey)
                 .splash(activity, codeId, splashContainer, listener);
+    }
+
+    public static void showFullscreen(final Activity activity, int orientation, final IFullScreenVideoAdListener listener) {
+        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
+                .fullscreen(activity, "901121073", orientation, true, listener);
+    }
+
+    public static void showRewardView(final Activity activity,
+                                      final String codeId,
+                                      boolean supportDeepLink,
+                                      final IRewardAdListener listener) {
+        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
+                .rewardVideo(activity, codeId, supportDeepLink, listener);
     }
 }

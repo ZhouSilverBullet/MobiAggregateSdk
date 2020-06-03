@@ -18,11 +18,16 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.aggsdk.config.TTAdManagerHolder;
 import com.mobi.aggsdk.utils.TToast;
+import com.mobi.core.MobiAggregateSdk;
+import com.mobi.core.listener.IFullScreenVideoAdListener;
+import com.mobi.core.listener.IRewardAdListener;
+import com.mobi.core.utils.LogUtils;
 import com.mobi.csj.CsjSession;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = "MainActivity";
 
     private Context mContext;
 
@@ -47,5 +52,99 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnMessageIo(View view) {
         startActivity(new Intent(this, NativeExpressActivity.class));
+    }
+
+    public void btnFullScreen(View view) {
+        MobiAggregateSdk.showFullscreen(this, 1, new IFullScreenVideoAdListener() {
+            @Override
+            public void onAdShow(String type) {
+                LogUtils.e(TAG, "onAdShow ");
+            }
+
+            @Override
+            public void onAdFail(String type, String errorMsg) {
+                LogUtils.e(TAG, "onAdFail " + errorMsg);
+            }
+
+            @Override
+            public void onAdLoad(String type) {
+                LogUtils.e(TAG, "onAdLoad ");
+            }
+
+            @Override
+            public void onCached(String type) {
+                LogUtils.e(TAG, "onCached ");
+            }
+
+            @Override
+            public void onAdClose(String providerType) {
+                LogUtils.e(TAG, "onAdClose ");
+            }
+
+            @Override
+            public void onVideoComplete(String providerType) {
+                LogUtils.e(TAG, "onVideoComplete ");
+            }
+
+            @Override
+            public void onSkippedVideo(String providerType) {
+                LogUtils.e(TAG, "onSkippedVideo ");
+            }
+
+            @Override
+            public void onAdVideoBarClick(String providerType) {
+                LogUtils.e(TAG, "onAdVideoBarClick ");
+            }
+        });
+    }
+
+    public void btnReward(View view) {
+        MobiAggregateSdk.showRewardView(this, "901121365", true, new IRewardAdListener() {
+            @Override
+            public void onAdFail(String type, String errorMsg) {
+                LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
+            }
+
+            @Override
+            public void onAdLoad(String type) {
+                LogUtils.e(TAG, "onAdLoad type : " + type);
+
+            }
+
+            @Override
+            public void onAdShow(String type) {
+                LogUtils.e(TAG, "onAdShow type : " + type);
+            }
+
+            @Override
+            public void onAdClick(String type) {
+                LogUtils.e(TAG, "onAdLoad type : " + type);
+            }
+
+            @Override
+            public void onAdClose(String providerType) {
+                LogUtils.e(TAG, "onAdClose type : " + providerType);
+            }
+
+            @Override
+            public void onVideoComplete(String providerType) {
+                LogUtils.e(TAG, "onVideoComplete type : " + providerType);
+            }
+
+            @Override
+            public void onSkippedVideo(String providerType) {
+                LogUtils.e(TAG, "onSkippedVideo type : " + providerType);
+            }
+
+            @Override
+            public void onRewardVerify(String providerType, boolean rewardVerify, int rewardAmount, String rewardName) {
+                LogUtils.e(TAG, "onRewardVerify type : " + providerType);
+            }
+
+            @Override
+            public void onCached(String type) {
+                LogUtils.e(TAG, "onCached type : " + type);
+            }
+        });
     }
 }

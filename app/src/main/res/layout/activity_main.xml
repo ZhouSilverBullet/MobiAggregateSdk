@@ -13,4 +13,15 @@
         android:onClick="btnMessageIo"
         android:text="信息流广告" />
 
+    <Button
+        android:onClick="btnFullScreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="全屏广告" />
+
+    <Button
+        android:onClick="btnReward"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="显示激励视频" />
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.IAdProvider;
+import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.qq.e.ads.splash.SplashAD;
 import com.qq.e.ads.splash.SplashADListener;
@@ -81,4 +82,8 @@ public class GdtProvider extends BaseAdProvider {
 
     }
 
+    @Override
+    public void fullscreen(Activity activity, String codeId, int orientation, boolean supportDeepLink, IFullScreenVideoAdListener listener) {
+
+    }
 }
