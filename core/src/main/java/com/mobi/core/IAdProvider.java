@@ -8,6 +8,7 @@ import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
+import com.mobi.core.splash.BaseSplashSkipView;
 
 /**
  * @author zhousaito
@@ -35,6 +36,7 @@ public interface IAdProvider {
                 int expressViewWidth,
                 int expressViewHeight,
                 boolean supportDeepLink,
+                BaseSplashSkipView skipView,
                 ViewGroup splashContainer,
                 ISplashAdListener listener);
 

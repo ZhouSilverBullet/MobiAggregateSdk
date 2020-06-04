@@ -12,6 +12,8 @@ import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
+import com.mobi.core.splash.BaseSplashSkipView;
+import com.mobi.core.splash.DefaultSplashSkipView;
 import com.mobi.gdt.wrapper.NativeExpressAdWrapper;
 import com.mobi.gdt.wrapper.RewardVideoAdWrapper;
 import com.mobi.gdt.wrapper.SplashAdWrapper;
@@ -48,6 +50,7 @@ public class GdtProvider extends BaseAdProvider {
                        int expressViewWidth,
                        int expressViewHeight,
                        boolean supportDeepLink,
+                       BaseSplashSkipView skipView,
                        ViewGroup splashContainer,
                        ISplashAdListener listener) {
 
@@ -56,6 +59,8 @@ public class GdtProvider extends BaseAdProvider {
                 codeId,
                 splashContainer,
                 listener);
+
+        splashAdWrapper.setSplashSkipView(skipView);
 
         splashAdWrapper.createSplashAd();
     }

@@ -52,6 +52,6 @@ public class AdProviderManager {
         int i = random.nextInt(100);
         LogUtils.i(TAG, " getProviderKey " + i);
 //        return i % 2 == 0 ? TYPE_CSJ : TYPE_GDT;
-        return  TYPE_CSJ ;
+        return TYPE_CSJ;
     }
 }

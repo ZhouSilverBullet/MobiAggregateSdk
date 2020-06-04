@@ -1,7 +1,6 @@
 package com.mobi.core;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.view.ViewGroup;
 
 import com.mobi.core.listener.IExpressListener;
@@ -9,6 +8,7 @@ import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
+import com.mobi.core.splash.DefaultSplashSkipView;
 
 /**
  * @author zhousaito
@@ -47,9 +47,10 @@ public class MobiAggregateSdk {
         }
         AdProviderManager.get().getProvider(providerKey)
                 .splash(activity, codeId,
-                        0,
-                        0,
+                        600,
+                        800,
                         true,
+                        new DefaultSplashSkipView(),
                         splashContainer,
                         listener);
     }

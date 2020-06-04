@@ -12,6 +12,8 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.listener.ISplashAdListener;
+import com.mobi.core.splash.BaseSplashSkipView;
+import com.mobi.csj.splash.CsjSplashSkipViewControl;
 
 /**
  * @author zhousaito
@@ -31,6 +33,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
     boolean mSupportDeepLink;
     ViewGroup mSplashContainer;
     ISplashAdListener mListener;
+    private BaseSplashSkipView mBaseSplashSkipView;
 
     public SplashAdWrapper(BaseAdProvider adProvider,
                            Activity activity,
@@ -54,6 +57,10 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         }
     }
 
+    public void setSplashSkipView(BaseSplashSkipView splashSkipView) {
+        mBaseSplashSkipView = splashSkipView;
+    }
+
     public void createSplashAd() {
         TTAdNative adNative = createAdNative(mActivity.getApplicationContext());
 
@@ -61,14 +68,26 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
                 .setCodeId(mCodeId)
                 .setSupportDeepLink(true)
                 .setImageAcceptedSize(1080, 1920)
-                .setExpressViewAcceptedSize(mExpressViewWidth, mExpressViewHeight)
+                /**
+                 * code: 40029, message: 两种情况：
+                 * 1. SDK版本低；
+                 * 使用的sdk版本过低，还不支持个性化模板渲染功能。解决办法：升级到平台最新版本sdk。
+                 * 2. 接口使用错误；创建的代码位类型是模板渲染/非模板渲染，
+                 * 但是请求方法是非模板渲染/模板渲染的方法。解决办法：使用模板
+                 * 渲染的方法去请求模板渲染类型或者使用非模板渲染的方法去请求非模板类型的广告，
+                 * 如果代码位在平台上是模板渲染，
+                 * 可以参考文档中个性化模板XX广告的部分，demo中参考带有express部分的代码。
+                 * 如果代码位不是模板渲染，则不要调用含有express字样的接口。
+                 * 参考文档：https://partner.oceanengine.com/doc?id=5dd0fe716b181e00112e3eb8
+                 */
+//                .setExpressViewAcceptedSize(mExpressViewWidth, mExpressViewHeight)
                 .build();
 
         if (mAdProvider != null) {
             mAdProvider.callbackSplashStartRequest(mListener);
         }
 
-        adNative.loadSplashAd(adSlot, this);
+        adNative.loadSplashAd(adSlot, this, /*超时时间*/2000);
     }
 
     @Override
@@ -109,7 +128,10 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
             mSplashContainer.addView(view);
             //设置不开启开屏广告倒计时功能以及不显示跳过按钮,如果这么设置，您需要自定义倒计时逻辑
             // todo 自定义的splash
-            //  ad.setNotAllowSdkCountdown();
+            if (mBaseSplashSkipView != null) {
+                ttSplashAd.setNotAllowSdkCountdown();
+                handleSplashSkipView(mSplashContainer);
+            }
         } else {
 //          goToMainActivity();
             //activity已经销毁了，或者传进来的container为null
@@ -129,6 +151,15 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
             ttSplashAd.setDownloadListener(this);
         }
+
+    }
+
+    private void handleSplashSkipView(ViewGroup splashContainer) {
+
+        CsjSplashSkipViewControl csjSplashSkipViewControl = new CsjSplashSkipViewControl(mBaseSplashSkipView);
+        //里面做跳过的逻辑
+        csjSplashSkipViewControl.setSkipCallback(this::onAdSkip);
+        csjSplashSkipViewControl.handleSplashSkipView(splashContainer);
 
     }
 

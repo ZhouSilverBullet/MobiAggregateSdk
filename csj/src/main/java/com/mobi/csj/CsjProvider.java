@@ -23,6 +23,7 @@ import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
+import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.core.utils.ScreenUtils;
 import com.mobi.csj.wrapper.InteractionExpressAdWrapper;
@@ -50,6 +51,7 @@ public class CsjProvider extends BaseAdProvider {
                        int expressViewWidth,
                        int expressViewHeight,
                        boolean supportDeepLink,
+                       BaseSplashSkipView skipView,
                        ViewGroup splashContainer,
                        ISplashAdListener listener) {
 
@@ -69,6 +71,8 @@ public class CsjProvider extends BaseAdProvider {
                 supportDeepLink,
                 splashContainer,
                 listener);
+
+        splashAdWrapper.setSplashSkipView(skipView);
 
         splashAdWrapper.createSplashAd();
 

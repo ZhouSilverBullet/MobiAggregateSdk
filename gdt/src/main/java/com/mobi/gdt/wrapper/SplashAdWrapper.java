@@ -2,10 +2,12 @@ package com.mobi.gdt.wrapper;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.listener.ISplashAdListener;
+import com.mobi.core.splash.BaseSplashSkipView;
 import com.qq.e.ads.splash.SplashAD;
 import com.qq.e.ads.splash.SplashADListener;
 import com.qq.e.comm.util.AdError;
@@ -24,6 +26,8 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
     String mCodeId;
     ViewGroup mSplashContainer;
     ISplashAdListener mListener;
+    private BaseSplashSkipView mBaseSplashSkipView;
+    private View mSkipView;
 
     public SplashAdWrapper(BaseAdProvider adProvider,
                            Activity activity,
@@ -37,13 +41,21 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
         mListener = listener;
     }
 
+    public void setSplashSkipView(BaseSplashSkipView splashSkipView) {
+        mBaseSplashSkipView = splashSkipView;
+    }
+
     public void createSplashAd() {
 
         if (mAdProvider != null) {
             mAdProvider.callbackSplashStartRequest(mListener);
         }
 
-        SplashAD splashAD = new SplashAD(mActivity, getAppId(), mCodeId, this);
+        if (mBaseSplashSkipView != null) {
+            mSkipView = mBaseSplashSkipView.createSkipView(mActivity, mSplashContainer);
+        }
+
+        SplashAD splashAD = new SplashAD(mActivity, mSkipView, getAppId(), mCodeId, this, 0);
         splashAD.fetchAndShowIn(mSplashContainer);
 
     }
@@ -72,6 +84,11 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
     @Override
     public void onADPresent() {
         Log.w(TAG, "onADPresent");
+
+        if (mBaseSplashSkipView != null) {
+            mSplashContainer.addView(mSkipView,
+                    mBaseSplashSkipView.getLayoutParams());
+        }
     }
 
     @Override
@@ -84,8 +101,12 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
     }
 
     @Override
-    public void onADTick(long l) {
-        Log.w(TAG, "onADTick l :" + l);
+    public void onADTick(long millisUntilFinished) {
+        Log.w(TAG, "onADTick millisUntilFinished :" + millisUntilFinished);
+        int second = (int) (millisUntilFinished / 1000f);
+        if (mBaseSplashSkipView != null) {
+            mBaseSplashSkipView.onTime(second);
+        }
     }
 
     @Override
