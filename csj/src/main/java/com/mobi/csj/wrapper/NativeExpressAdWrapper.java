@@ -108,6 +108,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
         mTTNativeExpressAd.setExpressInteractionListener(this);
         //这里default
         if (mTTNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+            setAppDownloadListener(mListener);
             mTTNativeExpressAd.setDownloadListener(this);
         }
         mTTNativeExpressAd.render();
@@ -159,48 +160,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 
         if (mAdProvider != null) {
             mAdProvider.callbackExpressRenderSuccess(mListener);
-        }
-    }
-
-    @Override
-    public void onIdle() {
-        if (mListener != null) {
-            mListener.onIdle(mProviderType);
-        }
-    }
-
-    @Override
-    public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onDownloadActive(totalBytes, currBytes, fileName, appName);
-        }
-    }
-
-    @Override
-    public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onDownloadPaused(totalBytes, currBytes, fileName, appName);
-        }
-    }
-
-    @Override
-    public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onDownloadFailed(totalBytes, currBytes, fileName, appName);
-        }
-    }
-
-    @Override
-    public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onDownloadFinished(totalBytes, fileName, appName);
-        }
-    }
-
-    @Override
-    public void onInstalled(String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onInstalled(fileName, appName);
         }
     }
 }

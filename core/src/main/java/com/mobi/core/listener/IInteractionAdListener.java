@@ -6,7 +6,7 @@ package com.mobi.core.listener;
  * @date 2020/6/3 11:17
  * @Dec 略
  */
-public interface IInteractionAdListener {
+public interface IInteractionAdListener extends ITTAppDownloadListener {
     void onAdFail(String type,int code, String errorMsg);
     void onADReceive(String type);
     void onADOpened(String type);
@@ -26,50 +26,5 @@ public interface IInteractionAdListener {
 
 
 
-    ///////// CSJ start //////////////
 
-    /**
-     * 点击开始下载
-     */
-    default void onIdle(String type) {
-
-    }
-
-    /**
-     * 下载中
-     */
-    default void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-
-    }
-
-    /**
-     * 下载暂停
-     *
-     */
-    default void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-
-    }
-
-    /**
-     * 下载失败
-     *
-     */
-    default void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-
-    }
-
-    /**
-     * 下载完成
-     */
-    default void onDownloadFinished(long totalBytes, String fileName, String appName) {
-
-    }
-
-    /**
-     * 安装完成
-     */
-    default void onInstalled(String fileName, String appName) {
-
-    }
-    ///////// CSJ end //////////////
 }

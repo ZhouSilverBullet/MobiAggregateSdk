@@ -3,6 +3,8 @@ package com.mobi.csj.wrapper;
 import android.content.Context;
 
 import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
+import com.mobi.core.listener.ITTAppDownloadListener;
 import com.mobi.csj.CsjSession;
 
 /**
@@ -11,7 +13,9 @@ import com.mobi.csj.CsjSession;
  * @date 2020/6/4 10:56
  * @Dec 略
  */
-public class BaseAdWrapper {
+public class BaseAdWrapper implements TTAppDownloadListener {
+    
+    private ITTAppDownloadListener mAppDownloadListener;
 
     protected int getLoadCount(int loadCount) {
         int count = 1;
@@ -24,5 +28,51 @@ public class BaseAdWrapper {
 
     protected TTAdNative createAdNative(Context context) {
         return CsjSession.get().getAdManager().createAdNative(context);
+    }
+
+    public void setAppDownloadListener(ITTAppDownloadListener appDownloadListener) {
+        this.mAppDownloadListener = appDownloadListener;
+    }
+
+    @Override
+    public void onIdle() {
+        if (mAppDownloadListener != null) {
+            mAppDownloadListener.onIdle();
+        }
+    }
+
+    @Override
+    public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+        if (mAppDownloadListener != null) {
+            mAppDownloadListener.onDownloadActive(totalBytes, currBytes, fileName, appName);
+        }
+    }
+
+    @Override
+    public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+        if (mAppDownloadListener != null) {
+            mAppDownloadListener.onDownloadPaused(totalBytes, currBytes, fileName, appName);
+        }
+    }
+
+    @Override
+    public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+        if (mAppDownloadListener != null) {
+            mAppDownloadListener.onDownloadFailed(totalBytes, currBytes, fileName, appName);
+        }
+    }
+
+    @Override
+    public void onDownloadFinished(long totalBytes, String fileName, String appName) {
+        if (mAppDownloadListener != null) {
+            mAppDownloadListener.onDownloadFinished(totalBytes, fileName, appName);
+        }
+    }
+
+    @Override
+    public void onInstalled(String fileName, String appName) {
+        if (mAppDownloadListener != null) {
+            mAppDownloadListener.onInstalled(fileName, appName);
+        }
     }
 }

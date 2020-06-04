@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.listener.ISplashAdListener;
@@ -17,7 +19,7 @@ import com.mobi.core.listener.ISplashAdListener;
  * @date 2020/6/4 14:07
  * @Dec 略
  */
-public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashAdListener, TTSplashAd.AdInteractionListener {
+public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashAdListener, TTSplashAd.AdInteractionListener, TTAppDownloadListener {
     public static final String TAG = "SplashAdWrapper";
 
     private String mProviderType;
@@ -58,7 +60,8 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(mCodeId)
                 .setSupportDeepLink(true)
-                .setImageAcceptedSize(mExpressViewWidth, mExpressViewHeight)
+                .setImageAcceptedSize(1080, 1920)
+                .setExpressViewAcceptedSize(mExpressViewWidth, mExpressViewHeight)
                 .build();
 
         if (mAdProvider != null) {
@@ -118,6 +121,14 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         }
 
         ttSplashAd.setSplashInteractionListener(this);
+
+        //下载相关的
+        if (ttSplashAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+            //本地接口扔到Base里面去回调
+            setAppDownloadListener(mListener);
+
+            ttSplashAd.setDownloadListener(this);
+        }
 
     }
 

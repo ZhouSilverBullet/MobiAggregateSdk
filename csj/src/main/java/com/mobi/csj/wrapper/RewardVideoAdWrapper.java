@@ -89,6 +89,12 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 //                        firstCome = false;
 //                    }
 //                }
+        if (mttRewardVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+            //本地接口扔到Base里面去回调
+            setAppDownloadListener(mListener);
+
+            mttRewardVideoAd.setDownloadListener(this);
+        }
     }
 
     @Override

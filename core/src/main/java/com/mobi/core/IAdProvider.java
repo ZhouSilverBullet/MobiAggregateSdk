@@ -23,6 +23,8 @@ public interface IAdProvider {
      *
      * @param expressViewWidth  如果传 <=0 就是全屏 csj需要
      * @param expressViewHeight 如果传 <=0 就是全屏 csj需要
+     *   对应的是 AdSlot.Builder setExpressViewAcceptedSize(width, height)
+     *
      * @param supportDeepLink 一般传true即可 csj需要
      *
      * @param splashContainer

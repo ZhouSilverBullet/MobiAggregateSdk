@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2020/6/3 22:27
  * @Dec 略
  */
-public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener, TTAppDownloadListener {
+public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener {
     private final boolean mSupportDeepLink;
     private final int mLoadCount;
     private final float mExpressViewWidth;
@@ -97,6 +97,9 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
         mTTAd = list.get(0);
         mTTAd.setExpressInteractionListener(this);
         if (mTTAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+            //本地接口扔到Base里面去回调
+            setAppDownloadListener(mListener);
+
             mTTAd.setDownloadListener(this);
         }
         mTTAd.render();//调用render开始渲染广告
@@ -135,45 +138,4 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
         mTTAd.showInteractionExpressAd(mActivity);
     }
 
-    @Override
-    public void onIdle() {
-        if (mListener != null) {
-            mListener.onIdle(mProviderType);
-        }
-    }
-
-    @Override
-    public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onDownloadActive(totalBytes, currBytes, fileName, appName);
-        }
-    }
-
-    @Override
-    public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onDownloadPaused(totalBytes, currBytes, fileName, appName);
-        }
-    }
-
-    @Override
-    public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onDownloadFailed(totalBytes, currBytes, fileName, appName);
-        }
-    }
-
-    @Override
-    public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onDownloadFinished(totalBytes, fileName, appName);
-        }
-    }
-
-    @Override
-    public void onInstalled(String fileName, String appName) {
-        if (mListener != null) {
-            mListener.onInstalled(fileName, appName);
-        }
-    }
 }
