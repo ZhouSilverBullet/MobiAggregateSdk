@@ -23,7 +23,7 @@ import java.util.List;
  * @date 2020/6/3 17:00
  * @Dec 略
  */
-public class NativeExpressAdWrapper implements NativeExpressAD.NativeExpressADListener {
+public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpressAD.NativeExpressADListener {
     private final BaseAdProvider mAdProvider;
     Activity mContext;
     String mCodeId;
@@ -75,25 +75,7 @@ public class NativeExpressAdWrapper implements NativeExpressAD.NativeExpressADLi
         mNativeExpressAD.loadAD(getLoadCount(mLoadCount));
     }
 
-    private int getLoadCount(int loadCount) {
-        int count = 1;
 
-        if (loadCount > 0) {
-            count = loadCount;
-        }
-        return count;
-    }
-
-    private ADSize getADSize(boolean mHeightAuto, int ADViewWidth, int ADViewHeight) {
-        if (mHeightAuto || ADViewHeight <= 0) {
-            return new ADSize((int) ADViewWidth, ADSize.AUTO_HEIGHT);
-        }
-        return new ADSize((int) ADViewWidth, (int) ADViewHeight);
-    }
-
-    private String getAppId() {
-        return GdtSession.get().getAppId();
-    }
 
 
     @Override

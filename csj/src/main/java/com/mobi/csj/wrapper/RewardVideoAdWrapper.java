@@ -112,7 +112,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 //        }
 
         if (mAdProvider != null) {
-            mAdProvider.callbackRewardShow(mListener);
+            mAdProvider.callbackRewardExpose(mListener);
         }
     }
 

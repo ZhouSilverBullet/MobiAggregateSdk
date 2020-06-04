@@ -67,9 +67,15 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackRewardShow(IRewardAdListener listener) {
+    public final void callbackRewardGdtShow(IRewardAdListener listener) {
         if (listener != null) {
-            listener.onAdShow(mProviderType);
+            listener.onAdGdtShow(mProviderType);
+        }
+    }
+
+    public final void callbackRewardExpose(IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onAdExpose(mProviderType);
         }
     }
 

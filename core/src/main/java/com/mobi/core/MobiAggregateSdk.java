@@ -58,7 +58,7 @@ public class MobiAggregateSdk {
                                       final String codeId,
                                       boolean supportDeepLink,
                                       final IRewardAdListener listener) {
-        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
+        AdProviderManager.get().getProvider(AdProviderManager.TYPE_GDT)
                 .rewardVideo(activity, codeId, supportDeepLink, listener);
     }
 

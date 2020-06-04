@@ -14,11 +14,10 @@ import com.qq.e.comm.util.AdError;
  * @date 2020/6/3 21:18
  * @Dec 略
  */
-public class UnifiedInterstitialADWrapper implements UnifiedInterstitialADListener {
+public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements UnifiedInterstitialADListener {
     private String mProviderType;
     private BaseAdProvider mBaseAdProvider;
     private Activity mActivity;
-    private String mAppId;
     private String mCodeId;
     private IInteractionAdListener mListener;
 
@@ -26,12 +25,10 @@ public class UnifiedInterstitialADWrapper implements UnifiedInterstitialADListen
 
     public UnifiedInterstitialADWrapper(BaseAdProvider baseAdProvider,
                                         Activity activity,
-                                        String appId,
                                         String codeId,
                                         IInteractionAdListener listener) {
         mBaseAdProvider = baseAdProvider;
         mActivity = activity;
-        mAppId = appId;
         mCodeId = codeId;
         mListener = listener;
         if (mBaseAdProvider != null) {
@@ -40,7 +37,7 @@ public class UnifiedInterstitialADWrapper implements UnifiedInterstitialADListen
     }
 
     public void createInterstitialAD() {
-        iad = new UnifiedInterstitialAD(mActivity, mAppId, mCodeId, this);
+        iad = new UnifiedInterstitialAD(mActivity, getAppId(), mCodeId, this);
         iad.loadAD();
     }
 
