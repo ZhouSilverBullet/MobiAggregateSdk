@@ -10,8 +10,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="btnMessageIo"
-        android:text="信息流广告" />
+        android:onClick="btnSplash"
+        android:text="开屏页自定义" />
 
     <Button
         android:layout_width="match_parent"

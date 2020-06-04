@@ -12,9 +12,13 @@ import android.view.ViewGroup;
  */
 public abstract class BaseSplashSkipView {
 
+    /**
+     * CSJ 可以进行使用 GDT无效
+     */
     private int mCountTime = 5;
 
     /**
+     * CSJ 使用 GDT无效
      * 是否点击跳转
      */
     private boolean isCanClickSkip = true;

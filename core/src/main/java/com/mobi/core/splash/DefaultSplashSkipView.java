@@ -33,7 +33,7 @@ public class DefaultSplashSkipView extends BaseSplashSkipView {
 
     @Override
     public void onTime(int second) {
-        mTextView.setText(second + " | 跳过");
+        mTextView.setText(second + " | 可跳过");
     }
 
     @Override

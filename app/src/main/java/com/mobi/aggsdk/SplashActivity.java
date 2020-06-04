@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.mobi.core.MobiAggregateSdk;
 import com.mobi.core.listener.ISplashAdListener;
+import com.mobi.core.splash.BaseSplashSkipView;
+import com.mobi.core.splash.DefaultSplashSkipView;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.csj.CsjProvider;
 import com.mobi.gdt.GdtProvider;
@@ -17,6 +19,7 @@ import com.mobi.gdt.GdtProvider;
 public class SplashActivity extends AppCompatActivity {
     public static final String TAG = "SplashActivity";
     ViewGroup clRoot;
+    private boolean mIsSelfSplash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,41 +27,22 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         clRoot = findViewById(R.id.clRoot);
-//        CsjProvider csjProvider = new CsjProvider();
-//        csjProvider.splash(this, Const.CSJ_SPLASH_ID, clRoot, new ISplashAdListener() {
-//            @Override
-//            public void onAdFail(String type, String s) {
-//                LogUtils.e(TAG, "onAdFail : " + s);
-//                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//
-//            }
-//
-//            @Override
-//            public void onAdClicked(String type) {
-//
-//            }
-//
-//            @Override
-//            public void onAdExposure(String type) {
-//
-//            }
-//
-//            @Override
-//            public void onAdDismissed(String type) {
-//                LogUtils.e(TAG, "onAdDismissed");
-//
-//                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//            }
-//        });
-
         clRoot.post(() -> showSplash(clRoot));
 
+        if (getIntent() != null) {
+            mIsSelfSplash = getIntent().getBooleanExtra("isSelfSplash", false);
+        }
     }
 
     boolean canSkip;
 
     private void showSplash(ViewGroup clRoot) {
-        MobiAggregateSdk.showSplash(this, clRoot, new ISplashAdListener() {
+        BaseSplashSkipView view = null;
+        if (mIsSelfSplash) {
+            view = new DefaultSplashSkipView();
+        }
+
+        MobiAggregateSdk.showSplash(this, clRoot, view, new ISplashAdListener() {
             @Override
             public void onAdStartRequest(@NonNull String providerType) {
                 Log.e(TAG, "onAdStartRequest ");

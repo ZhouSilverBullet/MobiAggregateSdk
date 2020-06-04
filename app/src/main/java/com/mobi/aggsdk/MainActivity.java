@@ -60,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void btnMessageIo(View view) {
-        startActivity(new Intent(this, NativeExpressActivity.class));
+    public void btnSplash(View view) {
+        Intent intent = new Intent(this, SplashActivity.class);
+        intent.putExtra("isSelfSplash", true);
+        startActivity(intent);
     }
 
     public void btnFullScreen(View view) {
