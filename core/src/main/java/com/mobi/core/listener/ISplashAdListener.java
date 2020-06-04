@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 public interface ISplashAdListener {
     /**
      * 开始
+     *
      * @param providerType
      */
     void onAdStartRequest(@NonNull String providerType);
@@ -19,9 +20,10 @@ public interface ISplashAdListener {
      * csj # onTimeout , onError
      *
      * @param type
-     * @param s
+     * @param code
+     * @param errorMsg
      */
-    void onAdFail(String type, String s);
+    void onAdFail(String type, int code, String errorMsg);
 
     /**
      * csj # onAdClicked
@@ -45,7 +47,6 @@ public interface ISplashAdListener {
     void onAdDismissed(String type);
 
     /**
-     *
      * @param providerType
      */
     void onAdLoaded(String providerType);

@@ -44,9 +44,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onADLoad() {
-//        if (listener != null) {
-//            listener.onAdLoad(mProviderType);
-//        }
+
         if (mAdProvider != null) {
             mAdProvider.callbackRewardLoad(mListener);
         }
@@ -73,22 +71,15 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onVideoCached() {
-//        if (listener != null) {
-//            listener.onCached(mProviderType);
-//        }
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardCached(mListener);
         }
 
-
     }
 
     @Override
     public void onADShow() {
-//        if (listener != null) {
-//            listener.onAdShow(mProviderType);
-//        }
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardGdtShow(mListener);
@@ -97,12 +88,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onADExpose() {
-//                if (listener != null) {
-//                    listener.onAdShow(mProviderType);
-//                }
-//        if (mAdProvider != null) {
-//            mAdProvider.callbackRewardShow(mListener);
-//        }
+
         if (mAdProvider != null) {
             mAdProvider.callbackRewardExpose(mListener);
         }
@@ -110,9 +96,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onReward() {
-//        if (listener != null) {
-//            listener.onRewardVerify(mProviderType, false, 0, "");
-//        }
+
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVerify(false, 0, "", mListener);
         }
@@ -120,9 +104,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onADClick() {
-//        if (listener != null) {
-//            listener.onCached(mProviderType);
-//        }
+
         if (mAdProvider != null) {
             mAdProvider.callbackRewardClick(mListener);
         }
@@ -131,10 +113,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onVideoComplete() {
-//        if (listener != null) {
-//            listener.onVideoComplete(mProviderType);
-//        }
-
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVideoComplete(mListener);
         }
@@ -142,9 +120,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onADClose() {
-//        if (listener != null) {
-//            listener.onAdClose(mProviderType);
-//        }
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardClose(mListener);
@@ -153,10 +128,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onError(AdError adError) {
-//        if (listener != null) {
-//            listener.onAdFail(mProviderType, adError.getErrorCode(), adError.getErrorMsg());
-//        }
-
         if (mAdProvider != null) {
             if (adError == null) {
                 mAdProvider.callbackRewardFail(-100, "onNoAD 没有数据 adError == null", mListener);

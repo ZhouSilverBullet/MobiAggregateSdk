@@ -14,6 +14,7 @@ import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.gdt.wrapper.NativeExpressAdWrapper;
 import com.mobi.gdt.wrapper.RewardVideoAdWrapper;
+import com.mobi.gdt.wrapper.SplashAdWrapper;
 import com.mobi.gdt.wrapper.UnifiedInterstitialADWrapper;
 import com.qq.e.ads.cfg.VideoOption;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
@@ -48,56 +49,13 @@ public class GdtProvider extends BaseAdProvider {
                        final ISplashAdListener listener) {
 
 
-        callbackSplashStartRequest(listener);
+        SplashAdWrapper splashAdWrapper = new SplashAdWrapper(this,
+                activity,
+                codeId,
+                splashContainer,
+                listener);
 
-        SplashAD splashAD = new SplashAD(activity, GdtSession.get().getAppId(), codeId, new SplashADListener() {
-            @Override
-            public void onADDismissed() {
-
-                callbackSplashDismissed(listener);
-            }
-
-            @Override
-            public void onNoAD(AdError adError) {
-                if (listener != null) {
-                    if (adError != null) {
-                        callbackSplashFail("code: " + adError.getErrorCode() + ", errorMsg: " + adError.getErrorMsg(), listener);
-                    } else {
-                        callbackSplashFail("广告加载失败", listener);
-                    }
-                }
-            }
-
-            @Override
-            public void onADPresent() {
-
-            }
-
-            @Override
-            public void onADClicked() {
-
-                callbackSplashClicked(listener);
-            }
-
-            @Override
-            public void onADTick(long l) {
-
-            }
-
-            @Override
-            public void onADExposure() {
-                callbackSplashExposure(listener);
-            }
-
-            @Override
-            public void onADLoaded(long l) {
-
-                callbackSplashLoaded(listener);
-            }
-        });
-
-        splashAD.fetchAndShowIn(splashContainer);
-
+        splashAdWrapper.createSplashAd();
     }
 
     @Override

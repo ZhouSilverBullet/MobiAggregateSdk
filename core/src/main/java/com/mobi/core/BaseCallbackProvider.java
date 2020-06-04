@@ -24,9 +24,9 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackSplashFail(String error, ISplashAdListener listener) {
+    public final void callbackSplashFail(int code, String error, ISplashAdListener listener) {
         if (listener != null) {
-            listener.onAdFail(mProviderType, error);
+            listener.onAdFail(mProviderType, code, error);
         }
     }
 
