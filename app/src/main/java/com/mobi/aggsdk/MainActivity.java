@@ -30,6 +30,8 @@ import com.mobi.csj.CsjSession;
 
 import java.util.List;
 
+import static com.mobi.core.MobiAggregateSdk.CSJ_REWARD_ID;
+
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
@@ -106,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnReward(View view) {
-        MobiAggregateSdk.showRewardView(this, "2090845242931421", true, new IRewardAdListener() {
+        MobiAggregateSdk.showRewardView(this, CSJ_REWARD_ID, true, new IRewardAdListener() {
             @Override
-            public void onAdFail(String type, String errorMsg) {
+            public void onAdFail(String type, int code, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
             }
 
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnInteraction(View view) {
         MobiAggregateSdk.showInteractionExpress(this, flContainer, "8020259898964453", true, 300, 300, new IInteractionAdListener() {
             @Override
-            public void onAdFail(String type, String errorMsg) {
+            public void onAdFail(String type, int code, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
             }
 

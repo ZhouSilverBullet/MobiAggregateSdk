@@ -7,7 +7,7 @@ package com.mobi.core.listener;
  * @Dec 略
  */
 public interface IInteractionAdListener {
-    void onAdFail(String type, String errorMsg);
+    void onAdFail(String type,int code, String errorMsg);
     void onADReceive(String type);
     void onADOpened(String type);
     void onADExposure(String type);

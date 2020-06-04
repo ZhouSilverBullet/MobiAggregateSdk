@@ -2,6 +2,7 @@ package com.mobi.core;
 
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IInteractionAdListener;
+import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 
 /**
@@ -53,11 +54,68 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
+    /////// 激励视频广告回调  start //////
+    public final void callbackRewardFail(int code, String errorMsg, IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onAdFail(mProviderType, code, errorMsg);
+        }
+    }
+
+    public final void callbackRewardLoad(IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onAdLoad(mProviderType);
+        }
+    }
+
+    public final void callbackRewardShow(IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onAdShow(mProviderType);
+        }
+    }
+
+    public final void callbackRewardClick(IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onAdClick(mProviderType);
+        }
+    }
+
+    public final void callbackRewardClose(IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onAdClose(mProviderType);
+        }
+    }
+
+    public final void callbackRewardVideoComplete(IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onVideoComplete(mProviderType);
+        }
+    }
+
+    public final void callbackRewardSkippedVideo(IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onSkippedVideo(mProviderType);
+        }
+    }
+
+    public final void callbackRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName, IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onRewardVerify(mProviderType, rewardVerify, rewardAmount, rewardName);
+        }
+    }
+
+    public final void callbackRewardCached(IRewardAdListener listener) {
+        if (listener != null) {
+            listener.onCached(mProviderType);
+        }
+    }
+    /////// 激励视频广告回调  end //////
+
+
     /////// 插屏广告回调  start //////
 
-    public final void callbackInteractionFail(IInteractionAdListener listener, String errorMsg) {
+    public final void callbackInteractionFail(int code, String errorMsg, IInteractionAdListener listener) {
         if (listener != null) {
-            listener.onAdFail(mProviderType, errorMsg);
+            listener.onAdFail(mProviderType, code, errorMsg);
         }
     }
 
@@ -121,7 +179,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     }
 
     public final void callbackExpressClick(IExpressListener listener) {
-            if (listener != null) {
+        if (listener != null) {
             listener.onAdClick(mProviderType);
         }
     }

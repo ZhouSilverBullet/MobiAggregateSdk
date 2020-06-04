@@ -1,7 +1,6 @@
 package com.mobi.csj.wrapper;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,7 +11,6 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.listener.IInteractionAdListener;
-import com.mobi.csj.CsjSession;
 
 import java.util.List;
 
@@ -22,7 +20,7 @@ import java.util.List;
  * @date 2020/6/3 22:27
  * @Dec 略
  */
-public class InteractionExpressAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener, TTAppDownloadListener {
+public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener, TTAppDownloadListener {
     private final boolean mSupportDeepLink;
     private final int mLoadCount;
     private final float mExpressViewWidth;
@@ -80,21 +78,6 @@ public class InteractionExpressAdWrapper implements TTAdNative.NativeExpressAdLi
 
     }
 
-    private int getLoadCount(int loadCount) {
-        int count = 1;
-
-        if (loadCount > 0) {
-            count = loadCount;
-        }
-        return count;
-    }
-
-
-    private TTAdNative createAdNative(Context context) {
-        return CsjSession.get().getAdManager().createAdNative(context);
-    }
-
-
     @Override
     public void onError(int code, String message) {
         if (mViewContainer != null) {
@@ -106,7 +89,7 @@ public class InteractionExpressAdWrapper implements TTAdNative.NativeExpressAdLi
     public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
         if (list == null || list.size() == 0) {
             if (mAdProvider != null) {
-                mAdProvider.callbackInteractionFail(mListener, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ");
+                mAdProvider.callbackInteractionFail(-100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ", mListener);
             }
             return;
         }
@@ -143,7 +126,7 @@ public class InteractionExpressAdWrapper implements TTAdNative.NativeExpressAdLi
     @Override
     public void onRenderFail(View view, String s, int i) {
         if (mAdProvider != null) {
-            mAdProvider.callbackInteractionFail(mListener, s);
+            mAdProvider.callbackInteractionFail(i, s, mListener);
         }
     }
 

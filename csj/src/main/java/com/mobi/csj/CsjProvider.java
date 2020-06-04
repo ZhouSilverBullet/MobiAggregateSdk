@@ -27,6 +27,7 @@ import com.mobi.core.utils.LogUtils;
 import com.mobi.core.utils.ScreenUtils;
 import com.mobi.csj.wrapper.InteractionExpressAdWrapper;
 import com.mobi.csj.wrapper.NativeExpressAdWrapper;
+import com.mobi.csj.wrapper.RewardVideoAdWrapper;
 
 import java.util.List;
 
@@ -224,116 +225,11 @@ public class CsjProvider extends BaseAdProvider {
                             boolean supportDeepLink,
                             final IRewardAdListener listener) {
 
-        TTAdNative adNative = createAdNative(activity.getApplicationContext());
-        AdSlot adSlot = new AdSlot.Builder()
-                .setImageAcceptedSize(1080, 1920)
-                .setCodeId(codeId)
-                .setSupportDeepLink(supportDeepLink)
-                .setRewardName("")
-                .setRewardAmount(10)
-                .setUserID("")
-                .setMediaExtra("media-extra")
-                .setOrientation(TTAdConstant.VERTICAL)
-                .build();
-        adNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
-            @Override
-            public void onError(int code, String errorMsg) {
-//                AdStatistical.trackAD(activity, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
-                //加载错误
-                if (listener != null) {
-                    listener.onAdFail(mProviderType, "code：" + code + " errorMsg: " + errorMsg);
-                    // listener.onAdClose(mProviderType);
-                }
-            }
+        RewardVideoAdWrapper rewardVideoAdWrapper = new RewardVideoAdWrapper(this,
+                activity, codeId, supportDeepLink, listener);
 
-            @Override
-            public void onRewardVideoAdLoad(TTRewardVideoAd mttRewardVideoAd) {
+        rewardVideoAdWrapper.createRewardVideoAd();
 
-                if (listener != null) {
-                    listener.onAdLoad(mProviderType);
-                    // listener.onAdClose(mProviderType);
-                }
-
-                //加载成功
-//                mttRewardVideoAd = ad;
-                mttRewardVideoAd.setRewardAdInteractionListener(new TTRewardVideoAd.RewardAdInteractionListener() {
-                    @Override
-                    public void onAdShow() {
-                        //显示广告
-                        if (listener != null) {
-                            listener.onAdShow(mProviderType);
-                        }
-                    }
-
-                    @Override
-                    public void onAdVideoBarClick() {
-                        if (listener != null) {
-                            listener.onAdClick(mProviderType);
-                        }
-//                        AdStatistical.trackAD(activity, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_TRUE);
-                    }
-
-                    @Override
-                    public void onAdClose() {
-                        //广告关闭
-                        if (listener != null) {
-                            listener.onAdClose(mProviderType);
-                        }
-                    }
-
-                    @Override
-                    public void onVideoComplete() {
-                        //播放完成
-                        if (listener != null) {
-                            listener.onVideoComplete(mProviderType);
-                        }
-                    }
-
-                    @Override
-                    public void onVideoError() {
-                        //播放错误
-                        if (listener != null) {
-                            listener.onAdFail(mProviderType, "播放错误");
-                        }
-                    }
-
-                    //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
-                    @Override
-                    public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
-                        //视频播放完成，奖励回调验证
-                        if (listener != null) {
-                            listener.onRewardVerify(mProviderType, rewardVerify, rewardAmount, rewardName);
-                        }
-                    }
-
-                    @Override
-                    public void onSkippedVideo() {
-                        //跳过广告
-                        if (listener != null) {
-                            listener.onSkippedVideo(mProviderType);
-                        }
-                    }
-                });
-                mttRewardVideoAd.showRewardVideoAd(activity, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "scenes_test");
-//                if (bean.getSort_type() == Constants.SORT_TYPE_SERVICE_ORDER) {
-//                    showTTVideo();
-//                } else {
-//                    recordRenderSuccess(mProviderType);
-//                    if (firstCome) {
-//                        showTTVideo();
-//                        firstCome = false;
-//                    }
-//                }
-            }
-
-            @Override
-            public void onRewardVideoCached() {
-                //缓存在了本地
-                if (listener != null) {
-                    listener.onCached(mProviderType);
-                }
-            }
-        });
     }
 
     public void interactionExpress(Activity activity,
@@ -345,12 +241,11 @@ public class CsjProvider extends BaseAdProvider {
                                    IInteractionAdListener listener) {
 
         InteractionExpressAdWrapper interactionExpressAdWrapper = new InteractionExpressAdWrapper(this,
-                activity, codeId, supportDeepLink, viewContainer,1, expressViewWidth, expressViewHeight, listener);
+                activity, codeId, supportDeepLink, viewContainer, 1, expressViewWidth, expressViewHeight, listener);
 
         interactionExpressAdWrapper.createInteractionAd();
 
     }
-
 
 
     private TTAdNative createAdNative(Context context) {

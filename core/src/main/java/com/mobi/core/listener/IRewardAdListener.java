@@ -7,7 +7,7 @@ package com.mobi.core.listener;
  * @Dec 略
  */
 public interface IRewardAdListener {
-    void onAdFail(String type, String errorMsg);
+    void onAdFail(String type, int code, String errorMsg);
     void onAdLoad(String type);
     void onAdShow(String type);
     void onAdClick(String type);

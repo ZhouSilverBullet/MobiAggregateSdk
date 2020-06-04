@@ -71,9 +71,9 @@ public class UnifiedInterstitialADWrapper implements UnifiedInterstitialADListen
     public void onNoAD(AdError adError) {
         if (mBaseAdProvider != null) {
             if (adError == null) {
-                mBaseAdProvider.callbackInteractionFail(mListener, "onNoAD 没有数据 adError == null");
+                mBaseAdProvider.callbackInteractionFail(-100, "onNoAD 没有数据 adError == null", mListener);
             } else {
-                mBaseAdProvider.callbackInteractionFail(mListener, "code: " + adError.getErrorCode() + ", errorMsg: " + adError.getErrorMsg());
+                mBaseAdProvider.callbackInteractionFail(adError.getErrorCode(), adError.getErrorMsg(), mListener);
             }
         }
     }

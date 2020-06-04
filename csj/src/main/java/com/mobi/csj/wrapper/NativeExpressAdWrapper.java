@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2020/6/3 18:03
  * @Dec csj wrapper
  */
-public class NativeExpressAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener, TTAppDownloadListener {
+public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener, TTAppDownloadListener {
     private final BaseAdProvider mAdProvider;
     private String mProviderType;
     Activity mContext;
@@ -78,18 +78,6 @@ public class NativeExpressAdWrapper implements TTAdNative.NativeExpressAdListene
         mTTAdNative.loadNativeExpressAd(adSlot, this);
     }
 
-    private int getLoadCount(int loadCount) {
-        int count = 1;
-
-        if (loadCount > 0) {
-            count = loadCount;
-        }
-        return count;
-    }
-
-    private TTAdNative createAdNative(Context context) {
-        return CsjSession.get().getAdManager().createAdNative(context);
-    }
 
     @Override
     public void onError(int i, String s) {

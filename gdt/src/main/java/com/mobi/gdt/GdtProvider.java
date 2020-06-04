@@ -189,7 +189,7 @@ public class GdtProvider extends BaseAdProvider {
             @Override
             public void onError(AdError adError) {
                 if (listener != null) {
-                    listener.onAdFail(mProviderType, adError.getErrorMsg());
+                    listener.onAdFail(mProviderType, adError.getErrorCode(), adError.getErrorMsg());
                 }
             }
         }); // 有声播放
