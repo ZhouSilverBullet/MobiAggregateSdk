@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnInteraction(View view) {
-        MobiAggregateSdk.showInteractionExpress(this, flContainer, "8020259898964453", true, new IInteractionAdListener() {
+        MobiAggregateSdk.showInteractionExpress(this, flContainer, "8020259898964453", true, 300, 300, new IInteractionAdListener() {
             @Override
             public void onAdFail(String type, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);

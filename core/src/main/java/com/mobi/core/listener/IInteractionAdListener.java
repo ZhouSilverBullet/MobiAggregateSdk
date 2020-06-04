@@ -19,4 +19,57 @@ public interface IInteractionAdListener {
     void onSkippedVideo(String providerType);
     void onRewardVerify(String providerType, boolean rewardVerify, int rewardAmount, String rewardName);
     void onCached(String type);
+
+    default void onADLeftApplication(String type) {
+
+    }
+
+
+
+    ///////// CSJ start //////////////
+
+    /**
+     * 点击开始下载
+     */
+    default void onIdle(String type) {
+
+    }
+
+    /**
+     * 下载中
+     */
+    default void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+
+    }
+
+    /**
+     * 下载暂停
+     *
+     */
+    default void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+
+    }
+
+    /**
+     * 下载失败
+     *
+     */
+    default void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+
+    }
+
+    /**
+     * 下载完成
+     */
+    default void onDownloadFinished(long totalBytes, String fileName, String appName) {
+
+    }
+
+    /**
+     * 安装完成
+     */
+    default void onInstalled(String fileName, String appName) {
+
+    }
+    ///////// CSJ end //////////////
 }

@@ -13,6 +13,7 @@ import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.gdt.wrapper.NativeExpressAdWrapper;
+import com.mobi.gdt.wrapper.UnifiedInterstitialADWrapper;
 import com.qq.e.ads.cfg.VideoOption;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialADListener;
@@ -205,66 +206,74 @@ public class GdtProvider extends BaseAdProvider {
                                    float expressViewWidth,
                                    float expressViewHeight,
                                    IInteractionAdListener listener) {
-        iad = new UnifiedInterstitialAD(activity, GdtSession.get().getAppId(), codeId, new UnifiedInterstitialADListener() {
-            @Override
-            public void onADReceive() {
-                if (listener != null) {
-                    listener.onADReceive(mProviderType);
-                }
-                iad.showAsPopupWindow();
-            }
 
-            @Override
-            public void onVideoCached() {
-                if (listener != null) {
-                    listener.onCached(mProviderType);
-                }
-                iad.showAsPopupWindow();
-            }
 
-            @Override
-            public void onNoAD(AdError adError) {
-                if (listener != null) {
-                    listener.onAdFail(mProviderType, "code: " + adError.getErrorCode() + ", errorMsg: " + adError.getErrorMsg());
-                }
-            }
+        UnifiedInterstitialADWrapper unifiedInterstitialADWrapper =
+                new UnifiedInterstitialADWrapper(this, activity,
+                        GdtSession.get().getAppId(), codeId, listener);
 
-            @Override
-            public void onADOpened() {
-                if (listener != null) {
-                    listener.onADOpened(mProviderType);
-                }
-            }
+        unifiedInterstitialADWrapper.createInterstitialAD();
 
-            @Override
-            public void onADExposure() {
-                if (listener != null) {
-                    listener.onADExposure(mProviderType);
-                }
-            }
-
-            @Override
-            public void onADClicked() {
-                if (listener != null) {
-                    listener.onAdClick(mProviderType);
-                }
-            }
-
-            @Override
-            public void onADLeftApplication() {
+//        iad = new UnifiedInterstitialAD(activity, GdtSession.get().getAppId(), codeId, new UnifiedInterstitialADListener() {
+//            @Override
+//            public void onADReceive() {
+//                if (listener != null) {
+//                    listener.onADReceive(mProviderType);
+//                }
+//                iad.showAsPopupWindow();
+//            }
+//
+//            @Override
+//            public void onVideoCached() {
+//                if (listener != null) {
+//                    listener.onCached(mProviderType);
+//                }
+//                iad.showAsPopupWindow();
+//            }
+//
+//            @Override
+//            public void onNoAD(AdError adError) {
+//                if (listener != null) {
+//                    listener.onAdFail(mProviderType, "code: " + adError.getErrorCode() + ", errorMsg: " + adError.getErrorMsg());
+//                }
+//            }
+//
+//            @Override
+//            public void onADOpened() {
+//                if (listener != null) {
+//                    listener.onADOpened(mProviderType);
+//                }
+//            }
+//
+//            @Override
+//            public void onADExposure() {
+//                if (listener != null) {
+//                    listener.onADExposure(mProviderType);
+//                }
+//            }
+//
+//            @Override
+//            public void onADClicked() {
 //                if (listener != null) {
 //                    listener.onAdClick(mProviderType);
 //                }
-            }
-
-            @Override
-            public void onADClosed() {
-                if (listener != null) {
-                    listener.onAdClose(mProviderType);
-                }
-            }
-        });
-        iad.loadAD();
+//            }
+//
+//            @Override
+//            public void onADLeftApplication() {
+////                if (listener != null) {
+////                    listener.onAdClick(mProviderType);
+////                }
+//            }
+//
+//            @Override
+//            public void onADClosed() {
+//                if (listener != null) {
+//                    listener.onAdClose(mProviderType);
+//                }
+//            }
+//        });
+//        iad.loadAD();
     }
 
     @Override

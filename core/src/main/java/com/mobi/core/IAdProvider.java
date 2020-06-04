@@ -34,6 +34,17 @@ public interface IAdProvider {
 
     }
 
+    /**
+     * expressViewWidth ,expressViewHeight csj使用  gdt不需要
+     *
+     * @param activity
+     * @param codeId
+     * @param supportDeepLink
+     * @param viewContainer
+     * @param expressViewWidth
+     * @param expressViewHeight
+     * @param listener
+     */
     default void interactionExpress(Activity activity,
                                     String codeId,
                                     boolean supportDeepLink,

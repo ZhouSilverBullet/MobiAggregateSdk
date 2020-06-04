@@ -26,6 +26,7 @@ public class MobiAggregateSdk {
 
 
     public static final String CSJ_INTERACTION_ID = "901121797";
+    public static final String GDT_INTERACTION_ID = "8020259898964453";
 
     public static final String CSJ_EXPRESS_ID = "901121125";
     public static final String GDT_EXPRESS_ID = "2000629911207832";
@@ -73,20 +74,24 @@ public class MobiAggregateSdk {
                                               final ViewGroup viewContainer,
                                               final String codeId,
                                               boolean supportDeepLink,
+                                              float expressViewWidth,
+                                              float expressViewHeight,
                                               final IInteractionAdListener listener) {
 
-        AdProviderManager.get().getProvider(AdProviderManager.TYPE_GDT)
+        AdProviderManager.get()
+                .getProvider(AdProviderManager.TYPE_CSJ)
                 .interactionExpress(activity,
-                        codeId,
+                        CSJ_INTERACTION_ID,
                         supportDeepLink,
                         viewContainer,
-                        300,
-                        300, listener);
+                        expressViewWidth,
+                        expressViewHeight,
+                        listener);
     }
 
 
     /**
-     * 插屏
+     * 信息流
      *
      * @param activity
      * @param codeId

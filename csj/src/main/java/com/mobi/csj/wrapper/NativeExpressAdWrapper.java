@@ -110,7 +110,10 @@ public class NativeExpressAdWrapper implements TTAdNative.NativeExpressAdListene
 
     @Override
     public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
-        if (list == null || list.size() <= 0) {
+        if (list == null || list.size() == 0) {
+            if (mAdProvider != null) {
+                mAdProvider.callbackExpressLoadFailed(-100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ", mListener);
+            }
             return;
         }
         mTTNativeExpressAd = list.get(0);
