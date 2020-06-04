@@ -26,6 +26,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
     String mCodeId;
     int mExpressViewWidth;
     int mExpressViewHeight;
+    boolean mSupportDeepLink;
     ViewGroup mSplashContainer;
     ISplashAdListener mListener;
 
@@ -34,6 +35,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
                            String codeId,
                            int expressViewWidth,
                            int expressViewHeight,
+                           boolean supportDeepLink,
                            ViewGroup splashContainer,
                            ISplashAdListener listener) {
         mAdProvider = adProvider;
@@ -41,6 +43,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         mCodeId = codeId;
         mExpressViewWidth = expressViewWidth;
         mExpressViewHeight = expressViewHeight;
+        mSupportDeepLink = supportDeepLink;
         mSplashContainer = splashContainer;
         mListener = listener;
 

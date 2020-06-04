@@ -16,10 +16,25 @@ import com.mobi.core.listener.ISplashAdListener;
  * @Dec 略
  */
 public interface IAdProvider {
-    void splash(final Activity activity,
-                final String codeId,
-                final ViewGroup splashContainer,
-                final ISplashAdListener listener);
+    /**
+     *
+     * @param activity
+     * @param codeId  对应的广告id
+     *
+     * @param expressViewWidth  如果传 <=0 就是全屏 csj需要
+     * @param expressViewHeight 如果传 <=0 就是全屏 csj需要
+     * @param supportDeepLink 一般传true即可 csj需要
+     *
+     * @param splashContainer
+     * @param listener
+     */
+    void splash(Activity activity,
+                String codeId,
+                int expressViewWidth,
+                int expressViewHeight,
+                boolean supportDeepLink,
+                ViewGroup splashContainer,
+                ISplashAdListener listener);
 
     void fullscreen(final Activity activity,
                     final String codeId,

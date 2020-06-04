@@ -46,7 +46,12 @@ public class MobiAggregateSdk {
                 break;
         }
         AdProviderManager.get().getProvider(providerKey)
-                .splash(activity, codeId, splashContainer, listener);
+                .splash(activity, codeId,
+                        0,
+                        0,
+                        true,
+                        splashContainer,
+                        listener);
     }
 
     public static void showFullscreen(final Activity activity, int orientation, final IFullScreenVideoAdListener listener) {

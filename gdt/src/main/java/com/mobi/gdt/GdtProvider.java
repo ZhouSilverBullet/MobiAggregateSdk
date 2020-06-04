@@ -45,9 +45,11 @@ public class GdtProvider extends BaseAdProvider {
 
     public void splash(final Activity activity,
                        final String codeId,
-                       final ViewGroup splashContainer,
-                       final ISplashAdListener listener) {
-
+                       int expressViewWidth,
+                       int expressViewHeight,
+                       boolean supportDeepLink,
+                       ViewGroup splashContainer,
+                       ISplashAdListener listener) {
 
         SplashAdWrapper splashAdWrapper = new SplashAdWrapper(this,
                 activity,

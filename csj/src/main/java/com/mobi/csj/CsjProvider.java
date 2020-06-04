@@ -45,19 +45,28 @@ public class CsjProvider extends BaseAdProvider {
         super(providerType);
     }
 
-    public void splash(final Activity activity,
-                       final String codeId,
-                       final ViewGroup splashContainer,
-                       final ISplashAdListener listener) {
+    public void splash(Activity activity,
+                       String codeId,
+                       int expressViewWidth,
+                       int expressViewHeight,
+                       boolean supportDeepLink,
+                       ViewGroup splashContainer,
+                       ISplashAdListener listener) {
 
-        int expressViewWidth = ScreenUtils.getAppWidth();
-        int expressViewHeight = ScreenUtils.getAppHeight();
+        if (expressViewWidth <= 0) {
+            expressViewWidth = ScreenUtils.getAppWidth();
+        }
+
+        if (expressViewHeight <= 0) {
+            expressViewHeight = ScreenUtils.getAppHeight();
+        }
 
         SplashAdWrapper splashAdWrapper = new SplashAdWrapper(this,
                 activity,
                 codeId,
                 expressViewWidth,
                 expressViewHeight,
+                supportDeepLink,
                 splashContainer,
                 listener);
 
