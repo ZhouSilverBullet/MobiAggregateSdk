@@ -2,9 +2,7 @@ package com.mobi.aggsdk;
 
 import android.app.Application;
 
-import com.mobi.core.CoreSession;
-import com.mobi.csj.CsjSession;
-import com.mobi.gdt.GdtSession;
+import com.mobi.common.MobiPubSdk;
 
 /**
  * @author zhousaito
@@ -37,15 +35,10 @@ public class App extends Application {
 //        TTAdManagerHolder.init(this);
 
         //初始化穿山甲
-        CsjSession.get().init(this,
-                Const.CSJ_APPID,
-                Const.CSJ_APPNAME,
-                BuildConfig.DEBUG);
 
-        GdtSession.get().init(this, Const.GDT_APPID,
-                BuildConfig.DEBUG);
+        MobiPubSdk.init(this, "mobiAppIdxxxxxx");
 
-        CoreSession.get().init(this, BuildConfig.DEBUG);
+
 
     }
 }
