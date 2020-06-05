@@ -9,7 +9,6 @@ import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
-import com.mobi.core.splash.DefaultSplashSkipView;
 
 /**
  * @author zhousaito
@@ -18,6 +17,7 @@ import com.mobi.core.splash.DefaultSplashSkipView;
  * @Dec 略
  */
 public class MobiAggregateSdk {
+    public static final String TAG = "MobiAggregateSdk";
 
     public static final String CSJ_SPLASH_ID = "801121648";
     public static final String GDT_SPLASH_ID = "8863364436303842593";
@@ -36,6 +36,7 @@ public class MobiAggregateSdk {
                                   final ViewGroup splashContainer,
                                   BaseSplashSkipView skipView,
                                   final ISplashAdListener listener) {
+
         String providerKey = AdProviderManager.get().getProviderKey();
 
         String codeId = "";
@@ -47,14 +48,19 @@ public class MobiAggregateSdk {
                 codeId = GDT_SPLASH_ID;
                 break;
         }
-        AdProviderManager.get().getProvider(providerKey)
-                .splash(activity, codeId,
-                        600,
-                        800,
-                        true,
-                        skipView,
-                        splashContainer,
-                        listener);
+
+
+        IAdProvider provider = AdProviderManager.get().getProvider(providerKey);
+        if (provider == null) {
+            return;
+        }
+        provider.splash(activity, codeId,
+                600,
+                800,
+                true,
+                skipView,
+                splashContainer,
+                listener);
     }
 
     public static void showFullscreen(final Activity activity, int orientation, final IFullScreenVideoAdListener listener) {

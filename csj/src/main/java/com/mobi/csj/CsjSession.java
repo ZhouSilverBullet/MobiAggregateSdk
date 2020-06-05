@@ -32,6 +32,10 @@ public class CsjSession {
     }
 
     public void init(Context context, String appId, String appName, boolean isDebug) {
+        if (mTTAdManager != null) {
+            return;
+        }
+
         isAppDebug = isDebug;
         mContext = context.getApplicationContext();
         mTTAdManager = TTAdSdk.init(context.getApplicationContext(),

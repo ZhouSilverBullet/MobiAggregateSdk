@@ -1,20 +1,17 @@
 package com.mobi.aggsdk;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobi.common.MobiPubSdk;
 import com.mobi.core.MobiAggregateSdk;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.splash.DefaultSplashSkipView;
-import com.mobi.core.utils.LogUtils;
-import com.mobi.csj.CsjProvider;
-import com.mobi.gdt.GdtProvider;
 
 public class SplashActivity extends AppCompatActivity {
     public static final String TAG = "SplashActivity";
@@ -42,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
             view = new DefaultSplashSkipView();
         }
 
-        MobiAggregateSdk.showSplash(this, clRoot, view, new ISplashAdListener() {
+        MobiPubSdk.showSplash(this, "1024005",clRoot, view, new ISplashAdListener() {
             @Override
             public void onAdStartRequest(@NonNull String providerType) {
                 Log.e(TAG, "onAdStartRequest ");
@@ -102,7 +99,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (canSkip) {
-            delayToHome(1000);
+            delayToHome(0);
         }
     }
 

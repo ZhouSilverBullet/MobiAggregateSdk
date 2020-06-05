@@ -2,36 +2,17 @@ package com.mobi.aggsdk;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.bytedance.sdk.openadsdk.AdSlot;
-import com.bytedance.sdk.openadsdk.FilterWord;
-import com.bytedance.sdk.openadsdk.TTAdConstant;
-import com.bytedance.sdk.openadsdk.TTAdDislike;
-import com.bytedance.sdk.openadsdk.TTAdManager;
-import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
-import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
-import com.mobi.aggsdk.config.TTAdManagerHolder;
-import com.mobi.aggsdk.utils.TToast;
-import com.mobi.core.MobiAggregateSdk;
+import com.mobi.common.MobiPubSdk;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.csj.CsjSession;
-
-import java.util.List;
-
-import static com.mobi.core.MobiAggregateSdk.CSJ_REWARD_ID;
-import static com.mobi.core.MobiAggregateSdk.GDT_REWARD_ID;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
@@ -56,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 //                .setImageAcceptedSize(640, 320) //这个参数设置即可，不影响个性化模板广告的size
 //                .build();
 
-        CsjSession.get().getAdManager().requestPermissionIfNecessary(this);
+//        CsjSession.get().getAdManager().requestPermissionIfNecessary(this);
 
     }
 
@@ -67,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnFullScreen(View view) {
-        MobiAggregateSdk.showFullscreen(this, 1, new IFullScreenVideoAdListener() {
+        MobiPubSdk.showFullscreen(this, "1024002",1, new IFullScreenVideoAdListener() {
             @Override
             public void onAdShow(String type) {
                 LogUtils.e(TAG, "onAdShow ");
@@ -111,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnReward(View view) {
-        MobiAggregateSdk.showRewardView(this, GDT_REWARD_ID, true, new IRewardAdListener() {
+        MobiPubSdk.showRewardView(this, "1024003", true, new IRewardAdListener() {
             @Override
             public void onAdFail(String type, int code, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
@@ -166,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnInteraction(View view) {
-        MobiAggregateSdk.showInteractionExpress(this, flContainer, "8020259898964453", true, 300, 300, new IInteractionAdListener() {
+        MobiPubSdk.showInteractionExpress(this, flContainer, "1024004", true, 300, 300, new IInteractionAdListener() {
             @Override
             public void onAdFail(String type, int code, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
@@ -234,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnExpress(View view) {
-        MobiAggregateSdk.showExpress(this, flContainer, MobiAggregateSdk.CSJ_EXPRESS_ID,
+        MobiPubSdk.showExpress(this, flContainer, "1024001",
                 true, 300, 300, 1, new IExpressListener() {
                     @Override
                     public void onAdClick(String type) {

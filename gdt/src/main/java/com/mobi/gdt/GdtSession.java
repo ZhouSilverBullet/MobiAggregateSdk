@@ -31,6 +31,11 @@ public class GdtSession {
     private Context mContext;
 
     public void init(Context context, String gdtAdAppId, boolean isDebug) {
+        //给予多次调用，防止多次进行初始化
+        if (mContext != null) {
+            return;
+        }
+
         isAppDebug = isDebug;
         mContext = context.getApplicationContext();
 
