@@ -13,4 +13,7 @@ public class MobiConstantValue {
      */
     public static final int GDT_ERROR_RENDER_CODE  = -10000;
     public static final String GDT_ERROR_RENDER_MESSAGE  = "广告渲染失败";
+
+    public static final int VERTICAL = 1;
+    public static final int HORIZONTAL = 2;
 }

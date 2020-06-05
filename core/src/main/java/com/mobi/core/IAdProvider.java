@@ -77,20 +77,13 @@ public interface IAdProvider {
      * 激励视频
      *
      * @param activity
-     * @param codeId
-     * @param supportDeepLink
+     * @param adParams
      * @param viewContainer
-     * @param aDViewWidth
-     * @param aDViewHeight
      * @param listener
      */
     default void express(Activity activity,
-                         String codeId,
-                         boolean supportDeepLink,
                          ViewGroup viewContainer,
-                         int aDViewWidth,
-                         int aDViewHeight,
-                         int loadCount,
+                         AdParams adParams,
                          IExpressListener listener) {
     }
 }

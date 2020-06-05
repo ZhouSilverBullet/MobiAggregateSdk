@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.listener.IExpressListener;
@@ -35,23 +36,19 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     IExpressListener mListener;
     private NativeExpressAD mNativeExpressAD;
 
-    public NativeExpressAdWrapper(Activity context,
-                                  BaseAdProvider adProvider,
-                                  String codeId,
-                                  boolean supportDeepLink,
+    public NativeExpressAdWrapper(BaseAdProvider adProvider,
+                                  Activity context,
                                   ViewGroup viewContainer,
-                                  int ADViewWidth,
-                                  int ADViewHeight,
-                                  int loadCount,
+                                  AdParams params,
                                   IExpressListener listener) {
         mContext = context;
         mAdProvider = adProvider;
-        mCodeId = codeId;
-        mSupportDeepLink = supportDeepLink;
+        mCodeId = params.getCodeId();
+        mSupportDeepLink = params.isSupportDeepLink();
         mViewContainer = viewContainer;
-        mADViewWidth = ADViewWidth;
-        mADViewHeight = ADViewHeight;
-        mLoadCount = loadCount;
+        mADViewWidth = params.getExpressViewWidth();
+        mADViewHeight = params.getExpressViewHeight();
+        mLoadCount = params.getAdCount();
         mListener = listener;
     }
 
@@ -74,8 +71,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
         //记载数量
         mNativeExpressAD.loadAD(getLoadCount(mLoadCount));
     }
-
-
 
 
     @Override

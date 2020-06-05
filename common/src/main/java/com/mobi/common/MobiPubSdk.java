@@ -2,10 +2,13 @@ package com.mobi.common;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.MainThread;
 import android.view.ViewGroup;
 
+import com.mobi.core.AdParams;
 import com.mobi.core.AdProviderManager;
 import com.mobi.core.CoreSession;
+import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
@@ -16,6 +19,12 @@ import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.csj.CsjSession;
 import com.mobi.exception.MobiNullPointerException;
 import com.mobi.gdt.GdtSession;
+
+import java.util.List;
+
+import static com.mobi.common.CheckUtils.checkSafe;
+import static com.mobi.common.CheckUtils.checkStrSafe;
+import static com.mobi.common.CheckUtils.isAdInvalid;
 
 /**
  * @author zhousaito
@@ -54,14 +63,16 @@ public class MobiPubSdk {
                                   BaseSplashSkipView skipView,
                                   final ISplashAdListener listener) {
 
-        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
-        if (showAdBean == null) {
+        LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
+
+        if (isAdInvalid(localAdBean)) {
             if (listener != null) {
                 listener.onAdFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
             }
             return;
         }
 
+        ShowAdBean showAdBean = localAdBean.getAdBeans().get(0);
         AdProviderManager.get().getProvider(showAdBean.getProviderType()).splash(activity, showAdBean.getPostId(),
                 600,
                 800,
@@ -69,24 +80,27 @@ public class MobiPubSdk {
                 skipView,
                 splashContainer,
                 listener);
+
     }
 
     /**
      * 信息流
      *
      * @param activity
-     * @param codeId
-     * @param supportDeepLink
+     * @param viewContainer
+     * @param adParams
      * @param listener
      */
+    @MainThread
     public static void showExpress(final Activity activity,
                                    final ViewGroup viewContainer,
-                                   String codeId,
-                                   boolean supportDeepLink,
-                                   int aDViewWidth,
-                                   int aDViewHeight,
-                                   int loadCount,
+                                   AdParams adParams,
                                    final IExpressListener listener) {
+        if (!checkSafe(activity)) {
+            return;
+        }
+        checkSafe(viewContainer);
+        checkSafe(adParams);
 
 
 //        FragmentManager fragmentManager =
@@ -94,32 +108,49 @@ public class MobiPubSdk {
 //        fragmentManager.beginTransaction()
 //                .add(new AdFragment(), "mobiad")
 //                .commitAllowingStateLoss();
-        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
-        if (showAdBean == null) {
+        LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
+
+        if (isAdInvalid(localAdBean)) {
+            if (listener != null) {
+                listener.onLoadFailed("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
+            }
             return;
         }
 
+
+        List<ShowAdBean> adBeans = localAdBean.getAdBeans();
+        ShowAdBean showAdBean = adBeans.get(0);
+
+        String postId = showAdBean.getPostId();
+
+        if (!checkStrSafe(postId)) {
+            //这里要往后台传错误，或者要容错一下
+            if (listener != null) {
+                listener.onLoadFailed("MobiType", -101,
+                        "mobi 后台获取的 postId 不正确 或者 postId == null");
+            }
+            return;
+        }
+
+        adParams.setPostId(postId);
+
         AdProviderManager.get().getProvider(showAdBean.getProviderType())
                 .express(activity,
-                        showAdBean.getPostId(),
-                        supportDeepLink,
                         viewContainer,
-                        aDViewWidth,
-                        aDViewHeight,
-                        loadCount,
+                        adParams,
                         listener);
     }
 
 
     public static void showFullscreen(final Activity activity, String codeId, int orientation, final IFullScreenVideoAdListener listener) {
 
-        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
-        if (showAdBean == null) {
-            return;
-        }
-
-        AdProviderManager.get().getProvider(showAdBean.getProviderType())
-                .fullscreen(activity, showAdBean.getPostId(), orientation, true, listener);
+//        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
+//        if (showAdBean == null) {
+//            return;
+//        }
+//
+//        AdProviderManager.get().getProvider(showAdBean.getProviderType())
+//                .fullscreen(activity, showAdBean.getPostId(), orientation, true, listener);
     }
 
     public static void showRewardView(final Activity activity,
@@ -127,13 +158,13 @@ public class MobiPubSdk {
                                       boolean supportDeepLink,
                                       final IRewardAdListener listener) {
 
-        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
-        if (showAdBean == null) {
-            return;
-        }
-
-        AdProviderManager.get().getProvider(showAdBean.getProviderType())
-                .rewardVideo(activity, showAdBean.getPostId(), supportDeepLink, listener);
+//        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
+//        if (showAdBean == null) {
+//            return;
+//        }
+//
+//        AdProviderManager.get().getProvider(showAdBean.getProviderType())
+//                .rewardVideo(activity, showAdBean.getPostId(), supportDeepLink, listener);
     }
 
     /**
@@ -152,36 +183,36 @@ public class MobiPubSdk {
                                               float expressViewHeight,
                                               final IInteractionAdListener listener) {
 
-        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
-        if (showAdBean == null) {
-            if (listener != null) {
-                listener.onAdFail("MobiAd", -100, "codeId == null 或者 不正确");
-            }
-            return;
-        }
-
-        AdProviderManager.get()
-                .getProvider(showAdBean.getProviderType())
-                .interactionExpress(activity,
-                        showAdBean.getPostId(),
-                        supportDeepLink,
-                        viewContainer,
-                        expressViewWidth,
-                        expressViewHeight,
-                        listener);
+//        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
+//        if (showAdBean == null) {
+//            if (listener != null) {
+//                listener.onAdFail("MobiAd", -100, "codeId == null 或者 不正确");
+//            }
+//            return;
+//        }
+//
+//        AdProviderManager.get()
+//                .getProvider(showAdBean.getProviderType())
+//                .interactionExpress(activity,
+//                        showAdBean.getPostId(),
+//                        supportDeepLink,
+//                        viewContainer,
+//                        expressViewWidth,
+//                        expressViewHeight,
+//                        listener);
     }
 
 
-    private static ShowAdBean findsShowAdBean(Context context, String codeId) {
-        ShowAdBean showAdBean = CoreSession.get().findShowAdBean(codeId);
-        if (showAdBean == null) {
+    private static LocalAdBean findsShowAdBean(Context context, String codeId) {
+        LocalAdBean localAdBean = CoreSession.get().findShowAdBean(codeId);
+        if (localAdBean == null) {
             return null;
         }
 
         //初始化需要初始化的工作
-        initIfNeed(context, showAdBean);
+        initIfNeed(context, localAdBean);
 
-        return showAdBean;
+        return localAdBean;
     }
 
 
@@ -189,25 +220,33 @@ public class MobiPubSdk {
      * 进行对应的初始化工作
      *
      * @param context
-     * @param showAdBean
+     * @param localAdBean
      */
-    private static void initIfNeed(Context context, ShowAdBean showAdBean) {
-        String providerType = showAdBean.getProviderType();
-        boolean appDebug = CommonSession.isAppDebug();
-        String appId = showAdBean.getAppId();
+    private static void initIfNeed(Context context, LocalAdBean localAdBean) {
+        List<ShowAdBean> adBeans = localAdBean.getAdBeans();
 
-        if (AdProviderManager.TYPE_CSJ.equals(providerType)) {
-            String appName = showAdBean.getAppName();
-            //初始化csj
-            CsjSession.get().init(
-                    context,
-                    appId,
-                    appName,
-                    appDebug);
+        for (ShowAdBean adBean : adBeans) {
+            String providerType = adBean.getProviderType();
+            boolean appDebug = CommonSession.isAppDebug();
+            String appId = adBean.getAppId();
 
-        } else if (AdProviderManager.TYPE_GDT.equals(providerType)) {
-            //初始化GDT
-            GdtSession.get().init(context, appId, appDebug);
+            if (!CsjSession.get().isInit() &&
+                    AdProviderManager.TYPE_CSJ.equals(providerType)) {
+                String appName = adBean.getAppName();
+                //初始化csj
+                CsjSession.get().init(
+                        context,
+                        appId,
+                        appName,
+                        appDebug);
+
+            } else if (!GdtSession.get().isInit() &&
+                    AdProviderManager.TYPE_GDT.equals(providerType)) {
+                //初始化GDT
+                GdtSession.get().init(context, appId, appDebug);
+            }
         }
+
+
     }
 }

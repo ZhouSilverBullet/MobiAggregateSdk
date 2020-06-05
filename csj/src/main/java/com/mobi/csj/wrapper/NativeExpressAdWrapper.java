@@ -10,6 +10,7 @@ import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
+import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.csj.CsjSession;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener, TTAppDownloadListener {
     private final BaseAdProvider mAdProvider;
+    private final AdParams mParams;
     private String mProviderType;
     Activity mContext;
     String mCodeId;
@@ -36,23 +38,20 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 
     private TTNativeExpressAd mTTNativeExpressAd;
 
-    public NativeExpressAdWrapper(Activity context,
-                                  BaseAdProvider adProvider,
-                                  String codeId,
-                                  boolean supportDeepLink,
+    public NativeExpressAdWrapper(BaseAdProvider adProvider,
+                                  Activity context,
                                   ViewGroup viewContainer,
-                                  int ADViewWidth,
-                                  int ADViewHeight,
-                                  int loadCount,
+                                  AdParams params,
                                   IExpressListener listener) {
         mContext = context;
         mAdProvider = adProvider;
-        mCodeId = codeId;
-        mSupportDeepLink = supportDeepLink;
+        mParams = params;
+        mCodeId = params.getCodeId();
+        mSupportDeepLink = params.isSupportDeepLink();
         mViewContainer = viewContainer;
-        mADViewWidth = ADViewWidth;
-        mADViewHeight = ADViewHeight;
-        mLoadCount = loadCount;
+        mADViewWidth = params.getExpressViewWidth();
+        mADViewHeight = params.getExpressViewHeight();
+        mLoadCount = params.getAdCount();
         mListener = listener;
 
         if (mAdProvider != null) {
@@ -68,11 +67,11 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 //        }
 
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(mCodeId)
-                .setSupportDeepLink(mSupportDeepLink)
-                .setAdCount(getLoadCount(mLoadCount))
-                .setExpressViewAcceptedSize(mADViewWidth, mADViewHeight)
-                .setImageAcceptedSize(640, 320)
+                .setCodeId(mParams.getPostId())
+                .setSupportDeepLink(mParams.isSupportDeepLink())
+                .setAdCount(getLoadCount(mParams.getAdCount()))
+                .setExpressViewAcceptedSize(mParams.getExpressViewWidth(), mParams.getExpressViewHeight())
+                .setImageAcceptedSize(mParams.getImageWidth(), mParams.getExpressViewHeight())
                 .build();
 
         mTTAdNative.loadNativeExpressAd(adSlot, this);

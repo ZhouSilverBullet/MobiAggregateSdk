@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mobi.common.MobiPubSdk;
+import com.mobi.core.AdParams;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnFullScreen(View view) {
-        MobiPubSdk.showFullscreen(this, "1024002",1, new IFullScreenVideoAdListener() {
+        MobiPubSdk.showFullscreen(this, "1024002", 1, new IFullScreenVideoAdListener() {
             @Override
             public void onAdShow(String type) {
                 LogUtils.e(TAG, "onAdShow ");
@@ -215,33 +217,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnExpress(View view) {
-        MobiPubSdk.showExpress(this, flContainer, "1024001",
-                true, 300, 300, 1, new IExpressListener() {
-                    @Override
-                    public void onAdClick(String type) {
-                        LogUtils.e(TAG, "onAdClick type : " + type);
-                    }
+        AdParams adParams = new AdParams.Builder()
+                .setCodeId("1024001")
+                .setOrientation(MobiConstantValue.VERTICAL)
+                .setAdCount(1)
+                .setImageAcceptedSize(640, 320)
+                .setExpressViewAcceptedSize(300, 300)
+                .build();
 
-                    @Override
-                    public void onLoadFailed(String type, int faildCode, String faildMsg) {
-                        LogUtils.e(TAG, "onLoadFailed type : " + type + " faildCode : " + faildCode + ", faildMsg: " + faildMsg);
-                    }
+        MobiPubSdk.showExpress(this, flContainer, adParams, new IExpressListener() {
+            @Override
+            public void onAdClick(String type) {
+                LogUtils.e(TAG, "onAdClick type : " + type);
+            }
 
-                    @Override
-                    public void onAdDismissed(String type) {
-                        LogUtils.e(TAG, "onAdDismissed type : " + type);
+            @Override
+            public void onLoadFailed(String type, int faildCode, String faildMsg) {
+                LogUtils.e(TAG, "onLoadFailed type : " + type + " faildCode : " + faildCode + ", faildMsg: " + faildMsg);
+            }
 
-                    }
+            @Override
+            public void onAdDismissed(String type) {
+                LogUtils.e(TAG, "onAdDismissed type : " + type);
 
-                    @Override
-                    public void onAdRenderSuccess(String type) {
-                        LogUtils.e(TAG, "onAdRenderSuccess type : " + type);
-                    }
+            }
 
-                    @Override
-                    public void onAdShow(String type) {
-                        LogUtils.e(TAG, "onAdShow type : " + type);
-                    }
-                });
+            @Override
+            public void onAdRenderSuccess(String type) {
+                LogUtils.e(TAG, "onAdRenderSuccess type : " + type);
+            }
+
+            @Override
+            public void onAdShow(String type) {
+                LogUtils.e(TAG, "onAdShow type : " + type);
+            }
+        });
     }
 }

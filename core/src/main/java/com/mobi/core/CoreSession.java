@@ -8,11 +8,15 @@ import android.text.TextUtils;
 import com.mobi.core.bean.AdBean;
 import com.mobi.core.bean.ConfigBean;
 import com.mobi.core.bean.ConfigItemBean;
+import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ParameterBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.network.NetworkClient;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author zhousaito
@@ -125,15 +129,23 @@ public class CoreSession {
         return null;
     }
 
-    public ShowAdBean findShowAdBean(String codeId) {
+    public LocalAdBean findShowAdBean(String codeId) {
         ConfigItemBean configItemBean = CoreSession.get().findConfigItemBean(codeId);
         if (configItemBean == null) {
 //            Log.e(TAG, "没有找到");
             return null;
         }
 
+        //创建本地需要的AdBean
+        LocalAdBean localAdBean = new LocalAdBean();
+        localAdBean.setSortType(configItemBean.getSort_type());
+
+        //ShowAdBean list
+        List<ShowAdBean> list = new ArrayList<>();
+        localAdBean.setAdBeans(list);
+
+
         List<AdBean> network = configItemBean.getNetwork();
-        int sort_type = configItemBean.getSort_type();
 
         if (network != null) {
             for (AdBean adBean : network) {
@@ -142,27 +154,21 @@ public class CoreSession {
                 String appname = parameterBean.getAppname();
                 String posId = parameterBean.getPosid();
                 String sdk = adBean.getSdk();
+                ShowAdBean showAdBean = new ShowAdBean();
+                showAdBean.setPostId(posId);
+                showAdBean.setAppId(appid);
+                showAdBean.setAppName(appname);
                 if ("tt".equals(sdk)) {
-                    ShowAdBean showAdBean = new ShowAdBean();
-                    showAdBean.setPostId(posId);
-                    showAdBean.setAppId(appid);
-                    showAdBean.setAppName(appname);
                     showAdBean.setProviderType(AdProviderManager.TYPE_CSJ);
-                    return showAdBean;
+                    list.add(showAdBean);
                 } else if ("gdt".equals(sdk)) {
-                    ShowAdBean showAdBean = new ShowAdBean();
-                    showAdBean.setPostId(posId);
-                    showAdBean.setAppId(appid);
-                    showAdBean.setAppName(appname);
                     showAdBean.setProviderType(AdProviderManager.TYPE_GDT);
-                    return showAdBean;
-                } else {
-                    return null;
+                    list.add(showAdBean);
                 }
             }
         }
 
-        return null;
+        return localAdBean;
     }
 
 

@@ -127,14 +127,14 @@ public class MobiAggregateSdk {
 //                .add(new AdFragment(), "mobiad")
 //                .commitAllowingStateLoss();
 
-        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
-                .express(activity,
-                        codeId,
-                        supportDeepLink,
-                        viewContainer,
-                        aDViewWidth,
-                        aDViewHeight,
-                        loadCount,
-                        listener);
+//        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
+//                .express(activity,
+//                        codeId,
+//                        supportDeepLink,
+//                        viewContainer,
+//                        aDViewWidth,
+//                        aDViewHeight,
+//                        loadCount,
+//                        listener);
     }
 }

@@ -16,6 +16,7 @@ import com.bytedance.sdk.openadsdk.TTNativeAd;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
+import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.IAdProvider;
 import com.mobi.core.listener.IExpressListener;
@@ -188,23 +189,15 @@ public class CsjProvider extends BaseAdProvider {
 
     @Override
     public void express(Activity activity,
-                        String codeId,
-                        boolean supportDeepLink,
                         ViewGroup viewContainer,
-                        int aDViewWidth,
-                        int aDViewHeight,
-                        int loadCount,
+                        AdParams adParams,
                         IExpressListener mListener) {
 
         NativeExpressAdWrapper nativeExpressAdWrap = new NativeExpressAdWrapper(
-                activity,
                 this,
-                codeId,
-                supportDeepLink,
+                activity,
                 viewContainer,
-                aDViewWidth,
-                aDViewHeight,
-                loadCount,
+                adParams,
                 mListener);
 
         nativeExpressAdWrap.createNativeExpressAD();

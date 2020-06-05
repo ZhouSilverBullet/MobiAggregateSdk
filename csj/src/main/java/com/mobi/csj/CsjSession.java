@@ -77,4 +77,8 @@ public class CsjSession {
                 //.httpStack(new MyOkStack3())//自定义网络库，demo中给出了okhttp3版本的样例，其余请自行开发或者咨询工作人员。
                 .build();
     }
+
+    public boolean isInit() {
+        return mTTAdManager != null;
+    }
 }

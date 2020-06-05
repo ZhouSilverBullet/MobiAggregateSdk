@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
@@ -99,23 +100,14 @@ public class GdtProvider extends BaseAdProvider {
 
     @Override
     public void express(Activity mContext,
-                        String codeId,
-                        boolean supportDeepLink,
                         ViewGroup viewContainer,
-                        int aDViewWidth,
-                        int aDViewHeight,
-                        int loadCount,
+                        AdParams adParams,
                         IExpressListener mListener) {
 
-        NativeExpressAdWrapper nativeExpressAdWrap = new NativeExpressAdWrapper(
+        NativeExpressAdWrapper nativeExpressAdWrap = new NativeExpressAdWrapper(this,
                 mContext,
-                this,
-                codeId,
-                supportDeepLink,
                 viewContainer,
-                aDViewWidth,
-                aDViewHeight,
-                loadCount,
+                adParams,
                 mListener);
 
         nativeExpressAdWrap.createNativeExpressAD();

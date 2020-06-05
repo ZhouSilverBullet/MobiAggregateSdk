@@ -57,7 +57,10 @@ public class GdtSession {
 
     public static boolean isAppDebug() {
         return isAppDebug;
+    }
 
+    public boolean isInit() {
+        return mContext != null;
     }
 }
 
