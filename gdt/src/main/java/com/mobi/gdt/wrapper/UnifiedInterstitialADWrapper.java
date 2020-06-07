@@ -1,9 +1,12 @@
 package com.mobi.gdt.wrapper;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.mobi.core.BaseAdProvider;
+import com.mobi.core.LocalAdParams;
 import com.mobi.core.listener.IInteractionAdListener;
+import com.mobi.core.utils.LogUtils;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialADListener;
 import com.qq.e.comm.util.AdError;
@@ -15,34 +18,54 @@ import com.qq.e.comm.util.AdError;
  * @Dec 略
  */
 public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements UnifiedInterstitialADListener {
+    private final LocalAdParams mAdParams;
     private String mProviderType;
     private BaseAdProvider mBaseAdProvider;
     private Activity mActivity;
-    private String mCodeId;
     private IInteractionAdListener mListener;
 
     private UnifiedInterstitialAD iad;
 
     public UnifiedInterstitialADWrapper(BaseAdProvider baseAdProvider,
                                         Activity activity,
-                                        String codeId,
+                                        LocalAdParams adParams,
                                         IInteractionAdListener listener) {
         mBaseAdProvider = baseAdProvider;
         mActivity = activity;
-        mCodeId = codeId;
+        mAdParams = adParams;
         mListener = listener;
         if (mBaseAdProvider != null) {
             mProviderType = mBaseAdProvider.getProviderType();
         }
     }
 
-    public void createInterstitialAD() {
-        iad = new UnifiedInterstitialAD(mActivity, getAppId(), mCodeId, this);
+    private void createInterstitialAD() {
+        String postId = mAdParams.getPostId();
+        if (TextUtils.isEmpty(postId)) {
+            localExecFail(mBaseAdProvider, -101,
+                    "mobi 后台获取的 postId 不正确 或者 postId == null");
+
+//            if (mAdProvider != null) {
+//                mAdProvider.callbackExpressLoadFailed();
+//            }
+            return;
+        }
+
+        iad = new UnifiedInterstitialAD(mActivity, getAppId(), mAdParams.getPostId(), this);
         iad.loadAD();
     }
 
     @Override
     public void onADReceive() {
+
+        if (isCancel()) {
+            LogUtils.e(TAG, "Gdt UnifiedInterstitialAD isCancel");
+            return;
+        }
+
+        setExecSuccess(true);
+        localExecSuccess(mBaseAdProvider);
+
         if (iad != null) {
             iad.showAsPopupWindow();
         }
@@ -68,9 +91,11 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     public void onNoAD(AdError adError) {
         if (mBaseAdProvider != null) {
             if (adError == null) {
-                mBaseAdProvider.callbackInteractionFail(-100, "onNoAD 没有数据 adError == null", mListener);
+                localExecFail(mBaseAdProvider, -100, "onNoAD 没有数据 adError == null");
+//                mBaseAdProvider.callbackInteractionFail(-100, "onNoAD 没有数据 adError == null", mListener);
             } else {
-                mBaseAdProvider.callbackInteractionFail(adError.getErrorCode(), adError.getErrorMsg(), mListener);
+                localExecFail(mBaseAdProvider, adError.getErrorCode(), adError.getErrorMsg());
+//                mBaseAdProvider.callbackInteractionFail(adError.getErrorCode(), adError.getErrorMsg(), mListener);
             }
         }
     }
@@ -110,5 +135,10 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
         if (mBaseAdProvider != null) {
             mBaseAdProvider.callbackInteractionClose(mListener);
         }
+    }
+
+    @Override
+    public void run() {
+        createInterstitialAD();
     }
 }

@@ -1,6 +1,7 @@
 package com.mobi.csj.wrapper;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -10,7 +11,9 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.core.BaseAdProvider;
+import com.mobi.core.LocalAdParams;
 import com.mobi.core.listener.IInteractionAdListener;
+import com.mobi.core.utils.LogUtils;
 
 import java.util.List;
 
@@ -21,39 +24,22 @@ import java.util.List;
  * @Dec 略
  */
 public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener {
-    private final boolean mSupportDeepLink;
-    private final int mLoadCount;
-    private final float mExpressViewWidth;
-    private final float mExpressViewHeight;
-    private final ViewGroup mViewContainer;
+    private final LocalAdParams mAdParams;
     private String mProviderType;
     private BaseAdProvider mAdProvider;
     private Activity mActivity;
-    private String mCodeId;
     private IInteractionAdListener mListener;
 
     private TTNativeExpressAd mTTAd;
 
     public InteractionExpressAdWrapper(BaseAdProvider baseAdProvider,
                                        Activity activity,
-                                       String codeId,
-                                       boolean supportDeepLink,
-                                       ViewGroup viewContainer,
-                                       int loadCount,
-                                       float expressViewWidth,
-                                       float expressViewHeight,
+                                       LocalAdParams adParams,
                                        IInteractionAdListener listener) {
 
         mAdProvider = baseAdProvider;
         mActivity = activity;
-        mCodeId = codeId;
-
-        mSupportDeepLink = supportDeepLink;
-        mViewContainer = viewContainer;
-        mLoadCount = loadCount;
-        mExpressViewWidth = expressViewWidth;
-        mExpressViewHeight = expressViewHeight;
-
+        mAdParams = adParams;
         mListener = listener;
 
         if (baseAdProvider != null) {
@@ -61,16 +47,27 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
         }
     }
 
-    public void createInteractionAd() {
+    private void createInteractionAd() {
+        String postId = mAdParams.getPostId();
+        if (TextUtils.isEmpty(postId)) {
+            localExecFail(mAdProvider, -101,
+                    "mobi 后台获取的 postId 不正确 或者 postId == null");
+
+//            if (mAdProvider != null) {
+//                mAdProvider.callbackExpressLoadFailed();
+//            }
+            return;
+        }
+
 
         TTAdNative adNative = createAdNative(mActivity.getApplicationContext());
         //设置广告参数
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(mCodeId) //广告位id
-                .setSupportDeepLink(mSupportDeepLink)
-                .setAdCount(getLoadCount(mLoadCount)) //请求广告数量为1到3条
-                .setExpressViewAcceptedSize(mExpressViewWidth, mExpressViewHeight) //期望个性化模板广告view的size,单位dp
-                .setImageAcceptedSize(640, 320)//这个参数设置即可，不影响个性化模板广告的size
+                .setCodeId(mAdParams.getPostId()) //广告位id
+                .setSupportDeepLink(mAdParams.isSupportDeepLink())
+                .setAdCount(getLoadCount(mAdParams.getAdCount())) //请求广告数量为1到3条
+                .setExpressViewAcceptedSize(mAdParams.getExpressViewWidth(), mAdParams.getExpressViewHeight()) //期望个性化模板广告view的size,单位dp
+                .setImageAcceptedSize(mAdParams.getImageWidth(), mAdParams.getImageHeight())//这个参数设置即可，不影响个性化模板广告的size
                 .build();
 
         //加载广告
@@ -80,19 +77,33 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
 
     @Override
     public void onError(int code, String message) {
-        if (mViewContainer != null) {
-            mViewContainer.removeAllViews();
-        }
+        localExecFail(mAdProvider, code, message);
+//            if (mAdProvider != null) {
+//                mAdProvider.callbackInteractionFail(code, message, mListener);
+//            }
     }
 
     @Override
     public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
         if (list == null || list.size() == 0) {
-            if (mAdProvider != null) {
-                mAdProvider.callbackInteractionFail(-100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ", mListener);
-            }
+            localExecFail(mAdProvider, -100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ");
+//            if (mAdProvider != null) {
+//                mAdProvider.callbackInteractionFail(-100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ", mListener);
+//            }
             return;
         }
+
+        if (mAdProvider != null) {
+            mAdProvider.callbackInteractionLoad(mListener);
+        }
+
+        if (isCancel()) {
+            LogUtils.e(TAG, "Csj InteractionExpressAd isCancel");
+            return;
+        }
+
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
 
         mTTAd = list.get(0);
         mTTAd.setExpressInteractionListener(this);
@@ -128,14 +139,22 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
 
     @Override
     public void onRenderFail(View view, String s, int i) {
-        if (mAdProvider != null) {
-            mAdProvider.callbackInteractionFail(i, s, mListener);
-        }
+//        localExecFail(mAdProvider, i, s);
+        localRenderFail(mAdProvider, i, s);
+//        if (mAdProvider != null) {
+////            mAdProvider.callbackInteractionFail(i, s, mListener);
+////        }
     }
 
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
-        mTTAd.showInteractionExpressAd(mActivity);
+        if (mTTAd != null) {
+            mTTAd.showInteractionExpressAd(mActivity);
+        }
     }
 
+    @Override
+    public void run() {
+        createInteractionAd();
+    }
 }

@@ -66,20 +66,16 @@ public class GdtProvider extends BaseAdProvider {
     }
 
     @Override
-    public void interactionExpress(Activity activity,
-                                   String codeId,
-                                   boolean supportDeepLink,
-                                   ViewGroup viewContainer,
-                                   float expressViewWidth,
-                                   float expressViewHeight,
+    public AdRunnable interactionExpress(Activity activity,
+                                   LocalAdParams adParams,
                                    IInteractionAdListener listener) {
 
 
         UnifiedInterstitialADWrapper unifiedInterstitialADWrapper =
-                new UnifiedInterstitialADWrapper(this, activity, codeId, listener);
+                new UnifiedInterstitialADWrapper(this, activity, adParams, listener);
 
-        unifiedInterstitialADWrapper.createInterstitialAD();
-
+//        unifiedInterstitialADWrapper.createInterstitialAD();
+        return unifiedInterstitialADWrapper;
     }
 
     @Override

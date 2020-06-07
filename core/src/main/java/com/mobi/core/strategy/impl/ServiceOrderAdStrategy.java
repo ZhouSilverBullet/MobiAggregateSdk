@@ -32,6 +32,11 @@ public class ServiceOrderAdStrategy extends BaseShowAdStrategy {
     }
 
     @Override
+    public void onRenderFail(Runnable runnable, String provideType) {
+        handleAdFail();
+    }
+
+    @Override
     public void onFail(Runnable runnable, String provideType) {
         LogUtils.e("onFail provideType : " + provideType);
         if (mSize > 0) {

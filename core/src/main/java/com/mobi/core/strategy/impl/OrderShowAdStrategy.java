@@ -37,6 +37,11 @@ public class OrderShowAdStrategy extends BaseShowAdStrategy {
     }
 
     @Override
+    public void onRenderFail(Runnable runnable, String provideType) {
+        handleAdFail();
+    }
+
+    @Override
     public void onFail(Runnable runnable, String provideType) {
         // todo 渲染失败，重新渲染，还是渲染下一个的问题，任务取消了，不会走这个方法
         LogUtils.e(TAG, "AdRunnable onFail provideType = " + provideType);

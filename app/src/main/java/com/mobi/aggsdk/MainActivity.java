@@ -152,7 +152,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnInteraction(View view) {
-        MobiPubSdk.showInteractionExpress(this, flContainer, "1024004", true, 300, 300, new IInteractionAdListener() {
+        AdParams adParams = new AdParams.Builder()
+                .setCodeId("1024004")
+                .build();
+        MobiPubSdk.showInteractionExpress(this, adParams, new IInteractionAdListener() {
             @Override
             public void onAdFail(String type, int code, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
@@ -237,6 +240,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdFail(String type, int faildCode, String faildMsg) {
                 LogUtils.e(TAG, "onLoadFailed type : " + type + " faildCode : " + faildCode + ", faildMsg: " + faildMsg);
+            }
+
+            @Override
+            public void onAdLoad(String type) {
+                LogUtils.e(TAG, "onAdLoad type : " + type);
             }
 
             @Override

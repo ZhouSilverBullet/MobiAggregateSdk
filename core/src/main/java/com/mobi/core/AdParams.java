@@ -24,6 +24,9 @@ public class AdParams {
 
     private String postId;
 
+    //gdt
+    private int maxVideoDuration;
+
     private AdParams(Builder builder) {
         codeId = builder.codeId;
         supportDeepLink = builder.supportDeepLink;
@@ -38,6 +41,7 @@ public class AdParams {
         orientation = builder.orientation;
         imageWidth = builder.imageWidth;
         imageHeight = builder.imageHeight;
+        maxVideoDuration = builder.maxVideoDuration;
     }
 
     public String getCodeId() {
@@ -100,6 +104,10 @@ public class AdParams {
         return postId;
     }
 
+    public int getMaxVideoDuration() {
+        return maxVideoDuration;
+    }
+
     public static final class Builder {
         private String codeId = "";
         private boolean supportDeepLink = true;
@@ -114,6 +122,8 @@ public class AdParams {
         private int orientation = MobiConstantValue.VERTICAL;
         private int imageWidth = 640;
         private int imageHeight = 320;
+
+        private int maxVideoDuration = 30;
 
         public Builder() {
         }
@@ -175,8 +185,15 @@ public class AdParams {
             return this;
         }
 
+        public Builder setMaxVideoDuration(int maxVideoDuration) {
+            this.maxVideoDuration = maxVideoDuration;
+            return this;
+        }
+
+
         public AdParams build() {
             return new AdParams(this);
         }
     }
+
 }

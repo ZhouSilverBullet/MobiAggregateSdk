@@ -16,6 +16,7 @@ import com.mobi.core.splash.BaseSplashSkipView;
  * @date 2020/6/2 20:56
  * @Dec 略
  */
+@Deprecated
 public class MobiAggregateSdk {
     public static final String TAG = "MobiAggregateSdk";
 
@@ -84,6 +85,7 @@ public class MobiAggregateSdk {
      * @param supportDeepLink
      * @param listener
      */
+    @Deprecated
     public static void showInteractionExpress(final Activity activity,
                                               final ViewGroup viewContainer,
                                               final String codeId,
@@ -92,15 +94,15 @@ public class MobiAggregateSdk {
                                               float expressViewHeight,
                                               final IInteractionAdListener listener) {
 
-        AdProviderManager.get()
-                .getProvider(AdProviderManager.TYPE_CSJ)
-                .interactionExpress(activity,
-                        CSJ_INTERACTION_ID,
-                        supportDeepLink,
-                        viewContainer,
-                        expressViewWidth,
-                        expressViewHeight,
-                        listener);
+//        AdProviderManager.get()
+//                .getProvider(AdProviderManager.TYPE_CSJ)
+//                .interactionExpress(activity,
+//                        CSJ_INTERACTION_ID,
+//                        supportDeepLink,
+//                        viewContainer,
+//                        expressViewWidth,
+//                        expressViewHeight,
+//                        listener);
     }
 
 

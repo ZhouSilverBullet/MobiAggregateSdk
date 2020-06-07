@@ -192,16 +192,11 @@ public class MobiPubSdk {
      * 插屏
      *
      * @param activity
-     * @param codeId
-     * @param supportDeepLink
+     * @param adParams
      * @param listener
      */
     public static void showInteractionExpress(final Activity activity,
-                                              final ViewGroup viewContainer,
-                                              final String codeId,
-                                              boolean supportDeepLink,
-                                              float expressViewWidth,
-                                              float expressViewHeight,
+                                              AdParams adParams,
                                               final IInteractionAdListener listener) {
 
 //        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
@@ -221,6 +216,48 @@ public class MobiPubSdk {
 //                        expressViewWidth,
 //                        expressViewHeight,
 //                        listener);
+
+        if (!checkSafe(activity)) {
+            return;
+        }
+        checkSafe(adParams);
+
+        LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
+
+        if (isAdInvalid(localAdBean)) {
+            if (listener != null) {
+                listener.onAdFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
+            }
+            return;
+        }
+
+        List<ShowAdBean> adBeans = localAdBean.getAdBeans();
+        int sortType = localAdBean.getSortType();
+
+        IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
+        if (strategy == null) {
+            if (listener != null) {
+                listener.onAdFail("MobiType", -100, "mobi 的策略，本地还没有支持");
+            }
+            return;
+        }
+
+        strategy.setAdFailListener(listener);
+
+        for (ShowAdBean showAdBean : adBeans) {
+            String postId = showAdBean.getPostId();
+
+            LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+
+            AdRunnable runnable = AdProviderManager.get().getProvider(showAdBean.getProviderType())
+                    .interactionExpress(activity,
+                            localAdParams,
+                            listener);
+
+            strategy.addADTask(runnable);
+        }
+
+        strategy.execShow();
     }
 
 

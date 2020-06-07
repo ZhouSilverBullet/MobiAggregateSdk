@@ -125,6 +125,12 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
+    public final void callbackInteractionLoad(IInteractionAdListener listener) {
+        if (listener != null) {
+            listener.onAdLoad(mProviderType);
+        }
+    }
+
     public final void callbackInteractionReceive(IInteractionAdListener listener) {
         if (listener != null) {
             listener.onADReceive(mProviderType);
@@ -175,6 +181,12 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     public final void callbackExpressRenderSuccess(IExpressListener listener) {
         if (listener != null) {
             listener.onAdRenderSuccess(mProviderType);
+        }
+    }
+
+    public final void callbackExpressLoad(IExpressListener listener) {
+        if (listener != null) {
+            listener.onAdLoad(mProviderType);
         }
     }
 

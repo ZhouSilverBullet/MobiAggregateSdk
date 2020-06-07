@@ -11,6 +11,8 @@ public interface IExpressListener extends ITTAppDownloadListener, IAdFailListene
 
     void onAdFail(String type, int code, String errorMsg);//广告加载失败
 
+    void onAdLoad(String type);
+
     void onAdDismissed(String type);//广告被关闭
 
     void onAdRenderSuccess(String type);//广告渲染成功

@@ -96,14 +96,15 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             return;
         }
 
-        //渲染前判断一下，是否已经把任务给取消了
-        if (isCancel()) {
-            LogUtils.e(TAG, "GdtNativeExpressAd isCancel");
-            return;
+        if (mAdProvider != null) {
+            mAdProvider.callbackExpressLoad(mListener);
         }
 
-        setExecSuccess(true);
-        localExecSuccess(mAdProvider);
+        //load前判断一下，是否已经把任务给取消了
+        if (isCancel()) {
+            LogUtils.e(TAG, "GdtNativeExpressAd load isCancel");
+            return;
+        }
 
         NativeExpressADView nativeExpressADView = list.get(0);
         if (nativeExpressADView != null) {
@@ -112,20 +113,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
                 nativeExpressADView.setMediaListener(null);
             }
             nativeExpressADView.render();
-//                            recordRenderSuccess(mProviderType);
-            if (mViewContainer.getChildCount() > 0) {
-                mViewContainer.removeAllViews();
-            }
-
-            if (mViewContainer.getVisibility() != View.VISIBLE) {
-                mViewContainer.setVisibility(View.VISIBLE);
-            }
-
-            mViewContainer.addView(nativeExpressADView);
-
-//            //渲染成功
-//            setExecSuccess(true);
-//            localExecSuccess(mAdProvider);
         }
     }
 
@@ -135,7 +122,9 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             mViewContainer.removeAllViews();
         }
         //广告渲染失败
-        localExecFail(mAdProvider, MobiConstantValue.GDT_ERROR_RENDER_CODE,
+//        localExecFail(mAdProvider, MobiConstantValue.GDT_ERROR_RENDER_CODE,
+//                MobiConstantValue.GDT_ERROR_RENDER_MESSAGE);
+        localRenderFail(mAdProvider, MobiConstantValue.GDT_ERROR_RENDER_CODE,
                 MobiConstantValue.GDT_ERROR_RENDER_MESSAGE);
 //        if (mAdProvider != null) {
 //            mAdProvider.callbackExpressLoadFailed(MobiConstantValue.GDT_ERROR_RENDER_CODE,
@@ -145,11 +134,25 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 
     @Override
     public void onRenderSuccess(NativeExpressADView nativeExpressADView) {
+        if (isCancel()) {
+            LogUtils.e(TAG, "CsjNativeExpressAd onRenderSuccess isCancel");
+            return;
+        }
+
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
+
         //广告渲染成功
-//                        if (firstCome) {
-//                            renderGDTAD();
-//                            firstCome = false;
-//                        }
+        if (mViewContainer.getVisibility() != View.VISIBLE) {
+            mViewContainer.setVisibility(View.VISIBLE);
+        }
+        //防止广告重叠显示
+        if (mViewContainer.getChildCount() > 0) {
+            mViewContainer.removeAllViews();
+        }
+
+        mViewContainer.addView(nativeExpressADView);
+
         if (mAdProvider != null) {
             mAdProvider.callbackExpressRenderSuccess(mListener);
         }
@@ -212,6 +215,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 //                        AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
         //加载失败
         localExecFail(mAdProvider, adError.getErrorCode(), adError.getErrorMsg() + " postId: " + mParams.getPostId());
+
 //        if (mAdProvider != null) {
 //            mAdProvider.callbackExpressLoadFailed(adError.getErrorCode(), adError.getErrorMsg() + " postId: " + mParams.getPostId(), mListener);
 //        }

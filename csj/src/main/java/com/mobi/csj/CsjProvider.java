@@ -155,19 +155,15 @@ public class CsjProvider extends BaseAdProvider {
 
     }
 
-    public void interactionExpress(Activity activity,
-                                   String codeId,
-                                   boolean supportDeepLink,
-                                   ViewGroup viewContainer,
-                                   float expressViewWidth,
-                                   float expressViewHeight,
-                                   IInteractionAdListener listener) {
+    public AdRunnable interactionExpress(Activity activity,
+                                         LocalAdParams adParams,
+                                         IInteractionAdListener listener) {
 
         InteractionExpressAdWrapper interactionExpressAdWrapper = new InteractionExpressAdWrapper(this,
-                activity, codeId, supportDeepLink, viewContainer, 1, expressViewWidth, expressViewHeight, listener);
+                activity, adParams, listener);
 
-        interactionExpressAdWrapper.createInteractionAd();
-
+//        interactionExpressAdWrapper.createInteractionAd();
+        return interactionExpressAdWrapper;
     }
 
 

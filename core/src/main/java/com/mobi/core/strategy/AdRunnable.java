@@ -69,12 +69,10 @@ public abstract class AdRunnable implements Runnable {
      */
     protected void localExecFail(BaseAdProvider provider, int code, String message) {
 
-        if (mStrategyErrorList == null) {
-            mStrategyErrorList = new ArrayList<>();
-        }
-
         String providerType = getProviderType(provider);
-        mStrategyErrorList.add(new StrategyError(providerType, code, message));
+
+        saveFailMessage(providerType, code, message);
+
 //        LogUtils.e(TAG, " localExecFail type: " + providerType + " code: " + code + ", message: " + message);
         if (isCancel) {
             LogUtils.e(TAG, " isCancel is true localExecFail no callback type: " + providerType);
@@ -82,6 +80,38 @@ public abstract class AdRunnable implements Runnable {
         }
         if (mCallback != null) {
             mCallback.onFail(this, providerType);
+        }
+    }
+
+    private void saveFailMessage(String providerType, int code, String message) {
+        if (mStrategyErrorList == null) {
+            mStrategyErrorList = new ArrayList<>();
+        }
+
+        mStrategyErrorList.add(new StrategyError(providerType, code, message));
+    }
+
+    /**
+     *
+     * 让策略类知道，做一些上传错误操作
+     *
+     * @param provider
+     * @param code
+     * @param message
+     */
+    protected void localRenderFail(BaseAdProvider provider, int code, String message) {
+        String providerType = getProviderType(provider);
+
+        saveFailMessage(providerType, code, message);
+
+//        LogUtils.e(TAG, " localExecFail type: " + providerType + " code: " + code + ", message: " + message);
+//        if (isCancel) {
+//            LogUtils.e(TAG, " isCancel is true localExecFail no callback type: " + providerType);
+//            return;
+//        }
+
+        if (mCallback != null) {
+            mCallback.onRenderFail(this, providerType);
         }
     }
 
@@ -103,7 +133,18 @@ public abstract class AdRunnable implements Runnable {
     }
 
     public interface ExecCallback {
+        /**
+         * 加载成功，有可能会渲染失败
+         *
+         * @param runnable
+         * @param provideType
+         */
         void onSuccess(Runnable runnable, String provideType);
+
+        /**
+         * 加载成功后，渲染失败回调
+         */
+        void onRenderFail(Runnable runnable, String provideType);
 
         void onFail(Runnable runnable, String provideType);
     }

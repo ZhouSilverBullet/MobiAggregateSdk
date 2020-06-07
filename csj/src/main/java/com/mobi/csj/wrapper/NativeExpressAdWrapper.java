@@ -47,7 +47,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
         mContext = context;
         mAdProvider = adProvider;
         mParams = params;
-        mCodeId = params.getCodeId();
+        mCodeId = params.getPostId();
         mSupportDeepLink = params.isSupportDeepLink();
         mViewContainer = viewContainer;
         mADViewWidth = params.getExpressViewWidth();
@@ -123,14 +123,15 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
             return;
         }
 
-        //渲染前判断一下，是否已经把任务给取消了
-        if (isCancel()) {
-            LogUtils.e(TAG, "CsjNativeExpressAd isCancel");
-            return;
+        if (mAdProvider != null) {
+            mAdProvider.callbackExpressLoad(mListener);
         }
 
-        setExecSuccess(true);
-        localExecSuccess(mAdProvider);
+        //load成功前判断一下，是否已经把任务给取消了
+        if (isCancel()) {
+            LogUtils.e(TAG, "CsjNativeExpressAd load isCancel");
+            return;
+        }
 
         mTTNativeExpressAd = list.get(0);
         mTTNativeExpressAd.setExpressInteractionListener(this);
@@ -173,7 +174,8 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     @Override
     public void onRenderFail(View view, String s, int i) {
 
-        localExecFail(mAdProvider, i, s);
+//        localExecFail(mAdProvider, i, s);
+        localRenderFail(mAdProvider, i, s);
 
 //        if (mAdProvider != null) {
 //            mAdProvider.callbackExpressLoadFailed(i, s, mListener);
@@ -182,9 +184,25 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
+
+        //渲染前判断一下，是否已经把任务给取消了
+        if (isCancel()) {
+            LogUtils.e(TAG, "CsjNativeExpressAd onRenderSuccess isCancel");
+            return;
+        }
+
         setExecSuccess(true);
+        localExecSuccess(mAdProvider);
+
 //        Log.e("MainActivity", "" + (view == mTTNativeExpressAd.getExpressAdView()));
 //        mViewContainer.addView(mTTNativeExpressAd.getExpressAdView());
+        if (mViewContainer.getVisibility() != View.VISIBLE) {
+            mViewContainer.setVisibility(View.VISIBLE);
+        }
+        //防止广告重叠显示
+        if (mViewContainer.getChildCount() > 0) {
+            mViewContainer.removeAllViews();
+        }
         if (mViewContainer != null) {
             mViewContainer.addView(view);
         }

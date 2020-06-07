@@ -8,7 +8,10 @@ package com.mobi.core;
  */
 public class LocalAdParams {
 
-    private String codeId;
+    /**
+     * 用户是用的codeId
+     */
+    private String mobiCodeId;
     private boolean supportDeepLink;
     private int expressViewWidth;
     private int expressViewHeight;
@@ -21,10 +24,15 @@ public class LocalAdParams {
     private int orientation;
     private int imageWidth;
     private int imageHeight;
+    /**
+     * 平台的 postId
+     */
     private String postId;
 
+    private int maxVideoDuration;
+
     private LocalAdParams(Builder builder) {
-        codeId = builder.codeId;
+        mobiCodeId = builder.mobiCodeId;
         supportDeepLink = builder.supportDeepLink;
         expressViewWidth = builder.expressViewWidth;
         expressViewHeight = builder.expressViewHeight;
@@ -38,6 +46,7 @@ public class LocalAdParams {
         imageWidth = builder.imageWidth;
         imageHeight = builder.imageHeight;
         postId = builder.postId;
+        maxVideoDuration = builder.maxVideoDuration;
     }
 
     public static LocalAdParams create(String postId, AdParams adParams) {
@@ -46,19 +55,19 @@ public class LocalAdParams {
         }
 
 
-        return new LocalAdParams.Builder()
+        return new Builder()
                 .setPostId(postId)
+                .setMobiCodeId(adParams.getCodeId())
                 .setAdCount(adParams.getAdCount())
                 .setExpressViewAcceptedSize(adParams.getExpressViewWidth(), adParams.getExpressViewHeight())
-                .setCodeId(adParams.getCodeId())
                 .setImageHeight(adParams.getImageHeight())
                 .setImageWidth(adParams.getImageWidth())
                 .setOrientation(adParams.getOrientation())
                 .build();
     }
 
-    public String getCodeId() {
-        return codeId;
+    public String getMobiCodeId() {
+        return mobiCodeId;
     }
 
     public boolean isSupportDeepLink() {
@@ -113,8 +122,12 @@ public class LocalAdParams {
         return postId;
     }
 
+    public int getMaxVideoDuration() {
+        return maxVideoDuration;
+    }
+
     public static final class Builder {
-        private String codeId = "";
+        private String mobiCodeId = "";
         private boolean supportDeepLink = true;
         private int expressViewWidth = 300;
         private int expressViewHeight = 300;
@@ -130,11 +143,13 @@ public class LocalAdParams {
 
         private String postId = "";
 
+        private int maxVideoDuration = 30;
+
         public Builder() {
         }
 
-        public Builder setCodeId(String codeId) {
-            this.codeId = codeId;
+        public Builder setMobiCodeId(String mobiCodeId) {
+            this.mobiCodeId = mobiCodeId;
             return this;
         }
 
@@ -185,6 +200,11 @@ public class LocalAdParams {
             return this;
         }
 
+        public Builder setMaxVideoDuration(int maxVideoDuration) {
+            this.maxVideoDuration = maxVideoDuration;
+            return this;
+        }
+
         public Builder setImageWidth(int imageWidth) {
             this.imageWidth = imageWidth;
             return this;
@@ -204,4 +224,5 @@ public class LocalAdParams {
             return new LocalAdParams(this);
         }
     }
+
 }
