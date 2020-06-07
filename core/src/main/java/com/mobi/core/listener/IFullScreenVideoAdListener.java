@@ -6,10 +6,10 @@ package com.mobi.core.listener;
  * @date 2020/6/2 21:39
  * @Dec 略
  */
-public interface IFullScreenVideoAdListener {
+public interface IFullScreenVideoAdListener extends ITTAppDownloadListener, IAdFailListener {
     void onAdShow(String type);
 
-    void onAdFail(String type, String errorMsg);
+    void onAdFail(String type, int code, String errorMsg);
 
     void onAdLoad(String type);
 

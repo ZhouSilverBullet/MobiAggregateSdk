@@ -84,7 +84,7 @@ public class CsjProvider extends BaseAdProvider {
             @Override
             public void onError(int i, String s) {
                 if (listener != null) {
-                    listener.onAdFail(mProviderType, "code: " + i + ", errorMsg: " + s);
+                    listener.onAdFail(mProviderType, i, s);
                 }
             }
 
@@ -190,7 +190,7 @@ public class CsjProvider extends BaseAdProvider {
 
 //        nativeExpressAdWrap.createNativeExpressAD();
 
-       return nativeExpressAdWrap;
+        return nativeExpressAdWrap;
     }
 
 //    private void bindTTAdListener(TTNativeExpressAd ad, ViewGroup viewContainer, IExpressListener mListener) {

@@ -20,7 +20,6 @@ import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.strategy.AdStrategyFactory;
 import com.mobi.core.strategy.IShowAdStrategy;
-import com.mobi.core.strategy.impl.OrderShowAdStrategy;
 import com.mobi.csj.CsjSession;
 import com.mobi.exception.MobiNullPointerException;
 import com.mobi.gdt.GdtSession;
@@ -28,7 +27,6 @@ import com.mobi.gdt.GdtSession;
 import java.util.List;
 
 import static com.mobi.common.CheckUtils.checkSafe;
-import static com.mobi.common.CheckUtils.checkStrSafe;
 import static com.mobi.common.CheckUtils.isAdInvalid;
 
 /**
@@ -117,7 +115,7 @@ public class MobiPubSdk {
 
         if (isAdInvalid(localAdBean)) {
             if (listener != null) {
-                listener.onLoadFailed("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
+                listener.onAdFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
             }
             return;
         }
@@ -129,10 +127,12 @@ public class MobiPubSdk {
         IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
         if (strategy == null) {
             if (listener != null) {
-                listener.onLoadFailed("MobiType", -100, "mobi 的策略，本地还没有支持");
+                listener.onAdFail("MobiType", -100, "mobi 的策略，本地还没有支持");
             }
             return;
         }
+
+        strategy.setAdFailListener(listener);
 
         for (ShowAdBean showAdBean : adBeans) {
             String postId = showAdBean.getPostId();

@@ -180,7 +180,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     public final void callbackExpressLoadFailed(int code, String errorMsg, IExpressListener listener) {
         if (listener != null) {
-            listener.onLoadFailed(mProviderType, code, errorMsg);
+            listener.onAdFail(mProviderType, code, errorMsg);
         }
     }
 

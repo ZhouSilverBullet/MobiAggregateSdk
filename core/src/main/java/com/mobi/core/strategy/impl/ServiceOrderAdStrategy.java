@@ -1,8 +1,5 @@
 package com.mobi.core.strategy.impl;
 
-import android.util.Log;
-
-import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.utils.LogUtils;
 
 /**
@@ -41,9 +38,13 @@ public class ServiceOrderAdStrategy extends BaseShowAdStrategy {
             execIndex++;
             if (execIndex == mSize) {
                 LogUtils.e("onFail runnable 执行完成 provideType : " + provideType);
+                //处理错误
+                handleAdFail();
                 return;
             }
             getHandler().post(getAdRunnableSyncList().get(execIndex % mSize));
         }
     }
+
+
 }

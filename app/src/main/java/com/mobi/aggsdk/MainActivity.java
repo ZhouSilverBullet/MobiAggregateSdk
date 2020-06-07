@@ -14,7 +14,10 @@ import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
+import com.mobi.core.strategy.StrategyError;
 import com.mobi.core.utils.LogUtils;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdFail(String type, String errorMsg) {
+            public void onAdFail(String type,int code,  String errorMsg) {
                 LogUtils.e(TAG, "onAdFail " + errorMsg);
             }
 
@@ -232,8 +235,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onLoadFailed(String type, int faildCode, String faildMsg) {
+            public void onAdFail(String type, int faildCode, String faildMsg) {
                 LogUtils.e(TAG, "onLoadFailed type : " + type + " faildCode : " + faildCode + ", faildMsg: " + faildMsg);
+            }
+
+            @Override
+            public void onAdFail(List<StrategyError> strategyErrorList) {
+                for (StrategyError strategyError : strategyErrorList) {
+                    LogUtils.e(TAG, "onLoadFailed type : " + strategyError.getProviderType()
+                            + " faildCode : " + strategyError.getCode() + ", faildMsg: " + strategyError.getMessage());
+                }
             }
 
             @Override

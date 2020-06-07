@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
  * @date 2020/6/1 18:48
  * @Dec 略
  */
-public interface ISplashAdListener extends ITTAppDownloadListener {
+public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListener {
     /**
      * 开始
      *

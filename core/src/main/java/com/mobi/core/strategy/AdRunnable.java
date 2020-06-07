@@ -5,6 +5,9 @@ import android.text.TextUtils;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.utils.LogUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -39,23 +42,46 @@ public abstract class AdRunnable implements Runnable {
         isCancel = cancel;
     }
 
+    /**
+     * if
+     * 错误时，收集策略，直到策略执行完成后
+     * 再往后台或者 user 发送错误消息
+     * else
+     * 只要策略正确的占位执行，那就证明，user 不需要知道错误原因
+     */
+    private List<StrategyError> mStrategyErrorList;
+
+    public List<StrategyError> getStrategyErrorList() {
+        return mStrategyErrorList;
+    }
+
     protected void localExecSuccess(BaseAdProvider provider) {
         if (mCallback != null) {
             mCallback.onSuccess(this, getProviderType(provider));
         }
     }
 
+
     /**
      * 执行任务失败的回调
+     *
      * @param provider
      */
-    protected void localExecFail(BaseAdProvider provider) {
+    protected void localExecFail(BaseAdProvider provider, int code, String message) {
+
+        if (mStrategyErrorList == null) {
+            mStrategyErrorList = new ArrayList<>();
+        }
+
+        String providerType = getProviderType(provider);
+        mStrategyErrorList.add(new StrategyError(providerType, code, message));
+//        LogUtils.e(TAG, " localExecFail type: " + providerType + " code: " + code + ", message: " + message);
         if (isCancel) {
-            LogUtils.e(TAG, " isCancel is true localExecFail no callback type: " + getProviderType(provider));
+            LogUtils.e(TAG, " isCancel is true localExecFail no callback type: " + providerType);
             return;
         }
         if (mCallback != null) {
-            mCallback.onFail(this, getProviderType(provider));
+            mCallback.onFail(this, providerType);
         }
     }
 
@@ -78,6 +104,7 @@ public abstract class AdRunnable implements Runnable {
 
     public interface ExecCallback {
         void onSuccess(Runnable runnable, String provideType);
+
         void onFail(Runnable runnable, String provideType);
     }
 }

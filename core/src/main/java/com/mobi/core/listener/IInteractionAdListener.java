@@ -6,8 +6,8 @@ package com.mobi.core.listener;
  * @date 2020/6/3 11:17
  * @Dec 略
  */
-public interface IInteractionAdListener extends ITTAppDownloadListener {
-    void onAdFail(String type,int code, String errorMsg);
+public interface IInteractionAdListener extends ITTAppDownloadListener, IAdFailListener {
+    void onAdFail(String type, int code, String errorMsg);
     void onADReceive(String type);
     void onADOpened(String type);
     void onADExposure(String type);

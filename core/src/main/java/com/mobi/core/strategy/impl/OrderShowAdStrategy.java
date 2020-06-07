@@ -3,6 +3,8 @@ package com.mobi.core.strategy.impl;
 import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.utils.LogUtils;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -11,9 +13,11 @@ import com.mobi.core.utils.LogUtils;
  */
 public class OrderShowAdStrategy extends BaseShowAdStrategy {
     public static final String TAG = "OrderShowAdStrategy";
+    AtomicInteger mFailCount;
 
     @Override
     public void execRun() {
+        mFailCount = new AtomicInteger();
         //执行
         for (AdRunnable runnable : getAdRunnableSyncList()) {
             getHandler().post(runnable);
@@ -28,11 +32,20 @@ public class OrderShowAdStrategy extends BaseShowAdStrategy {
         for (AdRunnable adRunnable : getAdRunnableSyncList()) {
             adRunnable.setCancel(true);
         }
+        //策略执行完毕
+        setStrategyFinished(true);
     }
 
     @Override
     public void onFail(Runnable runnable, String provideType) {
         // todo 渲染失败，重新渲染，还是渲染下一个的问题，任务取消了，不会走这个方法
         LogUtils.e(TAG, "AdRunnable onFail provideType = " + provideType);
+        //策略执行完毕
+        if (mFailCount.incrementAndGet() == getAdRunnableSyncList().size()) {
+            setStrategyFinished(true);
+            //处理错误
+            handleAdFail();
+        }
+
     }
 }

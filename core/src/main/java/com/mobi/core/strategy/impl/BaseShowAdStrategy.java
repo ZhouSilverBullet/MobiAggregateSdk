@@ -3,8 +3,10 @@ package com.mobi.core.strategy.impl;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.mobi.core.listener.IAdFailListener;
 import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.strategy.IShowAdStrategy;
+import com.mobi.core.strategy.StrategyError;
 import com.mobi.core.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -25,6 +27,13 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
      * 本地的广告任务
      */
     private List<AdRunnable> mAdRunnableSyncList;
+
+    /**
+     * 执行任务完成后，如果全部失败了，那就往外面传递失败的消息
+     *
+     */
+    private boolean isStrategyFinished;
+    private IAdFailListener mAdFailListener;
 
     public BaseShowAdStrategy() {
         mHandler = new Handler(Looper.getMainLooper());
@@ -81,5 +90,36 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
 
     public List<AdRunnable> getAdRunnableSyncList() {
         return mAdRunnableSyncList;
+    }
+
+    protected void setStrategyFinished(boolean strategyFinished) {
+        isStrategyFinished = strategyFinished;
+    }
+
+    /**
+     * 统一处理错误回调
+     */
+    protected void handleAdFail() {
+        List<StrategyError> list = new ArrayList<>();
+
+        for (AdRunnable adRunnable : getAdRunnableSyncList()) {
+            List<StrategyError> strategyErrorList = adRunnable.getStrategyErrorList();
+            if (strategyErrorList != null) {
+                list.addAll(strategyErrorList);
+            }
+        }
+
+        if (mAdFailListener != null) {
+            mAdFailListener.onAdFail(list);
+        }
+    }
+
+    public void setAdFailListener(IAdFailListener adFailListener) {
+        mAdFailListener = adFailListener;
+    }
+
+    @Override
+    public boolean isStrategyFinished() {
+        return isStrategyFinished;
     }
 }

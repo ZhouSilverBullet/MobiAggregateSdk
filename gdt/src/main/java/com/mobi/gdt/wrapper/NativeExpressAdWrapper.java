@@ -63,11 +63,12 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 
         String postId = mParams.getPostId();
         if (TextUtils.isEmpty(postId)) {
-            localExecFail(mAdProvider);
-            if (mAdProvider != null) {
-                mAdProvider.callbackExpressLoadFailed(-101,
-                        "mobi 后台获取的 postId 不正确 或者 postId == null", mListener);
-            }
+            localExecFail(mAdProvider, -101,
+                    "mobi 后台获取的 postId 不正确 或者 postId == null");
+//            if (mAdProvider != null) {
+//                mAdProvider.callbackExpressLoadFailed(-101,
+//                        "mobi 后台获取的 postId 不正确 或者 postId == null", mListener);
+//            }
             return;
         }
 
@@ -134,11 +135,12 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             mViewContainer.removeAllViews();
         }
         //广告渲染失败
-        localExecFail(mAdProvider);
-        if (mAdProvider != null) {
-            mAdProvider.callbackExpressLoadFailed(MobiConstantValue.GDT_ERROR_RENDER_CODE,
-                    MobiConstantValue.GDT_ERROR_RENDER_MESSAGE, mListener);
-        }
+        localExecFail(mAdProvider, MobiConstantValue.GDT_ERROR_RENDER_CODE,
+                MobiConstantValue.GDT_ERROR_RENDER_MESSAGE);
+//        if (mAdProvider != null) {
+//            mAdProvider.callbackExpressLoadFailed(MobiConstantValue.GDT_ERROR_RENDER_CODE,
+//                    MobiConstantValue.GDT_ERROR_RENDER_MESSAGE, mListener);
+//        }
     }
 
     @Override
@@ -209,10 +211,10 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     public void onNoAD(AdError adError) {
 //                        AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
         //加载失败
-        localExecFail(mAdProvider);
-        if (mAdProvider != null) {
-            mAdProvider.callbackExpressLoadFailed(adError.getErrorCode(), adError.getErrorMsg() + " postId: " + mParams.getPostId(), mListener);
-        }
+        localExecFail(mAdProvider, adError.getErrorCode(), adError.getErrorMsg() + " postId: " + mParams.getPostId());
+//        if (mAdProvider != null) {
+//            mAdProvider.callbackExpressLoadFailed(adError.getErrorCode(), adError.getErrorMsg() + " postId: " + mParams.getPostId(), mListener);
+//        }
     }
 
     @Override

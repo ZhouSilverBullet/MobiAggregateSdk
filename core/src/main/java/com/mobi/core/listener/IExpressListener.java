@@ -6,10 +6,10 @@ package com.mobi.core.listener;
  * @date 2020/6/3 16:08
  * @Dec 略
  */
-public interface IExpressListener extends ITTAppDownloadListener {
+public interface IExpressListener extends ITTAppDownloadListener, IAdFailListener {
     void onAdClick(String type);//广告被点击
 
-    void onLoadFailed(String type, int code, String errorMsg);//广告加载失败
+    void onAdFail(String type, int code, String errorMsg);//广告加载失败
 
     void onAdDismissed(String type);//广告被关闭
 

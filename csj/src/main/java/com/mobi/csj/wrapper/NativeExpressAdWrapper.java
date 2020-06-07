@@ -24,7 +24,7 @@ import java.util.List;
  * @Dec csj wrapper
  */
 public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener, TTAppDownloadListener {
-    public static final String TAG= "CsjNativeExpressAd";
+    public static final String TAG = "CsjNativeExpressAd";
     private final BaseAdProvider mAdProvider;
     private final LocalAdParams mParams;
     private String mProviderType;
@@ -63,11 +63,12 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     private void createNativeExpressAD() {
         String postId = mParams.getPostId();
         if (TextUtils.isEmpty(postId)) {
-            localExecFail(mAdProvider);
-            if (mAdProvider != null) {
-                mAdProvider.callbackExpressLoadFailed(-101,
-                        "mobi 后台获取的 postId 不正确 或者 postId == null", mListener);
-            }
+            localExecFail(mAdProvider, -101,
+                    "mobi 后台获取的 postId 不正确 或者 postId == null");
+
+//            if (mAdProvider != null) {
+//                mAdProvider.callbackExpressLoadFailed();
+//            }
             return;
         }
 
@@ -97,28 +98,28 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 //        if (mListener != null) {
 //            mListener.onLoadFailed(mProviderType, i, s);
 //        }
-        if (isCancel()) {
-            return;
-        }
+//        if (isCancel()) {
+//            return;
+//        }
 
         if (mViewContainer != null) {
             mViewContainer.removeAllViews();
         }
 
-        localExecFail(mAdProvider);
-        if (mAdProvider != null) {
-            mAdProvider.callbackExpressLoadFailed(i, s + " postId: " + mParams.getPostId(), mListener);
-        }
+        localExecFail(mAdProvider, i, s + " postId: " + mParams.getPostId());
+//        if (mAdProvider != null) {
+//            mAdProvider.callbackExpressLoadFailed(i, s + " postId: " + mParams.getPostId(), mListener);
+//        }
     }
 
     @Override
     public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
         if (list == null || list.size() == 0) {
 
-            localExecFail(mAdProvider);
-            if (mAdProvider != null) {
-                mAdProvider.callbackExpressLoadFailed(-100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ", mListener);
-            }
+            localExecFail(mAdProvider, -100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ");
+//            if (mAdProvider != null) {
+//                mAdProvider.callbackExpressLoadFailed(-100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ", mListener);
+//            }
             return;
         }
 
@@ -172,10 +173,11 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     @Override
     public void onRenderFail(View view, String s, int i) {
 
-        localExecFail(mAdProvider);
-        if (mAdProvider != null) {
-            mAdProvider.callbackExpressLoadFailed(i, s, mListener);
-        }
+        localExecFail(mAdProvider, i, s);
+
+//        if (mAdProvider != null) {
+//            mAdProvider.callbackExpressLoadFailed(i, s, mListener);
+//        }
     }
 
     @Override
