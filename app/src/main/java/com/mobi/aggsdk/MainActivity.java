@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnSplash(View view) {
         Intent intent = new Intent(this, SplashActivity.class);
-        intent.putExtra("isSelfSplash", true);
+        intent.putExtra("isSelfSplash", false);
         startActivity(intent);
     }
 

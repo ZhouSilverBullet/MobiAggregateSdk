@@ -55,13 +55,13 @@ public class MobiAggregateSdk {
         if (provider == null) {
             return;
         }
-        provider.splash(activity, codeId,
-                600,
-                800,
-                true,
-                skipView,
-                splashContainer,
-                listener);
+//        provider.splash(activity, codeId,
+//                600,
+//                800,
+//                true,
+//                skipView,
+//                splashContainer,
+//                listener);
     }
 
     public static void showFullscreen(final Activity activity, int orientation, final IFullScreenVideoAdListener listener) {

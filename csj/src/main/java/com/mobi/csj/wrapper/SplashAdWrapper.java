@@ -1,6 +1,7 @@
 package com.mobi.csj.wrapper;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,10 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.mobi.core.BaseAdProvider;
+import com.mobi.core.LocalAdParams;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
+import com.mobi.core.utils.LogUtils;
 import com.mobi.csj.splash.CsjSplashSkipViewControl;
 
 /**
@@ -23,33 +26,24 @@ import com.mobi.csj.splash.CsjSplashSkipViewControl;
  */
 public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashAdListener, TTSplashAd.AdInteractionListener, TTAppDownloadListener {
     public static final String TAG = "SplashAdWrapper";
+    private final LocalAdParams mAdParams;
 
     private String mProviderType;
     BaseAdProvider mAdProvider;
     Activity mActivity;
-    String mCodeId;
-    int mExpressViewWidth;
-    int mExpressViewHeight;
-    boolean mSupportDeepLink;
     ViewGroup mSplashContainer;
     ISplashAdListener mListener;
     private BaseSplashSkipView mBaseSplashSkipView;
 
     public SplashAdWrapper(BaseAdProvider adProvider,
                            Activity activity,
-                           String codeId,
-                           int expressViewWidth,
-                           int expressViewHeight,
-                           boolean supportDeepLink,
                            ViewGroup splashContainer,
+                           LocalAdParams adParams,
                            ISplashAdListener listener) {
         mAdProvider = adProvider;
         mActivity = activity;
-        mCodeId = codeId;
-        mExpressViewWidth = expressViewWidth;
-        mExpressViewHeight = expressViewHeight;
-        mSupportDeepLink = supportDeepLink;
         mSplashContainer = splashContainer;
+        mAdParams = adParams;
         mListener = listener;
 
         if (mAdProvider != null) {
@@ -61,13 +55,20 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         mBaseSplashSkipView = splashSkipView;
     }
 
-    public void createSplashAd() {
+    private void createSplashAd() {
+        String postId = mAdParams.getPostId();
+        if (TextUtils.isEmpty(postId)) {
+            localExecFail(mAdProvider, -101,
+                    "mobi 后台获取的 postId 不正确 或者 postId == null");
+            return;
+        }
+
         TTAdNative adNative = createAdNative(mActivity.getApplicationContext());
 
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(mCodeId)
-                .setSupportDeepLink(true)
-                .setImageAcceptedSize(1080, 1920)
+                .setCodeId(mAdParams.getPostId())
+                .setSupportDeepLink(mAdParams.isSupportDeepLink())
+                .setImageAcceptedSize(mAdParams.getImageWidth(), mAdParams.getImageHeight())
                 /**
                  * code: 40029, message: 两种情况：
                  * 1. SDK版本低；
@@ -93,25 +94,39 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
     @Override
     public void onError(int code, String errorMsg) {
 
-        if (mAdProvider != null) {
-            mAdProvider.callbackSplashFail(code, errorMsg, mListener);
-        }
+        localExecFail(mAdProvider, code, errorMsg);
+//        if (mAdProvider != null) {
+//            mAdProvider.callbackSplashFail(code, errorMsg, mListener);
+//        }
 
     }
 
     @Override
     public void onTimeout() {
-        if (mAdProvider != null) {
-            mAdProvider.callbackSplashFail(-100, "请求超时", mListener);
-        }
+        localExecFail(mAdProvider, -100, "请求超时");
+//        if (mAdProvider != null) {
+//            mAdProvider.callbackSplashFail(-100, "请求超时", mListener);
+//        }
     }
 
     @Override
     public void onSplashAdLoad(TTSplashAd ttSplashAd) {
         if (ttSplashAd == null) {
-            if (mAdProvider != null) {
-                mAdProvider.callbackSplashFail(-100, "请求成功，但是返回的广告为null", mListener);
-            }
+//            if (mAdProvider != null) {
+//                mAdProvider.callbackSplashFail(-100, "请求成功，但是返回的广告为null", mListener);
+//            }
+            localExecFail(mAdProvider, -100, "请求成功，但是返回的广告为null");
+            return;
+        }
+
+        //load成功前判断一下，是否已经把任务给取消了
+        if (isCancel()) {
+            LogUtils.e(TAG, "Csj SplashAdWrapper load isCancel");
+            return;
+        }
+
+        if (mSplashContainer.getChildCount() >= 1) {
+            LogUtils.e(TAG, "Csj SplashAdWrapper mSplashContainer.getChildCount() >= 1 isCancel");
             return;
         }
 
@@ -123,12 +138,19 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         //获取SplashView
         View view = ttSplashAd.getSplashView();
         if (view != null && mSplashContainer != null && !mActivity.isFinishing()) {
+
+            setExecSuccess(true);
+            localExecSuccess(mAdProvider);
+
             mSplashContainer.removeAllViews();
             //把SplashView 添加到ViewGroup中,注意开屏广告view：width >=70%屏幕宽；height >=50%屏幕高
             mSplashContainer.addView(view);
             //设置不开启开屏广告倒计时功能以及不显示跳过按钮,如果这么设置，您需要自定义倒计时逻辑
             // todo 自定义的splash
             if (mBaseSplashSkipView != null) {
+                if (mAdParams.isSplashNotAllowSdkCountdown()) {
+                    ttSplashAd.setNotAllowSdkCountdown();
+                }
                 ttSplashAd.setNotAllowSdkCountdown();
                 handleSplashSkipView(mSplashContainer);
             }
@@ -204,5 +226,10 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
             mAdProvider.callbackSplashDismissed(mListener);
         }
 
+    }
+
+    @Override
+    public void run() {
+        createSplashAd();
     }
 }

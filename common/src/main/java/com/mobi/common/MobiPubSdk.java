@@ -61,12 +61,20 @@ public class MobiPubSdk {
     }
 
     public static void showSplash(final Activity activity,
-                                  String codeId,
                                   final ViewGroup splashContainer,
                                   BaseSplashSkipView skipView,
+                                  AdParams adParams,
                                   final ISplashAdListener listener) {
 
-        LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
+        if (!checkSafe(activity)) {
+            return;
+        }
+        checkSafe(splashContainer);
+        //清除splash里面的子View
+        splashContainer.removeAllViews();
+        checkSafe(adParams);
+
+        LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
             if (listener != null) {
@@ -75,14 +83,36 @@ public class MobiPubSdk {
             return;
         }
 
-        ShowAdBean showAdBean = localAdBean.getAdBeans().get(0);
-        AdProviderManager.get().getProvider(showAdBean.getProviderType()).splash(activity, showAdBean.getPostId(),
-                600,
-                800,
-                true,
-                skipView,
-                splashContainer,
-                listener);
+
+        List<ShowAdBean> adBeans = localAdBean.getAdBeans();
+        int sortType = localAdBean.getSortType();
+
+        IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
+        if (strategy == null) {
+            if (listener != null) {
+                listener.onAdFail("MobiType", -100, "mobi 的策略，本地还没有支持");
+            }
+            return;
+        }
+
+        strategy.setAdFailListener(listener);
+
+        for (ShowAdBean showAdBean : adBeans) {
+            String postId = showAdBean.getPostId();
+
+            LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+
+            AdRunnable runnable = AdProviderManager.get().getProvider(showAdBean.getProviderType())
+                    .splash(activity,
+                            splashContainer,
+                            skipView,
+                            localAdParams,
+                            listener);
+
+            strategy.addADTask(runnable);
+        }
+
+        strategy.execShow();
 
     }
 

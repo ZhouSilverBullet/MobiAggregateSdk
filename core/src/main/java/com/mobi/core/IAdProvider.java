@@ -28,26 +28,22 @@ public interface IAdProvider {
      * @param splashContainer
      * @param listener
      */
-    void splash(Activity activity,
-                String codeId,
-                int expressViewWidth,
-                int expressViewHeight,
-                boolean supportDeepLink,
-                BaseSplashSkipView skipView,
-                ViewGroup splashContainer,
-                ISplashAdListener listener);
+    AdRunnable splash(Activity activity,
+                      ViewGroup splashContainer,
+                      BaseSplashSkipView skipView,
+                      LocalAdParams adParams,
+                      ISplashAdListener listener);
 
-    void fullscreen(final Activity activity,
-                    final String codeId,
+
+    void fullscreen(Activity activity,
+                    String codeId,
                     int orientation,
                     boolean supportDeepLink,
-                    final IFullScreenVideoAdListener listener);
+                    IFullScreenVideoAdListener listener);
 
-    default AdRunnable rewardVideo(final Activity activity,
-                                   LocalAdParams adParams,
-                                   final IRewardAdListener listener) {
-        return null;
-    }
+    AdRunnable rewardVideo(Activity activity,
+                           LocalAdParams adParams,
+                           IRewardAdListener listener);
 
     /**
      * expressViewWidth ,expressViewHeight csj使用  gdt不需要
@@ -56,11 +52,9 @@ public interface IAdProvider {
      * @param adParams
      * @param listener
      */
-    default AdRunnable interactionExpress(Activity activity,
-                                          LocalAdParams adParams,
-                                          IInteractionAdListener listener) {
-        return null;
-    }
+    AdRunnable interactionExpress(Activity activity,
+                                  LocalAdParams adParams,
+                                  IInteractionAdListener listener);
 
     /**
      * 信息流
@@ -70,10 +64,8 @@ public interface IAdProvider {
      * @param adParams
      * @param listener
      */
-    default AdRunnable express(Activity activity,
-                               ViewGroup viewContainer,
-                               LocalAdParams adParams,
-                               IExpressListener listener) {
-        return null;
-    }
+    AdRunnable express(Activity activity,
+                       ViewGroup viewContainer,
+                       LocalAdParams adParams,
+                       IExpressListener listener);
 }

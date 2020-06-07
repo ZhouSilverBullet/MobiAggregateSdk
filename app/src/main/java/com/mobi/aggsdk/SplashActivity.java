@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.mobi.common.MobiPubSdk;
+import com.mobi.core.AdParams;
 import com.mobi.core.MobiAggregateSdk;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
@@ -39,32 +40,38 @@ public class SplashActivity extends AppCompatActivity {
             view = new DefaultSplashSkipView();
         }
 
-        MobiPubSdk.showSplash(this, "1024005",clRoot, view, new ISplashAdListener() {
+        AdParams adParams = new AdParams.Builder()
+                .setCodeId("1024005")
+                .setExpressViewAcceptedSize(1080, 1920)
+                .setSupportDeepLink(true)
+                .build();
+
+        MobiPubSdk.showSplash(this, clRoot, view, adParams, new ISplashAdListener() {
             @Override
             public void onAdStartRequest(@NonNull String providerType) {
-                Log.e(TAG, "onAdStartRequest ");
+                Log.e(TAG, "onAdStartRequest providerType: " + providerType);
             }
 
             @Override
             public void onAdFail(String type, int code, String errorMsg) {
-                Log.e(TAG, "code: " + code + ", message: " + errorMsg);
+                Log.e(TAG, "providerType: " + type + "code: " + code + ", message: " + errorMsg);
                 delayToHome(1000);
             }
 
             @Override
             public void onAdClicked(String type) {
-                Log.e(TAG, "onAdClicked ");
+                Log.e(TAG, "onAdClicked " + "providerType: " + type);
 //                startActivity(new Intent(SplashActivity.this, MainActivity.class));
             }
 
             @Override
             public void onAdExposure(String type) {
-                Log.e(TAG, "onAdExposure ");
+                Log.e(TAG, "onAdExposure " + "providerType: " + type);
             }
 
             @Override
             public void onAdDismissed(String type) {
-                Log.e(TAG, "onAdDismissed ");
+                Log.e(TAG, "onAdDismissed " + "providerType: " + type);
 //                if (!isClicked) {
 //                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
 //                }
@@ -74,7 +81,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAdLoaded(String providerType) {
-                Log.e(TAG, "onAdLoaded ");
+                Log.e(TAG, "onAdLoaded " + "providerType: " + providerType);
             }
         });
     }

@@ -30,6 +30,7 @@ public class LocalAdParams {
     private String postId;
 
     private int maxVideoDuration;
+    private boolean isSplashNotAllowSdkCountdown;
 
     private LocalAdParams(Builder builder) {
         mobiCodeId = builder.mobiCodeId;
@@ -47,6 +48,7 @@ public class LocalAdParams {
         imageHeight = builder.imageHeight;
         postId = builder.postId;
         maxVideoDuration = builder.maxVideoDuration;
+        isSplashNotAllowSdkCountdown = builder.isSplashNotAllowSdkCountdown;
     }
 
     public static LocalAdParams create(String postId, AdParams adParams) {
@@ -126,6 +128,10 @@ public class LocalAdParams {
         return maxVideoDuration;
     }
 
+    public boolean isSplashNotAllowSdkCountdown() {
+        return isSplashNotAllowSdkCountdown;
+    }
+
     public static final class Builder {
         private String mobiCodeId = "";
         private boolean supportDeepLink = true;
@@ -144,6 +150,7 @@ public class LocalAdParams {
         private String postId = "";
 
         private int maxVideoDuration = 30;
+        private boolean isSplashNotAllowSdkCountdown = false;
 
         public Builder() {
         }
@@ -212,6 +219,11 @@ public class LocalAdParams {
 
         public Builder setImageHeight(int imageHeight) {
             this.imageHeight = imageHeight;
+            return this;
+        }
+
+        public Builder setSplashNotAllowSdkCountdown(boolean splashNotAllowSdkCountdown) {
+            isSplashNotAllowSdkCountdown = splashNotAllowSdkCountdown;
             return this;
         }
 

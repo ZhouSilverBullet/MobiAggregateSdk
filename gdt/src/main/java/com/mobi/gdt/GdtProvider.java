@@ -30,24 +30,21 @@ public class GdtProvider extends BaseAdProvider {
         super(providerType);
     }
 
-    public void splash(final Activity activity,
-                       final String codeId,
-                       int expressViewWidth,
-                       int expressViewHeight,
-                       boolean supportDeepLink,
-                       BaseSplashSkipView skipView,
-                       ViewGroup splashContainer,
-                       ISplashAdListener listener) {
+    public AdRunnable splash(final Activity activity,
+                             ViewGroup splashContainer,
+                             BaseSplashSkipView skipView,
+                             LocalAdParams adParams,
+                             ISplashAdListener listener) {
 
         SplashAdWrapper splashAdWrapper = new SplashAdWrapper(this,
                 activity,
-                codeId,
                 splashContainer,
+                adParams,
                 listener);
 
         splashAdWrapper.setSplashSkipView(skipView);
 
-        splashAdWrapper.createSplashAd();
+        return splashAdWrapper;
     }
 
     @Override
