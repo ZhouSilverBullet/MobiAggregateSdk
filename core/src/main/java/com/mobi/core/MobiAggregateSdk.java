@@ -65,8 +65,8 @@ public class MobiAggregateSdk {
     }
 
     public static void showFullscreen(final Activity activity, int orientation, final IFullScreenVideoAdListener listener) {
-        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
-                .fullscreen(activity, "901121073", orientation, true, listener);
+//        AdProviderManager.get().getProvider(AdProviderManager.TYPE_CSJ)
+//                .fullscreen(activity, "901121073", orientation, true, listener);
     }
 
     public static void showRewardView(final Activity activity,

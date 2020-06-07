@@ -12,6 +12,7 @@ import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.strategy.AdRunnable;
+import com.mobi.gdt.wrapper.GdtFullScreenVideoAdWrapper;
 import com.mobi.gdt.wrapper.NativeExpressAdWrapper;
 import com.mobi.gdt.wrapper.RewardVideoAdWrapper;
 import com.mobi.gdt.wrapper.SplashAdWrapper;
@@ -48,8 +49,8 @@ public class GdtProvider extends BaseAdProvider {
     }
 
     @Override
-    public void fullscreen(Activity activity, String codeId, int orientation, boolean supportDeepLink, IFullScreenVideoAdListener listener) {
-
+    public AdRunnable fullscreen(Activity activity, LocalAdParams adParams, IFullScreenVideoAdListener listener) {
+        return new GdtFullScreenVideoAdWrapper(this, activity, adParams, listener);
     }
 
 

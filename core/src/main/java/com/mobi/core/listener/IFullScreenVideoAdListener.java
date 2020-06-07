@@ -7,13 +7,15 @@ package com.mobi.core.listener;
  * @Dec 略
  */
 public interface IFullScreenVideoAdListener extends ITTAppDownloadListener, IAdFailListener {
-    void onAdShow(String type);
+    void onAdShow(String providerType);
 
-    void onAdFail(String type, int code, String errorMsg);
+    default void onAdFail(String providerType, int code, String errorMsg) {
 
-    void onAdLoad(String type);
+    }
 
-    void onCached(String type);
+    void onAdLoad(String providerType);
+
+    void onCached(String providerType);
 
     void onAdClose(String providerType);
 

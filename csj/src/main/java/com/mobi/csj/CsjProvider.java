@@ -18,6 +18,7 @@ import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.utils.ScreenUtils;
+import com.mobi.csj.wrapper.FullScreenVideoAdWrapper;
 import com.mobi.csj.wrapper.InteractionExpressAdWrapper;
 import com.mobi.csj.wrapper.NativeExpressAdWrapper;
 import com.mobi.csj.wrapper.RewardVideoAdWrapper;
@@ -63,80 +64,15 @@ public class CsjProvider extends BaseAdProvider {
         return splashAdWrapper;
     }
 
-    public void fullscreen(final Activity activity,
-                           final String codeId,
-                           int orientation, boolean supportDeepLink, final IFullScreenVideoAdListener listener) {
-        TTAdNative adNative = createAdNative(activity.getApplicationContext());
+    public AdRunnable fullscreen(final Activity activity,
+                           LocalAdParams adParams,
+                           final IFullScreenVideoAdListener listener) {
 
-        AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(codeId)
-                //模板广告需要设置期望个性化模板广告的大小,单位dp,全屏视频场景，只要设置的值大于0即可
-                .setExpressViewAcceptedSize(500, 500)
-                .setSupportDeepLink(supportDeepLink)
-                .setOrientation(orientation)//必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
-                .build();
 
-        adNative.loadFullScreenVideoAd(adSlot, new TTAdNative.FullScreenVideoAdListener() {
-            @Override
-            public void onError(int i, String s) {
-                if (listener != null) {
-                    listener.onAdFail(mProviderType, i, s);
-                }
-            }
+        FullScreenVideoAdWrapper fullScreenVideoAdWrapper = new FullScreenVideoAdWrapper(this,
+                activity, adParams, listener);
+        return fullScreenVideoAdWrapper;
 
-            @Override
-            public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ttFullScreenVideoAd) {
-                if (listener != null) {
-                    listener.onAdLoad(mProviderType);
-                }
-
-                ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(new TTFullScreenVideoAd.FullScreenVideoAdInteractionListener() {
-                    @Override
-                    public void onAdShow() {
-                        if (listener != null) {
-                            listener.onAdShow(mProviderType);
-                        }
-                    }
-
-                    @Override
-                    public void onAdVideoBarClick() {
-                        if (listener != null) {
-                            listener.onAdVideoBarClick(mProviderType);
-                        }
-                    }
-
-                    @Override
-                    public void onAdClose() {
-                        if (listener != null) {
-                            listener.onAdClose(mProviderType);
-                        }
-                    }
-
-                    @Override
-                    public void onVideoComplete() {
-                        if (listener != null) {
-                            listener.onVideoComplete(mProviderType);
-                        }
-                    }
-
-                    @Override
-                    public void onSkippedVideo() {
-                        if (listener != null) {
-                            listener.onSkippedVideo(mProviderType);
-                        }
-                    }
-                });
-
-                ttFullScreenVideoAd.showFullScreenVideoAd(activity);
-            }
-
-            @Override
-            public void onFullScreenVideoCached() {
-                if (listener != null) {
-                    listener.onCached(mProviderType);
-                }
-            }
-        });
     }
 
     public AdRunnable rewardVideo(final Activity activity,

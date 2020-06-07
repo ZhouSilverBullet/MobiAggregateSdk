@@ -53,7 +53,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnFullScreen(View view) {
-        MobiPubSdk.showFullscreen(this, "1024002", 1, new IFullScreenVideoAdListener() {
+        AdParams adParams = new AdParams.Builder()
+                .setCodeId("1024002")
+                .setOrientation(MobiConstantValue.VERTICAL)
+                .build();
+
+        MobiPubSdk.showFullscreen(this, adParams, new IFullScreenVideoAdListener() {
+            @Override
+            public void onAdFail(List<StrategyError> strategyErrorList) {
+                for (StrategyError strategyError : strategyErrorList) {
+                    LogUtils.e(TAG, "onLoadFailed type : " + strategyError.getProviderType()
+                            + " faildCode : " + strategyError.getCode() + ", faildMsg: " + strategyError.getMessage());
+                }
+            }
+
             @Override
             public void onAdShow(String type) {
                 LogUtils.e(TAG, "onAdShow ");
@@ -102,6 +115,14 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         MobiPubSdk.showRewardView(this, adParams, new IRewardAdListener() {
+            @Override
+            public void onAdFail(List<StrategyError> strategyErrorList) {
+                for (StrategyError strategyError : strategyErrorList) {
+                    LogUtils.e(TAG, "onLoadFailed type : " + strategyError.getProviderType()
+                            + " faildCode : " + strategyError.getCode() + ", faildMsg: " + strategyError.getMessage());
+                }
+            }
+
             @Override
             public void onAdFail(String type, int code, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
@@ -160,6 +181,14 @@ public class MainActivity extends AppCompatActivity {
                 .setCodeId("1024004")
                 .build();
         MobiPubSdk.showInteractionExpress(this, adParams, new IInteractionAdListener() {
+            @Override
+            public void onAdFail(List<StrategyError> strategyErrorList) {
+                for (StrategyError strategyError : strategyErrorList) {
+                    LogUtils.e(TAG, "onLoadFailed type : " + strategyError.getProviderType()
+                            + " faildCode : " + strategyError.getCode() + ", faildMsg: " + strategyError.getMessage());
+                }
+            }
+
             @Override
             public void onAdFail(String type, int code, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);

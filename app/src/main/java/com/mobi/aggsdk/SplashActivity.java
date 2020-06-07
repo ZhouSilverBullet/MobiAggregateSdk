@@ -13,6 +13,10 @@ import com.mobi.core.MobiAggregateSdk;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.splash.DefaultSplashSkipView;
+import com.mobi.core.strategy.StrategyError;
+import com.mobi.core.utils.LogUtils;
+
+import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
     public static final String TAG = "SplashActivity";
@@ -48,6 +52,15 @@ public class SplashActivity extends AppCompatActivity {
 
         MobiPubSdk.showSplash(this, clRoot, view, adParams, new ISplashAdListener() {
             @Override
+            public void onAdFail(List<StrategyError> strategyErrorList) {
+                for (StrategyError strategyError : strategyErrorList) {
+                    LogUtils.e(TAG, "onLoadFailed type : " + strategyError.getProviderType()
+                            + " faildCode : " + strategyError.getCode() + ", faildMsg: " + strategyError.getMessage());
+                }
+                delayToHome(1000);
+            }
+
+            @Override
             public void onAdStartRequest(@NonNull String providerType) {
                 Log.e(TAG, "onAdStartRequest providerType: " + providerType);
             }
@@ -55,7 +68,6 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAdFail(String type, int code, String errorMsg) {
                 Log.e(TAG, "providerType: " + type + "code: " + code + ", message: " + errorMsg);
-                delayToHome(1000);
             }
 
             @Override

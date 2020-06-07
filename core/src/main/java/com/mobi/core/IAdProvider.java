@@ -35,10 +35,8 @@ public interface IAdProvider {
                       ISplashAdListener listener);
 
 
-    void fullscreen(Activity activity,
-                    String codeId,
-                    int orientation,
-                    boolean supportDeepLink,
+    AdRunnable fullscreen(Activity activity,
+                    LocalAdParams adParams,
                     IFullScreenVideoAdListener listener);
 
     AdRunnable rewardVideo(Activity activity,

@@ -13,7 +13,5 @@ import java.util.List;
  * 告知外面 or 者上报数据
  */
 public interface IAdFailListener {
-    default void onAdFail(List<StrategyError> strategyErrorList) {
-
-    }
+    void onAdFail(List<StrategyError> strategyErrorList);
 }
