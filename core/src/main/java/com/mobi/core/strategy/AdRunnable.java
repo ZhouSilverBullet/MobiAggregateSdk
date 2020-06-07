@@ -73,7 +73,7 @@ public abstract class AdRunnable implements Runnable {
 
         saveFailMessage(providerType, code, message);
 
-//        LogUtils.e(TAG, " localExecFail type: " + providerType + " code: " + code + ", message: " + message);
+        LogUtils.e(TAG, " localExecFail type: " + providerType + " code: " + code + ", message: " + message);
         if (isCancel) {
             LogUtils.e(TAG, " isCancel is true localExecFail no callback type: " + providerType);
             return;
@@ -104,7 +104,7 @@ public abstract class AdRunnable implements Runnable {
 
         saveFailMessage(providerType, code, message);
 
-//        LogUtils.e(TAG, " localExecFail type: " + providerType + " code: " + code + ", message: " + message);
+        LogUtils.e(TAG, " localRenderFail type: " + providerType + " code: " + code + ", message: " + message);
 //        if (isCancel) {
 //            LogUtils.e(TAG, " isCancel is true localExecFail no callback type: " + providerType);
 //            return;

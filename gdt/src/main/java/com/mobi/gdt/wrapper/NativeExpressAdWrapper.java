@@ -135,7 +135,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     @Override
     public void onRenderSuccess(NativeExpressADView nativeExpressADView) {
         if (isCancel()) {
-            LogUtils.e(TAG, "CsjNativeExpressAd onRenderSuccess isCancel");
+            LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isCancel");
             return;
         }
 
