@@ -2,6 +2,7 @@ package com.mobi.core.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,6 +15,11 @@ public class ConfigItemBean implements Serializable {
     private int sort_type;//排序类型 1按顺序 2按价格
     private List<AdBean> network = new ArrayList<>();
     private List<String> sort_parameter = new ArrayList<>();
+
+    /**
+     * NetWorkSort 是否已经进行了排序
+     */
+    private boolean isNetworkSort;
 
     public String getPosid() {
         return posid;
@@ -31,7 +37,14 @@ public class ConfigItemBean implements Serializable {
         this.sort_type = sort_type;
     }
 
+    /**
+     * 排序一次
+     * @return
+     */
     public List<AdBean> getNetwork() {
+        if (!isNetworkSort) {
+            Collections.sort(network);
+        }
         return network;
     }
 

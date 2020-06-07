@@ -9,6 +9,7 @@ import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
+import com.mobi.core.strategy.AdRunnable;
 
 /**
  * @author zhousaito
@@ -74,16 +75,17 @@ public interface IAdProvider {
     }
 
     /**
-     * 激励视频
+     * 信息流
      *
      * @param activity
      * @param adParams
      * @param viewContainer
      * @param listener
      */
-    default void express(Activity activity,
-                         ViewGroup viewContainer,
-                         AdParams adParams,
-                         IExpressListener listener) {
+    default AdRunnable express(Activity activity,
+                               ViewGroup viewContainer,
+                               LocalAdParams adParams,
+                               IExpressListener listener) {
+        return null;
     }
 }

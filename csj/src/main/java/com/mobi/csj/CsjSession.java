@@ -69,7 +69,7 @@ public class CsjSession {
                 .titleBarTheme(TTAdConstant.TITLE_BAR_THEME_DARK)
                 .allowShowNotify(true) //是否允许sdk展示通知栏提示
                 .allowShowPageWhenScreenLock(true) //是否在锁屏场景支持展示广告落地页
-                .debug(isAppDebug) //测试阶段打开，可以通过日志排查问题，上线时去除该调用
+                .debug(false) //测试阶段打开，可以通过日志排查问题，上线时去除该调用
                 .directDownloadNetworkType(TTAdConstant.NETWORK_STATE_WIFI,
                         TTAdConstant.NETWORK_STATE_MOBILE) //允许直接下载的网络状态集合
                 .supportMultiProcess(true)//是否支持多进程

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.mobi.core.AdParams;
 import com.mobi.core.AdProviderManager;
 import com.mobi.core.CoreSession;
+import com.mobi.core.LocalAdParams;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.listener.IExpressListener;
@@ -16,6 +17,10 @@ import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
+import com.mobi.core.strategy.AdRunnable;
+import com.mobi.core.strategy.AdStrategyFactory;
+import com.mobi.core.strategy.IShowAdStrategy;
+import com.mobi.core.strategy.impl.OrderShowAdStrategy;
 import com.mobi.csj.CsjSession;
 import com.mobi.exception.MobiNullPointerException;
 import com.mobi.gdt.GdtSession;
@@ -119,26 +124,42 @@ public class MobiPubSdk {
 
 
         List<ShowAdBean> adBeans = localAdBean.getAdBeans();
-        ShowAdBean showAdBean = adBeans.get(0);
+        int sortType = localAdBean.getSortType();
 
-        String postId = showAdBean.getPostId();
-
-        if (!checkStrSafe(postId)) {
-            //这里要往后台传错误，或者要容错一下
+        IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
+        if (strategy == null) {
             if (listener != null) {
-                listener.onLoadFailed("MobiType", -101,
-                        "mobi 后台获取的 postId 不正确 或者 postId == null");
+                listener.onLoadFailed("MobiType", -100, "mobi 的策略，本地还没有支持");
             }
             return;
         }
 
-        adParams.setPostId(postId);
+        for (ShowAdBean showAdBean : adBeans) {
+            String postId = showAdBean.getPostId();
+//
+//            if (!checkStrSafe(postId)) {
+//                //这里要往后台传错误，或者要容错一下
+//                if (listener != null) {
+//                    listener.onLoadFailed("MobiType", -101,
+//                            "mobi 后台获取的 postId 不正确 或者 postId == null");
+//                }
+//                return;
+//            }
 
-        AdProviderManager.get().getProvider(showAdBean.getProviderType())
-                .express(activity,
-                        viewContainer,
-                        adParams,
-                        listener);
+//            adParams.setPostId(postId);
+
+            LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+
+            AdRunnable runnable = AdProviderManager.get().getProvider(showAdBean.getProviderType())
+                    .express(activity,
+                            viewContainer,
+                            localAdParams,
+                            listener);
+
+            strategy.addADTask(runnable);
+        }
+
+        strategy.execShow();
     }
 
 

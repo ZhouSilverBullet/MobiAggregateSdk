@@ -9,7 +9,7 @@ import java.io.Serializable;
  * author : liangning
  * date : 2019-11-09  14:02
  */
-public class AdBean implements Serializable {
+public class AdBean implements Serializable, Comparable<AdBean> {
 
     private String name;
     private String sdk;
@@ -57,5 +57,14 @@ public class AdBean implements Serializable {
                 ", order=" + order +
                 ", parameterBean=" + parameterBean +
                 '}';
+    }
+
+    @Override
+    public int compareTo(AdBean o) {
+        if (o == null) {
+            return -1;
+        }
+
+        return order - o.order;
     }
 }

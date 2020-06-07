@@ -1,37 +1,21 @@
 package com.mobi.gdt;
 
 import android.app.Activity;
-import android.os.SystemClock;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
+import com.mobi.core.LocalAdParams;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
-import com.mobi.core.splash.DefaultSplashSkipView;
+import com.mobi.core.strategy.AdRunnable;
 import com.mobi.gdt.wrapper.NativeExpressAdWrapper;
 import com.mobi.gdt.wrapper.RewardVideoAdWrapper;
 import com.mobi.gdt.wrapper.SplashAdWrapper;
 import com.mobi.gdt.wrapper.UnifiedInterstitialADWrapper;
-import com.qq.e.ads.cfg.VideoOption;
-import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
-import com.qq.e.ads.interstitial2.UnifiedInterstitialADListener;
-import com.qq.e.ads.nativ.NativeExpressAD;
-import com.qq.e.ads.nativ.NativeExpressADView;
-import com.qq.e.ads.rewardvideo.RewardVideoAD;
-import com.qq.e.ads.rewardvideo.RewardVideoADListener;
-import com.qq.e.ads.splash.SplashAD;
-import com.qq.e.ads.splash.SplashADListener;
-import com.qq.e.comm.constants.AdPatternType;
-import com.qq.e.comm.util.AdError;
-
-import java.util.List;
 
 /**
  * @author zhousaito
@@ -99,10 +83,10 @@ public class GdtProvider extends BaseAdProvider {
     }
 
     @Override
-    public void express(Activity mContext,
-                        ViewGroup viewContainer,
-                        AdParams adParams,
-                        IExpressListener mListener) {
+    public AdRunnable express(Activity mContext,
+                              ViewGroup viewContainer,
+                              LocalAdParams adParams,
+                              IExpressListener mListener) {
 
         NativeExpressAdWrapper nativeExpressAdWrap = new NativeExpressAdWrapper(this,
                 mContext,
@@ -110,8 +94,8 @@ public class GdtProvider extends BaseAdProvider {
                 adParams,
                 mListener);
 
-        nativeExpressAdWrap.createNativeExpressAD();
-
+//        nativeExpressAdWrap.createNativeExpressAD();
+        return nativeExpressAdWrap;
     }
 
 

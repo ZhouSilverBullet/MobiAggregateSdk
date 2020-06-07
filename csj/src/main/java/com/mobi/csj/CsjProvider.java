@@ -2,37 +2,25 @@ package com.mobi.csj;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
-import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
-import com.bytedance.sdk.openadsdk.TTNativeAd;
-import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
-import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
-import com.bytedance.sdk.openadsdk.TTSplashAd;
-import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
-import com.mobi.core.IAdProvider;
+import com.mobi.core.LocalAdParams;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
-import com.mobi.core.utils.LogUtils;
+import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.utils.ScreenUtils;
 import com.mobi.csj.wrapper.InteractionExpressAdWrapper;
 import com.mobi.csj.wrapper.NativeExpressAdWrapper;
 import com.mobi.csj.wrapper.RewardVideoAdWrapper;
 import com.mobi.csj.wrapper.SplashAdWrapper;
-
-import java.util.List;
 
 /**
  * @author zhousaito
@@ -188,10 +176,10 @@ public class CsjProvider extends BaseAdProvider {
     }
 
     @Override
-    public void express(Activity activity,
-                        ViewGroup viewContainer,
-                        AdParams adParams,
-                        IExpressListener mListener) {
+    public AdRunnable express(Activity activity,
+                              ViewGroup viewContainer,
+                              LocalAdParams adParams,
+                              IExpressListener mListener) {
 
         NativeExpressAdWrapper nativeExpressAdWrap = new NativeExpressAdWrapper(
                 this,
@@ -200,9 +188,9 @@ public class CsjProvider extends BaseAdProvider {
                 adParams,
                 mListener);
 
-        nativeExpressAdWrap.createNativeExpressAD();
+//        nativeExpressAdWrap.createNativeExpressAD();
 
-
+       return nativeExpressAdWrap;
     }
 
 //    private void bindTTAdListener(TTNativeExpressAd ad, ViewGroup viewContainer, IExpressListener mListener) {

@@ -1,10 +1,14 @@
 package com.mobi.csj.wrapper;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
+import com.mobi.core.BaseAdProvider;
+import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.ITTAppDownloadListener;
+import com.mobi.core.strategy.AdRunnable;
 import com.mobi.csj.CsjSession;
 
 /**
@@ -13,7 +17,7 @@ import com.mobi.csj.CsjSession;
  * @date 2020/6/4 10:56
  * @Dec 略
  */
-public class BaseAdWrapper implements TTAppDownloadListener {
+public abstract class BaseAdWrapper extends AdRunnable implements TTAppDownloadListener {
     
     private ITTAppDownloadListener mAppDownloadListener;
 
@@ -74,5 +78,28 @@ public class BaseAdWrapper implements TTAppDownloadListener {
         if (mAppDownloadListener != null) {
             mAppDownloadListener.onInstalled(fileName, appName);
         }
+    }
+
+    protected void localExecFail(BaseAdProvider provider) {
+        callExecFail(provider);
+    }
+
+    /**
+     * 执行任务失败的回调
+     * @param provider
+     */
+    private void callExecFail(BaseAdProvider provider) {
+        String providerType = "";
+        if (provider != null && !TextUtils.isEmpty(provider.getProviderType())) {
+            providerType = provider.getProviderType();
+        }
+        if (mCallback != null) {
+            mCallback.onFail(this, providerType);
+        }
+    }
+
+    @Override
+    public void run() {
+
     }
 }
