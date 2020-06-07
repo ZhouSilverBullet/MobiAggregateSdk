@@ -175,8 +175,7 @@ public class MobiPubSdk {
     }
 
     public static void showRewardView(final Activity activity,
-                                      final String codeId,
-                                      boolean supportDeepLink,
+                                      AdParams adParams,
                                       final IRewardAdListener listener) {
 
 //        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
@@ -186,6 +185,48 @@ public class MobiPubSdk {
 //
 //        AdProviderManager.get().getProvider(showAdBean.getProviderType())
 //                .rewardVideo(activity, showAdBean.getPostId(), supportDeepLink, listener);
+
+        if (!checkSafe(activity)) {
+            return;
+        }
+        checkSafe(adParams);
+
+        LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
+
+        if (isAdInvalid(localAdBean)) {
+            if (listener != null) {
+                listener.onAdFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
+            }
+            return;
+        }
+
+        List<ShowAdBean> adBeans = localAdBean.getAdBeans();
+        int sortType = localAdBean.getSortType();
+
+        IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
+        if (strategy == null) {
+            if (listener != null) {
+                listener.onAdFail("MobiType", -100, "mobi 的策略，本地还没有支持");
+            }
+            return;
+        }
+
+        strategy.setAdFailListener(listener);
+
+        for (ShowAdBean showAdBean : adBeans) {
+            String postId = showAdBean.getPostId();
+
+            LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+
+            AdRunnable runnable = AdProviderManager.get().getProvider(showAdBean.getProviderType())
+                    .rewardVideo(activity,
+                            localAdParams,
+                            listener);
+
+            strategy.addADTask(runnable);
+        }
+
+        strategy.execShow();
     }
 
     /**

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
+import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.listener.IExpressListener;
@@ -143,16 +144,15 @@ public class CsjProvider extends BaseAdProvider {
         });
     }
 
-    public void rewardVideo(final Activity activity,
-                            final String codeId,
-                            boolean supportDeepLink,
+    public AdRunnable rewardVideo(final Activity activity,
+                            LocalAdParams adParams,
                             final IRewardAdListener listener) {
 
         RewardVideoAdWrapper rewardVideoAdWrapper = new RewardVideoAdWrapper(this,
-                activity, codeId, supportDeepLink, listener);
+                activity, adParams, listener);
 
-        rewardVideoAdWrapper.createRewardVideoAd();
-
+//        rewardVideoAdWrapper.createRewardVideoAd();
+        return rewardVideoAdWrapper;
     }
 
     public AdRunnable interactionExpress(Activity activity,

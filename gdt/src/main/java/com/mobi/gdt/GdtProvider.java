@@ -57,18 +57,20 @@ public class GdtProvider extends BaseAdProvider {
 
 
     @Override
-    public void rewardVideo(Activity activity, String codeId, boolean supportDeepLink, IRewardAdListener listener) {
+    public AdRunnable rewardVideo(Activity activity, LocalAdParams adParams, IRewardAdListener listener) {
 
         RewardVideoAdWrapper rewardVideoAdWrapper = new RewardVideoAdWrapper(this,
-                activity, codeId, supportDeepLink, listener);
-        rewardVideoAdWrapper.createRewardVideoAd();
-
+                activity,
+                adParams,
+                listener);
+//        rewardVideoAdWrapper.createRewardVideoAd();
+        return rewardVideoAdWrapper;
     }
 
     @Override
     public AdRunnable interactionExpress(Activity activity,
-                                   LocalAdParams adParams,
-                                   IInteractionAdListener listener) {
+                                         LocalAdParams adParams,
+                                         IInteractionAdListener listener) {
 
 
         UnifiedInterstitialADWrapper unifiedInterstitialADWrapper =

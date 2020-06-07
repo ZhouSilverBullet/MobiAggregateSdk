@@ -97,7 +97,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnReward(View view) {
-        MobiPubSdk.showRewardView(this, "1024003", true, new IRewardAdListener() {
+        AdParams adParams = new AdParams.Builder()
+                .setCodeId("1024003")
+                .build();
+
+        MobiPubSdk.showRewardView(this, adParams, new IRewardAdListener() {
             @Override
             public void onAdFail(String type, int code, String errorMsg) {
                 LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);

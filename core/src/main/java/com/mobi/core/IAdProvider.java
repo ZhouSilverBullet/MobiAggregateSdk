@@ -19,16 +19,12 @@ import com.mobi.core.strategy.AdRunnable;
  */
 public interface IAdProvider {
     /**
-     *
      * @param activity
-     * @param codeId  对应的广告id
-     *
+     * @param codeId            对应的广告id
      * @param expressViewWidth  如果传 <=0 就是全屏 csj需要
      * @param expressViewHeight 如果传 <=0 就是全屏 csj需要
-     *   对应的是 AdSlot.Builder setExpressViewAcceptedSize(width, height)
-     *
-     * @param supportDeepLink 一般传true即可 csj需要
-     *
+     *                          对应的是 AdSlot.Builder setExpressViewAcceptedSize(width, height)
+     * @param supportDeepLink   一般传true即可 csj需要
      * @param splashContainer
      * @param listener
      */
@@ -47,11 +43,10 @@ public interface IAdProvider {
                     boolean supportDeepLink,
                     final IFullScreenVideoAdListener listener);
 
-    default void rewardVideo(final Activity activity,
-                             final String codeId,
-                             boolean supportDeepLink,
-                             final IRewardAdListener listener) {
-
+    default AdRunnable rewardVideo(final Activity activity,
+                                   LocalAdParams adParams,
+                                   final IRewardAdListener listener) {
+        return null;
     }
 
     /**
@@ -62,8 +57,8 @@ public interface IAdProvider {
      * @param listener
      */
     default AdRunnable interactionExpress(Activity activity,
-                                    LocalAdParams adParams,
-                                    IInteractionAdListener listener) {
+                                          LocalAdParams adParams,
+                                          IInteractionAdListener listener) {
         return null;
     }
 

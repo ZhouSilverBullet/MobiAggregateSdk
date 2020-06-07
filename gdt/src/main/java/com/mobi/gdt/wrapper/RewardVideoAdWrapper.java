@@ -2,10 +2,13 @@ package com.mobi.gdt.wrapper;
 
 import android.app.Activity;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.mobi.core.BaseAdProvider;
+import com.mobi.core.LocalAdParams;
 import com.mobi.core.listener.IRewardAdListener;
+import com.mobi.core.utils.LogUtils;
 import com.qq.e.ads.rewardvideo.RewardVideoAD;
 import com.qq.e.ads.rewardvideo.RewardVideoADListener;
 import com.qq.e.comm.util.AdError;
@@ -17,33 +20,43 @@ import com.qq.e.comm.util.AdError;
  * @Dec 略
  */
 public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoADListener {
+    private final LocalAdParams mAdParams;
     BaseAdProvider mAdProvider;
     Activity mActivity;
-    String mCodeId;
-    boolean mSupportDeepLink;
     IRewardAdListener mListener;
 
     private RewardVideoAD rewardVideoAD;
 
     public RewardVideoAdWrapper(BaseAdProvider adProvider,
                                 Activity activity,
-                                String codeId,
-                                boolean supportDeepLink,
+                                LocalAdParams adParams,
                                 IRewardAdListener listener) {
         mAdProvider = adProvider;
         mActivity = activity;
-        mCodeId = codeId;
-        mSupportDeepLink = supportDeepLink;
+        mAdParams = adParams;
         mListener = listener;
     }
 
-    public void createRewardVideoAd() {
-        rewardVideoAD = new RewardVideoAD(mActivity, getAppId(), mCodeId, this); // 有声播放
+    private void createRewardVideoAd() {
+        String postId = mAdParams.getPostId();
+        if (TextUtils.isEmpty(postId)) {
+            localExecFail(mAdProvider, -101,
+                    "mobi 后台获取的 postId 不正确 或者 postId == null");
+            return;
+        }
+
+        rewardVideoAD = new RewardVideoAD(mActivity, getAppId(), mAdParams.getPostId(), this); // 有声播放
         rewardVideoAD.loadAD();
     }
 
     @Override
     public void onADLoad() {
+
+        //load成功前判断一下，是否已经把任务给取消了
+        if (isCancel()) {
+            LogUtils.e(TAG, "Gdt RewardVideoAdWrapper load isCancel");
+            return;
+        }
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardLoad(mListener);
@@ -80,6 +93,11 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onADShow() {
+        //show成功前判断一下，是否已经把任务给取消了
+        if (isCancel()) {
+            LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isCancel");
+            return;
+        }
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardGdtShow(mListener);
@@ -135,5 +153,10 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
                 mAdProvider.callbackRewardFail(adError.getErrorCode(), adError.getErrorMsg(), mListener);
             }
         }
+    }
+
+    @Override
+    public void run() {
+        createRewardVideoAd();
     }
 }

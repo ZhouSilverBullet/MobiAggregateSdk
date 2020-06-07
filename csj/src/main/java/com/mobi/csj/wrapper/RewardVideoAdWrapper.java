@@ -1,13 +1,17 @@
 package com.mobi.csj.wrapper;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
+import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
+import com.mobi.core.LocalAdParams;
 import com.mobi.core.listener.IRewardAdListener;
+import com.mobi.core.utils.LogUtils;
 
 /**
  * @author zhousaito
@@ -16,36 +20,40 @@ import com.mobi.core.listener.IRewardAdListener;
  * @Dec 略
  */
 public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.RewardVideoAdListener, TTRewardVideoAd.RewardAdInteractionListener {
+    private final LocalAdParams mAdParams;
     BaseAdProvider mAdProvider;
     Activity mActivity;
-    String mCodeId;
-    boolean mSupportDeepLink;
     IRewardAdListener mListener;
     private TTRewardVideoAd mttRewardVideoAd;
 
     public RewardVideoAdWrapper(BaseAdProvider adProvider,
                                 Activity activity,
-                                String codeId,
-                                boolean supportDeepLink,
+                                LocalAdParams adParams,
                                 IRewardAdListener listener) {
         mAdProvider = adProvider;
         mActivity = activity;
-        mCodeId = codeId;
-        mSupportDeepLink = supportDeepLink;
+        mAdParams = adParams;
         mListener = listener;
     }
 
-    public void createRewardVideoAd() {
+    private void createRewardVideoAd() {
+        String postId = mAdParams.getPostId();
+        if (TextUtils.isEmpty(postId)) {
+            localExecFail(mAdProvider, -101,
+                    "mobi 后台获取的 postId 不正确 或者 postId == null");
+            return;
+        }
+
         TTAdNative adNative = createAdNative(mActivity.getApplicationContext());
         AdSlot adSlot = new AdSlot.Builder()
-                .setImageAcceptedSize(1080, 1920)
-                .setCodeId(mCodeId)
-                .setSupportDeepLink(mSupportDeepLink)
-                .setRewardName("")
-                .setRewardAmount(10)
-                .setUserID("")
-                .setMediaExtra("media-extra")
-                .setOrientation(TTAdConstant.VERTICAL)
+                .setImageAcceptedSize(mAdParams.getImageWidth(), mAdParams.getImageHeight())
+                .setCodeId(mAdParams.getPostId())
+                .setSupportDeepLink(mAdParams.isSupportDeepLink())
+                .setRewardName(mAdParams.getRewardName())
+                .setRewardAmount(mAdParams.getRewardAmount())
+                .setUserID(mAdParams.getUserID())
+                .setMediaExtra(mAdParams.getMediaExtra())
+                .setOrientation(mAdParams.getOrientation())
                 .build();
 
         adNative.loadRewardVideoAd(adSlot, this);
@@ -59,9 +67,10 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 //            mListener.onAdFail(mProviderType, "code：" + code + " errorMsg: " + message);
 //            // listener.onAdClose(mProviderType);
 //        }
-        if (mAdProvider != null) {
-            mAdProvider.callbackRewardFail(code, message, mListener);
-        }
+        localExecFail(mAdProvider, code, message);
+//        if (mAdProvider != null) {
+//            mAdProvider.callbackRewardFail(code, message, mListener);
+//        }
 
 
     }
@@ -72,6 +81,13 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 //            mListener.onAdLoad(mProviderType);
 //            // listener.onAdClose(mProviderType);
 //        }
+
+        //load成功前判断一下，是否已经把任务给取消了
+        if (isCancel()) {
+            LogUtils.e(TAG, "Csj RewardVideoAdWrapper load isCancel");
+            return;
+        }
+
         if (mAdProvider != null) {
             mAdProvider.callbackRewardLoad(mListener);
         }
@@ -80,15 +96,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
         mttRewardVideoAd = ttRewardVideoAd;
         mttRewardVideoAd.setRewardAdInteractionListener(this);
         mttRewardVideoAd.showRewardVideoAd(mActivity, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "scenes_test");
-//                if (bean.getSort_type() == Constants.SORT_TYPE_SERVICE_ORDER) {
-//                    showTTVideo();
-//                } else {
-//                    recordRenderSuccess(mProviderType);
-//                    if (firstCome) {
-//                        showTTVideo();
-//                        firstCome = false;
-//                    }
-//                }
+
         if (mttRewardVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
             //本地接口扔到Base里面去回调
             setAppDownloadListener(mListener);
@@ -116,6 +124,14 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 //        if (mListener != null) {
 //            mListener.onAdShow(mProviderType);
 //        }
+        //show成功前判断一下，是否已经把任务给取消了
+        if (isCancel()) {
+            LogUtils.e(TAG, "Csj RewardVideoAdWrapper onAdShow isCancel");
+            return;
+        }
+
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardExpose(mListener);
@@ -163,9 +179,10 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 //            mListener.onAdFail(mProviderType, "播放错误");
 //        }
 
-        if (mAdProvider != null) {
-            mAdProvider.callbackRewardFail(-100, "播放错误 onVideoError", mListener);
-        }
+        localExecFail(mAdProvider,-100, "播放错误 onVideoError" );
+//        if (mAdProvider != null) {
+//            mAdProvider.callbackRewardFail(-100, "播放错误 onVideoError", mListener);
+//        }
     }
 
     //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
@@ -190,5 +207,10 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
         if (mAdProvider != null) {
             mAdProvider.callbackRewardSkippedVideo(mListener);
         }
+    }
+
+    @Override
+    public void run() {
+        createRewardVideoAd();
     }
 }
