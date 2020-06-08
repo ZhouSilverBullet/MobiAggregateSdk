@@ -55,6 +55,10 @@ public abstract class AdRunnable implements Runnable {
         return mStrategyErrorList;
     }
 
+    /**
+     * 广告显示成功后，广告需要回调一下，让外界的策略知晓
+     * @param provider
+     */
     protected void localExecSuccess(BaseAdProvider provider) {
         if (mCallback != null) {
             mCallback.onSuccess(this, getProviderType(provider));

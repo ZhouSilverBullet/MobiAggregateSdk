@@ -99,6 +99,9 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
             return;
         }
 
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
+
         if (mAdProvider != null) {
             mAdProvider.callbackRewardGdtShow(mListener);
         }
