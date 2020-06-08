@@ -62,6 +62,16 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
     @Override
     public final void execShow() {
         registerAdTaskCallBack();
+        //这里如果一个也没加上
+        //就想当于任务没加成功，直接给外面抛异常
+        if (mAdRunnableSyncList.size() == 0) {
+            StrategyError strategyError = new StrategyError("MobiType", -102, "没有策略任务");
+            ArrayList<StrategyError> strategyErrors = new ArrayList<>();
+            strategyErrors.add(strategyError);
+            if (mAdFailListener != null) {
+                mAdFailListener.onAdFail(strategyErrors);
+            }
+        }
 
         execRun();
     }

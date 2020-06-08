@@ -3,6 +3,7 @@ package com.mobi.gdt;
 import android.content.Context;
 
 import com.mobi.core.AdProviderManager;
+import com.mobi.core.IAdSession;
 import com.qq.e.comm.managers.GDTADManager;
 
 /**
@@ -11,7 +12,7 @@ import com.qq.e.comm.managers.GDTADManager;
  * @date 2020/6/1 19:53
  * @Dec 略
  */
-public class GdtSession {
+public class GdtSession implements IAdSession {
 
     private String appId;
 
@@ -30,7 +31,8 @@ public class GdtSession {
     private static boolean isAppDebug = true;
     private Context mContext;
 
-    public void init(Context context, String gdtAdAppId, boolean isDebug) {
+    @Override
+    public void init(Context context, String gdtAdAppId, String appName, boolean isDebug) {
         //给予多次调用，防止多次进行初始化
         if (mContext != null) {
             return;
@@ -51,6 +53,7 @@ public class GdtSession {
         return appId;
     }
 
+    @Override
     public Context getContext() {
         return mContext;
     }
@@ -59,6 +62,7 @@ public class GdtSession {
         return isAppDebug;
     }
 
+    @Override
     public boolean isInit() {
         return mContext != null;
     }

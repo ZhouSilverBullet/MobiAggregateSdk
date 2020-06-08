@@ -41,14 +41,14 @@ class MobiAggregateSdk {
         String providerKey = AdProviderManager.get().getProviderKey();
 
         String codeId = "";
-        switch (providerKey) {
-            case AdProviderManager.TYPE_CSJ:
-                codeId = CSJ_SPLASH_ID;
-                break;
-            default:
-                codeId = GDT_SPLASH_ID;
-                break;
-        }
+//        switch (providerKey) {
+//            case AdProviderManager.TYPE_CSJ:
+//                codeId = CSJ_SPLASH_ID;
+//                break;
+//            default:
+//                codeId = GDT_SPLASH_ID;
+//                break;
+//        }
 
 
         IAdProvider provider = AdProviderManager.get().getProvider(providerKey);

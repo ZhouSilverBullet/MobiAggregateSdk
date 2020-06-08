@@ -7,6 +7,7 @@ import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.mobi.core.AdProviderManager;
+import com.mobi.core.IAdSession;
 
 /**
  * @author zhousaito
@@ -14,7 +15,7 @@ import com.mobi.core.AdProviderManager;
  * @date 2020/6/1 18:04
  * @Dec 略
  */
-public class CsjSession {
+public class CsjSession implements IAdSession {
     //默认为true
     private static boolean isAppDebug = true;
     private TTAdManager mTTAdManager;
@@ -31,6 +32,7 @@ public class CsjSession {
         private static final CsjSession INSTANCE = new CsjSession();
     }
 
+    @Override
     public void init(Context context, String appId, String appName, boolean isDebug) {
         if (mTTAdManager != null) {
             return;
@@ -53,6 +55,7 @@ public class CsjSession {
         return mTTAdManager;
     }
 
+    @Override
     public Context getContext() {
         return mContext;
     }
@@ -78,6 +81,7 @@ public class CsjSession {
                 .build();
     }
 
+    @Override
     public boolean isInit() {
         return mTTAdManager != null;
     }

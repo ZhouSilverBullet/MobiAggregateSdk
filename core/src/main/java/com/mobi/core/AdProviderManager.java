@@ -10,17 +10,28 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author zhousaito
  * @version 1.0
  * @date 2020/6/2 20:45
- * @Dec 略
+ * @Dec todo 改名， AdManager
  */
 public class AdProviderManager {
     public static final String TAG = "AdProviderManager";
-    public static final String TYPE_CSJ = "CsjProvider";
-    public static final String TYPE_GDT = "GdtProvider";
+
+    public static final String[] SKD_PLATFORM = new String[]{
+            "CsjProvider", "GdtProvider"};
+    public static final String TYPE_CSJ = SKD_PLATFORM[0];
+    public static final String TYPE_CSJ_PATH = "com.mobi.csj.CsjSession";
+    public static final String TYPE_GDT = SKD_PLATFORM[1];
+    public static final String TYPE_GDT_PATH = "com.mobi.gdt.GdtSession";
 
     private Map<String, IAdProvider> mAdProviderMap;
+    /**
+     * 用于存放 所有session的单例实例，这样来判断
+     * 是否存在对应的广告引入
+     */
+    private Map<String, IAdSession> mAdSessionMap;
 
     private AdProviderManager() {
         mAdProviderMap = new ConcurrentHashMap<>();
+        mAdSessionMap = new ConcurrentHashMap<>();
     }
 
     public static AdProviderManager get() {
@@ -53,5 +64,13 @@ public class AdProviderManager {
         LogUtils.i(TAG, " getProviderKey " + i);
         return i % 2 == 0 ? TYPE_CSJ : TYPE_GDT;
 //        return TYPE_CSJ;
+    }
+
+    public void putAdSession(String key, IAdSession session) {
+        mAdSessionMap.put(key, session);
+    }
+
+    public IAdSession getAdSession(String key) {
+        return mAdSessionMap.get(key);
     }
 }

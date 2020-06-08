@@ -3,12 +3,16 @@ package com.mobi.common;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.MainThread;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import com.mobi.core.AdParams;
 import com.mobi.core.AdProviderManager;
 import com.mobi.core.CoreSession;
+import com.mobi.core.IAdProvider;
+import com.mobi.core.IAdSession;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.LocalAdSession;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.listener.IAdFailListener;
@@ -22,9 +26,11 @@ import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.strategy.AdStrategyFactory;
 import com.mobi.core.strategy.IShowAdStrategy;
 import com.mobi.core.strategy.StrategyError;
+import com.mobi.core.utils.LogUtils;
 import com.mobi.csj.CsjSession;
 import com.mobi.exception.MobiNullPointerException;
 import com.mobi.gdt.GdtSession;
+import com.mobi.reflection.SdkReflection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,15 +106,17 @@ public class MobiPubSdk {
             String postId = showAdBean.getPostId();
 
             LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+            IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
+            if (provider != null) {
+                AdRunnable runnable = provider
+                        .splash(activity,
+                                splashContainer,
+                                skipView,
+                                localAdParams,
+                                listener);
+                strategy.addADTask(runnable);
+            }
 
-            AdRunnable runnable = AdProviderManager.get().getProvider(showAdBean.getProviderType())
-                    .splash(activity,
-                            splashContainer,
-                            skipView,
-                            localAdParams,
-                            listener);
-
-            strategy.addADTask(runnable);
         }
 
         strategy.execShow();
@@ -163,13 +171,16 @@ public class MobiPubSdk {
 
             LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
 
-            AdRunnable runnable = AdProviderManager.get().getProvider(showAdBean.getProviderType())
-                    .express(activity,
-                            viewContainer,
-                            localAdParams,
-                            listener);
+            IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
+            if (provider != null) {
+                AdRunnable runnable = provider
+                        .express(activity,
+                                viewContainer,
+                                localAdParams,
+                                listener);
 
-            strategy.addADTask(runnable);
+                strategy.addADTask(runnable);
+            }
         }
 
         strategy.execShow();
@@ -208,12 +219,16 @@ public class MobiPubSdk {
 
             LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
 
-            AdRunnable runnable = AdProviderManager.get().getProvider(showAdBean.getProviderType())
-                    .fullscreen(activity,
-                            localAdParams,
-                            listener);
+            IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
+            if (provider != null) {
+                AdRunnable runnable = provider
+                        .fullscreen(activity,
+                                localAdParams,
+                                listener);
 
-            strategy.addADTask(runnable);
+                strategy.addADTask(runnable);
+            }
+
         }
 
         strategy.execShow();
@@ -252,12 +267,15 @@ public class MobiPubSdk {
 
             LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
 
-            AdRunnable runnable = AdProviderManager.get().getProvider(showAdBean.getProviderType())
-                    .rewardVideo(activity,
-                            localAdParams,
-                            listener);
+            IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
+            if (provider != null) {
+                AdRunnable runnable = provider
+                        .rewardVideo(activity,
+                                localAdParams,
+                                listener);
 
-            strategy.addADTask(runnable);
+                strategy.addADTask(runnable);
+            }
         }
 
         strategy.execShow();
@@ -301,13 +319,15 @@ public class MobiPubSdk {
             String postId = showAdBean.getPostId();
 
             LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+            IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
+            if (provider != null) {
+                AdRunnable runnable = provider
+                        .interactionExpress(activity,
+                                localAdParams,
+                                listener);
 
-            AdRunnable runnable = AdProviderManager.get().getProvider(showAdBean.getProviderType())
-                    .interactionExpress(activity,
-                            localAdParams,
-                            listener);
-
-            strategy.addADTask(runnable);
+                strategy.addADTask(runnable);
+            }
         }
 
         strategy.execShow();
@@ -349,21 +369,57 @@ public class MobiPubSdk {
             String providerType = adBean.getProviderType();
             boolean appDebug = CommonSession.isAppDebug();
             String appId = adBean.getAppId();
+            String appName = adBean.getAppName();
 
-            if (!CsjSession.get().isInit() &&
-                    AdProviderManager.TYPE_CSJ.equals(providerType)) {
-                String appName = adBean.getAppName();
-                //初始化csj
-                CsjSession.get().init(
-                        context,
-                        appId,
-                        appName,
-                        appDebug);
+//            if (!CsjSession.get().isInit() &&
+//                    AdProviderManager.TYPE_CSJ.equals(providerType)) {
+//                //初始化csj
+//                CsjSession.get().init(
+//                        context,
+//                        appId,
+//                        appName,
+//                        appDebug);
+//
+//            } else if (!GdtSession.get().isInit() &&
+//                    AdProviderManager.TYPE_GDT.equals(providerType)) {
+//                //初始化GDT
+//                GdtSession.get().init(context, appId, appName, appDebug);
+//            }
+            initSession(context, providerType, appId, appName, appDebug);
+        }
+    }
 
-            } else if (!GdtSession.get().isInit() &&
-                    AdProviderManager.TYPE_GDT.equals(providerType)) {
-                //初始化GDT
-                GdtSession.get().init(context, appId, appDebug);
+    private static void initSession(Context context, String providerType, String appId, String appName, boolean appDebug) {
+        IAdSession adSession = AdProviderManager.get().getAdSession(providerType);
+        if (adSession == null) {
+            String clazzPath = "";
+            if (AdProviderManager.TYPE_CSJ.equals(providerType)) {
+                clazzPath = AdProviderManager.TYPE_CSJ_PATH;
+            } else if (AdProviderManager.TYPE_GDT.equals(providerType)) {
+                clazzPath = AdProviderManager.TYPE_GDT_PATH;
+            }
+            if (!TextUtils.isEmpty(clazzPath)) {
+                Object o = SdkReflection.findInitSession(context, clazzPath,
+                        appId, appName, appDebug);
+                //ClassNotFoundException
+                if (o == null) {
+                    AdProviderManager.get().putAdSession(providerType, LocalAdSession.get());
+                } else if (o instanceof IAdSession) {
+                    AdProviderManager.get().putAdSession(providerType, (IAdSession) o);
+                } else {
+                    LogUtils.e(TAG, "Platform : " + providerType + " 初始化失败！！！");
+                }
+            }
+        } else {
+            if (adSession instanceof LocalAdSession) {
+                if (AdProviderManager.TYPE_CSJ.equals(providerType)) {
+                    LogUtils.e(TAG, "没有导入或者不支持 或者 穿山甲 初始化出错");
+
+                } else if (AdProviderManager.TYPE_GDT.equals(providerType)) {
+                    LogUtils.e(TAG, "没有导入或者不支持 或者 广点通 初始化出错");
+                } else {
+                    //todo 更多
+                }
             }
         }
     }
