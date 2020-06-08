@@ -83,6 +83,17 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
         //加载成功
         mttRewardVideoAd = ttRewardVideoAd;
         mttRewardVideoAd.setRewardAdInteractionListener(this);
+
+        //显示广告
+        //show成功前判断一下，是否已经把任务给取消了
+        if (isCancel()) {
+            LogUtils.e(TAG, "Csj RewardVideoAdWrapper onAdShow isCancel");
+            return;
+        }
+
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
+
         mttRewardVideoAd.showRewardVideoAd(mActivity, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "scenes_test");
 
         if (mttRewardVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
@@ -104,15 +115,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 
     @Override
     public void onAdShow() {
-        //显示广告
-        //show成功前判断一下，是否已经把任务给取消了
-        if (isCancel()) {
-            LogUtils.e(TAG, "Csj RewardVideoAdWrapper onAdShow isCancel");
-            return;
-        }
-
-        setExecSuccess(true);
-        localExecSuccess(mAdProvider);
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardExpose(mListener);

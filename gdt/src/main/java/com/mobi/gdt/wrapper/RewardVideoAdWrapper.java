@@ -68,6 +68,13 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
                 long delta = 1000;//建议给广告过期时间加个buffer，单位ms，这里demo采用1000ms的buffer
                 //广告展示检查3：展示广告前判断广告数据未过期
                 if (SystemClock.elapsedRealtime() < (rewardVideoAD.getExpireTimestamp() - delta)) {
+                    if (isCancel()) {
+                        LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isCancel");
+                        return;
+                    }
+                    setExecSuccess(true);
+                    localExecSuccess(mAdProvider);
+
                     rewardVideoAD.showAD();
                 } else {
                     Toast.makeText(mActivity, "激励视频广告已过期，请再次请求广告后进行广告展示！", Toast.LENGTH_LONG).show();
@@ -94,13 +101,13 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
     @Override
     public void onADShow() {
         //show成功前判断一下，是否已经把任务给取消了
-        if (isCancel()) {
-            LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isCancel");
-            return;
-        }
-
-        setExecSuccess(true);
-        localExecSuccess(mAdProvider);
+//        if (isCancel()) {
+//            LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isCancel");
+//            return;
+//        }
+//
+//        setExecSuccess(true);
+//        localExecSuccess(mAdProvider);
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardGdtShow(mListener);
