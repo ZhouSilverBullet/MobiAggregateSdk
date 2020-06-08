@@ -30,7 +30,7 @@ public class CoreSession {
     private final Handler mHandler;
     private Context mContext;
     private NetworkClient mNetworkClient;
-    private ConfigBean configBean;
+    private volatile ConfigBean configBean;
 
     private CoreSession() {
         mHandler = new Handler(Looper.getMainLooper());

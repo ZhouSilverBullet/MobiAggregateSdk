@@ -6,6 +6,7 @@ import android.util.Log;
 import com.mobi.core.CoreSession;
 import com.mobi.core.bean.ConfigBean;
 import com.mobi.core.utils.ConfigBeanUtil;
+import com.mobi.core.utils.SpUtil;
 
 /**
  * @author zhousaito
@@ -20,17 +21,23 @@ public class NetworkClient {
     public void init(Context context, InitCallback callback) {
         SdkExecutors.SDK_THREAD_POOL.execute(() -> {
 
+            //读取存好的文件
+            String serviceConfig = SpUtil.getString("service_config");
+            //设置上去
+            CoreSession.get().setConfigBean(ConfigBeanUtil.getConfigBean(serviceConfig));
+
+            //同步的网络请求
             HttpClient httpClient = new HttpClient("http://www.zhousaito.top:8080/config", "GET", 10000, "UTF-8");
             httpClient.call();
 
             int responseCode = httpClient.getResponseCode();
             if (responseCode == 200) {
                 String resContent = httpClient.getResContent();
-                ConfigBean configBean = ConfigBeanUtil.getConfigBean(resContent);
-//                ConfigBean configBean = new Gson().fromJson(resContent, ConfigBean.class);
-                Log.e(TAG, "configBean ： " + configBean);
+                //通过Sp存起来
+                SpUtil.putCommitString("service_config", resContent);
 
-//                List<ConfigItemBean> list = configBean.getList();
+                ConfigBean configBean = ConfigBeanUtil.getConfigBean(resContent);
+                Log.e(TAG, "configBean ： " + configBean);
 
                 CoreSession.get().runOnUiThread(new Runnable() {
                     @Override
