@@ -1,7 +1,5 @@
 package com.mobi.core.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
@@ -9,12 +7,15 @@ import java.io.Serializable;
  * date : 2019-11-09  14:03
  */
 public class ParameterBean implements Serializable {
-    @SerializedName("appid")
     private String appid;
-    @SerializedName("appname")
     private String appname;
-    @SerializedName("posid")
     private String posid;
+
+    public ParameterBean(String appid, String appname, String posid) {
+        this.appid = appid;
+        this.appname = appname;
+        this.posid = posid;
+    }
 
     public String getAppid() {
         return appid;

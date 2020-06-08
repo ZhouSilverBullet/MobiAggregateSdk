@@ -1,7 +1,5 @@
 package com.mobi.core.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
@@ -14,8 +12,14 @@ public class AdBean implements Serializable, Comparable<AdBean> {
     private String name;
     private String sdk;
     private int order;
-    @SerializedName("parameter")
     private ParameterBean parameterBean;
+
+    public AdBean(String name, String sdk, int order, ParameterBean parameterBean) {
+        this.name = name;
+        this.sdk = sdk;
+        this.order = order;
+        this.parameterBean = parameterBean;
+    }
 
     public String getName() {
         return name;

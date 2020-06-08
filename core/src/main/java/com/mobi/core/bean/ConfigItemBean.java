@@ -16,6 +16,16 @@ public class ConfigItemBean implements Serializable {
     private List<AdBean> network = new ArrayList<>();
     private List<String> sort_parameter = new ArrayList<>();
 
+    public ConfigItemBean(String posid,
+                          int sort_type,
+                          List<AdBean> network,
+                          List<String> sort_parameter) {
+        this.posid = posid;
+        this.sort_type = sort_type;
+        this.network = network;
+        this.sort_parameter = sort_parameter;
+    }
+
     /**
      * NetWorkSort 是否已经进行了排序
      */

@@ -3,12 +3,9 @@ package com.mobi.core.network;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.mobi.core.CoreSession;
 import com.mobi.core.bean.ConfigBean;
-import com.mobi.core.bean.ConfigItemBean;
-
-import java.util.List;
+import com.mobi.core.utils.ConfigBeanUtil;
 
 /**
  * @author zhousaito
@@ -29,10 +26,11 @@ public class NetworkClient {
             int responseCode = httpClient.getResponseCode();
             if (responseCode == 200) {
                 String resContent = httpClient.getResContent();
-                ConfigBean configBean = new Gson().fromJson(resContent, ConfigBean.class);
+                ConfigBean configBean = ConfigBeanUtil.getConfigBean(resContent);
+//                ConfigBean configBean = new Gson().fromJson(resContent, ConfigBean.class);
                 Log.e(TAG, "configBean ： " + configBean);
 
-                List<ConfigItemBean> list = configBean.getList();
+//                List<ConfigItemBean> list = configBean.getList();
 
                 CoreSession.get().runOnUiThread(new Runnable() {
                     @Override

@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
 
         AdParams adParams = new AdParams.Builder()
                 .setCodeId("1024005")
-                .setExpressViewAcceptedSize(1080, 1920)
+                .setImageAcceptedSize(1080, 1920)
                 .setSupportDeepLink(true)
                 .build();
 

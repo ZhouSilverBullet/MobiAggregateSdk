@@ -1,6 +1,8 @@
 package com.mobi.aggsdk;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.mobi.common.MobiPubSdk;
 
@@ -38,7 +40,11 @@ public class App extends Application {
 
         MobiPubSdk.init(this, "mobiAppIdxxxxxx");
 
+    }
 
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

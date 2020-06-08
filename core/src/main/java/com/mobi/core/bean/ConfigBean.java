@@ -15,6 +15,18 @@ public class ConfigBean implements Serializable {
     private List<ConfigItemBean> list = new ArrayList<>();
     private List<SdkInfoItem> sdk_info = new ArrayList<>();
 
+    public ConfigBean(long storage_time,
+                      long timeout,
+                      long ad_adk_req_timeout,
+                      List<ConfigItemBean> list,
+                      List<SdkInfoItem> sdk_info) {
+        this.storage_time = storage_time;
+        this.timeout = timeout;
+        this.ad_adk_req_timeout = ad_adk_req_timeout;
+        this.list = list;
+        this.sdk_info = sdk_info;
+    }
+
     public long getTimeout() {
         return timeout;
     }
