@@ -17,7 +17,7 @@ import com.mobi.core.splash.BaseSplashSkipView;
  * @Dec 略
  */
 @Deprecated
-public class MobiAggregateSdk {
+class MobiAggregateSdk {
     public static final String TAG = "MobiAggregateSdk";
 
     public static final String CSJ_SPLASH_ID = "801121648";

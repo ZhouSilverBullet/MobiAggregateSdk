@@ -52,10 +52,6 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
         if (TextUtils.isEmpty(postId)) {
             localExecFail(mAdProvider, -101,
                     "mobi 后台获取的 postId 不正确 或者 postId == null");
-
-//            if (mAdProvider != null) {
-//                mAdProvider.callbackExpressLoadFailed();
-//            }
             return;
         }
 
@@ -78,18 +74,12 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     @Override
     public void onError(int code, String message) {
         localExecFail(mAdProvider, code, message);
-//            if (mAdProvider != null) {
-//                mAdProvider.callbackInteractionFail(code, message, mListener);
-//            }
     }
 
     @Override
     public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
         if (list == null || list.size() == 0) {
             localExecFail(mAdProvider, -100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ");
-//            if (mAdProvider != null) {
-//                mAdProvider.callbackInteractionFail(-100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ", mListener);
-//            }
             return;
         }
 
@@ -141,9 +131,6 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     public void onRenderFail(View view, String s, int i) {
 //        localExecFail(mAdProvider, i, s);
         localRenderFail(mAdProvider, i, s);
-//        if (mAdProvider != null) {
-////            mAdProvider.callbackInteractionFail(i, s, mListener);
-////        }
     }
 
     @Override

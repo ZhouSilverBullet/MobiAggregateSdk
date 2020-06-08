@@ -1,8 +1,5 @@
 package com.mobi.gdt.wrapper;
 
-import android.text.TextUtils;
-
-import com.mobi.core.BaseAdProvider;
 import com.mobi.core.strategy.AdRunnable;
 import com.mobi.gdt.GdtSession;
 import com.qq.e.ads.nativ.ADSize;
@@ -34,8 +31,4 @@ public abstract class BaseAdWrapper extends AdRunnable {
         return GdtSession.get().getAppId();
     }
 
-    @Override
-    public void run() {
-
-    }
 }

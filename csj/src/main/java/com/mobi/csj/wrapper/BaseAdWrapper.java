@@ -1,13 +1,9 @@
 package com.mobi.csj.wrapper;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
-import com.mobi.core.BaseAdProvider;
-import com.mobi.core.listener.IAdFailListener;
-import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.ITTAppDownloadListener;
 import com.mobi.core.strategy.AdRunnable;
 import com.mobi.csj.CsjSession;
@@ -79,10 +75,5 @@ public abstract class BaseAdWrapper extends AdRunnable implements TTAppDownloadL
         if (mAppDownloadListener != null) {
             mAppDownloadListener.onInstalled(fileName, appName);
         }
-    }
-
-    @Override
-    public void run() {
-
     }
 }

@@ -65,10 +65,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
         if (TextUtils.isEmpty(postId)) {
             localExecFail(mAdProvider, -101,
                     "mobi 后台获取的 postId 不正确 或者 postId == null");
-//            if (mAdProvider != null) {
-//                mAdProvider.callbackExpressLoadFailed(-101,
-//                        "mobi 后台获取的 postId 不正确 或者 postId == null", mListener);
-//            }
             return;
         }
 
@@ -122,14 +118,8 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             mViewContainer.removeAllViews();
         }
         //广告渲染失败
-//        localExecFail(mAdProvider, MobiConstantValue.GDT_ERROR_RENDER_CODE,
-//                MobiConstantValue.GDT_ERROR_RENDER_MESSAGE);
         localRenderFail(mAdProvider, MobiConstantValue.GDT_ERROR_RENDER_CODE,
                 MobiConstantValue.GDT_ERROR_RENDER_MESSAGE);
-//        if (mAdProvider != null) {
-//            mAdProvider.callbackExpressLoadFailed(MobiConstantValue.GDT_ERROR_RENDER_CODE,
-//                    MobiConstantValue.GDT_ERROR_RENDER_MESSAGE, mListener);
-//        }
     }
 
     @Override
@@ -173,16 +163,10 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
         if (mAdProvider != null) {
             mAdProvider.callbackExpressClick(mListener);
         }
-//                        AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_TRUE);
     }
 
     @Override
     public void onADClosed(NativeExpressADView nativeExpressADView) {
-        //广告关闭
-//                        if (mBearingView != null && mBearingView.getChildCount() > 0) {
-//                            mBearingView.removeAllViews();
-//                            mBearingView.setVisibility(View.GONE);
-//                        }
 
         if (mAdProvider != null) {
             mAdProvider.callbackExpressDismissed(mListener);
@@ -215,10 +199,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 //                        AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
         //加载失败
         localExecFail(mAdProvider, adError.getErrorCode(), adError.getErrorMsg() + " postId: " + mParams.getPostId());
-
-//        if (mAdProvider != null) {
-//            mAdProvider.callbackExpressLoadFailed(adError.getErrorCode(), adError.getErrorMsg() + " postId: " + mParams.getPostId(), mListener);
-//        }
     }
 
     @Override

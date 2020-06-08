@@ -22,8 +22,6 @@ public class AdParams {
     private int imageWidth;
     private int imageHeight;
 
-    private String postId;
-
     //gdt
     private int maxVideoDuration;
     private boolean isSplashNotAllowSdkCountdown;
@@ -97,14 +95,6 @@ public class AdParams {
 
     public int getImageHeight() {
         return imageHeight;
-    }
-
-    public void setPostId(String postId) {
-        this.postId = postId;
-    }
-
-    public String getPostId() {
-        return postId;
     }
 
     public int getMaxVideoDuration() {

@@ -62,9 +62,6 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
 
     @Override
     public void onError(int i, String s) {
-//        if (mListener != null) {
-//            mListener.onAdFail(mProviderType, i, s);
-//        }
         localExecFail(mAdProvider, i, s);
     }
 

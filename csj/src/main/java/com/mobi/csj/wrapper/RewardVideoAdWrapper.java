@@ -61,26 +61,14 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 
     @Override
     public void onError(int code, String message) {
-//                AdStatistical.trackAD(activity, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
-        //加载错误
-//        if (mListener != null) {
-//            mListener.onAdFail(mProviderType, "code：" + code + " errorMsg: " + message);
-//            // listener.onAdClose(mProviderType);
-//        }
-        localExecFail(mAdProvider, code, message);
-//        if (mAdProvider != null) {
-//            mAdProvider.callbackRewardFail(code, message, mListener);
-//        }
+//      AdStatistical.trackAD(activity, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
 
+        localExecFail(mAdProvider, code, message);
 
     }
 
     @Override
     public void onRewardVideoAdLoad(TTRewardVideoAd ttRewardVideoAd) {
-//        if (mListener != null) {
-//            mListener.onAdLoad(mProviderType);
-//            // listener.onAdClose(mProviderType);
-//        }
 
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
@@ -108,10 +96,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onRewardVideoCached() {
         //缓存在了本地
-//        if (mListener != null) {
-//            mListener.onCached(mProviderType);
-//        }
-
         if (mAdProvider != null) {
             mAdProvider.callbackRewardCached(mListener);
         }
@@ -121,9 +105,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onAdShow() {
         //显示广告
-//        if (mListener != null) {
-//            mListener.onAdShow(mProviderType);
-//        }
         //show成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Csj RewardVideoAdWrapper onAdShow isCancel");
@@ -140,9 +121,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 
     @Override
     public void onAdVideoBarClick() {
-//        if (mListener != null) {
-//            mListener.onAdClick(mProviderType);
-//        }
 //     AdStatistical.trackAD(activity, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_TRUE);
         if (mAdProvider != null) {
             mAdProvider.callbackRewardClick(mListener);
@@ -152,9 +130,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onAdClose() {
         //广告关闭
-//        if (mListener != null) {
-//            mListener.onAdClose(mProviderType);
-//        }
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardClose(mListener);
@@ -164,9 +139,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onVideoComplete() {
         //播放完成
-//        if (mListener != null) {
-//            mListener.onVideoComplete(mProviderType);
-//        }
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVideoComplete(mListener);
         }
@@ -175,24 +147,13 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onVideoError() {
         //播放错误
-//        if (mListener != null) {
-//            mListener.onAdFail(mProviderType, "播放错误");
-//        }
-
         localExecFail(mAdProvider,-100, "播放错误 onVideoError" );
-//        if (mAdProvider != null) {
-//            mAdProvider.callbackRewardFail(-100, "播放错误 onVideoError", mListener);
-//        }
     }
 
     //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
     @Override
     public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
         //视频播放完成，奖励回调验证
-//        if (mListener != null) {
-//            mListener.onRewardVerify(mProviderType, rewardVerify, rewardAmount, rewardName);
-//        }
-
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVerify(rewardVerify, rewardAmount, rewardName, mListener);
         }
@@ -201,9 +162,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onSkippedVideo() {
         //跳过广告
-//        if (mListener != null) {
-//            mListener.onSkippedVideo(mProviderType);
-//        }
         if (mAdProvider != null) {
             mAdProvider.callbackRewardSkippedVideo(mListener);
         }

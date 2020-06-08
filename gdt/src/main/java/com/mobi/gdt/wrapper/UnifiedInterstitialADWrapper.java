@@ -44,10 +44,6 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
         if (TextUtils.isEmpty(postId)) {
             localExecFail(mBaseAdProvider, -101,
                     "mobi 后台获取的 postId 不正确 或者 postId == null");
-
-//            if (mAdProvider != null) {
-//                mAdProvider.callbackExpressLoadFailed();
-//            }
             return;
         }
 
@@ -92,10 +88,8 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
         if (mBaseAdProvider != null) {
             if (adError == null) {
                 localExecFail(mBaseAdProvider, -100, "onNoAD 没有数据 adError == null");
-//                mBaseAdProvider.callbackInteractionFail(-100, "onNoAD 没有数据 adError == null", mListener);
             } else {
                 localExecFail(mBaseAdProvider, adError.getErrorCode(), adError.getErrorMsg());
-//                mBaseAdProvider.callbackInteractionFail(adError.getErrorCode(), adError.getErrorMsg(), mListener);
             }
         }
     }

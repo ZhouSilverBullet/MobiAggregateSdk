@@ -95,26 +95,17 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
     public void onError(int code, String errorMsg) {
 
         localExecFail(mAdProvider, code, errorMsg);
-//        if (mAdProvider != null) {
-//            mAdProvider.callbackSplashFail(code, errorMsg, mListener);
-//        }
 
     }
 
     @Override
     public void onTimeout() {
         localExecFail(mAdProvider, -100, "请求超时");
-//        if (mAdProvider != null) {
-//            mAdProvider.callbackSplashFail(-100, "请求超时", mListener);
-//        }
     }
 
     @Override
     public void onSplashAdLoad(TTSplashAd ttSplashAd) {
         if (ttSplashAd == null) {
-//            if (mAdProvider != null) {
-//                mAdProvider.callbackSplashFail(-100, "请求成功，但是返回的广告为null", mListener);
-//            }
             localExecFail(mAdProvider, -100, "请求成功，但是返回的广告为null");
             return;
         }
@@ -188,7 +179,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
     @Override
     public void onAdClicked(View view, int type) {
-        Log.e(TAG, "onAdClicked");
+        LogUtils.e(TAG, "onAdClicked");
 
         if (mAdProvider != null) {
             mAdProvider.callbackSplashClicked(mListener);
@@ -197,8 +188,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
     @Override
     public void onAdShow(View view, int type) {
-        Log.e(TAG, "onAdShow");
-//                        showToast("开屏广告展示");
+        LogUtils.e(TAG, "onAdShow");
 
         if (mAdProvider != null) {
             mAdProvider.callbackSplashExposure(mListener);
@@ -207,9 +197,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
     @Override
     public void onAdSkip() {
-        Log.e(TAG, "onAdSkip");
-//                        showToast("开屏广告跳过");
-//                        goToMainActivity();
+        LogUtils.e(TAG, "onAdSkip");
 
         if (mAdProvider != null) {
             mAdProvider.callbackSplashDismissed(mListener);
@@ -219,9 +207,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
     @Override
     public void onAdTimeOver() {
-        Log.e(TAG, "onAdTimeOver");
-//                        showToast("开屏广告倒计时结束");
-//                        goToMainActivity();
+        LogUtils.e(TAG, "onAdTimeOver");
         if (mAdProvider != null) {
             mAdProvider.callbackSplashDismissed(mListener);
         }

@@ -11,6 +11,7 @@ import com.mobi.core.CoreSession;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ShowAdBean;
+import com.mobi.core.listener.IAdFailListener;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
@@ -20,10 +21,12 @@ import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.strategy.AdStrategyFactory;
 import com.mobi.core.strategy.IShowAdStrategy;
+import com.mobi.core.strategy.StrategyError;
 import com.mobi.csj.CsjSession;
 import com.mobi.exception.MobiNullPointerException;
 import com.mobi.gdt.GdtSession;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.mobi.common.CheckUtils.checkSafe;
@@ -77,9 +80,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
-            }
+            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
             return;
         }
 
@@ -89,9 +90,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
         if (strategy == null) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi 的策略，本地还没有支持");
-            }
+            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;
         }
 
@@ -144,12 +143,9 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
-            }
+            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
             return;
         }
-
 
         List<ShowAdBean> adBeans = localAdBean.getAdBeans();
         int sortType = localAdBean.getSortType();
@@ -166,17 +162,6 @@ public class MobiPubSdk {
 
         for (ShowAdBean showAdBean : adBeans) {
             String postId = showAdBean.getPostId();
-//
-//            if (!checkStrSafe(postId)) {
-//                //这里要往后台传错误，或者要容错一下
-//                if (listener != null) {
-//                    listener.onLoadFailed("MobiType", -101,
-//                            "mobi 后台获取的 postId 不正确 或者 postId == null");
-//                }
-//                return;
-//            }
-
-//            adParams.setPostId(postId);
 
             LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
 
@@ -197,14 +182,6 @@ public class MobiPubSdk {
                                       AdParams adParams,
                                       final IFullScreenVideoAdListener listener) {
 
-//        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
-//        if (showAdBean == null) {
-//            return;
-//        }
-//
-//        AdProviderManager.get().getProvider(showAdBean.getProviderType())
-//                .fullscreen(activity, showAdBean.getPostId(), orientation, true, listener);
-
         if (!checkSafe(activity)) {
             return;
         }
@@ -213,9 +190,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
-            }
+            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
             return;
         }
 
@@ -224,9 +199,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
         if (strategy == null) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi 的策略，本地还没有支持");
-            }
+            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;
         }
 
@@ -253,14 +226,6 @@ public class MobiPubSdk {
                                       AdParams adParams,
                                       final IRewardAdListener listener) {
 
-//        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
-//        if (showAdBean == null) {
-//            return;
-//        }
-//
-//        AdProviderManager.get().getProvider(showAdBean.getProviderType())
-//                .rewardVideo(activity, showAdBean.getPostId(), supportDeepLink, listener);
-
         if (!checkSafe(activity)) {
             return;
         }
@@ -280,9 +245,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
         if (strategy == null) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi 的策略，本地还没有支持");
-            }
+            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;
         }
 
@@ -315,24 +278,6 @@ public class MobiPubSdk {
                                               AdParams adParams,
                                               final IInteractionAdListener listener) {
 
-//        ShowAdBean showAdBean = findsShowAdBean(activity.getApplicationContext(), codeId);
-//        if (showAdBean == null) {
-//            if (listener != null) {
-//                listener.onAdFail("MobiAd", -100, "codeId == null 或者 不正确");
-//            }
-//            return;
-//        }
-//
-//        AdProviderManager.get()
-//                .getProvider(showAdBean.getProviderType())
-//                .interactionExpress(activity,
-//                        showAdBean.getPostId(),
-//                        supportDeepLink,
-//                        viewContainer,
-//                        expressViewWidth,
-//                        expressViewHeight,
-//                        listener);
-
         if (!checkSafe(activity)) {
             return;
         }
@@ -341,9 +286,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
-            }
+            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
             return;
         }
 
@@ -352,9 +295,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
         if (strategy == null) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi 的策略，本地还没有支持");
-            }
+            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;
         }
 
@@ -389,6 +330,15 @@ public class MobiPubSdk {
         return localAdBean;
     }
 
+    private static void callOnFail(String type, int code, String message, IAdFailListener listener) {
+        if (listener != null) {
+            StrategyError strategyError = new StrategyError(type, code, message);
+            ArrayList<StrategyError> strategyErrorList = new ArrayList<>();
+            strategyErrorList.add(strategyError);
+            listener.onAdFail(strategyErrorList);
+        }
+    }
+
 
     /**
      * 进行对应的初始化工作
@@ -420,7 +370,5 @@ public class MobiPubSdk {
                 GdtSession.get().init(context, appId, appDebug);
             }
         }
-
-
     }
 }

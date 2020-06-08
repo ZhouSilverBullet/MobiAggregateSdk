@@ -87,10 +87,8 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
         if (mAdProvider != null) {
             if (adError != null) {
                 localExecFail(mAdProvider, adError.getErrorCode(), adError.getErrorMsg());
-//                mAdProvider.callbackSplashFail(adError.getErrorCode(), adError.getErrorMsg(), mListener);
             } else {
                 localExecFail(mAdProvider, -100, "广告加载失败");
-//                mAdProvider.callbackSplashFail(-100, "广告加载失败", mListener);
             }
         }
     }
