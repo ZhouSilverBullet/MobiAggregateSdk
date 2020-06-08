@@ -13,5 +13,9 @@ import java.util.List;
  * 告知外面 or 者上报数据
  */
 public interface IAdFailListener {
+    /**
+     * 告诉外界的错误回调
+     * @param strategyErrorList
+     */
     void onAdFail(List<StrategyError> strategyErrorList);
 }

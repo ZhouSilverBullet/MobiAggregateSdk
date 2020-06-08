@@ -2,6 +2,8 @@ package com.mobi.core.listener;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -22,7 +24,9 @@ public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListen
      * @param providerType
      * @param code
      * @param errorMsg
+     * {@link IAdFailListener#onAdFail(List)}
      */
+    @Deprecated
     default void onAdFail(String providerType, int code, String errorMsg) {
 
     }

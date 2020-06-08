@@ -1,5 +1,7 @@
 package com.mobi.core.listener;
 
+import java.util.List;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -9,7 +11,15 @@ package com.mobi.core.listener;
 public interface IExpressListener extends ITTAppDownloadListener, IAdFailListener {
     void onAdClick(String type);//广告被点击
 
-    //广告加载失败
+
+    /**
+     * 广告加载失败
+     * @param providerType
+     * @param code
+     * @param errorMsg
+     * {@link IAdFailListener#onAdFail(List)}
+     */
+    @Deprecated
     default void onAdFail(String providerType, int code, String errorMsg) {
 
     }

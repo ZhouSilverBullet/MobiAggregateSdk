@@ -1,5 +1,7 @@
 package com.mobi.core.listener;
 
+import java.util.List;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -9,6 +11,13 @@ package com.mobi.core.listener;
 public interface IFullScreenVideoAdListener extends ITTAppDownloadListener, IAdFailListener {
     void onAdShow(String providerType);
 
+    /**
+     * @param providerType
+     * @param code
+     * @param errorMsg
+     * {@link IAdFailListener#onAdFail(List)}
+     */
+    @Deprecated
     default void onAdFail(String providerType, int code, String errorMsg) {
 
     }

@@ -152,9 +152,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
         if (strategy == null) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi 的策略，本地还没有支持");
-            }
+            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;
         }
 
@@ -234,9 +232,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            if (listener != null) {
-                listener.onAdFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null");
-            }
+            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
             return;
         }
 

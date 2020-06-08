@@ -148,9 +148,9 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
     public void onError(AdError adError) {
         if (mAdProvider != null) {
             if (adError == null) {
-                mAdProvider.callbackRewardFail(-100, "onNoAD 没有数据 adError == null", mListener);
+                localExecFail(mAdProvider, -100, "onNoAD 没有数据 adError == null");
             } else {
-                mAdProvider.callbackRewardFail(adError.getErrorCode(), adError.getErrorMsg(), mListener);
+                localExecFail(mAdProvider, adError.getErrorCode(), adError.getErrorMsg());
             }
         }
     }
