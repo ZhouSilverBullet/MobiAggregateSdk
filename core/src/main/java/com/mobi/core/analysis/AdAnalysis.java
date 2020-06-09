@@ -1,17 +1,13 @@
-package com.mobi.core.statistical;
+package com.mobi.core.analysis;
 
 import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * author : liangning
- * date : 2019-11-17  18:47
- */
-public class AdStatistical {
+public class AdAnalysis {
 
-    private static List<StatisticalBean> mList = new ArrayList<>();
+    private static List<AnalysisBean> mList = new ArrayList<>();
     private static boolean isUpload = true;//是否上报数据
 
 

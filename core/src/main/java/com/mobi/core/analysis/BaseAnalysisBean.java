@@ -1,21 +1,25 @@
-package com.mobi.core.statistical;
+package com.mobi.core.analysis;
 
+import com.mobi.core.CoreSession;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.utils.DateUtils;
 
 import java.io.Serializable;
 
 /**
- * author : liangning
- * date : 2019-11-18  13:49
+ * Email: zhousaito@163.com
+ * Created by zhousaito 2020/6/8 20:51
+ * Version: 1.0
+ * Description:
  */
-public class StatisticalBaseBean implements Serializable {
+public class BaseAnalysisBean implements Serializable {
 
     private String day = DateUtils.getStringDateDay();
     private String time = DateUtils.getStringDateMin();
-    private String deviceid = "caae4c37421a60f4251b06304143b3ea";
-    private String platform = "1";
-    private String sdkv = "1.0.0";
-    private String channel_no = "xiaomi";
+    private String deviceid = CoreSession.get().getDeviceNo();
+    private String platform = MobiConstantValue.PLATFORM;
+    private String sdkv = MobiConstantValue.SDK_VERSION;
+    private String channel_no = MobiConstantValue.CHANNEL;
 
     public String getDay() {
         return day;

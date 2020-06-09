@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.mobi.core.bean.AdBean;
 import com.mobi.core.bean.ConfigAdBean;
@@ -14,6 +15,7 @@ import com.mobi.core.bean.ParameterBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.network.NetworkClient;
 import com.mobi.core.utils.DeviceUtil;
+import com.mobi.core.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,8 +29,9 @@ import java.util.Set;
  * @Dec 略
  */
 public class CoreSession {
+    public static final String TAG = "CoreSession";
 
-    private static boolean isAppDebug;
+    private static boolean isAppDebug = true;
     private final Handler mHandler;
     private Context mContext;
     private NetworkClient mNetworkClient;
@@ -52,7 +55,17 @@ public class CoreSession {
         private static final CoreSession INSTANCE = new CoreSession();
     }
 
+    public void init(Context context) {
+        LogUtils.e(TAG, " init1 ");
+        if (mContext != null || context == null) {
+            //已经初始化过了 || 传的context是null
+            return;
+        }
+        mContext = context.getApplicationContext();
+    }
+
     public void init(Context context, boolean isDebug, NetworkClient.InitCallback initCallback) {
+        LogUtils.e(TAG, " init2 ");
         mContext = context.getApplicationContext();
         isAppDebug = isDebug;
 

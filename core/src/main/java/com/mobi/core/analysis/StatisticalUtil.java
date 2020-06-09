@@ -1,4 +1,4 @@
-package com.mobi.core.statistical;
+package com.mobi.core.analysis;
 
 import com.mobi.core.utils.JsonUtil;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * Description:
  */
 public class StatisticalUtil {
-    private static String getStatistical(StatisticalBean bean) {
+    private static String getStatistical(AnalysisBean bean) {
         if (bean == null) {
             return "";
         }
@@ -40,9 +40,9 @@ public class StatisticalUtil {
         return "";
     }
 
-    public static String toStatisticalJson(List<StatisticalBean> beanList) {
+    public static String toStatisticalJson(List<AnalysisBean> beanList) {
         ArrayList<String> list = new ArrayList<>();
-        for (StatisticalBean statisticalBean : beanList) {
+        for (AnalysisBean statisticalBean : beanList) {
             String statistical = getStatistical(statisticalBean);
             list.add(statistical);
         }
@@ -57,8 +57,8 @@ public class StatisticalUtil {
         return "";
     }
 
-    public static List<StatisticalBean> fromStatisticalJson(String strJson) {
-        ArrayList<StatisticalBean> list = new ArrayList<>();
+    public static List<AnalysisBean> fromStatisticalJson(String strJson) {
+        ArrayList<AnalysisBean> list = new ArrayList<>();
         JSONObject jsonObject = JsonUtil.string2JSONObject(strJson);
         if (jsonObject == null) {
             return list;
@@ -75,7 +75,7 @@ public class StatisticalUtil {
                     String beanJsonStr = jsonArray.optString(i);
                     if (beanJsonStr != null) {
                         final JSONObject beanJson = new JSONObject(beanJsonStr);
-                        list.add(new StatisticalBean(beanJson.optString("network"),
+                        list.add(new AnalysisBean(beanJson.optString("network"),
                                 beanJson.optString("posid"),
                                 beanJson.optInt("posid"),
                                 beanJson.optInt("click")));
