@@ -12,19 +12,22 @@ public class ConfigBean implements Serializable {
     private long storage_time = 0;
     private long timeout = 3600;//有效期
     private long ad_adk_req_timeout = 800;//延时执行时间
-    private List<ConfigItemBean> list = new ArrayList<>();
-    private List<SdkInfoItem> sdk_info = new ArrayList<>();
+    private List<ConfigItemBean> list;
+    private List<SdkInfoItem> sdk_info;
+    private ConfigAdBean mConfigAdBean;
 
     public ConfigBean(long storage_time,
                       long timeout,
                       long ad_adk_req_timeout,
                       List<ConfigItemBean> list,
-                      List<SdkInfoItem> sdk_info) {
+                      List<SdkInfoItem> sdk_info,
+                      ConfigAdBean configAdBean) {
         this.storage_time = storage_time;
         this.timeout = timeout;
         this.ad_adk_req_timeout = ad_adk_req_timeout;
         this.list = list;
         this.sdk_info = sdk_info;
+        mConfigAdBean = configAdBean;
     }
 
     public long getTimeout() {
@@ -67,6 +70,14 @@ public class ConfigBean implements Serializable {
         this.sdk_info = sdk_info;
     }
 
+    public ConfigAdBean getConfigAdBean() {
+        return mConfigAdBean;
+    }
+
+    public void setConfigAdBean(ConfigAdBean configAdBean) {
+        mConfigAdBean = configAdBean;
+    }
+
     @Override
     public String toString() {
         return "ConfigBean{" +
@@ -75,6 +86,7 @@ public class ConfigBean implements Serializable {
                 ", ad_adk_req_timeout=" + ad_adk_req_timeout +
                 ", list=" + list +
                 ", sdk_info=" + sdk_info +
+                ", mConfigAdBean=" + mConfigAdBean +
                 '}';
     }
 }

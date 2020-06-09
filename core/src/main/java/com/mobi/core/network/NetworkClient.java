@@ -27,12 +27,17 @@ public class NetworkClient {
             CoreSession.get().setConfigBean(ConfigBeanUtil.getConfigBean(serviceConfig));
 
             //同步的网络请求
-            HttpClient httpClient = new HttpClient("http://www.zhousaito.top:8080/config", "GET", 10000, "UTF-8");
-            httpClient.call();
+            //http://www.zhousaito.top:8080/config
+            //http://cdn.findwxapp.com/mediation.dev2.txt
+            HttpClient httpClient = new HttpClient();
+            Request request = new Request.Builder()
+                    .setMethod(Request.GET)
+                    .setUrl("http://www.zhousaito.top:8080/config")
+                    .build();
+            Response response = httpClient.execute(request);
 
-            int responseCode = httpClient.getResponseCode();
-            if (responseCode == 200) {
-                String resContent = httpClient.getResContent();
+            if (response.getCode() == 200) {
+                String resContent = response.body();
                 //通过Sp存起来
                 SpUtil.putCommitString("service_config", resContent);
 
@@ -48,9 +53,14 @@ public class NetworkClient {
                     }
                 });
             } else {
-                if (callback != null) {
-                    callback.onFailure(responseCode, httpClient.getErrInfo());
-                }
+                CoreSession.get().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (callback != null) {
+                            callback.onFailure(response.getCode(), response.body());
+                        }
+                    }
+                });
             }
         });
     }

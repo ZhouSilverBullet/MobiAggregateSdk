@@ -6,12 +6,14 @@ import android.os.Looper;
 import android.text.TextUtils;
 
 import com.mobi.core.bean.AdBean;
+import com.mobi.core.bean.ConfigAdBean;
 import com.mobi.core.bean.ConfigBean;
 import com.mobi.core.bean.ConfigItemBean;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ParameterBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.network.NetworkClient;
+import com.mobi.core.utils.DeviceUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,6 +33,12 @@ public class CoreSession {
     private Context mContext;
     private NetworkClient mNetworkClient;
     private volatile ConfigBean configBean;
+
+    private String deviceNo;
+    /**
+     * 上报的Url
+     */
+    private String uploadUrl;
 
     private CoreSession() {
         mHandler = new Handler(Looper.getMainLooper());
@@ -171,5 +179,22 @@ public class CoreSession {
         return localAdBean;
     }
 
+    public String getDeviceNo() {
+        if (TextUtils.isEmpty(deviceNo)) {
+            deviceNo = DeviceUtil.getDeviceNo(mContext);
+        }
+        return deviceNo;
+    }
 
+    public String getUploadUrl() {
+        if (TextUtils.isEmpty(uploadUrl)) {
+            if (configBean != null) {
+                ConfigAdBean configAdBean = configBean.getConfigAdBean();
+                if (configAdBean != null) {
+                    uploadUrl = configAdBean.getReportUrl();
+                }
+            }
+        }
+        return uploadUrl;
+    }
 }

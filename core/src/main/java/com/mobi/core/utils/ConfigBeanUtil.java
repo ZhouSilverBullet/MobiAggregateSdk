@@ -3,6 +3,7 @@ package com.mobi.core.utils;
 import android.text.TextUtils;
 
 import com.mobi.core.bean.AdBean;
+import com.mobi.core.bean.ConfigAdBean;
 import com.mobi.core.bean.ConfigBean;
 import com.mobi.core.bean.ConfigItemBean;
 import com.mobi.core.bean.ParameterBean;
@@ -26,21 +27,31 @@ public class ConfigBeanUtil {
         if (TextUtils.isEmpty(jsonStr)) {
             return null;
         }
-        JSONObject jsonObject = string2JSONObject(jsonStr);
+        JSONObject jsonObject = JsonUtil.string2JSONObject(jsonStr);
 
         if (jsonObject != null) {
 
             List<ConfigItemBean> configItemBeanList = getConfigItemBeanList(jsonObject);
             List<SdkInfoItem> sdk_info = getSdkInfoItem(jsonObject);
+            ConfigAdBean configAdBean = getConfigAdBean(jsonObject);
 
             return new ConfigBean(0,
-                    jsonObject.optInt("timeout"),
+                    jsonObject.optLong("timeout"),
                     jsonObject.optLong("ad_adk_req_timeout"),
                     configItemBeanList,
-                    sdk_info);
+                    sdk_info,
+                    configAdBean);
         }
 
         return null;
+    }
+
+    private static ConfigAdBean getConfigAdBean(JSONObject jsonObject) {
+        return new ConfigAdBean(jsonObject.optLong("timeout"),
+                jsonObject.optLong("ad_adk_req_timeout"),
+                jsonObject.optString("report_url"),
+                jsonObject.optString("developer_url"),
+                jsonObject.optString("proto_url"));
     }
 
     private static List<SdkInfoItem> getSdkInfoItem(JSONObject jsonObject) {
@@ -97,16 +108,5 @@ public class ConfigBeanUtil {
             networkList.add(adBean);
         }
         return networkList;
-    }
-
-    public static JSONObject string2JSONObject(String json) {
-        JSONObject jsonObject = null;
-        try {
-            JSONTokener jsonParser = new JSONTokener(json);
-            jsonObject = (JSONObject) jsonParser.nextValue();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
     }
 }
