@@ -9,9 +9,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author zhousaito
  * @version 1.0
  * @date 2020/6/5 22:06
- * @Dec 略
+ * @Dec {@link com.mobi.core.strategy.AdStrategyFactory#SORT_TYPE_TOGETHER}
+ * 同时请求
  */
-public class OrderShowAdStrategy extends BaseShowAdStrategy {
+public class TogetherShowAdStrategy extends BaseShowAdStrategy {
     public static final String TAG = "OrderShowAdStrategy";
     AtomicInteger mFailCount;
 
@@ -19,10 +20,9 @@ public class OrderShowAdStrategy extends BaseShowAdStrategy {
     public void execRun() {
         mFailCount = new AtomicInteger();
         //执行
-//        for (AdRunnable runnable : getAdRunnableSyncList()) {
-//            getHandler().post(runnable);
-//        }
-
+        for (AdRunnable runnable : getAdRunnableSyncList()) {
+            getHandler().post(runnable);
+        }
     }
 
     @Override

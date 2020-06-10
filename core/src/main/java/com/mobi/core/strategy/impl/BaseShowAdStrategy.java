@@ -3,6 +3,7 @@ package com.mobi.core.strategy.impl;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.mobi.core.CoreSession;
 import com.mobi.core.listener.IAdFailListener;
 import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.strategy.IShowAdStrategy;
@@ -35,9 +36,12 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
     private boolean isStrategyFinished;
     private IAdFailListener mAdFailListener;
 
+    private long timeOut;
+
     public BaseShowAdStrategy() {
         mHandler = new Handler(Looper.getMainLooper());
         mAdRunnableSyncList = Collections.synchronizedList(new ArrayList<>());
+        timeOut = CoreSession.get().getTimeOut();
     }
 
 
@@ -96,6 +100,10 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
      */
     protected Handler getHandler() {
         return mHandler;
+    }
+
+    protected long getTimeOut() {
+        return timeOut;
     }
 
     public List<AdRunnable> getAdRunnableSyncList() {

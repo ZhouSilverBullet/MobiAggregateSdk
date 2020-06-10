@@ -43,6 +43,19 @@ public abstract class AdRunnable implements Runnable {
     }
 
     /**
+     * 服务器返回的时候，给了一个广告超时时间
+     */
+    private boolean isTimeOut;
+
+    public boolean isTimeOut() {
+        return isTimeOut;
+    }
+
+    public void setTimeOut(boolean timeOut) {
+        isTimeOut = timeOut;
+    }
+
+    /**
      * if
      * 错误时，收集策略，直到策略执行完成后
      * 再往后台或者 user 发送错误消息

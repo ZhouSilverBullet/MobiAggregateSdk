@@ -29,9 +29,16 @@ public class AdProviderManager {
      */
     private Map<String, IAdSession> mAdSessionMap;
 
+    /**
+     * 执行广告下标，给 {@link com.mobi.core.strategy.impl.OrderShowAdStrategy}
+     * 使用
+     */
+    private Map<String, Integer> mAdExecIndex;
+
     private AdProviderManager() {
         mAdProviderMap = new ConcurrentHashMap<>();
         mAdSessionMap = new ConcurrentHashMap<>();
+        mAdExecIndex = new ConcurrentHashMap<>();
     }
 
     public static AdProviderManager get() {
@@ -73,4 +80,14 @@ public class AdProviderManager {
     public IAdSession getAdSession(String key) {
         return mAdSessionMap.get(key);
     }
+
+    public void putAdExecIndex(String key, int index) {
+        mAdExecIndex.put(key, index);
+    }
+
+    public int getAdExecIndex(String key) {
+        Integer integer = mAdExecIndex.get(key);
+        return integer == null ? 0 : integer;
+    }
+
 }

@@ -43,6 +43,10 @@ public class CoreSession {
      * 上报的Url
      */
     private String reportUrl;
+    /**
+     * 超时时间
+     */
+    private long timeOut;
 
     private CoreSession() {
         mHandler = new Handler(Looper.getMainLooper());
@@ -210,5 +214,14 @@ public class CoreSession {
             }
         }
         return reportUrl;
+    }
+
+    public long getTimeOut() {
+        if (timeOut == 0L) {
+            if (configBean != null) {
+                timeOut = configBean.getAd_adk_req_timeout();
+            }
+        }
+        return timeOut;
     }
 }
