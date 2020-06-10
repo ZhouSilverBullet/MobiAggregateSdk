@@ -112,6 +112,18 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
                 mViewContainer.removeAllViews();
             }
 
+            if (isCancel()) {
+                LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isCancel");
+                return;
+            }
+
+            if (isTimeOut()) {
+                LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isTimeOut");
+                localExecFail(mAdProvider, -104, " 访问超时 ");
+                return;
+            }
+            LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess");
+
             // 需要保证 View 被绘制的时候是可见的，否则将无法产生曝光和收益。
             // 有的时候还不显示广告，闪的一下就过去了的bug
             mViewContainer.addView(nativeExpressADView);
@@ -130,17 +142,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 
     @Override
     public void onRenderSuccess(NativeExpressADView nativeExpressADView) {
-        if (isCancel()) {
-            LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isCancel");
-            return;
-        }
-
-        if (isTimeOut()) {
-            LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
-            return;
-        }
-        LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess");
 
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
