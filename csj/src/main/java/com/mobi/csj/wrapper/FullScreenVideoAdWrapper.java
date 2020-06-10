@@ -76,6 +76,12 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
             return;
         }
 
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "Csj FullScreenVideoAdWrapper load isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
         if (mListener != null) {
             mListener.onAdLoad(mProviderType);
         }

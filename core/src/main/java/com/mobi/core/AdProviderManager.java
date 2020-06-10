@@ -1,5 +1,6 @@
 package com.mobi.core;
 
+import com.mobi.core.strategy.impl.ServiceOrderShowAdStrategy;
 import com.mobi.core.utils.LogUtils;
 
 import java.util.Map;
@@ -30,8 +31,9 @@ public class AdProviderManager {
     private Map<String, IAdSession> mAdSessionMap;
 
     /**
-     * 执行广告下标，给 {@link com.mobi.core.strategy.impl.OrderShowAdStrategy}
-     * 使用
+     * 执行广告下标，给 {@link ServiceOrderShowAdStrategy}
+     * 使用 key ： postId
+     *     value : sort_parameter[] 的下标
      */
     private Map<String, Integer> mAdExecIndex;
 
@@ -65,6 +67,7 @@ public class AdProviderManager {
         return mAdProviderMap.get(key);
     }
 
+    @Deprecated
     String getProviderKey() {
         Random random = new Random();
         int i = random.nextInt(100);

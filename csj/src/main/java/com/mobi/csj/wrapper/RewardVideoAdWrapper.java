@@ -78,6 +78,12 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
             return;
         }
 
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "Csj RewardVideoAdWrapper load isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
         if (mAdProvider != null) {
             mAdProvider.callbackRewardLoad(mListener);
         }
@@ -92,6 +98,13 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
             LogUtils.e(TAG, "Csj RewardVideoAdWrapper onAdShow isCancel");
             return;
         }
+
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "Csj RewardVideoAdWrapper onAdShow isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
 
         setExecSuccess(true);
         localExecSuccess(mAdProvider);

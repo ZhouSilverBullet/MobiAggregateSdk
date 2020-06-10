@@ -1,5 +1,7 @@
 package com.mobi.core.bean;
 
+import com.mobi.core.strategy.IShowAdStrategy;
+
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +14,7 @@ import java.util.Set;
 public class LocalAdBean {
     private int sortType;
     private List<ShowAdBean> mAdBeans;
+    private IShowAdStrategy mAdStrategy;
 
     public int getSortType() {
         return sortType;
@@ -29,4 +32,11 @@ public class LocalAdBean {
         mAdBeans = adBeans;
     }
 
+    public IShowAdStrategy getAdStrategy() {
+        return mAdStrategy;
+    }
+
+    public void setAdStrategy(IShowAdStrategy adStrategy) {
+        mAdStrategy = adStrategy;
+    }
 }

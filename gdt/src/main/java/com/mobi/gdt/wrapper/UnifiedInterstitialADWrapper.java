@@ -61,6 +61,12 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
             return;
         }
 
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "Gdt UnifiedInterstitialAD isTimeOut");
+            localExecFail(mBaseAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
         setExecSuccess(true);
         localExecSuccess(mBaseAdProvider);
 

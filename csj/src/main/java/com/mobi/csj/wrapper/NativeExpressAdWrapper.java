@@ -105,6 +105,12 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
             return;
         }
 
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "CsjNativeExpressAd load isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
         mTTNativeExpressAd = list.get(0);
         mTTNativeExpressAd.setExpressInteractionListener(this);
         //这里default
@@ -152,6 +158,12 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
         //渲染前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "CsjNativeExpressAd onRenderSuccess isCancel");
+            return;
+        }
+
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "CsjNativeExpressAd onRenderSuccess isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
             return;
         }
 

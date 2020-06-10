@@ -95,6 +95,12 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             return;
         }
 
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "GdtNativeExpressAd load isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
         NativeExpressADView nativeExpressADView = list.get(0);
         if (nativeExpressADView != null) {
             if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
@@ -126,6 +132,12 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     public void onRenderSuccess(NativeExpressADView nativeExpressADView) {
         if (isCancel()) {
             LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isCancel");
+            return;
+        }
+
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
             return;
         }
         LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess");

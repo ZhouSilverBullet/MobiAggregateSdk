@@ -60,6 +60,12 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
             return;
         }
 
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "Gdt RewardVideoAdWrapper load isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
         if (mAdProvider != null) {
             mAdProvider.callbackRewardLoad(mListener);
         }
@@ -72,6 +78,12 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
                 if (SystemClock.elapsedRealtime() < (rewardVideoAD.getExpireTimestamp() - delta)) {
                     if (isCancel()) {
                         LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isCancel");
+                        return;
+                    }
+
+                    if (isTimeOut()) {
+                        LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isTimeOut");
+                        localExecFail(mAdProvider, -104, " 访问超时 ");
                         return;
                     }
                     setExecSuccess(true);

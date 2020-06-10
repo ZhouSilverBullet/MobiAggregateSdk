@@ -13,17 +13,17 @@ public class ConfigItemBean implements Serializable {
 
     private String posid;//自己服务器广告位id
     private int sort_type;//排序类型 1按顺序 2按价格
-    private List<AdBean> network = new ArrayList<>();
-    private List<String> sort_parameter = new ArrayList<>();
+    private List<AdBean> network;
+    private List<String> sortParameters;
 
     public ConfigItemBean(String posid,
                           int sort_type,
                           List<AdBean> network,
-                          List<String> sort_parameter) {
+                          List<String> sortParameters) {
         this.posid = posid;
         this.sort_type = sort_type;
         this.network = network;
-        this.sort_parameter = sort_parameter;
+        this.sortParameters = sortParameters;
     }
 
     /**
@@ -62,12 +62,12 @@ public class ConfigItemBean implements Serializable {
         this.network = network;
     }
 
-    public List<String> getSort_parameter() {
-        return sort_parameter;
+    public List<String> getSortParameters() {
+        return sortParameters;
     }
 
-    public void setSort_parameter(List<String> sort_parameter) {
-        this.sort_parameter = sort_parameter;
+    public void setSortParameters(List<String> sortParameters) {
+        this.sortParameters = sortParameters;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ConfigItemBean implements Serializable {
                 "posid='" + posid + '\'' +
                 ", sort_type=" + sort_type +
                 ", network=" + network +
-                ", sort_parameter=" + sort_parameter +
+                ", sort_parameter=" + sortParameters +
                 '}';
     }
 }

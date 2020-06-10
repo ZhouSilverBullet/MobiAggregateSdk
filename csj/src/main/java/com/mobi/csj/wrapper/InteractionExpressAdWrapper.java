@@ -95,6 +95,12 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
             return;
         }
 
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "Csj InteractionExpressAd isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 

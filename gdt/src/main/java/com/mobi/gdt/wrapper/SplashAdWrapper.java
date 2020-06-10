@@ -147,6 +147,13 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
             return;
         }
 
+        //load成功前判断一下，是否已经把任务给取消了
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "Gdt SplashAdWrapper load isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.mobi.core.bean.AdBean;
 import com.mobi.core.bean.ConfigAdBean;
@@ -14,13 +13,14 @@ import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ParameterBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.network.NetworkClient;
+import com.mobi.core.strategy.AdStrategyFactory;
+import com.mobi.core.strategy.IShowAdStrategy;
+import com.mobi.core.strategy.impl.ServiceOrderShowAdStrategy;
 import com.mobi.core.utils.DeviceUtil;
 import com.mobi.core.utils.LogUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author zhousaito
@@ -165,6 +165,23 @@ public class CoreSession {
         //创建本地需要的AdBean
         LocalAdBean localAdBean = new LocalAdBean();
         localAdBean.setSortType(configItemBean.getSort_type());
+        IShowAdStrategy strategy = AdStrategyFactory.create(configItemBean.getSort_type());
+        localAdBean.setAdStrategy(strategy);
+
+        String serviceOrderShowType = null;
+        //根据服务的策略这里需要注入SortParameters
+        if (configItemBean.getSort_type() == AdStrategyFactory.SORT_TYPE_SERVICE_ORDER) {
+            if (strategy instanceof ServiceOrderShowAdStrategy) {
+                int adExecIndex = AdProviderManager.get().getAdExecIndex(codeId);
+                List<String> sortParameters = configItemBean.getSortParameters();
+                if (sortParameters != null && sortParameters.size() > 0) {
+                    int size = sortParameters.size();
+                    serviceOrderShowType = sortParameters.get(adExecIndex % size);
+                    int saveIndex = adExecIndex % size + 1;
+                    AdProviderManager.get().putAdExecIndex(codeId, saveIndex);
+                }
+            }
+        }
 
         //ShowAdBean list
         List<ShowAdBean> list = new ArrayList<>();
@@ -190,6 +207,23 @@ public class CoreSession {
                 } else if ("gdt".equals(sdk)) {
                     showAdBean.setProviderType(AdProviderManager.TYPE_GDT);
                     list.add(showAdBean);
+                }
+            }
+
+            //serviceOrderShowType 使用
+            if (!TextUtils.isEmpty(serviceOrderShowType)) {
+                ShowAdBean tempShowAdBean = null;
+                for (int i = 0; i < list.size(); i++) {
+                    ShowAdBean showAdBean = list.get(i);
+                    String providerType = showAdBean.getProviderType();
+                    if (serviceOrderShowType.equals(providerType)) {
+                        tempShowAdBean = list.remove(i);
+                        break;
+                    }
+                }
+                if (tempShowAdBean != null) {
+                    //添加的前面位置
+                    list.add(0, tempShowAdBean);
                 }
             }
         }
@@ -220,6 +254,10 @@ public class CoreSession {
         if (timeOut == 0L) {
             if (configBean != null) {
                 timeOut = configBean.getAd_adk_req_timeout();
+                if (timeOut == 0L) {
+                    //默认返回5s钟
+                    return 5000L;
+                }
             }
         }
         return timeOut;

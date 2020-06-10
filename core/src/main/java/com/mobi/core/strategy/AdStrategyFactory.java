@@ -1,7 +1,7 @@
 package com.mobi.core.strategy;
 
+import com.mobi.core.strategy.impl.ServiceOrderShowAdStrategy;
 import com.mobi.core.strategy.impl.OrderShowAdStrategy;
-import com.mobi.core.strategy.impl.ServiceOrderAdStrategy;
 import com.mobi.core.strategy.impl.TogetherShowAdStrategy;
 
 /**
@@ -15,14 +15,14 @@ public class AdStrategyFactory {
     public static final int SORT_TYPE_PRICE = 2;//广告展示顺序类型 按价格
     public static final int SORT_TYPE_ORDER_PRICE = 3;//广告展示顺序类型 优先顺序 顺序相同则按价格
     public static final int SORT_TYPE_SERVICE_ORDER = 4;//按照服务器返回的固定顺序加载对应平台的广告
-    public static final int SORT_TYPE_TOGETHER = 5;//按照服务器返回的固定顺序加载对应平台的广告
+    public static final int SORT_TYPE_TOGETHER = 5;//广告一起请求显示最先回来的
 
 
     public static IShowAdStrategy create(int type) {
         if (type == SORT_TYPE_ORDER) {
             return new OrderShowAdStrategy();
         } else if (type == SORT_TYPE_SERVICE_ORDER) {
-            return new ServiceOrderAdStrategy();
+            return new ServiceOrderShowAdStrategy();
         } else if (type == SORT_TYPE_TOGETHER) {
             return new TogetherShowAdStrategy();
         }

@@ -82,12 +82,30 @@ public class ConfigBeanUtil {
                 } else {
                     networkList = getNetworkList(network);
                 }
+                List<String> sortParameterList;
+                JSONArray sortParameter = configItemBeanJson.optJSONArray("sort_parameter");
+                if (sortParameter == null) {
+                    sortParameterList = new ArrayList<>();
+                } else {
+                    sortParameterList = getSortParameterList(sortParameter);
+                }
 
                 configItemBeanList.add(new ConfigItemBean(configItemBeanJson.optString("posid")
-                        , configItemBeanJson.optInt("sort_type"), networkList, new ArrayList<>()));
+                        , configItemBeanJson.optInt("sort_type"), networkList, sortParameterList));
             }
         }
         return configItemBeanList;
+    }
+
+    private static List<String> getSortParameterList(JSONArray sortParameter) {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < sortParameter.length(); i++) {
+            final String e = sortParameter.optString(i);
+            if (!TextUtils.isEmpty(e)) {
+                list.add(e);
+            }
+        }
+        return list;
     }
 
     private static List<AdBean> getNetworkList(JSONArray network) {

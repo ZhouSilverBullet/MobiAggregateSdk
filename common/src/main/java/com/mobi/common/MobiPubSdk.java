@@ -94,7 +94,7 @@ public class MobiPubSdk {
         List<ShowAdBean> adBeans = localAdBean.getAdBeans();
         int sortType = localAdBean.getSortType();
 
-        IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
+        IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
             callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;
@@ -159,7 +159,7 @@ public class MobiPubSdk {
         List<ShowAdBean> adBeans = localAdBean.getAdBeans();
         int sortType = localAdBean.getSortType();
 
-        IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
+        IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
             callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;
@@ -208,7 +208,7 @@ public class MobiPubSdk {
         List<ShowAdBean> adBeans = localAdBean.getAdBeans();
         int sortType = localAdBean.getSortType();
 
-        IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
+        IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
             callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;
@@ -257,7 +257,7 @@ public class MobiPubSdk {
         List<ShowAdBean> adBeans = localAdBean.getAdBeans();
         int sortType = localAdBean.getSortType();
 
-        IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
+        IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
             callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;
@@ -311,7 +311,7 @@ public class MobiPubSdk {
         List<ShowAdBean> adBeans = localAdBean.getAdBeans();
         int sortType = localAdBean.getSortType();
 
-        IShowAdStrategy strategy = AdStrategyFactory.create(sortType);
+        IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
             callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
             return;

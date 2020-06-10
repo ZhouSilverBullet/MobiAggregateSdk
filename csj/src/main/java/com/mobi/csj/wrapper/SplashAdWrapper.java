@@ -118,6 +118,12 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
             return;
         }
 
+        if (isTimeOut()) {
+            LogUtils.e(TAG, "Csj SplashAdWrapper load isTimeOut");
+            localExecFail(mAdProvider, -104, " 访问超时 ");
+            return;
+        }
+
         if (mSplashContainer.getChildCount() >= 1) {
             LogUtils.e(TAG, "Csj SplashAdWrapper mSplashContainer.getChildCount() >= 1 isCancel");
             return;

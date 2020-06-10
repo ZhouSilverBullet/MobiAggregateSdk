@@ -75,6 +75,7 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
             if (mAdFailListener != null) {
                 mAdFailListener.onAdFail(strategyErrors);
             }
+            return;
         }
 
         execRun();
@@ -134,6 +135,10 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
 
     public void setAdFailListener(IAdFailListener adFailListener) {
         mAdFailListener = adFailListener;
+    }
+
+    protected IAdFailListener getAdFailListener() {
+        return mAdFailListener;
     }
 
     @Override
