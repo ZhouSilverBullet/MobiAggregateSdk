@@ -127,7 +127,7 @@ public class AnalysisTable {
             return columnValue;
         }
         //获取对应 数据库列名 的下标 如：name, address
-        //获取不到返回值为 -1
+        //获取不到返回值为 <=0
         int columnName = cursor.getColumnIndex(name);
         if (columnName != -1) {
             columnValue = cursor.getInt(columnName);

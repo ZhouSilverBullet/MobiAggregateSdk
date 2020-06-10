@@ -21,6 +21,7 @@ import com.qq.e.comm.util.AdError;
  */
 public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoADListener {
     private final LocalAdParams mAdParams;
+    private final String mMobiCodeId;
     BaseAdProvider mAdProvider;
     Activity mActivity;
     IRewardAdListener mListener;
@@ -35,6 +36,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
         mActivity = activity;
         mAdParams = adParams;
         mListener = listener;
+        mMobiCodeId = mAdParams.getMobiCodeId();
     }
 
     private void createRewardVideoAd() {
@@ -118,6 +120,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
     public void onADExpose() {
 
         if (mAdProvider != null) {
+            mAdProvider.trackShow();
             mAdProvider.callbackRewardExpose(mListener);
         }
     }
@@ -134,6 +137,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
     public void onADClick() {
 
         if (mAdProvider != null) {
+            mAdProvider.trackClick();
             mAdProvider.callbackRewardClick(mListener);
         }
 

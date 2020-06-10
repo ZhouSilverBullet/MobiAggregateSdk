@@ -75,7 +75,7 @@ public abstract class AdRunnable implements Runnable {
 
         String providerType = getProviderType(provider);
 
-        saveFailMessage(providerType, code, message);
+        saveFailMessage(provider, providerType, code, message);
 
         LogUtils.e(TAG, " localExecFail type: " + providerType + " code: " + code + ", message: " + message);
         if (isCancel) {
@@ -87,7 +87,11 @@ public abstract class AdRunnable implements Runnable {
         }
     }
 
-    private void saveFailMessage(String providerType, int code, String message) {
+    private void saveFailMessage(BaseAdProvider provider, String providerType, int code, String message) {
+        if (provider != null) {
+            provider.trackFail();
+        }
+
         if (mStrategyErrorList == null) {
             mStrategyErrorList = new ArrayList<>();
         }
@@ -106,7 +110,7 @@ public abstract class AdRunnable implements Runnable {
     protected void localRenderFail(BaseAdProvider provider, int code, String message) {
         String providerType = getProviderType(provider);
 
-        saveFailMessage(providerType, code, message);
+        saveFailMessage(provider, providerType, code, message);
 
         LogUtils.e(TAG, " localRenderFail type: " + providerType + " code: " + code + ", message: " + message);
 //        if (isCancel) {

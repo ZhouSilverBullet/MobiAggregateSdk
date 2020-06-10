@@ -63,4 +63,21 @@ public class AnalysisBean extends BaseAnalysisBean implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "AnalysisBean{" +
+                "id=" + id +
+                ", network='" + network + '\'' +
+                ", posid='" + posid + '\'' +
+                ", pv=" + pv +
+                ", click=" + click +
+                ", day='" + day + '\'' +
+                ", time='" + time + '\'' +
+                ", deviceid='" + deviceid + '\'' +
+                ", platform='" + platform + '\'' +
+                ", sdkv='" + sdkv + '\'' +
+                ", channel_no='" + channel_no + '\'' +
+                '}';
+    }
 }

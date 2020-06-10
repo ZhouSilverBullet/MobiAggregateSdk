@@ -108,6 +108,7 @@ public class MobiPubSdk {
             LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
+                provider.setMobiCodeId(localAdParams.getMobiCodeId());
                 AdRunnable runnable = provider
                         .splash(activity,
                                 splashContainer,
@@ -173,6 +174,7 @@ public class MobiPubSdk {
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
+                provider.setMobiCodeId(localAdParams.getMobiCodeId());
                 AdRunnable runnable = provider
                         .express(activity,
                                 viewContainer,
@@ -221,6 +223,7 @@ public class MobiPubSdk {
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
+                provider.setMobiCodeId(localAdParams.getMobiCodeId());
                 AdRunnable runnable = provider
                         .fullscreen(activity,
                                 localAdParams,
@@ -269,6 +272,7 @@ public class MobiPubSdk {
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
+                provider.setMobiCodeId(localAdParams.getMobiCodeId());
                 AdRunnable runnable = provider
                         .rewardVideo(activity,
                                 localAdParams,
@@ -321,6 +325,7 @@ public class MobiPubSdk {
             LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
+                provider.setMobiCodeId(localAdParams.getMobiCodeId());
                 AdRunnable runnable = provider
                         .interactionExpress(activity,
                                 localAdParams,

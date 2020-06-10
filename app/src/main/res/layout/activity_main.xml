@@ -41,4 +41,11 @@
         android:id="@+id/flContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="btnAnalysis"
+        android:text="查看本地轨迹统计" />
+
 </LinearLayout>

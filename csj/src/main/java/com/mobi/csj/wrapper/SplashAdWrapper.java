@@ -27,6 +27,7 @@ import com.mobi.csj.splash.CsjSplashSkipViewControl;
 public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashAdListener, TTSplashAd.AdInteractionListener, TTAppDownloadListener {
     public static final String TAG = "SplashAdWrapper";
     private final LocalAdParams mAdParams;
+    private final String mMobiCodeId;
 
     private String mProviderType;
     BaseAdProvider mAdProvider;
@@ -49,6 +50,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         if (mAdProvider != null) {
             mProviderType = mAdProvider.getProviderType();
         }
+        mMobiCodeId = mAdParams.getMobiCodeId();
     }
 
     public void setSplashSkipView(BaseSplashSkipView splashSkipView) {
@@ -182,6 +184,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         LogUtils.e(TAG, "onAdClicked");
 
         if (mAdProvider != null) {
+            mAdProvider.trackClick();
             mAdProvider.callbackSplashClicked(mListener);
         }
     }
@@ -191,6 +194,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         LogUtils.e(TAG, "onAdShow");
 
         if (mAdProvider != null) {
+            mAdProvider.trackShow();
             mAdProvider.callbackSplashExposure(mListener);
         }
     }

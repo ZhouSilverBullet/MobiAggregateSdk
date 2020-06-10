@@ -15,7 +15,7 @@ import java.util.List;
  * Version: 1.0
  * Description:
  */
-public class StatisticalUtil {
+public class AnalysisUtil {
     private static String getStatistical(AnalysisBean bean) {
         if (bean == null) {
             return "";

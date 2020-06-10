@@ -87,7 +87,10 @@ public class SplashActivity extends AppCompatActivity {
 //                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
 //                }
 //                isClicked = false;
-                delayToHome(0);
+//                delayToHome(300);
+                next();
+//                if ("tt".equals(type)) {
+//                }
             }
 
             @Override
@@ -110,16 +113,32 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        canSkip = true;
+        canSkip = false;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        next();
+        canSkip = true;
+//        if (canSkip) {
+//            delayToHome(0);
+//        }
+    }
+
+    /**
+     * 设置一个变量来控制当前开屏页面是否可以跳转，当开屏广告为普链类广告时，点击会打开一个广告落地页，此时开发者还不能打开自己的App主页。当从广告落地页返回以后，
+     * 才可以跳转到开发者自己的App主页；当开屏广告是App类广告时只会下载App。
+     */
+    private void next() {
         if (canSkip) {
-            delayToHome(0);
+            this.startActivity(new Intent(this, MainActivity.class));
+            this.finish();
+        } else {
+            canSkip = true;
         }
     }
+
 
     @Override
     protected void onStop() {

@@ -2,6 +2,8 @@ package com.mobi.core.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -47,4 +49,18 @@ public class DeviceUtil {
         return Build.MODEL;
     }
 
+    /**
+     * 获取网络状况
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isAvailable();
+        }
+        return false;
+    }
 }

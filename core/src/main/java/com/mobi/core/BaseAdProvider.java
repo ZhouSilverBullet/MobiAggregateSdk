@@ -8,10 +8,9 @@ package com.mobi.core;
  */
 public abstract class BaseAdProvider extends BaseCallbackProvider {
 
+
     public BaseAdProvider(String providerType) {
         super(providerType);
     }
-
-
 
 }

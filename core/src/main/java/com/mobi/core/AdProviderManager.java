@@ -16,7 +16,7 @@ public class AdProviderManager {
     public static final String TAG = "AdProviderManager";
 
     public static final String[] SKD_PLATFORM = new String[]{
-            "CsjProvider", "GdtProvider"};
+            "tt", "gdt"};
     public static final String TYPE_CSJ = SKD_PLATFORM[0];
     public static final String TYPE_CSJ_PATH = "com.mobi.csj.CsjSession";
     public static final String TYPE_GDT = SKD_PLATFORM[1];

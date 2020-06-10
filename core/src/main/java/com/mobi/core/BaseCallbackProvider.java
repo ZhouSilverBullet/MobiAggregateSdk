@@ -1,5 +1,6 @@
 package com.mobi.core;
 
+import com.mobi.core.analysis.AdAnalysis;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
@@ -13,6 +14,7 @@ import com.mobi.core.listener.ISplashAdListener;
  */
 public abstract class BaseCallbackProvider implements IAdProvider {
     protected String mProviderType;
+    private String mMobiCodeId;
 
     public BaseCallbackProvider(String providerType) {
         mProviderType = providerType;
@@ -30,6 +32,9 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
+    /**
+     * @param listener
+     */
     public final void callbackSplashClicked(ISplashAdListener listener) {
         if (listener != null) {
             listener.onAdClicked(mProviderType);
@@ -237,5 +242,36 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     public String getProviderType() {
         return mProviderType;
+    }
+
+    public String getMobiCodeId() {
+        return mMobiCodeId;
+    }
+
+    public void setMobiCodeId(String mobiCodeId) {
+        mMobiCodeId = mobiCodeId;
+    }
+
+    /**
+     * 上报点击统计
+     */
+    public void trackClick() {
+        //统计点击
+        AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_FALSE, AdAnalysis.STATUS_CODE_TRUE);
+    }
+    /**
+     * 上报展示点击
+     */
+    public void trackShow() {
+        //统计点击
+        AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_TRUE, AdAnalysis.STATUS_CODE_FALSE);
+    }
+
+    /**
+     * 上报展示点击
+     */
+    public void trackFail() {
+        //统计点击
+        AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_FALSE, AdAnalysis.STATUS_CODE_FALSE);
     }
 }

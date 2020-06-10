@@ -39,6 +39,12 @@ public class DataManager {
         contentResolver.delete(uri, AnalysisTable.POSID + "=?", new String[]{posid});
     }
 
+    public static int deleteAllAnalysis(Context context) {
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = AnalysisTable.getContentUri();
+        return contentResolver.delete(uri, null, null);
+    }
+
     public static AnalysisBean getOneAnalysis(Context context, String postId) {
         AnalysisBean bean = null;
         Uri uri = AnalysisTable.getContentUri();
@@ -46,7 +52,7 @@ public class DataManager {
                 AnalysisTable.POSID + "=?", new String[]{postId}, null);
 
         if (cursor != null) {
-            if (!cursor.isAfterLast()) {
+            if (cursor.moveToNext()) {
                 bean = AnalysisTable.getValues(cursor);
             }
             cursor.close();
@@ -60,11 +66,11 @@ public class DataManager {
         Uri uri = AnalysisTable.getContentUri();
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
         if (cursor != null) {
-            while (!cursor.isAfterLast()) {
+            while (cursor.moveToNext()) {
                 AnalysisBean bean = AnalysisTable.getValues(cursor);
                 list.add(bean);
                 //要往下一个跑
-                cursor.moveToNext();
+//                cursor.moveToNext();
             }
             cursor.close();
         }

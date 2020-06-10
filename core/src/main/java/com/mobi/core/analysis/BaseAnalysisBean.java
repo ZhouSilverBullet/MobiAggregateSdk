@@ -14,12 +14,12 @@ import java.io.Serializable;
  */
 public class BaseAnalysisBean implements Serializable {
 
-    private String day = DateUtils.getStringDateDay();
-    private String time = DateUtils.getStringDateMin();
-    private String deviceid = CoreSession.get().getDeviceNo();
-    private String platform = MobiConstantValue.PLATFORM;
-    private String sdkv = MobiConstantValue.SDK_VERSION;
-    private String channel_no = MobiConstantValue.CHANNEL;
+    protected String day = DateUtils.getStringDateDay();
+    protected String time = DateUtils.getStringDateMin();
+    protected String deviceid = CoreSession.get().getDeviceNo();
+    protected String platform = MobiConstantValue.PLATFORM;
+    protected String sdkv = MobiConstantValue.SDK_VERSION;
+    protected String channel_no = MobiConstantValue.CHANNEL;
 
     public String getDay() {
         return day;

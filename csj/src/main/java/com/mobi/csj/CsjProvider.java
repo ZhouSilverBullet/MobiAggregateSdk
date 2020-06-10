@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.ViewGroup;
 
-import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
-import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.listener.IExpressListener;
@@ -17,7 +14,6 @@ import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.strategy.AdRunnable;
-import com.mobi.core.utils.ScreenUtils;
 import com.mobi.csj.wrapper.FullScreenVideoAdWrapper;
 import com.mobi.csj.wrapper.InteractionExpressAdWrapper;
 import com.mobi.csj.wrapper.NativeExpressAdWrapper;

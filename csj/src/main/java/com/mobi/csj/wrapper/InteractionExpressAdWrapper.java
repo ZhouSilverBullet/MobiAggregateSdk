@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener {
     private final LocalAdParams mAdParams;
+    private final String mMobiCodeId;
     private String mProviderType;
     private BaseAdProvider mAdProvider;
     private Activity mActivity;
@@ -41,6 +42,8 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
         mActivity = activity;
         mAdParams = adParams;
         mListener = listener;
+
+        mMobiCodeId = mAdParams.getMobiCodeId();
 
         if (baseAdProvider != null) {
             mProviderType = baseAdProvider.getProviderType();
@@ -116,6 +119,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     @Override
     public void onAdClicked(View view, int i) {
         if (mAdProvider != null) {
+            mAdProvider.trackClick();
             mAdProvider.callbackInteractionClick(mListener);
         }
     }
@@ -123,6 +127,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     @Override
     public void onAdShow(View view, int i) {
         if (mAdProvider != null) {
+            mAdProvider.trackShow();
             mAdProvider.callbackInteractionShow(mListener);
         }
     }

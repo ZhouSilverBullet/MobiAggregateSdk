@@ -26,15 +26,11 @@ import java.util.List;
 public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener, TTAppDownloadListener {
     public static final String TAG = "CsjNativeExpressAd";
     private final BaseAdProvider mAdProvider;
-    private final LocalAdParams mParams;
+    private final LocalAdParams mAdParams;
+    private final String mMobiCodeId;
     private String mProviderType;
     Activity mContext;
-    String mCodeId;
-    boolean mSupportDeepLink;
     ViewGroup mViewContainer;
-    int mADViewWidth;
-    int mADViewHeight;
-    int mLoadCount;
     IExpressListener mListener;
 
     private TTNativeExpressAd mTTNativeExpressAd;
@@ -42,18 +38,15 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     public NativeExpressAdWrapper(BaseAdProvider adProvider,
                                   Activity context,
                                   ViewGroup viewContainer,
-                                  LocalAdParams params,
+                                  LocalAdParams adParams,
                                   IExpressListener listener) {
         mContext = context;
         mAdProvider = adProvider;
-        mParams = params;
-        mCodeId = params.getPostId();
-        mSupportDeepLink = params.isSupportDeepLink();
+        mAdParams = adParams;
         mViewContainer = viewContainer;
-        mADViewWidth = params.getExpressViewWidth();
-        mADViewHeight = params.getExpressViewHeight();
-        mLoadCount = params.getAdCount();
         mListener = listener;
+
+        mMobiCodeId = mAdParams.getMobiCodeId();
 
         if (mAdProvider != null) {
             mProviderType = mAdProvider.getProviderType();
@@ -61,7 +54,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     }
 
     private void createNativeExpressAD() {
-        String postId = mParams.getPostId();
+        String postId = mAdParams.getPostId();
         if (TextUtils.isEmpty(postId)) {
             localExecFail(mAdProvider, -101,
                     "mobi 后台获取的 postId 不正确 或者 postId == null");
@@ -73,11 +66,11 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
         TTAdNative mTTAdNative = createAdNative(mContext.getApplicationContext());
 
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(mParams.getPostId())
-                .setSupportDeepLink(mParams.isSupportDeepLink())
-                .setAdCount(getLoadCount(mParams.getAdCount()))
-                .setExpressViewAcceptedSize(mParams.getExpressViewWidth(), mParams.getExpressViewHeight())
-                .setImageAcceptedSize(mParams.getImageWidth(), mParams.getExpressViewHeight())
+                .setCodeId(mAdParams.getPostId())
+                .setSupportDeepLink(mAdParams.isSupportDeepLink())
+                .setAdCount(getLoadCount(mAdParams.getAdCount()))
+                .setExpressViewAcceptedSize(mAdParams.getExpressViewWidth(), mAdParams.getExpressViewHeight())
+                .setImageAcceptedSize(mAdParams.getImageWidth(), mAdParams.getExpressViewHeight())
                 .build();
 
         mTTAdNative.loadNativeExpressAd(adSlot, this);
@@ -91,7 +84,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
             mViewContainer.removeAllViews();
         }
 
-        localExecFail(mAdProvider, i, s + " postId: " + mParams.getPostId());
+        localExecFail(mAdProvider, i, s + " postId: " + mAdParams.getPostId());
 
     }
 
@@ -133,6 +126,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     @Override
     public void onAdClicked(View view, int i) {
         if (mAdProvider != null) {
+            mAdProvider.trackClick();
             mAdProvider.callbackExpressClick(mListener);
         }
     }
@@ -140,6 +134,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     @Override
     public void onAdShow(View view, int i) {
         if (mAdProvider != null) {
+            mAdProvider.trackShow();
             mAdProvider.callbackExpressShow(mListener);
         }
     }

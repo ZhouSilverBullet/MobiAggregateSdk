@@ -18,6 +18,13 @@ import com.mobi.core.strategy.AdRunnable;
  * @Dec 略
  */
 public interface IAdProvider {
+
+    /**
+     * 用于上报使用
+     * @param mobiCodeId
+     */
+    void setMobiCodeId(String mobiCodeId);
+
     /**
      * @param activity
      * @param codeId            对应的广告id

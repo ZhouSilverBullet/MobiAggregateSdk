@@ -38,10 +38,11 @@ public class CoreSession {
     private volatile ConfigBean configBean;
 
     private String deviceNo;
+
     /**
      * 上报的Url
      */
-    private String uploadUrl;
+    private String reportUrl;
 
     private CoreSession() {
         mHandler = new Handler(Looper.getMainLooper());
@@ -199,15 +200,15 @@ public class CoreSession {
         return deviceNo;
     }
 
-    public String getUploadUrl() {
-        if (TextUtils.isEmpty(uploadUrl)) {
+    public String getReportUrl() {
+        if (TextUtils.isEmpty(reportUrl)) {
             if (configBean != null) {
                 ConfigAdBean configAdBean = configBean.getConfigAdBean();
                 if (configAdBean != null) {
-                    uploadUrl = configAdBean.getReportUrl();
+                    reportUrl = configAdBean.getReportUrl();
                 }
             }
         }
-        return uploadUrl;
+        return reportUrl;
     }
 }

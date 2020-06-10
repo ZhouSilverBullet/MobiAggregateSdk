@@ -20,6 +20,7 @@ import com.mobi.core.utils.LogUtils;
  */
 public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNative.FullScreenVideoAdListener, TTFullScreenVideoAd.FullScreenVideoAdInteractionListener {
     private final LocalAdParams mAdParams;
+    private final String mMobiCodeId;
     private String mProviderType;
     BaseAdProvider mAdProvider;
     Activity mActivity;
@@ -33,6 +34,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
         mActivity = activity;
         mAdParams = adParams;
         mListener = listener;
+        mMobiCodeId = mAdParams.getMobiCodeId();
         if (mAdProvider != null) {
             mProviderType = mAdProvider.getProviderType();
         }
@@ -100,6 +102,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     @Override
     public void onAdShow() {
         if (mListener != null) {
+            mAdProvider.trackShow();
             mListener.onAdShow(mProviderType);
         }
     }
@@ -107,6 +110,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     @Override
     public void onAdVideoBarClick() {
         if (mListener != null) {
+            mAdProvider.trackClick();
             mListener.onAdVideoBarClick(mProviderType);
         }
     }

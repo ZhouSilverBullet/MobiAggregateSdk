@@ -29,13 +29,9 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 
     private final BaseAdProvider mAdProvider;
     private final LocalAdParams mParams;
+    private final String mMobiCodeId;
     Activity mContext;
-    String mCodeId;
-    boolean mSupportDeepLink;
     ViewGroup mViewContainer;
-    int mADViewWidth;
-    int mADViewHeight;
-    int mLoadCount;
     IExpressListener mListener;
     private NativeExpressAD mNativeExpressAD;
 
@@ -47,13 +43,10 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
         mContext = context;
         mAdProvider = adProvider;
         mParams = params;
-        mCodeId = params.getPostId();
-        mSupportDeepLink = params.isSupportDeepLink();
         mViewContainer = viewContainer;
-        mADViewWidth = params.getExpressViewWidth();
-        mADViewHeight = params.getExpressViewHeight();
-        mLoadCount = params.getAdCount();
         mListener = listener;
+
+        mMobiCodeId = mParams.getMobiCodeId();
     }
 
     /**
@@ -81,7 +74,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 //        nativeExpressAD.setMaxVideoDuration(15);//设置视频最大时长
         mNativeExpressAD.setVideoPlayPolicy(VideoOption.VideoPlayPolicy.AUTO);
         //记载数量
-        mNativeExpressAD.loadAD(getLoadCount(mLoadCount));
+        mNativeExpressAD.loadAD(getLoadCount(mParams.getAdCount()));
     }
 
 
@@ -109,6 +102,13 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
                 nativeExpressADView.setMediaListener(null);
             }
             nativeExpressADView.render();
+            if (mViewContainer.getChildCount() > 0) {
+                mViewContainer.removeAllViews();
+            }
+
+            // 需要保证 View 被绘制的时候是可见的，否则将无法产生曝光和收益。
+            // 有的时候还不显示广告，闪的一下就过去了的bug
+            mViewContainer.addView(nativeExpressADView);
         }
     }
 
@@ -128,6 +128,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isCancel");
             return;
         }
+        LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess");
 
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
@@ -153,6 +154,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     public void onADExposure(NativeExpressADView nativeExpressADView) {
         //广告曝光
         if (mAdProvider != null) {
+            mAdProvider.trackShow();
             mAdProvider.callbackExpressShow(mListener);
         }
     }
@@ -161,6 +163,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     public void onADClicked(NativeExpressADView nativeExpressADView) {
         //广告被点击
         if (mAdProvider != null) {
+            mAdProvider.trackClick();
             mAdProvider.callbackExpressClick(mListener);
         }
     }

@@ -19,6 +19,7 @@ import com.qq.e.comm.util.AdError;
  */
 public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements UnifiedInterstitialADListener {
     private final LocalAdParams mAdParams;
+    private final String mMobiCodeId;
     private String mProviderType;
     private BaseAdProvider mBaseAdProvider;
     private Activity mActivity;
@@ -34,6 +35,7 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
         mActivity = activity;
         mAdParams = adParams;
         mListener = listener;
+        mMobiCodeId = mAdParams.getMobiCodeId();
         if (mBaseAdProvider != null) {
             mProviderType = mBaseAdProvider.getProviderType();
         }
@@ -106,6 +108,7 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     @Override
     public void onADExposure() {
         if (mBaseAdProvider != null) {
+            mBaseAdProvider.trackShow();
             mBaseAdProvider.callbackInteractionExposure(mListener);
         }
     }
@@ -113,6 +116,7 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     @Override
     public void onADClicked() {
         if (mBaseAdProvider != null) {
+            mBaseAdProvider.trackClick();
             mBaseAdProvider.callbackInteractionClick(mListener);
         }
     }

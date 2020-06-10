@@ -21,6 +21,7 @@ import com.mobi.core.utils.LogUtils;
  */
 public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.RewardVideoAdListener, TTRewardVideoAd.RewardAdInteractionListener {
     private final LocalAdParams mAdParams;
+    private final String mMobiCodeId;
     BaseAdProvider mAdProvider;
     Activity mActivity;
     IRewardAdListener mListener;
@@ -34,6 +35,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
         mActivity = activity;
         mAdParams = adParams;
         mListener = listener;
+        mMobiCodeId = mAdParams.getMobiCodeId();
     }
 
     private void createRewardVideoAd() {
@@ -117,14 +119,16 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     public void onAdShow() {
 
         if (mAdProvider != null) {
+            mAdProvider.trackShow();
             mAdProvider.callbackRewardExpose(mListener);
         }
     }
 
     @Override
     public void onAdVideoBarClick() {
-//     AdStatistical.trackAD(activity, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_TRUE);
+
         if (mAdProvider != null) {
+            mAdProvider.trackClick();
             mAdProvider.callbackRewardClick(mListener);
         }
     }

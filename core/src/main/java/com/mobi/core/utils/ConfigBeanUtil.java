@@ -47,11 +47,16 @@ public class ConfigBeanUtil {
     }
 
     private static ConfigAdBean getConfigAdBean(JSONObject jsonObject) {
-        return new ConfigAdBean(jsonObject.optLong("timeout"),
-                jsonObject.optLong("ad_adk_req_timeout"),
-                jsonObject.optString("report_url"),
-                jsonObject.optString("developer_url"),
-                jsonObject.optString("proto_url"));
+        JSONObject configObject = jsonObject.optJSONObject("config");
+        ConfigAdBean configAdBean = null;
+        if (configObject != null) {
+            configAdBean = new ConfigAdBean(configObject.optLong("timeout"),
+                    configObject.optLong("ad_adk_req_timeout"),
+                    configObject.optString("report_url"),
+                    configObject.optString("developer_url"),
+                    configObject.optString("proto_url"));
+        }
+        return configAdBean;
     }
 
     private static List<SdkInfoItem> getSdkInfoItem(JSONObject jsonObject) {

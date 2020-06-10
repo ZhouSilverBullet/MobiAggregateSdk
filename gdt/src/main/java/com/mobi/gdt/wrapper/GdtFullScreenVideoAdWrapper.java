@@ -15,6 +15,7 @@ import com.mobi.core.listener.IFullScreenVideoAdListener;
 public class GdtFullScreenVideoAdWrapper extends BaseAdWrapper {
 
     private final LocalAdParams mAdParams;
+    private final String mMobiCodeId;
     private String mProviderType;
     BaseAdProvider mAdProvider;
     Activity mActivity;
@@ -28,6 +29,7 @@ public class GdtFullScreenVideoAdWrapper extends BaseAdWrapper {
         mActivity = activity;
         mAdParams = adParams;
         mListener = listener;
+        mMobiCodeId = mAdParams.getMobiCodeId();
         if (mAdProvider != null) {
             mProviderType = mAdProvider.getProviderType();
         }

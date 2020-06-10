@@ -73,4 +73,15 @@ public class ConfigAdBean {
     public void setProtoUrl(String protoUrl) {
         this.protoUrl = protoUrl;
     }
+
+    @Override
+    public String toString() {
+        return "ConfigAdBean{" +
+                "timeout=" + timeout +
+                ", adAdkReqTimeout=" + adAdkReqTimeout +
+                ", reportUrl='" + reportUrl + '\'' +
+                ", developerUrl='" + developerUrl + '\'' +
+                ", protoUrl='" + protoUrl + '\'' +
+                '}';
+    }
 }

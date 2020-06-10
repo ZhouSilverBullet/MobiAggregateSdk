@@ -24,6 +24,7 @@ import com.qq.e.comm.util.AdError;
 public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
     public static final String TAG = "SplashAdWrapper";
     private final LocalAdParams mAdParams;
+    private final String mMobiCodeId;
 
     BaseAdProvider mAdProvider;
     Activity mActivity;
@@ -44,6 +45,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
         mAdParams = adParams;
         mSplashContainer = splashContainer;
         mListener = listener;
+        mMobiCodeId = mAdParams.getMobiCodeId();
     }
 
     public void setSplashSkipView(BaseSplashSkipView splashSkipView) {
@@ -112,6 +114,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
     public void onADClicked() {
         Log.w(TAG, "onADClicked");
         if (mAdProvider != null) {
+            mAdProvider.trackClick();
             mAdProvider.callbackSplashClicked(mListener);
         }
 
@@ -130,6 +133,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
     public void onADExposure() {
         Log.w(TAG, "onADExposure");
         if (mAdProvider != null) {
+            mAdProvider.trackShow();
             mAdProvider.callbackSplashExposure(mListener);
         }
     }
