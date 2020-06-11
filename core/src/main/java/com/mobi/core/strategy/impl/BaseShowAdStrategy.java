@@ -65,6 +65,7 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
 
     @Override
     public final void execShow() {
+        LogUtils.e(TAG, " time out : " + CoreSession.get().getTimeOut());
         registerAdTaskCallBack();
         //这里如果一个也没加上
         //就想当于任务没加成功，直接给外面抛异常
