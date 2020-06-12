@@ -6,15 +6,15 @@ import android.content.Context;
  * @author zhousaito
  * @version 1.0
  * @date 2020/6/8 15:32
- * @Dec 略
+ * @Dec 本地弄个假的做占位使用的
  */
-public class LocalAdSession implements IAdSession {
+public class FakeAdSession implements IAdSession {
 
 
-    private LocalAdSession() {
+    private FakeAdSession() {
     }
 
-    public static LocalAdSession get() {
+    public static FakeAdSession get() {
         return SingletonHolder.INSTANCE;
     }
 
@@ -34,6 +34,6 @@ public class LocalAdSession implements IAdSession {
     }
 
     private static class SingletonHolder {
-        private static final LocalAdSession INSTANCE = new LocalAdSession();
+        private static final FakeAdSession INSTANCE = new FakeAdSession();
     }
 }

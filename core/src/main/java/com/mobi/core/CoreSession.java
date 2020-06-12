@@ -136,9 +136,12 @@ public class CoreSession implements NetworkClient.InitCallback {
 
     public ConfigBean getConfigBean() {
         if (getNetworkClient() != null) {
-            //每次都进行判断协议是否已经超时了
-            //超时了就去更新下载
-            if (getNetworkClient().isProtoTimeout(configBean)) {
+            //每次都进行超时判断
+            if (getNetworkClient().isTimeout(configAdBean)) {
+                //配置超时
+                getNetworkClient().timeoutRequestConfig(this);
+            } else if (getNetworkClient().isProtoTimeout(configBean)) {
+                //协议超时
                 getNetworkClient().timeoutRequestProtoConfig(this);
             }
         }

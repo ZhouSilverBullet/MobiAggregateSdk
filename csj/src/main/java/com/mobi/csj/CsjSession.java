@@ -8,6 +8,7 @@ import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.mobi.core.AdProviderManager;
 import com.mobi.core.IAdSession;
+import com.mobi.core.utils.LogUtils;
 
 /**
  * @author zhousaito
@@ -16,6 +17,7 @@ import com.mobi.core.IAdSession;
  * @Dec 略
  */
 public class CsjSession implements IAdSession {
+    public static final String TAG = "CsjSession";
     //默认为true
     private static boolean isAppDebug = true;
     private TTAdManager mTTAdManager;
@@ -34,17 +36,37 @@ public class CsjSession implements IAdSession {
 
     @Override
     public void init(Context context, String appId, String appName, boolean isDebug) {
+//        if (mTTAdManager != null) {
+//            return;
+//        }
+
+//        isAppDebug = isDebug;
+//        mContext = context.getApplicationContext();
+//        mTTAdManager = TTAdSdk.init(context.getApplicationContext(),
+//                buildConfig(context, appId, appName));
+//
+//        AdProviderManager.get().putProvider(AdProviderManager.TYPE_CSJ,
+//                new CsjProvider(AdProviderManager.TYPE_CSJ));
+        initTTSdk(context, buildConfig(context, appId, appName), isDebug);
+
+    }
+
+    public void initTTSdk(Context context,
+                          TTAdConfig ttAdConfig,
+                          boolean isDebug) {
+
         if (mTTAdManager != null) {
             return;
         }
 
         isAppDebug = isDebug;
         mContext = context.getApplicationContext();
-        mTTAdManager = TTAdSdk.init(context.getApplicationContext(),
-                buildConfig(context, appId, appName));
+        mTTAdManager = TTAdSdk.init(context.getApplicationContext(), ttAdConfig);
 
         AdProviderManager.get().putProvider(AdProviderManager.TYPE_CSJ,
                 new CsjProvider(AdProviderManager.TYPE_CSJ));
+
+        LogUtils.e(TAG, "csj 初始化");
 
     }
 

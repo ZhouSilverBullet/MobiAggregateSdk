@@ -10,7 +10,7 @@ import com.mobi.core.AdParams;
 import com.mobi.core.AdProviderManager;
 import com.mobi.core.CoreSession;
 import com.mobi.core.IAdSession;
-import com.mobi.core.LocalAdSession;
+import com.mobi.core.FakeAdSession;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.listener.IAdFailListener;
@@ -168,7 +168,7 @@ class SdkUtils {
                         appId, appName, appDebug);
                 //ClassNotFoundException
                 if (o == null) {
-                    AdProviderManager.get().putAdSession(providerType, LocalAdSession.get());
+                    AdProviderManager.get().putAdSession(providerType, FakeAdSession.get());
                 } else if (o instanceof IAdSession) {
                     AdProviderManager.get().putAdSession(providerType, (IAdSession) o);
                 } else {
@@ -176,7 +176,7 @@ class SdkUtils {
                 }
             }
         } else {
-            if (adSession instanceof LocalAdSession) {
+            if (adSession instanceof FakeAdSession) {
                 if (AdProviderManager.TYPE_CSJ.equals(providerType)) {
                     LogUtils.e(TAG, "没有导入或者不支持 或者 穿山甲 初始化出错");
 

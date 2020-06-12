@@ -50,6 +50,15 @@ public class NetworkClient {
         });
     }
 
+    public void timeoutRequestConfig(InitCallback callback) {
+        SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
+            @Override
+            public void run() {
+                requestConfig(callback);
+            }
+        });
+    }
+
     public void timeoutRequestProtoConfig(InitCallback callback) {
         SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
             @Override
@@ -101,7 +110,7 @@ public class NetworkClient {
      * @return
      */
     public boolean isProtoTimeout(ConfigBean configBean) {
-        long timeout = SpUtil.getLong(MobiConstantValue.PROTO_TIMEOUT, 0);
+        long timeout = SpUtil.getLong(MobiConstantValue.PROTO_TIMEOUT, System.currentTimeMillis() + 2000);
         //如果当前时间大于保存的时间，表示需要通过config去刷新接口
         if (System.currentTimeMillis() > timeout) {
             return true;
@@ -115,8 +124,8 @@ public class NetworkClient {
      * @param configAdBean
      * @return
      */
-    private boolean isTimeout(ConfigAdBean configAdBean) {
-        long timeout = SpUtil.getLong(MobiConstantValue.ALL_TIMEOUT, 0);
+    public boolean isTimeout(ConfigAdBean configAdBean) {
+        long timeout = SpUtil.getLong(MobiConstantValue.ALL_TIMEOUT, System.currentTimeMillis() + 2000);
         //如果当前时间大于保存的时间，表示需要通过config去刷新接口
         if (System.currentTimeMillis() > timeout) {
             return true;
