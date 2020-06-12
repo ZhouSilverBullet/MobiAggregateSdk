@@ -1,4 +1,4 @@
-package com.mobi.exception;
+package com.mobi.core.exception;
 
 /**
  * @author zhousaito

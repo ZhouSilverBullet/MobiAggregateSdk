@@ -1,4 +1,4 @@
-package com.mobi.reflection;
+package com.mobi.core.reflection;
 
 import android.content.Context;
 

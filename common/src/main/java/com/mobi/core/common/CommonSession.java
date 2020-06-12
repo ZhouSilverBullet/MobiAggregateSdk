@@ -1,12 +1,10 @@
-package com.mobi.common;
+package com.mobi.core.common;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
 import com.mobi.core.CoreSession;
-import com.mobi.core.bean.ConfigBean;
-import com.mobi.core.network.NetworkClient;
 
 /**
  * @author zhousaito

@@ -29,6 +29,12 @@ public class NetworkClient {
             ConfigAdBean configAdBean = ConfigBeanUtil.getConfigAdBean(serviceConfig);
             CoreSession.get().setConfigAdBean(configAdBean);
 
+            //获取这个serviceConfig把ConfigBean重新设置一下
+            ConfigBean configBean = ConfigBeanUtil.getConfigBean(serviceConfig);
+            if (configBean != null) {
+                CoreSession.get().setConfigBean(configBean);
+            }
+
             if (configAdBean == null) {
                 //请求config
                 requestConfig(callback);

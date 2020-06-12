@@ -1,17 +1,14 @@
-package com.mobi.common;
+package com.mobi.core.common;
 
 import android.app.Activity;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.mobi.core.AdParams;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.exception.MobiIllegalStateException;
-import com.mobi.exception.MobiNullPointerException;
+import com.mobi.core.exception.MobiNullPointerException;
 
 /**
  * @author zhousaito

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import com.mobi.common.MobiPubSdk;
+import com.mobi.core.common.MobiPubSdk;
 import com.mobi.core.AdParams;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;

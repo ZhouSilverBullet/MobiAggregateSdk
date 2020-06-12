@@ -1,4 +1,4 @@
-package com.mobi.common;
+package com.mobi.core.common;
 
 import org.junit.Test;
 

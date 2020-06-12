@@ -1,4 +1,4 @@
-package com.mobi.common;
+package com.mobi.core.common;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,20 +23,17 @@ import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.strategy.AdRunnable;
-import com.mobi.core.strategy.AdStrategyFactory;
 import com.mobi.core.strategy.IShowAdStrategy;
 import com.mobi.core.strategy.StrategyError;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.csj.CsjSession;
-import com.mobi.exception.MobiNullPointerException;
-import com.mobi.gdt.GdtSession;
-import com.mobi.reflection.SdkReflection;
+import com.mobi.core.exception.MobiNullPointerException;
+import com.mobi.core.reflection.SdkReflection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mobi.common.CheckUtils.checkSafe;
-import static com.mobi.common.CheckUtils.isAdInvalid;
+import static com.mobi.core.common.CheckUtils.checkSafe;
+import static com.mobi.core.common.CheckUtils.isAdInvalid;
 
 /**
  * @author zhousaito

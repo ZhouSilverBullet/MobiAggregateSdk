@@ -7,17 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mobi.common.MobiPubSdk;
+import com.mobi.core.common.MobiPubSdk;
 import com.mobi.core.AdParams;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.analysis.AnalysisBean;
-import com.mobi.core.db.use.AnalysisTable;
 import com.mobi.core.db.use.DataManager;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
-import com.mobi.core.network.HttpClient;
 import com.mobi.core.network.SdkExecutors;
 import com.mobi.core.strategy.StrategyError;
 import com.mobi.core.utils.LogUtils;
