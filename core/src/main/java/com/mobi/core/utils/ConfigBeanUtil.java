@@ -11,7 +11,6 @@ import com.mobi.core.bean.SdkInfoItem;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +56,14 @@ public class ConfigBeanUtil {
                     configObject.optString("proto_url"));
         }
         return configAdBean;
+    }
+
+    public static ConfigAdBean getConfigAdBean(String jsonStr) {
+        JSONObject jsonObject = JsonUtil.string2JSONObject(jsonStr);
+        if (jsonObject != null) {
+            return getConfigAdBean(jsonObject);
+        }
+        return null;
     }
 
     private static List<SdkInfoItem> getSdkInfoItem(JSONObject jsonObject) {

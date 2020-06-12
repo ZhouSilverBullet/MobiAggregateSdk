@@ -40,25 +40,7 @@ public class CommonSession {
         mContext = context.getApplicationContext();
         mAppId = appId;
 
-        CoreSession.get().init(context, true, new NetworkClient.InitCallback() {
-            @Override
-            public void onSuccess(ConfigBean configBean) {
-
-//                CsjSession.get().init(context,
-//                        Const.CSJ_APPID,
-//                        Const.CSJ_APPNAME, false);
-//
-//                GdtSession.get().init(this, Const.GDT_APPID,
-//                        BuildConfig.DEBUG);
-//
-//                CoreSession.get().init(this, BuildConfig.DEBUG);
-            }
-
-            @Override
-            public void onFailure(int code, String message) {
-
-            }
-        });
+        CoreSession.get().init(context, true);
 
     }
 

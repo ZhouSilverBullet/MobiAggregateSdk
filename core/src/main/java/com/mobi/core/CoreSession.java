@@ -28,7 +28,7 @@ import java.util.List;
  * @date 2020/6/1 18:27
  * @Dec 略
  */
-public class CoreSession {
+public class CoreSession implements NetworkClient.InitCallback {
     public static final String TAG = "CoreSession";
 
     private static boolean isAppDebug = true;
@@ -36,6 +36,7 @@ public class CoreSession {
     private Context mContext;
     private NetworkClient mNetworkClient;
     private volatile ConfigBean configBean;
+    private volatile ConfigAdBean configAdBean;
 
     private String deviceNo;
 
@@ -43,6 +44,11 @@ public class CoreSession {
      * 上报的Url
      */
     private String reportUrl;
+
+    /**
+     * 协议的url
+     */
+    private String protoUrl;
     /**
      * 超时时间
      */
@@ -54,6 +60,24 @@ public class CoreSession {
 
     public static CoreSession get() {
         return SingletonHolder.INSTANCE;
+    }
+
+    @Override
+    public void onSuccess(ConfigBean configBean) {
+        setConfigBean(configBean);
+        if (configBean != null) {
+            ConfigAdBean configAdBean = configBean.getConfigAdBean();
+
+            //这个如果是拉去协议的时候请求的，configAdBean是null所以不进行覆盖
+            if (configAdBean != null) {
+                setConfigAdBean(configAdBean);
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(int code, String message) {
+        LogUtils.e(TAG, " 获取配置失败 ： " + message);
     }
 
     private static class SingletonHolder {
@@ -69,29 +93,13 @@ public class CoreSession {
         mContext = context.getApplicationContext();
     }
 
-    public void init(Context context, boolean isDebug, NetworkClient.InitCallback initCallback) {
+    public void init(Context context, boolean isDebug) {
         LogUtils.e(TAG, " init2 ");
         mContext = context.getApplicationContext();
         isAppDebug = isDebug;
 
         mNetworkClient = new NetworkClient();
-        mNetworkClient.init(context, new NetworkClient.InitCallback() {
-            @Override
-            public void onSuccess(ConfigBean configBean) {
-                setConfigBean(configBean);
-
-                if (initCallback != null) {
-                    initCallback.onSuccess(configBean);
-                }
-            }
-
-            @Override
-            public void onFailure(int code, String message) {
-                if (initCallback != null) {
-                    initCallback.onFailure(code, message);
-                }
-            }
-        });
+        mNetworkClient.init(context, this);
     }
 
     public Context getContext() {
@@ -118,11 +126,22 @@ public class CoreSession {
     }
 
     public ConfigBean getConfigBean() {
+        if (getNetworkClient() != null) {
+            //每次都进行判断协议是否已经超时了
+            //超时了就去更新下载
+            if (getNetworkClient().isProtoTimeout(configBean)) {
+                getNetworkClient().timeoutRequestProtoConfig(this);
+            }
+        }
         return configBean;
     }
 
     public void setConfigBean(ConfigBean configBean) {
         this.configBean = configBean;
+    }
+
+    public void setConfigAdBean(ConfigAdBean configAdBean) {
+        this.configAdBean = configAdBean;
     }
 
     public ConfigItemBean findConfigItemBean(String postId) {
@@ -240,14 +259,20 @@ public class CoreSession {
 
     public String getReportUrl() {
         if (TextUtils.isEmpty(reportUrl)) {
-            if (configBean != null) {
-                ConfigAdBean configAdBean = configBean.getConfigAdBean();
-                if (configAdBean != null) {
-                    reportUrl = configAdBean.getReportUrl();
-                }
+            if (configAdBean != null) {
+                reportUrl = configAdBean.getReportUrl();
             }
         }
         return reportUrl;
+    }
+
+    public String getProtoUrl() {
+        if (TextUtils.isEmpty(protoUrl)) {
+            if (configAdBean != null) {
+                protoUrl = configAdBean.getProtoUrl();
+            }
+        }
+        return protoUrl;
     }
 
     public long getTimeOut() {

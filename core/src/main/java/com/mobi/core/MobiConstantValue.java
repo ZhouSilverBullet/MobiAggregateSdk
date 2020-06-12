@@ -5,14 +5,13 @@ package com.mobi.core;
  * @version 1.0
  * @date 2020/6/3 17:39
  * @Dec 用于一些常量配置
- *
  */
 public class MobiConstantValue {
     /**
      * gdt 渲染失败 code
      */
-    public static final int GDT_ERROR_RENDER_CODE  = -10000;
-    public static final String GDT_ERROR_RENDER_MESSAGE  = "广告渲染失败";
+    public static final int GDT_ERROR_RENDER_CODE = -10000;
+    public static final String GDT_ERROR_RENDER_MESSAGE = "广告渲染失败";
 
     public static final String DEVICE_NO = "device_no";
 
@@ -24,4 +23,13 @@ public class MobiConstantValue {
 
     public static String CHANNEL = "";//渠道
 
+//    public static final String LOCAL_URL = "http://cdn.findwxapp.com/mediation.dev2.txt";
+    public static final String LOCAL_URL = "http://www.zhousaito.top:8080/config";
+
+
+    public static final String ALL_CONFIG = "all_config";
+    public static final String ALL_TIMEOUT = "all_timeout";
+
+    public static final String PROTO_CONFIG = "proto_config";
+    public static final String PROTO_TIMEOUT = "proto_timeout";
 }
