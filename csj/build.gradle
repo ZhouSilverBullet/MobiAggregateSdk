@@ -27,7 +27,9 @@ android {
 
     repositories {
         flatDir {
-            dirs 'libs'
+            //jitpack.io编译使用
+            //https://blog.csdn.net/runstoppable/article/details/72743888
+            dirs project(':csj').file('libs')
         }
     }
 }
