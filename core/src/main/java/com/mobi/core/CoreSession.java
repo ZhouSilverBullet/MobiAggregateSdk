@@ -53,6 +53,10 @@ public class CoreSession implements NetworkClient.InitCallback {
      * 超时时间
      */
     private long timeOut;
+    /**
+     * mobi sdk 对应的 appId
+     */
+    private String mAppId;
 
     private CoreSession() {
         mHandler = new Handler(Looper.getMainLooper());
@@ -93,9 +97,10 @@ public class CoreSession implements NetworkClient.InitCallback {
         mContext = context.getApplicationContext();
     }
 
-    public void init(Context context, boolean isDebug) {
+    public void init(Context context, String appId, boolean isDebug) {
         LogUtils.e(TAG, " init2 ");
         mContext = context.getApplicationContext();
+        mAppId = appId;
         isAppDebug = isDebug;
 
         mNetworkClient = new NetworkClient();
@@ -108,6 +113,10 @@ public class CoreSession implements NetworkClient.InitCallback {
 
     public static boolean isAppDebug() {
         return isAppDebug;
+    }
+
+    public static void setIsAppDebug(boolean isAppDebug) {
+        CoreSession.isAppDebug = isAppDebug;
     }
 
     public void runOnUiThread(Runnable runnable) {
@@ -286,5 +295,9 @@ public class CoreSession implements NetworkClient.InitCallback {
             }
         }
         return timeOut;
+    }
+
+    public String getAppId() {
+        return mAppId;
     }
 }
