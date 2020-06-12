@@ -3,6 +3,7 @@ package com.mobi.core.db;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -96,7 +97,14 @@ public class AdProvider extends ContentProvider {
                 // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
                 long rowid = db.insert(AnalysisTable.TABLE_NAME, null, values);
                 Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
-                this.getContext().getContentResolver().notifyChange(uri, null);
+                if (getContext() == null) {
+                    Context context = CoreSession.get().getContext();
+                    if (context != null) {
+                        context.getContentResolver().notifyChange(uri, null);
+                    }
+                } else {
+                    this.getContext().getContentResolver().notifyChange(uri, null);
+                }
                 return insertUri;
 
             default:
