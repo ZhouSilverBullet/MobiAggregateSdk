@@ -6,7 +6,7 @@
 
         <provider
             android:name=".db.AdProvider"
-            android:authorities="com.mobi.core.db.AdProvider" />
+            android:authorities="${applicationId}.db.AdProvider" />
     </application>
 
 </manifest>

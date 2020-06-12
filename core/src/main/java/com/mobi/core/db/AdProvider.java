@@ -25,29 +25,35 @@ import com.mobi.core.utils.LogUtils;
 public class AdProvider extends ContentProvider {
 
     private DbOpenHelper mDbOpenHelper;
-    private static final UriMatcher MATCHER;
+    private static UriMatcher MATCHER;
 
-    public static final String  TAG = "AdProvider";
+    public static final String TAG = "AdProvider";
     private final Object mLock = new Object();
 
     //Uri info
     //authority
-    public static final String PEOPLE_INFO_AUTHORITY = "com.mobi.core.db.AdProvider";
-    public static final Uri AUTHORITY_URI = Uri.parse("content://" + PEOPLE_INFO_AUTHORITY);
+    public static String PEOPLE_INFO_AUTHORITY = "";
+    public static Uri AUTHORITY_URI = null;
     //code
     private static final int PEOPLE_INFO_CODE = 1;
-
-    static {
-        MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-        MATCHER.addURI(PEOPLE_INFO_AUTHORITY, AnalysisTable.TABLE_NAME, PEOPLE_INFO_CODE);
-    }
 
     @Override
     public boolean onCreate() {
         LogUtils.e(TAG, " onCreate ");
         mDbOpenHelper = new DbOpenHelper(getContext());
         CoreSession.get().init(getContext());
+
+        initStaticValue();
+
         return true;
+    }
+
+    private void initStaticValue() {
+        PEOPLE_INFO_AUTHORITY = getContext().getPackageName() + ".db.AdProvider";
+        AUTHORITY_URI = Uri.parse("content://" + PEOPLE_INFO_AUTHORITY);
+        //延迟创建一下这个MATCHER
+        MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
+        MATCHER.addURI(PEOPLE_INFO_AUTHORITY, AnalysisTable.TABLE_NAME, PEOPLE_INFO_CODE);
     }
 
     @Nullable
@@ -130,7 +136,7 @@ public class AdProvider extends ContentProvider {
                 return count;
 
             default:
-                LogUtils.e(TAG, "delete 匹配失败 "+ uri.toString());
+                LogUtils.e(TAG, "delete 匹配失败 " + uri.toString());
                 break;
         }
         return 0;
@@ -150,7 +156,7 @@ public class AdProvider extends ContentProvider {
                 count = db.update(AnalysisTable.TABLE_NAME, values, selection, selectionArgs);
                 return count;
             default:
-                LogUtils.e(TAG, "update 匹配失败 "+ uri.toString());
+                LogUtils.e(TAG, "update 匹配失败 " + uri.toString());
                 break;
         }
         return 0;

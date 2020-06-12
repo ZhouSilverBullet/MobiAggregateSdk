@@ -46,10 +46,13 @@ public class AnalysisTable {
 
 
     //需要进行操作的uri对象
-    private static final Uri CONTENT_URI = Uri.withAppendedPath(AdProvider.AUTHORITY_URI, TABLE_NAME);
+    private static Uri CONTENT_URI = null;
 
     //返回PeopleInfo表格操作的uri地址对象
     public static Uri getContentUri() {
+        if (CONTENT_URI == null) {
+            CONTENT_URI = Uri.withAppendedPath(AdProvider.AUTHORITY_URI, TABLE_NAME);
+        }
         return CONTENT_URI;
     }
 
