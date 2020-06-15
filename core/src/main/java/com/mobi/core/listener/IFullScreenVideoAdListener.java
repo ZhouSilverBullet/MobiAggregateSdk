@@ -11,17 +11,6 @@ import java.util.List;
 public interface IFullScreenVideoAdListener extends ITTAppDownloadListener, IAdFailListener {
     void onAdShow(String providerType);
 
-    /**
-     * @param providerType
-     * @param code
-     * @param errorMsg
-     * {@link IAdFailListener#onAdFail(List)}
-     */
-    @Deprecated
-    default void onAdFail(String providerType, int code, String errorMsg) {
-
-    }
-
     void onAdLoad(String providerType);
 
     void onCached(String providerType);

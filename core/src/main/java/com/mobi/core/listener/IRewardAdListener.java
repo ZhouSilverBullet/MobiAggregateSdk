@@ -9,17 +9,7 @@ import java.util.List;
  * @Dec 略
  */
 public interface IRewardAdListener extends ITTAppDownloadListener, IAdFailListener {
-    /**
-     *
-     * @param providerType
-     * @param code
-     * @param errorMsg
-     * {@link IAdFailListener#onAdFail(List)}
-     */
-    @Deprecated
-    default void onAdFail(String providerType, int code, String errorMsg) {
 
-    }
     void onAdLoad(String type);
 
     /**

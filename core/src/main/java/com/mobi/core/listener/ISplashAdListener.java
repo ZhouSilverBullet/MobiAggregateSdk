@@ -19,19 +19,6 @@ public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListen
     void onAdStartRequest(@NonNull String providerType);
 
     /**
-     * csj # onTimeout , onError
-     *
-     * @param providerType
-     * @param code
-     * @param errorMsg
-     * {@link IAdFailListener#onAdFail(List)}
-     */
-    @Deprecated
-    default void onAdFail(String providerType, int code, String errorMsg) {
-
-    }
-
-    /**
      * csj # onAdClicked
      *
      * @param type

@@ -26,12 +26,6 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackSplashFail(int code, String error, ISplashAdListener listener) {
-        if (listener != null) {
-            listener.onAdFail(mProviderType, code, error);
-        }
-    }
-
     /**
      * @param listener
      */
@@ -60,11 +54,6 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     }
 
     /////// 激励视频广告回调  start //////
-    public final void callbackRewardFail(int code, String errorMsg, IRewardAdListener listener) {
-        if (listener != null) {
-            listener.onAdFail(mProviderType, code, errorMsg);
-        }
-    }
 
     public final void callbackRewardLoad(IRewardAdListener listener) {
         if (listener != null) {
@@ -124,11 +113,6 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     /////// 插屏广告回调  start //////
 
-    public final void callbackInteractionFail(int code, String errorMsg, IInteractionAdListener listener) {
-        if (listener != null) {
-            listener.onAdFail(mProviderType, code, errorMsg);
-        }
-    }
 
     public final void callbackInteractionLoad(IInteractionAdListener listener) {
         if (listener != null) {
@@ -186,12 +170,6 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     public final void callbackExpressLoad(IExpressListener listener) {
         if (listener != null) {
             listener.onAdLoad(mProviderType);
-        }
-    }
-
-    public final void callbackExpressLoadFailed(int code, String errorMsg, IExpressListener listener) {
-        if (listener != null) {
-            listener.onAdFail(mProviderType, code, errorMsg);
         }
     }
 

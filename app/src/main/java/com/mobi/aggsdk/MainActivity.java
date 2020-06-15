@@ -76,11 +76,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdFail(String type,int code,  String errorMsg) {
-                LogUtils.e(TAG, "onAdFail " + errorMsg);
-            }
-
-            @Override
             public void onAdLoad(String type) {
                 LogUtils.e(TAG, "onAdLoad ");
             }
@@ -124,11 +119,6 @@ public class MainActivity extends AppCompatActivity {
                     LogUtils.e(TAG, "onLoadFailed type : " + strategyError.getProviderType()
                             + " faildCode : " + strategyError.getCode() + ", faildMsg: " + strategyError.getMessage());
                 }
-            }
-
-            @Override
-            public void onAdFail(String type, int code, String errorMsg) {
-                LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
             }
 
             @Override
@@ -192,10 +182,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            @Override
-            public void onAdFail(String type, int code, String errorMsg) {
-                LogUtils.e(TAG, "onAdFail type : " + type + ", " + errorMsg);
-            }
 
             @Override
             public void onADOpened(String type) {
@@ -250,11 +236,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdClick(String type) {
                 LogUtils.e(TAG, "onAdClick type : " + type);
-            }
-
-            @Override
-            public void onAdFail(String type, int faildCode, String faildMsg) {
-                LogUtils.e(TAG, "onLoadFailed type : " + type + " faildCode : " + faildCode + ", faildMsg: " + faildMsg);
             }
 
             @Override

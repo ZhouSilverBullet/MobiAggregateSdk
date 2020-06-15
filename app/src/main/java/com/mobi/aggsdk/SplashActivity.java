@@ -65,11 +65,6 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdFail(String type, int code, String errorMsg) {
-                Log.e(TAG, "providerType: " + type + "code: " + code + ", message: " + errorMsg);
-            }
-
-            @Override
             public void onAdClicked(String type) {
                 Log.e(TAG, "onAdClicked " + "providerType: " + type);
 //                startActivity(new Intent(SplashActivity.this, MainActivity.class));
