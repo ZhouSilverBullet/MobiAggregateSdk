@@ -22,6 +22,7 @@ import com.mobi.core.strategy.IShowAdStrategy;
 
 import java.util.List;
 
+import static com.mobi.core.MobiConstantValue.*;
 import static com.mobi.core.common.SdkUtils.callOnFail;
 import static com.mobi.core.common.SdkUtils.checkSafe;
 import static com.mobi.core.common.SdkUtils.findsShowAdBean;
@@ -84,7 +85,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2001, SDK_MESSAGE_2001, listener);
             return;
         }
 
@@ -94,7 +95,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2002, SDK_MESSAGE_2002, listener);
             return;
         }
 
@@ -150,7 +151,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2001, SDK_MESSAGE_2001, listener);
             return;
         }
 
@@ -159,7 +160,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2002, SDK_MESSAGE_2002, listener);
             return;
         }
 
@@ -199,7 +200,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2001, SDK_MESSAGE_2001, listener);
             return;
         }
 
@@ -208,7 +209,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2002, SDK_MESSAGE_2002, listener);
             return;
         }
 
@@ -248,7 +249,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2001, SDK_MESSAGE_2001, listener);
             return;
         }
 
@@ -257,7 +258,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2002, SDK_MESSAGE_2002, listener);
             return;
         }
 
@@ -302,7 +303,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail("MobiType", -100, "mobi codeid 不正确 或者 codeId == null", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2001, SDK_MESSAGE_2001, listener);
             return;
         }
 
@@ -311,7 +312,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail("MobiType", -100, "mobi 的策略，本地还没有支持", listener);
+            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_2002, SDK_MESSAGE_2002, listener);
             return;
         }
 

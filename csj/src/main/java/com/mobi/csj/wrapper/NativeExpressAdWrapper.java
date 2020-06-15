@@ -55,10 +55,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 
     private void createNativeExpressAD() {
         String postId = mAdParams.getPostId();
-        if (TextUtils.isEmpty(postId)) {
-            localExecFail(mAdProvider, -101,
-                    "mobi 后台获取的 postId 不正确 或者 postId == null");
-
+        if (checkPostIdEmpty(mAdProvider, postId)) {
             return;
         }
 

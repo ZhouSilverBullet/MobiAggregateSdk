@@ -143,6 +143,12 @@ public class CoreSession implements NetworkClient.InitCallback {
             } else if (getNetworkClient().isProtoTimeout(configBean)) {
                 //协议超时
                 getNetworkClient().timeoutRequestProtoConfig(this);
+            } else if (configBean == null) {
+                if (configAdBean == null) {
+                    getNetworkClient().timeoutRequestConfig(this);
+                } else {
+                    getNetworkClient().timeoutRequestProtoConfig(this);
+                }
             }
         }
         return configBean;

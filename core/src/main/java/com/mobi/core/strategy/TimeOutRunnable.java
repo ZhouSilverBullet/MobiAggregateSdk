@@ -1,4 +1,4 @@
-package com.mobi.core.strategy.impl;
+package com.mobi.core.strategy;
 
 import com.mobi.core.strategy.AdRunnable;
 

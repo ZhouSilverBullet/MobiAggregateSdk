@@ -1,7 +1,6 @@
 package com.mobi.gdt.wrapper;
 
 import android.app.Activity;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,7 +27,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     public static final String TAG = "GdtNativeExpressAd";
 
     private final BaseAdProvider mAdProvider;
-    private final LocalAdParams mParams;
+    private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     Activity mContext;
     ViewGroup mViewContainer;
@@ -42,11 +41,11 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
                                   IExpressListener listener) {
         mContext = context;
         mAdProvider = adProvider;
-        mParams = params;
+        mAdParams = params;
         mViewContainer = viewContainer;
         mListener = listener;
 
-        mMobiCodeId = mParams.getMobiCodeId();
+        mMobiCodeId = mAdParams.getMobiCodeId();
     }
 
     /**
@@ -54,17 +53,15 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
      */
     private void createNativeExpressAD() {
 
-        String postId = mParams.getPostId();
-        if (TextUtils.isEmpty(postId)) {
-            localExecFail(mAdProvider, -101,
-                    "mobi 后台获取的 postId 不正确 或者 postId == null");
+        String postId = mAdParams.getPostId();
+        if (checkPostIdEmpty(mAdProvider, postId)) {
             return;
         }
 
         mNativeExpressAD = new NativeExpressAD(mContext,
-                getADSize(true, mParams.getExpressViewWidth(), mParams.getExpressViewHeight()),
+                getADSize(true, mAdParams.getExpressViewWidth(), mAdParams.getExpressViewHeight()),
                 getAppId(),
-                mParams.getPostId(),
+                mAdParams.getPostId(),
                 this);
 
         mNativeExpressAD.setVideoOption(new VideoOption.Builder()
@@ -74,7 +71,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 //        nativeExpressAD.setMaxVideoDuration(15);//设置视频最大时长
         mNativeExpressAD.setVideoPlayPolicy(VideoOption.VideoPlayPolicy.AUTO);
         //记载数量
-        mNativeExpressAD.loadAD(getLoadCount(mParams.getAdCount()));
+        mNativeExpressAD.loadAD(getLoadCount(mAdParams.getAdCount()));
     }
 
 
@@ -214,7 +211,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     public void onNoAD(AdError adError) {
 //                        AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
         //加载失败
-        localExecFail(mAdProvider, adError.getErrorCode(), adError.getErrorMsg() + " postId: " + mParams.getPostId());
+        localExecFail(mAdProvider, adError.getErrorCode(), adError.getErrorMsg() + " postId: " + mAdParams.getPostId());
     }
 
     @Override

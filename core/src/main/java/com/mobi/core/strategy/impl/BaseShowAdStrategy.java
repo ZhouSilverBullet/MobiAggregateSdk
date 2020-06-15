@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.mobi.core.MobiConstantValue.*;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -31,7 +33,6 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
 
     /**
      * 执行任务完成后，如果全部失败了，那就往外面传递失败的消息
-     *
      */
     private boolean isStrategyFinished;
     private IAdFailListener mAdFailListener;
@@ -70,7 +71,7 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
         //这里如果一个也没加上
         //就想当于任务没加成功，直接给外面抛异常
         if (mAdRunnableSyncList.size() == 0) {
-            StrategyError strategyError = new StrategyError("MobiType", -102, "没有策略任务");
+            StrategyError strategyError = new StrategyError(TYPE_LOCAL_MOBI, SDK_CODE_2003, SDK_MESSAGE_2003);
             ArrayList<StrategyError> strategyErrors = new ArrayList<>();
             strategyErrors.add(strategyError);
             if (mAdFailListener != null) {
@@ -98,6 +99,7 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
 
     /**
      * 给子类使用
+     *
      * @return
      */
     protected Handler getHandler() {

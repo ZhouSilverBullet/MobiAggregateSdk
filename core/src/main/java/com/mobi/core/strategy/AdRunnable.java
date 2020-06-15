@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.mobi.core.MobiConstantValue.*;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -71,6 +73,7 @@ public abstract class AdRunnable implements Runnable {
 
     /**
      * 广告显示成功后，广告需要回调一下，让外界的策略知晓
+     *
      * @param provider
      */
     protected void localExecSuccess(BaseAdProvider provider) {
@@ -114,7 +117,6 @@ public abstract class AdRunnable implements Runnable {
     }
 
     /**
-     *
      * 让策略类知道，做一些上传错误操作
      *
      * @param provider
@@ -143,6 +145,14 @@ public abstract class AdRunnable implements Runnable {
             providerType = provider.getProviderType();
         }
         return providerType;
+    }
+
+    protected boolean checkPostIdEmpty(BaseAdProvider provider, String postId) {
+        if (TextUtils.isEmpty(postId)) {
+            localExecFail(provider, SDK_CODE_2004, SDK_MESSAGE_2004);
+            return true;
+        }
+        return false;
     }
 
     /**
