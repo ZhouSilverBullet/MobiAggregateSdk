@@ -75,7 +75,7 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
         }
 
         if (mBaseAdProvider != null) {
-            mBaseAdProvider.callbackInteractionReceive(mListener);
+            mBaseAdProvider.callbackInteractionShow(mListener);
         }
     }
 

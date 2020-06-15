@@ -198,12 +198,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onADReceive(String type) {
-                LogUtils.e(TAG, "onADReceive type : " + type);
-
-            }
-
-            @Override
             public void onADOpened(String type) {
                 LogUtils.e(TAG, "onADOpened type : " + type);
 
@@ -234,21 +228,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdClose(String providerType) {
                 LogUtils.e(TAG, "onAdClose type : " + providerType);
-            }
-
-            @Override
-            public void onVideoComplete(String providerType) {
-                LogUtils.e(TAG, "onVideoComplete type : " + providerType);
-            }
-
-            @Override
-            public void onSkippedVideo(String providerType) {
-                LogUtils.e(TAG, "onSkippedVideo type : " + providerType);
-            }
-
-            @Override
-            public void onRewardVerify(String providerType, boolean rewardVerify, int rewardAmount, String rewardName) {
-                LogUtils.e(TAG, "onRewardVerify type : " + providerType);
             }
 
             @Override

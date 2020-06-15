@@ -21,16 +21,32 @@ public interface IInteractionAdListener extends ITTAppDownloadListener, IAdFailL
 
     }
 
-    void onADReceive(String type);
+    /**
+     * gdt
+     * @param type
+     */
     void onADOpened(String type);
+
+    /**
+     * gdt
+     * @param type
+     */
     void onADExposure(String type);
+
+    /**
+     * csj 独有
+     * @param type
+     */
     void onAdLoad(String type);
+
     void onAdShow(String type);
     void onAdClick(String type);
     void onAdClose(String providerType);
-    void onVideoComplete(String providerType);
-    void onSkippedVideo(String providerType);
-    void onRewardVerify(String providerType, boolean rewardVerify, int rewardAmount, String rewardName);
+
+    /**
+     * gdt 独有
+     * @param type
+     */
     void onCached(String type);
 
     default void onADLeftApplication(String type) {

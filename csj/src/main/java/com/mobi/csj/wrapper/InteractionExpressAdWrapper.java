@@ -86,10 +86,6 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
             return;
         }
 
-        if (mAdProvider != null) {
-            mAdProvider.callbackInteractionLoad(mListener);
-        }
-
         if (isCancel()) {
             LogUtils.e(TAG, "Csj InteractionExpressAd isCancel");
             return;
@@ -99,6 +95,10 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
             LogUtils.e(TAG, "Csj InteractionExpressAd isTimeOut");
             localExecFail(mAdProvider, -104, " 访问超时 ");
             return;
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.callbackInteractionLoad(mListener);
         }
 
         setExecSuccess(true);

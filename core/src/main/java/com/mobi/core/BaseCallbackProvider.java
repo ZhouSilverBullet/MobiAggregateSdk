@@ -136,12 +136,6 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackInteractionReceive(IInteractionAdListener listener) {
-        if (listener != null) {
-            listener.onADReceive(mProviderType);
-        }
-    }
-
     public final void callbackInteractionOpened(IInteractionAdListener listener) {
         if (listener != null) {
             listener.onADOpened(mProviderType);
