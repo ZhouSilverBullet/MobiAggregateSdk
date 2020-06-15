@@ -164,10 +164,17 @@ public class NetworkClient {
 
             });
         } else {
+            //出现异常了
+//            if (response.getCode() == 0) {
+//                Throwable e = response.getE();
+//                if (e instanceof Throwable) {
+//
+//                }
+//            }
             CoreSession.get().runOnUiThread(() -> {
 
                 if (callback != null) {
-                    callback.onFailure(response.getCode(), response.body());
+                    callback.onFailure(response.getCode(), response.getMessage());
                 }
 
             });

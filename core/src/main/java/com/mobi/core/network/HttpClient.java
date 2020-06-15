@@ -6,7 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Email: zhousaito@163.com
@@ -40,8 +39,12 @@ public class HttpClient {
         //request.url
         //判断一下request的值
         Response response = new Response();
+        String requestUrl = request.getUrl();
         try {
-            URL url = new URL(request.getUrl());
+            URL url = new URL(requestUrl);
+
+            response.setUrl(requestUrl);
+
             HttpURLConnection conn = getConn(url);
             conn.setRequestMethod(request.getRequestMethod());
             if (request.getMethod() == Request.POST) {
@@ -65,12 +68,13 @@ public class HttpClient {
             }
 
             response.setCode(code);
-            response.setMessage("http 非 200");
-        } catch (IOException e) {
+            response.setMessage(requestUrl + " | http 非 200");
+
+        } catch (Exception e) {
             e.printStackTrace();
 
             response.setCode(0);
-            response.setE(e);
+            response.setMessage(HttpUtil.getHttpExceptionMessage(e));
         }
 
         return response;

@@ -12,6 +12,7 @@ import java.io.InputStream;
 public class Response {
     private int code;
     private String message;
+    private String url;
     private Throwable e;
     private InputStream inputStream;
 
@@ -70,5 +71,13 @@ public class Response {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
