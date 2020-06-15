@@ -19,13 +19,6 @@ public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListen
     void onAdStartRequest(@NonNull String providerType);
 
     /**
-     * csj # onAdClicked
-     *
-     * @param type
-     */
-    void onAdClicked(String type);
-
-    /**
      * csj # onAdShow
      *
      * @param type
@@ -33,14 +26,21 @@ public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListen
     void onAdExposure(String type);
 
     /**
+     * csj # onAdClicked
+     *
+     * @param type
+     */
+    void onAdClick(String type);
+
+    /**
      * csj # onAdSkip , onAdTimeOver
      *
      * @param type
      */
-    void onAdDismissed(String type);
+    void onAdClose(String type);
 
     /**
      * @param providerType
      */
-    void onAdLoaded(String providerType);
+    void onAdLoad(String providerType);
 }

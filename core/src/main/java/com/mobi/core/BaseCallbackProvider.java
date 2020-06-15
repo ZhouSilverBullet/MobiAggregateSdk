@@ -31,7 +31,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
      */
     public final void callbackSplashClicked(ISplashAdListener listener) {
         if (listener != null) {
-            listener.onAdClicked(mProviderType);
+            listener.onAdClick(mProviderType);
         }
     }
 
@@ -43,13 +43,13 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     public final void callbackSplashDismissed(ISplashAdListener listener) {
         if (listener != null) {
-            listener.onAdDismissed(mProviderType);
+            listener.onAdClose(mProviderType);
         }
     }
 
     public final void callbackSplashLoaded(ISplashAdListener listener) {
         if (listener != null) {
-            listener.onAdLoaded(mProviderType);
+            listener.onAdLoad(mProviderType);
         }
     }
 
@@ -116,25 +116,25 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     public final void callbackInteractionLoad(IInteractionAdListener listener) {
         if (listener != null) {
-            listener.onAdLoad(mProviderType);
+            listener.onCsjLoad(mProviderType);
         }
     }
 
     public final void callbackInteractionOpened(IInteractionAdListener listener) {
         if (listener != null) {
-            listener.onADOpened(mProviderType);
+            listener.onGdtOpened(mProviderType);
         }
     }
 
     public final void callbackInteractionExposure(IInteractionAdListener listener) {
         if (listener != null) {
-            listener.onADExposure(mProviderType);
+            listener.onAdExposure(mProviderType);
         }
     }
 
     public final void callbackInteractionShow(IInteractionAdListener listener) {
         if (listener != null) {
-            listener.onAdShow(mProviderType);
+            listener.onAdGdtShow(mProviderType);
         }
     }
 
@@ -152,7 +152,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     public final void callbackInteractionCached(IInteractionAdListener listener) {
         if (listener != null) {
-            listener.onCached(mProviderType);
+            listener.onGdtCached(mProviderType);
         }
     }
 
@@ -181,13 +181,13 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     public final void callbackExpressDismissed(IExpressListener listener) {
         if (listener != null) {
-            listener.onAdDismissed(mProviderType);
+            listener.onAdClose(mProviderType);
         }
     }
 
     public final void callbackExpressShow(IExpressListener listener) {
         if (listener != null) {
-            listener.onAdShow(mProviderType);
+            listener.onAdExposure(mProviderType);
         }
     }
 

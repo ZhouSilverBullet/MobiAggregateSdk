@@ -9,18 +9,18 @@ import java.util.List;
  * @Dec 略
  */
 public interface IFullScreenVideoAdListener extends ITTAppDownloadListener, IAdFailListener {
-    void onAdShow(String providerType);
+    void onAdExposure(String providerType);
+
+    void onAdClick(String providerType);
+
+    void onAdClose(String providerType);
 
     void onAdLoad(String providerType);
 
     void onCached(String providerType);
 
-    void onAdClose(String providerType);
-
     void onVideoComplete(String providerType);
 
     void onSkippedVideo(String providerType);
-
-    void onAdVideoBarClick(String providerType);
 
 }

@@ -130,7 +130,7 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     @Override
     public void onADLeftApplication() {
         if (mListener != null) {
-            mListener.onADLeftApplication(mProviderType);
+            mListener.onGdtLeftApplication(mProviderType);
         }
     }
 

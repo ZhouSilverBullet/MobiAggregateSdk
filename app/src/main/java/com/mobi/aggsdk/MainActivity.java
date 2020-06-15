@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdShow(String type) {
+            public void onAdExposure(String type) {
                 LogUtils.e(TAG, "onAdShow ");
             }
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdVideoBarClick(String providerType) {
+            public void onAdClick(String providerType) {
                 LogUtils.e(TAG, "onAdVideoBarClick ");
             }
         });
@@ -184,25 +184,25 @@ public class MainActivity extends AppCompatActivity {
 
 
             @Override
-            public void onADOpened(String type) {
+            public void onGdtOpened(String type) {
                 LogUtils.e(TAG, "onADOpened type : " + type);
 
             }
 
             @Override
-            public void onADExposure(String type) {
+            public void onAdExposure(String type) {
                 LogUtils.e(TAG, "onADExposure type : " + type);
 
             }
 
             @Override
-            public void onAdLoad(String type) {
+            public void onCsjLoad(String type) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
 
             }
 
             @Override
-            public void onAdShow(String type) {
+            public void onAdGdtShow(String type) {
                 LogUtils.e(TAG, "onAdShow type : " + type);
             }
 
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCached(String type) {
+            public void onGdtCached(String type) {
                 LogUtils.e(TAG, "onCached type : " + type);
             }
         });
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdDismissed(String type) {
+            public void onAdClose(String type) {
                 LogUtils.e(TAG, "onAdDismissed type : " + type);
 
             }
@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdShow(String type) {
+            public void onAdExposure(String type) {
                 LogUtils.e(TAG, "onAdShow type : " + type);
             }
         });

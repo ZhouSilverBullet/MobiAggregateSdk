@@ -109,7 +109,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     public void onAdShow() {
         if (mListener != null) {
             mAdProvider.trackShow();
-            mListener.onAdShow(mProviderType);
+            mListener.onAdExposure(mProviderType);
         }
     }
 
@@ -117,7 +117,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     public void onAdVideoBarClick() {
         if (mListener != null) {
             mAdProvider.trackClick();
-            mListener.onAdVideoBarClick(mProviderType);
+            mListener.onAdClick(mProviderType);
         }
     }
 

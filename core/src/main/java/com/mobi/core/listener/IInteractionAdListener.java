@@ -1,7 +1,5 @@
 package com.mobi.core.listener;
 
-import java.util.List;
-
 /**
  * @author zhousaito
  * @version 1.0
@@ -11,38 +9,59 @@ import java.util.List;
 public interface IInteractionAdListener extends ITTAppDownloadListener, IAdFailListener {
 
     /**
-     * gdt
+     * csj 的show 和 gdt的曝光，通过为曝光
+     *
      * @param type
      */
-    void onADOpened(String type);
+    void onAdExposure(String type);
 
-    /**
-     * gdt
-     * @param type
-     */
-    void onADExposure(String type);
-
-    /**
-     * csj 独有
-     * @param type
-     */
-    void onAdLoad(String type);
-
-    void onAdShow(String type);
     void onAdClick(String type);
+
     void onAdClose(String providerType);
 
     /**
-     * gdt 独有
+     * csj 独有
+     *
      * @param type
      */
-    void onCached(String type);
-
-    default void onADLeftApplication(String type) {
+    default void onCsjLoad(String type) {
 
     }
 
+    /**
+     * gdt
+     *
+     * @param type
+     */
+    default void onAdGdtShow(String type) {
 
+    }
 
+    /**
+     * gdt
+     *
+     * @param type
+     */
+    default void onGdtOpened(String type) {
+
+    }
+
+    /**
+     * gdt 独有
+     *
+     * @param type
+     */
+    default void onGdtCached(String type) {
+
+    }
+
+    /**
+     * gdt 独有
+     *
+     * @param type
+     */
+    default void onGdtLeftApplication(String type) {
+
+    }
 
 }

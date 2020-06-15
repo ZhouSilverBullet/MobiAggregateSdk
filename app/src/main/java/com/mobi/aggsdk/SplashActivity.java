@@ -65,7 +65,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdClicked(String type) {
+            public void onAdClick(String type) {
                 Log.e(TAG, "onAdClicked " + "providerType: " + type);
 //                startActivity(new Intent(SplashActivity.this, MainActivity.class));
             }
@@ -76,7 +76,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdDismissed(String type) {
+            public void onAdClose(String type) {
                 Log.e(TAG, "onAdDismissed " + "providerType: " + type);
 //                if (!isClicked) {
 //                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
@@ -89,7 +89,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoaded(String providerType) {
+            public void onAdLoad(String providerType) {
                 Log.e(TAG, "onAdLoaded " + "providerType: " + providerType);
             }
         });

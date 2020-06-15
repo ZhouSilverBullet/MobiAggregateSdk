@@ -134,7 +134,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     public void onAdShow(View view, int i) {
         if (mAdProvider != null) {
             mAdProvider.trackShow();
-            mAdProvider.callbackInteractionShow(mListener);
+            mAdProvider.callbackInteractionExposure(mListener);
         }
     }
 
