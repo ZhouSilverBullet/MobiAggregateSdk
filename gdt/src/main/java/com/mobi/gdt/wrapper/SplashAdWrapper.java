@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.gdt.impl.GdtSplashAdView;
 import com.qq.e.ads.splash.SplashAD;
 import com.qq.e.ads.splash.SplashADListener;
 import com.qq.e.comm.util.AdError;
@@ -155,10 +157,14 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
-        mSplashAD.showAd(mSplashContainer);
+        if (mAdParams.isAutoShowAd()) {
+            mSplashAD.showAd(mSplashContainer);
+        }
+
+        IExpressAdView expressAdView = new GdtSplashAdView(mSplashAD, mSplashContainer);
 
         if (mAdProvider != null) {
-            mAdProvider.callbackSplashLoaded(mListener);
+            mAdProvider.callbackSplashLoaded(mListener, expressAdView, mAdParams.isAutoShowAd());
         }
     }
 

@@ -2,6 +2,7 @@ package com.mobi.aggsdk;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.mobi.core.common.MobiPubSdk;
 import com.mobi.core.AdParams;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.splash.DefaultSplashSkipView;
@@ -47,6 +49,7 @@ public class SplashActivity extends AppCompatActivity {
                 .setCodeId("1024005")
                 .setImageAcceptedSize(1080, 1920)
                 .setSupportDeepLink(true)
+                .setAutoShowAd(false)
                 .build();
 
         MobiPubSdk.showSplash(this, clRoot, view, adParams, new ISplashAdListener() {
@@ -89,10 +92,24 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String providerType) {
+            public void onAdLoad(String providerType, IExpressAdView view, boolean isAutoShow) {
                 Log.e(TAG, "onAdLoaded " + "providerType: " + providerType);
+                renderAd(view, isAutoShow, 3000);
             }
         });
+    }
+
+
+
+    private void renderAd(IExpressAdView view, boolean isAutoShow, long delayTime) {
+        if (view != null && !isAutoShow) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    view.render();
+                }
+            }, delayTime);
+        }
     }
 
     private void delayToHome(int delayMillis) {

@@ -13,9 +13,11 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.csj.impl.CsjSplashAdView;
 import com.mobi.csj.splash.CsjSplashSkipViewControl;
 
 /**
@@ -127,40 +129,12 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
             return;
         }
 
-        if (mAdProvider != null) {
-            mAdProvider.callbackSplashLoaded(mListener);
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
+
+        if (mAdParams.isSplashNotAllowSdkCountdown()) {
+            ttSplashAd.setNotAllowSdkCountdown();
         }
-
-
-        //获取SplashView
-        View view = ttSplashAd.getSplashView();
-        if (view != null && mSplashContainer != null && !mActivity.isFinishing()) {
-
-            setExecSuccess(true);
-            localExecSuccess(mAdProvider);
-
-            mSplashContainer.removeAllViews();
-            //把SplashView 添加到ViewGroup中,注意开屏广告view：width >=70%屏幕宽；height >=50%屏幕高
-            mSplashContainer.addView(view);
-            //设置不开启开屏广告倒计时功能以及不显示跳过按钮,如果这么设置，您需要自定义倒计时逻辑
-            // todo 自定义的splash
-            if (mBaseSplashSkipView != null) {
-                if (mAdParams.isSplashNotAllowSdkCountdown()) {
-                    ttSplashAd.setNotAllowSdkCountdown();
-                }
-                ttSplashAd.setNotAllowSdkCountdown();
-                handleSplashSkipView(mSplashContainer);
-            }
-        } else {
-//          goToMainActivity();
-            //activity已经销毁了，或者传进来的container为null
-            Log.e(TAG, "goToMainActivity");
-            if (mAdProvider != null) {
-                mAdProvider.callbackSplashDismissed(mListener);
-            }
-
-        }
-
         ttSplashAd.setSplashInteractionListener(this);
 
         //下载相关的
@@ -171,9 +145,47 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
             ttSplashAd.setDownloadListener(this);
         }
 
+        if (mAdParams.isAutoShowAd()) {
+            showAdView(ttSplashAd);
+        }
+
+        IExpressAdView expressAdView = new CsjSplashAdView(this, ttSplashAd);
+
+        if (mAdProvider != null) {
+            mAdProvider.callbackSplashLoaded(mListener, expressAdView, mAdParams.isAutoShowAd());
+        }
+
     }
 
-    private void handleSplashSkipView(ViewGroup splashContainer) {
+    public void showAdView(TTSplashAd ttSplashAd) {
+        if (ttSplashAd == null) {
+            LogUtils.e(TAG, "ttSplashAd == null");
+            return;
+        }
+        //获取SplashView
+        View view = ttSplashAd.getSplashView();
+        if (view != null && mSplashContainer != null && !mActivity.isFinishing()) {
+
+            mSplashContainer.removeAllViews();
+            //把SplashView 添加到ViewGroup中,注意开屏广告view：width >=70%屏幕宽；height >=50%屏幕高
+            mSplashContainer.addView(view);
+            //设置不开启开屏广告倒计时功能以及不显示跳过按钮,如果这么设置，您需要自定义倒计时逻辑
+            // todo 自定义的splash
+            if (mBaseSplashSkipView != null) {
+                handleSplashSkipView(mSplashContainer);
+            }
+        } else {
+//          goToMainActivity();
+            //activity已经销毁了，或者传进来的container为null
+            LogUtils.e(TAG, "goToMainActivity");
+            if (mAdProvider != null) {
+                mAdProvider.callbackSplashDismissed(mListener);
+            }
+
+        }
+    }
+
+    public void handleSplashSkipView(ViewGroup splashContainer) {
 
         CsjSplashSkipViewControl csjSplashSkipViewControl = new CsjSplashSkipViewControl(mBaseSplashSkipView);
         //里面做跳过的逻辑

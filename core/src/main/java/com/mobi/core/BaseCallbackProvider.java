@@ -48,9 +48,9 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackSplashLoaded(ISplashAdListener listener) {
+    public final void callbackSplashLoaded(ISplashAdListener listener, IExpressAdView view, boolean isAutoShow) {
         if (listener != null) {
-            listener.onAdLoad(mProviderType);
+            listener.onAdLoad(mProviderType, view, isAutoShow);
         }
     }
 

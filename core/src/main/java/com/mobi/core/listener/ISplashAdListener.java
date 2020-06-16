@@ -2,6 +2,8 @@ package com.mobi.core.listener;
 
 import android.support.annotation.NonNull;
 
+import com.mobi.core.feature.IExpressAdView;
+
 import java.util.List;
 
 /**
@@ -42,5 +44,5 @@ public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListen
     /**
      * @param providerType
      */
-    void onAdLoad(String providerType);
+    void onAdLoad(String providerType, IExpressAdView view, boolean isAutoShow);
 }
