@@ -115,9 +115,9 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     /////// 插屏广告回调  start //////
 
 
-    public final void callbackInteractionLoad(IInteractionAdListener listener) {
+    public final void callbackInteractionLoad(IInteractionAdListener listener, IExpressAdView view, boolean isAutoShow) {
         if (listener != null) {
-            listener.onCsjLoad(mProviderType);
+            listener.onAdLoad(mProviderType, view, isAutoShow);
         }
     }
 
@@ -130,12 +130,6 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     public final void callbackInteractionExposure(IInteractionAdListener listener) {
         if (listener != null) {
             listener.onAdExposure(mProviderType);
-        }
-    }
-
-    public final void callbackInteractionShow(IInteractionAdListener listener) {
-        if (listener != null) {
-            listener.onAdGdtShow(mProviderType);
         }
     }
 

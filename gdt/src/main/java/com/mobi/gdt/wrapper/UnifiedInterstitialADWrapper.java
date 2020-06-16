@@ -4,8 +4,10 @@ import android.app.Activity;
 
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.gdt.impl.GdtInterstitialAdView;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialADListener;
 import com.qq.e.comm.util.AdError;
@@ -67,21 +69,26 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
-        if (iad != null) {
-            iad.showAsPopupWindow();
+        if (mAdParams.isAutoShowAd()) {
+            if (iad != null) {
+                iad.showAsPopupWindow();
+            }
         }
 
+
+        IExpressAdView expressAdView = new GdtInterstitialAdView(iad);
+
         if (mAdProvider != null) {
-            mAdProvider.callbackInteractionShow(mListener);
+            mAdProvider.callbackInteractionLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
         }
     }
 
     @Override
     public void onVideoCached() {
 
-        if (iad != null) {
-            iad.showAsPopupWindow();
-        }
+//        if (iad != null) {
+//            iad.showAsPopupWindow();
+//        }
 
         if (mAdProvider != null) {
             mAdProvider.callbackInteractionCached(mListener);

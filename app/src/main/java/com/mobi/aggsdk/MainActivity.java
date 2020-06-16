@@ -183,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnInteraction(View view) {
         AdParams adParams = new AdParams.Builder()
                 .setCodeId("1024004")
+                .setAutoShowAd(false)
                 .build();
         MobiPubSdk.showInteractionExpress(this, adParams, new IInteractionAdListener() {
             @Override
@@ -207,14 +208,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCsjLoad(String type) {
+            public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
-
-            }
-
-            @Override
-            public void onAdGdtShow(String type) {
-                LogUtils.e(TAG, "onAdShow type : " + type);
+                renderAd(view, isAutoShow, 3000);
             }
 
             @Override
@@ -254,14 +250,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
-                if (view != null && !isAutoShow) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.render();
-                        }
-                    }, 3000);
-                }
+                renderAd(view, isAutoShow, 3000);
             }
 
             @Override
@@ -301,5 +290,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void renderAd(IExpressAdView view, boolean isAutoShow, long delayTime) {
+        if (view != null && !isAutoShow) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    view.render();
+                }
+            }, delayTime);
+        }
     }
 }

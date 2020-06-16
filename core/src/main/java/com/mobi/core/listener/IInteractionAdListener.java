@@ -1,5 +1,7 @@
 package com.mobi.core.listener;
 
+import com.mobi.core.feature.IExpressAdView;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -20,22 +22,13 @@ public interface IInteractionAdListener extends ITTAppDownloadListener, IAdFailL
     void onAdClose(String providerType);
 
     /**
-     * csj 独有
+     * csj onAdLoad
+     * <p>
+     * onADReceive
      *
      * @param type
      */
-    default void onCsjLoad(String type) {
-
-    }
-
-    /**
-     * gdt
-     *
-     * @param type
-     */
-    default void onAdGdtShow(String type) {
-
-    }
+    void onAdLoad(String type, IExpressAdView view, boolean isAutoShow);
 
     /**
      * gdt

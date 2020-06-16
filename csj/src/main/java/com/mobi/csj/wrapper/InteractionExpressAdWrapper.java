@@ -12,8 +12,10 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.csj.impl.CsjInteractionAdView;
 
 import java.util.List;
 
@@ -95,12 +97,10 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
             return;
         }
 
-        if (mAdProvider != null) {
-            mAdProvider.callbackInteractionLoad(mListener);
-        }
 
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
+
 
         mTTAd = list.get(0);
         mTTAd.setExpressInteractionListener(this);
@@ -110,7 +110,17 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
 
             mTTAd.setDownloadListener(this);
         }
-        mTTAd.render();//调用render开始渲染广告
+
+        if (mAdParams.isAutoShowAd()) {
+            mTTAd.render();//调用render开始渲染广告
+        }
+
+        IExpressAdView expressAdView = new CsjInteractionAdView(mTTAd);
+
+        if (mAdProvider != null) {
+            mAdProvider.callbackInteractionLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
+        }
+
     }
 
     @Override
