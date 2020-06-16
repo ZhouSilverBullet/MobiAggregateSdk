@@ -1,5 +1,7 @@
 package com.mobi.core.listener;
 
+import com.mobi.core.feature.IExpressAdView;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ public interface IFullScreenVideoAdListener extends ITTAppDownloadListener, IAdF
 
     void onAdClose(String providerType);
 
-    void onAdLoad(String providerType);
+    void onAdLoad(String providerType, IExpressAdView view, boolean isAutoShow);
 
     void onCached(String providerType);
 

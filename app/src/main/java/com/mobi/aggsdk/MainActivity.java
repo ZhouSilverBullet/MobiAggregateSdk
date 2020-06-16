@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnFullScreen(View view) {
         AdParams adParams = new AdParams.Builder()
                 .setCodeId("1024002")
+                .setAutoShowAd(false)
                 .setOrientation(MobiConstantValue.VERTICAL)
                 .build();
 
@@ -78,8 +79,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type) {
+            public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
                 LogUtils.e(TAG, "onAdLoad ");
+                if (view != null && !isAutoShow) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.render();
+                        }
+                    }, 3000);
+                }
             }
 
             @Override

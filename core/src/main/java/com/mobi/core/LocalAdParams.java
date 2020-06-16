@@ -73,6 +73,13 @@ public class LocalAdParams {
                 .setOrientation(adParams.getOrientation())
                 .setAutoShowAd(adParams.isAutoShowAd())
                 .setIsAutoPlay(adParams.isAutoPlay())
+                .setSupportDeepLink(adParams.isSupportDeepLink())
+                .setRewardName(adParams.getRewardName())
+                .setRewardAmount(adParams.getRewardAmount())
+                .setMediaExtra(adParams.getMediaExtra())
+                .setUserID(adParams.getUserID())
+                .setMaxVideoDuration(adParams.getMaxVideoDuration())
+                .setSplashNotAllowSdkCountdown(adParams.isSplashNotAllowSdkCountdown())
                 .build();
     }
 

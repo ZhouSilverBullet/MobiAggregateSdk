@@ -9,8 +9,10 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.csj.impl.CsjAdView;
 
 /**
  * @author zhousaito
@@ -80,20 +82,29 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
             return;
         }
 
-        if (mListener != null) {
-            mListener.onAdLoad(mProviderType);
-        }
-
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
-        ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(this);
-        if (ttFullScreenVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-            setAppDownloadListener(mListener);
-            ttFullScreenVideoAd.setDownloadListener(this);
+        if (mAdParams.isAutoShowAd()) {
+            ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(this);
+            if (ttFullScreenVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+                setAppDownloadListener(mListener);
+                ttFullScreenVideoAd.setDownloadListener(this);
+            }
+
+            ttFullScreenVideoAd.showFullScreenVideoAd(mActivity);
+        } else {
+            ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(this);
+            if (ttFullScreenVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+                setAppDownloadListener(mListener);
+                ttFullScreenVideoAd.setDownloadListener(this);
+            }
         }
 
-        ttFullScreenVideoAd.showFullScreenVideoAd(mActivity);
+        IExpressAdView expressAdView = new CsjAdView(mActivity, ttFullScreenVideoAd);
+        if (mListener != null) {
+            mListener.onAdLoad(mProviderType, expressAdView, mAdParams.isAutoShowAd());
+        }
     }
 
     @Override
