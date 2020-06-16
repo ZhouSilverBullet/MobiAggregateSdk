@@ -56,9 +56,9 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     /////// 激励视频广告回调  start //////
 
-    public final void callbackRewardLoad(IRewardAdListener listener) {
+    public final void callbackRewardLoad(IRewardAdListener listener, IExpressAdView view, boolean isAutoShow) {
         if (listener != null) {
-            listener.onAdLoad(mProviderType);
+            listener.onAdLoad(mProviderType, view, isAutoShow);
         }
     }
 

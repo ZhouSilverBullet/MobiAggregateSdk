@@ -1,5 +1,7 @@
 package com.mobi.core.listener;
 
+import com.mobi.core.feature.IExpressAdView;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -14,7 +16,7 @@ public interface IRewardAdListener extends ITTAppDownloadListener, IAdFailListen
 
     void onAdClose(String providerType);
 
-    void onAdLoad(String type);
+    void onAdLoad(String type, IExpressAdView view, boolean isAutoShow);
     /**
      * gdt 的 show 和 Expose 不一样，所以这里把后面
      * csj 的 show 变成 Expose {@link IRewardAdListener#onAdExpose(String)}

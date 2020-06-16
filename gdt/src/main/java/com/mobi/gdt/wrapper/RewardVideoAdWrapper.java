@@ -7,8 +7,10 @@ import android.widget.Toast;
 
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.gdt.impl.GdtRewardAdView;
 import com.qq.e.ads.rewardvideo.RewardVideoAD;
 import com.qq.e.ads.rewardvideo.RewardVideoADListener;
 import com.qq.e.comm.util.AdError;
@@ -64,41 +66,44 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
             return;
         }
 
-        if (mAdProvider != null) {
-            mAdProvider.callbackRewardLoad(mListener);
-        }
 
-        // 3.展示广告
-        if (true) {//广告展示检查1：广告成功加载，此处也可以使用videoCached来实现视频预加载完成后再展示激励视频广告的逻辑
-            if (rewardVideoAD != null && !rewardVideoAD.hasShown()) {//广告展示检查2：当前广告数据还没有展示过
-                long delta = 1000;//建议给广告过期时间加个buffer，单位ms，这里demo采用1000ms的buffer
-                //广告展示检查3：展示广告前判断广告数据未过期
-                if (SystemClock.elapsedRealtime() < (rewardVideoAD.getExpireTimestamp() - delta)) {
-                    if (isCancel()) {
-                        LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isCancel");
-                        return;
-                    }
-
-                    if (isTimeOut()) {
-                        LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isTimeOut");
-                        localExecFail(mAdProvider, -104, " 访问超时 ");
-                        return;
-                    }
-                    setExecSuccess(true);
-                    localExecSuccess(mAdProvider);
-
-                    rewardVideoAD.showAD();
-                } else {
-                    Toast.makeText(mActivity, "激励视频广告已过期，请再次请求广告后进行广告展示！", Toast.LENGTH_LONG).show();
+        if (rewardVideoAD != null && !rewardVideoAD.hasShown()) {//广告展示检查2：当前广告数据还没有展示过
+            long delta = 1000;//建议给广告过期时间加个buffer，单位ms，这里demo采用1000ms的buffer
+            //广告展示检查3：展示广告前判断广告数据未过期
+            if (SystemClock.elapsedRealtime() < (rewardVideoAD.getExpireTimestamp() - delta)) {
+                if (isCancel()) {
+                    LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isCancel");
+                    return;
                 }
+
+                if (isTimeOut()) {
+                    LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isTimeOut");
+                    localExecFail(mAdProvider, -104, " 访问超时 ");
+                    return;
+                }
+
+                setExecSuccess(true);
+                localExecSuccess(mAdProvider);
+
+                if (mAdParams.isAutoShowAd()) {
+                    rewardVideoAD.showAD();
+                }
+
+                IExpressAdView expressAdView = new GdtRewardAdView(rewardVideoAD);
+
+                if (mAdProvider != null) {
+                    mAdProvider.callbackRewardLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
+                }
+
+
             } else {
-                Toast.makeText(mActivity, "此条广告已经展示过，请再次请求广告后进行广告展示！", Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, "激励视频广告已过期，请再次请求广告后进行广告展示！", Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(mActivity, "成功加载广告后再进行广告展示！", Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, "激励视频广告过期，请再次请求广告后进行广告展示！", Toast.LENGTH_LONG).show();
         }
-        //情况一下实例
-        rewardVideoAD = null;
+
+
     }
 
     @Override

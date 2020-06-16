@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void btnReward(View view) {
         AdParams adParams = new AdParams.Builder()
+                .setAutoShowAd(false)
                 .setCodeId("1024003")
                 .build();
 
@@ -133,9 +134,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type) {
+            public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
-
+                renderAd(view, isAutoShow, 3000);
             }
 
             @Override

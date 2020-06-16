@@ -10,8 +10,10 @@ import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.csj.impl.CsjRewardAdView;
 
 /**
  * @author zhousaito
@@ -25,7 +27,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     BaseAdProvider mAdProvider;
     Activity mActivity;
     IRewardAdListener mListener;
-    private TTRewardVideoAd mttRewardVideoAd;
 
     public RewardVideoAdWrapper(BaseAdProvider adProvider,
                                 Activity activity,
@@ -82,38 +83,30 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
             return;
         }
 
-        if (mAdProvider != null) {
-            mAdProvider.callbackRewardLoad(mListener);
-        }
-
-        //加载成功
-        mttRewardVideoAd = ttRewardVideoAd;
-        mttRewardVideoAd.setRewardAdInteractionListener(this);
-
-        //显示广告
-        //show成功前判断一下，是否已经把任务给取消了
-        if (isCancel()) {
-            LogUtils.e(TAG, "Csj RewardVideoAdWrapper onAdShow isCancel");
-            return;
-        }
-
-        if (isTimeOut()) {
-            LogUtils.e(TAG, "Csj RewardVideoAdWrapper onAdShow isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
-            return;
-        }
-
-
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
-        mttRewardVideoAd.showRewardVideoAd(mActivity, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "scenes_test");
+        //加载成功
+        ttRewardVideoAd.setRewardAdInteractionListener(this);
 
-        if (mttRewardVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+        if (ttRewardVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
             //本地接口扔到Base里面去回调
             setAppDownloadListener(mListener);
 
-            mttRewardVideoAd.setDownloadListener(this);
+            ttRewardVideoAd.setDownloadListener(this);
+        }
+
+        IExpressAdView expressAdView = null;
+
+        if (mAdParams.isAutoShowAd()) {
+            ttRewardVideoAd.showRewardVideoAd(mActivity);
+        } else {
+            expressAdView = new CsjRewardAdView(mActivity, ttRewardVideoAd);
+        }
+
+
+        if (mAdProvider != null) {
+            mAdProvider.callbackRewardLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
         }
     }
 
@@ -164,7 +157,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onVideoError() {
         //播放错误
-        localExecFail(mAdProvider,-100, "播放错误 onVideoError" );
+        localExecFail(mAdProvider, -100, "播放错误 onVideoError");
     }
 
     //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
