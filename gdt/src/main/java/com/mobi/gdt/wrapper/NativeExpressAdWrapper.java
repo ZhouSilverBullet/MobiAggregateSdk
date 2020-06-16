@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.gdt.impl.GdtExpressAdViewImpl;
 import com.qq.e.ads.cfg.VideoOption;
 import com.qq.e.ads.nativ.NativeExpressAD;
 import com.qq.e.ads.nativ.NativeExpressADView;
@@ -78,13 +80,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     @Override
     public void onADLoaded(List<NativeExpressADView> list) {
         //加载广告成功
-        if (list == null || list.size() == 0) {
-            return;
-        }
 
-        if (mAdProvider != null) {
-            mAdProvider.callbackExpressLoad(mListener);
-        }
 
         //load前判断一下，是否已经把任务给取消了
         if (isCancel()) {
@@ -98,32 +94,53 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             return;
         }
 
-        NativeExpressADView nativeExpressADView = list.get(0);
-        if (nativeExpressADView != null) {
-            if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
-                //如果是视频广告 可添加视频播放监听
-                nativeExpressADView.setMediaListener(null);
-            }
-            nativeExpressADView.render();
-            if (mViewContainer.getChildCount() > 0) {
-                mViewContainer.removeAllViews();
-            }
+        if (list == null || list.size() == 0) {
+            return;
+        }
 
-            if (isCancel()) {
-                LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isCancel");
-                return;
-            }
 
-            if (isTimeOut()) {
-                LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isTimeOut");
-                localExecFail(mAdProvider, -104, " 访问超时 ");
-                return;
-            }
-            LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess");
+        if (mAdParams.isAutoShowAd()) {
 
-            // 需要保证 View 被绘制的时候是可见的，否则将无法产生曝光和收益。
-            // 有的时候还不显示广告，闪的一下就过去了的bug
-            mViewContainer.addView(nativeExpressADView);
+            for (NativeExpressADView nativeExpressADView : list) {
+                if (nativeExpressADView != null) {
+                    if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
+                        //如果是视频广告 可添加视频播放监听
+                        nativeExpressADView.setMediaListener(null);
+                    }
+                    nativeExpressADView.render();
+                    if (mViewContainer.getChildCount() > 0) {
+                        mViewContainer.removeAllViews();
+                    }
+
+                    if (isCancel()) {
+                        LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isCancel");
+                        return;
+                    }
+
+                    if (isTimeOut()) {
+                        LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess isTimeOut");
+                        localExecFail(mAdProvider, -104, " 访问超时 ");
+                        return;
+                    }
+                    LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess");
+
+                    // 需要保证 View 被绘制的时候是可见的，否则将无法产生曝光和收益。
+                    // 有的时候还不显示广告，闪的一下就过去了的bug
+                    mViewContainer.addView(nativeExpressADView);
+                }
+
+            }
+        } else {
+            LogUtils.e(TAG, "GdtNativeExpressAd load not show");
+        }
+
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
+
+        IExpressAdView expressAdView = new GdtExpressAdViewImpl(list);
+
+        if (mAdProvider != null) {
+            mAdProvider.callbackExpressLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
         }
     }
 
@@ -140,8 +157,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     @Override
     public void onRenderSuccess(NativeExpressADView nativeExpressADView) {
 
-        setExecSuccess(true);
-        localExecSuccess(mAdProvider);
 
         //广告渲染成功
         if (mViewContainer.getVisibility() != View.VISIBLE) {

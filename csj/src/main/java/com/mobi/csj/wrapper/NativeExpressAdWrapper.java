@@ -12,8 +12,10 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.csj.impl.CsjExpressAdViewImpl;
 
 import java.util.List;
 
@@ -32,8 +34,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     Activity mContext;
     ViewGroup mViewContainer;
     IExpressListener mListener;
-
-    private TTNativeExpressAd mTTNativeExpressAd;
 
     public NativeExpressAdWrapper(BaseAdProvider adProvider,
                                   Activity context,
@@ -87,14 +87,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 
     @Override
     public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
-        if (list == null || list.size() == 0) {
-            localExecFail(mAdProvider, -100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ");
-            return;
-        }
-
-        if (mAdProvider != null) {
-            mAdProvider.callbackExpressLoad(mListener);
-        }
 
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
@@ -108,15 +100,42 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
             return;
         }
 
-        mTTNativeExpressAd = list.get(0);
-        mTTNativeExpressAd.setExpressInteractionListener(this);
-        //这里default
-        if (mTTNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-            setAppDownloadListener(mListener);
-            mTTNativeExpressAd.setDownloadListener(this);
+        if (list == null || list.size() == 0) {
+            localExecFail(mAdProvider, -100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ");
+            return;
         }
-        mTTNativeExpressAd.render();
 
+
+        if (mAdParams.isAutoShowAd()) {
+            for (TTNativeExpressAd ttNativeExpressAd : list) {
+                ttNativeExpressAd.setExpressInteractionListener(this);
+                //这里default
+                if (ttNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+                    setAppDownloadListener(mListener);
+                    ttNativeExpressAd.setDownloadListener(this);
+                }
+                ttNativeExpressAd.render();
+            }
+        } else {
+            LogUtils.e(TAG, "CsjNativeExpressAd load not show");
+            for (TTNativeExpressAd ttNativeExpressAd : list) {
+                ttNativeExpressAd.setExpressInteractionListener(this);
+                //这里default
+                if (ttNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+                    setAppDownloadListener(mListener);
+                    ttNativeExpressAd.setDownloadListener(this);
+                }
+            }
+        }
+
+        //任务执行成功
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
+
+        CsjExpressAdViewImpl expressAdView = new CsjExpressAdViewImpl(list);
+        if (mAdProvider != null) {
+            mAdProvider.callbackExpressLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
+        }
     }
 
     @Override
@@ -151,23 +170,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
-
-        //渲染前判断一下，是否已经把任务给取消了
-        if (isCancel()) {
-            LogUtils.e(TAG, "CsjNativeExpressAd onRenderSuccess isCancel");
-            return;
-        }
-
-        if (isTimeOut()) {
-            LogUtils.e(TAG, "CsjNativeExpressAd onRenderSuccess isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
-            return;
-        }
-
-        LogUtils.e(TAG, "CsjNativeExpressAd onRenderSuccess success : " + isTimeOut());
-
-        setExecSuccess(true);
-        localExecSuccess(mAdProvider);
 
         if (mViewContainer.getVisibility() != View.VISIBLE) {
             mViewContainer.setVisibility(View.VISIBLE);

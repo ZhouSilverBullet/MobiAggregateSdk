@@ -1,6 +1,7 @@
 package com.mobi.core;
 
 import com.mobi.core.analysis.AdAnalysis;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
@@ -167,9 +168,9 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackExpressLoad(IExpressListener listener) {
+    public final void callbackExpressLoad(IExpressListener listener, IExpressAdView view, boolean isAutoShow) {
         if (listener != null) {
-            listener.onAdLoad(mProviderType);
+            listener.onAdLoad(mProviderType, view, isAutoShow);
         }
     }
 

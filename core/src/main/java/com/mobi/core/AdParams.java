@@ -26,6 +26,8 @@ public class AdParams {
     private int maxVideoDuration;
     private boolean isSplashNotAllowSdkCountdown;
 
+    private boolean autoShowAd;
+
     private AdParams(Builder builder) {
         codeId = builder.codeId;
         supportDeepLink = builder.supportDeepLink;
@@ -42,6 +44,7 @@ public class AdParams {
         imageHeight = builder.imageHeight;
         maxVideoDuration = builder.maxVideoDuration;
         isSplashNotAllowSdkCountdown = builder.isSplashNotAllowSdkCountdown;
+        autoShowAd = builder.autoShowAd;
 
     }
 
@@ -105,6 +108,10 @@ public class AdParams {
         return isSplashNotAllowSdkCountdown;
     }
 
+    public boolean isAutoShowAd() {
+        return autoShowAd;
+    }
+
     public static final class Builder {
         private String codeId = "";
         private boolean supportDeepLink = true;
@@ -123,6 +130,8 @@ public class AdParams {
         private int maxVideoDuration = 30;
 
         private boolean isSplashNotAllowSdkCountdown = false;
+
+        private boolean autoShowAd = true;
 
         public Builder() {
         }
@@ -154,7 +163,7 @@ public class AdParams {
             return this;
         }
 
-        public Builder setIsAutoPlay(boolean isAutoPlay) {
+        public Builder setAutoPlay(boolean isAutoPlay) {
             this.isAutoPlay = isAutoPlay;
             return this;
         }
@@ -191,6 +200,11 @@ public class AdParams {
 
         public Builder setSplashNotAllowSdkCountdown(boolean splashNotAllowSdkCountdown) {
             isSplashNotAllowSdkCountdown = splashNotAllowSdkCountdown;
+            return this;
+        }
+
+        public Builder setAutoShowAd(boolean autoShowAd) {
+            this.autoShowAd = autoShowAd;
             return this;
         }
 

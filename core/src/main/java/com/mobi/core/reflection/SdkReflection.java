@@ -3,6 +3,7 @@ package com.mobi.core.reflection;
 import android.content.Context;
 
 import com.mobi.core.IAdSession;
+import com.mobi.core.utils.LogUtils;
 
 import java.lang.reflect.Method;
 
@@ -45,7 +46,8 @@ public class SdkReflection {
 //            System.out.println(e);
             return null;
         } catch (Exception e) {
-
+            e.printStackTrace();
+            LogUtils.e("SdkReflection", "e: " + e.getMessage());
         }
         return false;
     }

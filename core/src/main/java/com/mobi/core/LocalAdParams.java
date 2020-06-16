@@ -32,6 +32,11 @@ public class LocalAdParams {
     private int maxVideoDuration;
     private boolean isSplashNotAllowSdkCountdown;
 
+    /**
+     * 是否自动显示广告
+     */
+    private boolean autoShowAd;
+
     private LocalAdParams(Builder builder) {
         mobiCodeId = builder.mobiCodeId;
         supportDeepLink = builder.supportDeepLink;
@@ -49,6 +54,7 @@ public class LocalAdParams {
         postId = builder.postId;
         maxVideoDuration = builder.maxVideoDuration;
         isSplashNotAllowSdkCountdown = builder.isSplashNotAllowSdkCountdown;
+        autoShowAd = builder.autoShowAd;
     }
 
     public static LocalAdParams create(String postId, AdParams adParams) {
@@ -65,6 +71,8 @@ public class LocalAdParams {
                 .setImageHeight(adParams.getImageHeight())
                 .setImageWidth(adParams.getImageWidth())
                 .setOrientation(adParams.getOrientation())
+                .setAutoShowAd(adParams.isAutoShowAd())
+                .setIsAutoPlay(adParams.isAutoPlay())
                 .build();
     }
 
@@ -132,6 +140,10 @@ public class LocalAdParams {
         return isSplashNotAllowSdkCountdown;
     }
 
+    public boolean isAutoShowAd() {
+        return autoShowAd;
+    }
+
     public static final class Builder {
         private String mobiCodeId = "";
         private boolean supportDeepLink = true;
@@ -151,6 +163,11 @@ public class LocalAdParams {
 
         private int maxVideoDuration = 30;
         private boolean isSplashNotAllowSdkCountdown = false;
+
+        /**
+         * 是否自动显示广告
+         */
+        private boolean autoShowAd = true;
 
         public Builder() {
         }
@@ -229,6 +246,11 @@ public class LocalAdParams {
 
         public Builder setPostId(String postId) {
             this.postId = postId;
+            return this;
+        }
+
+        public Builder setAutoShowAd(boolean autoShowAd) {
+            this.autoShowAd = autoShowAd;
             return this;
         }
 

@@ -1,5 +1,7 @@
 package com.mobi.core.listener;
 
+import com.mobi.core.feature.IExpressAdView;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ public interface IExpressListener extends ITTAppDownloadListener, IAdFailListene
 
     void onAdClose(String type);//广告被关闭
 
-    void onAdLoad(String type);
+    void onAdLoad(String type, IExpressAdView view, boolean isAutoShow);
 
     void onAdRenderSuccess(String type);//广告渲染成功
 

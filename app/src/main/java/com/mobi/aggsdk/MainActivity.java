@@ -3,6 +3,7 @@ package com.mobi.aggsdk;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.mobi.core.AdParams;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.analysis.AnalysisBean;
 import com.mobi.core.db.use.DataManager;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
@@ -228,10 +230,12 @@ public class MainActivity extends AppCompatActivity {
                 .setCodeId("1024001")
                 .setOrientation(MobiConstantValue.VERTICAL)
                 .setAdCount(1)
+                .setAutoShowAd(false)
                 .setImageAcceptedSize(640, 320)
                 .setExpressViewAcceptedSize(300, 300)
                 .build();
 
+        //native
         MobiPubSdk.showExpress(this, flContainer, adParams, new IExpressListener() {
             @Override
             public void onAdClick(String type) {
@@ -239,8 +243,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type) {
+            public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
+                if (view != null && !isAutoShow) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.render();
+                        }
+                    }, 3000);
+                }
             }
 
             @Override
