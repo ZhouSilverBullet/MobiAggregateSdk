@@ -128,10 +128,12 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
                     // 有的时候还不显示广告，闪的一下就过去了的bug
                     mViewContainer.addView(nativeExpressADView);
                 }
-
             }
         } else {
             LogUtils.e(TAG, "GdtNativeExpressAd load not show");
+            for (NativeExpressADView nativeExpressADView : list) {
+                mViewContainer.addView(nativeExpressADView);
+            }
         }
 
         setExecSuccess(true);
