@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         //native
-        MobiPubSdk.showExpress(this, flContainer, adParams, new IExpressListener() {
+        MobiPubSdk.showNativeExpress(this, flContainer, adParams, new IExpressListener() {
             @Override
             public void onAdClick(String type) {
                 LogUtils.e(TAG, "onAdClick type : " + type);

@@ -79,10 +79,10 @@ public class GdtProvider extends BaseAdProvider {
     }
 
     @Override
-    public AdRunnable express(Activity mContext,
-                              ViewGroup viewContainer,
-                              LocalAdParams adParams,
-                              IExpressListener mListener) {
+    public AdRunnable nativeExpress(Activity mContext,
+                                    ViewGroup viewContainer,
+                                    LocalAdParams adParams,
+                                    IExpressListener mListener) {
 
         NativeExpressAdWrapper nativeExpressAdWrap = new NativeExpressAdWrapper(this,
                 mContext,

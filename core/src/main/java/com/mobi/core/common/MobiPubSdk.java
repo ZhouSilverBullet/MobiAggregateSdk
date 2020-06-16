@@ -132,10 +132,10 @@ public class MobiPubSdk {
      * @param listener
      */
     @MainThread
-    public static void showExpress(final Activity activity,
-                                   final ViewGroup viewContainer,
-                                   AdParams adParams,
-                                   final IExpressListener listener) {
+    public static void showNativeExpress(final Activity activity,
+                                         final ViewGroup viewContainer,
+                                         AdParams adParams,
+                                         final IExpressListener listener) {
         if (!checkSafe(activity)) {
             return;
         }
@@ -175,7 +175,7 @@ public class MobiPubSdk {
             if (provider != null) {
                 provider.setMobiCodeId(localAdParams.getMobiCodeId());
                 AdRunnable runnable = provider
-                        .express(activity,
+                        .nativeExpress(activity,
                                 viewContainer,
                                 localAdParams,
                                 listener);

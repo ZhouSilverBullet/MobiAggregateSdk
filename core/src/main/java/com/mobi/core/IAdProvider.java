@@ -21,6 +21,7 @@ public interface IAdProvider {
 
     /**
      * 用于上报使用
+     *
      * @param mobiCodeId
      */
     void setMobiCodeId(String mobiCodeId);
@@ -43,8 +44,8 @@ public interface IAdProvider {
 
 
     AdRunnable fullscreen(Activity activity,
-                    LocalAdParams adParams,
-                    IFullScreenVideoAdListener listener);
+                          LocalAdParams adParams,
+                          IFullScreenVideoAdListener listener);
 
     AdRunnable rewardVideo(Activity activity,
                            LocalAdParams adParams,
@@ -69,8 +70,8 @@ public interface IAdProvider {
      * @param adParams
      * @param listener
      */
-    AdRunnable express(Activity activity,
-                       ViewGroup viewContainer,
-                       LocalAdParams adParams,
-                       IExpressListener listener);
+    AdRunnable nativeExpress(Activity activity,
+                             ViewGroup viewContainer,
+                             LocalAdParams adParams,
+                             IExpressListener listener);
 }
