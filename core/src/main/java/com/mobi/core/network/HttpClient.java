@@ -1,11 +1,14 @@
 package com.mobi.core.network;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * Email: zhousaito@163.com
@@ -47,23 +50,28 @@ public class HttpClient {
 
             HttpURLConnection conn = getConn(url);
             conn.setRequestMethod(request.getRequestMethod());
+
             if (request.getMethod() == Request.POST) {
                 final String fromBody = request.getFromBody();
                 if (fromBody != null) {
-                    conn.setDoOutput(true);
-                    OutputStreamWriter out = new OutputStreamWriter(
-                            conn.getOutputStream(), Charset.forName("UTF-8"));
-                    // 发送请求params参数
-                    out.write(fromBody);
-                    out.flush();
+                    handleRequestBody(conn, fromBody, request.isGzipCompress());
                 }
             }
+
             conn.connect();
 
             int code = conn.getResponseCode();
             if (code == 200) {
                 response.setCode(200);
-                response.setInputStream(conn.getInputStream());
+
+                String encoding = conn.getContentEncoding();
+                if ("gzip".equals(encoding)) {
+                    GZIPInputStream gZIPInputStream = new GZIPInputStream(conn.getInputStream());
+                    response.setInputStream(gZIPInputStream);
+                } else {
+                    response.setInputStream(conn.getInputStream());
+                }
+
                 return response;
             }
 
@@ -78,6 +86,26 @@ public class HttpClient {
         }
 
         return response;
+    }
+
+    private void handleRequestBody(HttpURLConnection conn, String fromBody, boolean isGzipCompress) {
+        conn.setDoOutput(true);
+        try {
+            if (isGzipCompress) {
+                conn.setRequestProperty("Accept-Encoding", "gzip");
+                GZIPOutputStream outStream = new GZIPOutputStream(conn.getOutputStream());
+                outStream.write(fromBody.getBytes());
+                outStream.flush();
+            } else {
+                OutputStreamWriter out = new OutputStreamWriter(
+                        conn.getOutputStream(), Charset.forName("UTF-8"));
+                // 发送请求params参数
+                out.write(fromBody);
+                out.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private HttpURLConnection getConn(URL url) throws IOException {

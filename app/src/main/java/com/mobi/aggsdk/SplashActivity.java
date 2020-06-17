@@ -49,7 +49,6 @@ public class SplashActivity extends AppCompatActivity {
                 .setCodeId("1024005")
                 .setImageAcceptedSize(1080, 1920)
                 .setSupportDeepLink(true)
-                .setAutoShowAd(false)
                 .build();
 
         MobiPubSdk.showSplash(this, clRoot, view, adParams, new ISplashAdListener() {

@@ -22,10 +22,13 @@ public class Request {
      */
     private String fromBody;
 
+    private boolean isGzipCompress;
+
     private Request(Builder builder) {
-        url = builder.url;
-        method = builder.method;
-        fromBody = builder.fromBody;
+        setUrl(builder.url);
+        setMethod(builder.method);
+        setFromBody(builder.fromBody);
+        isGzipCompress = builder.isGzipCompress;
     }
 
 
@@ -37,6 +40,10 @@ public class Request {
             requestMethod = "GET";
         }
         return requestMethod;
+    }
+
+    public boolean isGzipCompress() {
+        return isGzipCompress;
     }
 
     public String getUrl() {
@@ -67,6 +74,7 @@ public class Request {
         private String url;
         private int method;
         private String fromBody;
+        private boolean isGzipCompress;
 
         public Builder() {
         }
@@ -83,6 +91,11 @@ public class Request {
 
         public Builder setFromBody(String fromBody) {
             this.fromBody = fromBody;
+            return this;
+        }
+
+        public Builder setIsGzipCompress(boolean isGzipCompress) {
+            this.isGzipCompress = isGzipCompress;
             return this;
         }
 
