@@ -1,5 +1,10 @@
 package com.mobi.core.network;
 
+import android.support.v4.util.ArrayMap;
+
+import java.nio.charset.Charset;
+import java.util.Map;
+
 /**
  * Email: zhousaito@163.com
  * Created by zhousaito 2020/6/8 17:49
@@ -24,13 +29,37 @@ public class Request {
 
     private boolean isGzipCompress;
 
+    private Map<String, String> headers;
+
     private Request(Builder builder) {
         setUrl(builder.url);
         setMethod(builder.method);
         setFromBody(builder.fromBody);
+
         isGzipCompress = builder.isGzipCompress;
+        headers = builder.headers;
+        if (headers == null) {
+            headers = createMaps();
+        }
+
+        if (isGzipCompress) {
+            headers.put("Accept-Encoding", "gzip");
+        }
+
+        putDefaultHeader();
+
     }
 
+    private void putDefaultHeader() {
+        headers.put("User-Agent", "MobiSdkHttp1.0");
+        headers.put("Accept-Language", "zh-CN");
+        headers.put("Connection", "Keep-Alive");
+        headers.put("Charset", "UTF-8");
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
 
     public String getRequestMethod() {
         String requestMethod;
@@ -75,6 +104,7 @@ public class Request {
         private int method;
         private String fromBody;
         private boolean isGzipCompress;
+        private Map<String, String> headers;
 
         public Builder() {
         }
@@ -99,8 +129,20 @@ public class Request {
             return this;
         }
 
+        public Builder addHeaders(String key, String value) {
+            if (headers == null) {
+                headers = createMaps();
+            }
+            headers.put(key, value);
+            return this;
+        }
+
         public Request build() {
             return new Request(this);
         }
+    }
+
+    private static Map<String, String> createMaps() {
+        return new ArrayMap<>();
     }
 }

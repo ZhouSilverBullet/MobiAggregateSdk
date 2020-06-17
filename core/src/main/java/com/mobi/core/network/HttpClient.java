@@ -45,10 +45,14 @@ public class HttpClient {
         String requestUrl = request.getUrl();
         try {
             URL url = new URL(requestUrl);
-
             response.setUrl(requestUrl);
 
             HttpURLConnection conn = getConn(url);
+            //处理头部
+            for (String key : request.getHeaders().keySet()) {
+                conn.setRequestProperty(key, request.getHeaders().get(key));
+            }
+
             conn.setRequestMethod(request.getRequestMethod());
 
             if (request.getMethod() == Request.POST) {
@@ -61,8 +65,8 @@ public class HttpClient {
             conn.connect();
 
             int code = conn.getResponseCode();
-            if (code == 200) {
-                response.setCode(200);
+            if (code == HttpURLConnection.HTTP_OK) {
+                response.setCode(HttpURLConnection.HTTP_OK);
 
                 String encoding = conn.getContentEncoding();
                 if ("gzip".equals(encoding)) {
@@ -92,7 +96,6 @@ public class HttpClient {
         conn.setDoOutput(true);
         try {
             if (isGzipCompress) {
-                conn.setRequestProperty("Accept-Encoding", "gzip");
                 GZIPOutputStream outStream = new GZIPOutputStream(conn.getOutputStream());
                 outStream.write(fromBody.getBytes());
                 outStream.flush();
@@ -114,10 +117,7 @@ public class HttpClient {
         connection.setConnectTimeout(TIME_OUT);
         connection.setReadTimeout(TIME_OUT);
         // User-Agent  IE9的标识
-        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;");
-        connection.setRequestProperty("Accept-Language", "zh-CN");
-        connection.setRequestProperty("Connection", "Keep-Alive");
-        connection.setRequestProperty("Charset", "UTF-8");
+//        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;");
         /*
          * 当我们要获取我们请求的http地址访问的数据时就是使用connection.getInputStream().read()方式时我们就需要setDoInput(true)，
          * 根据api文档我们可知doInput默认就是为true。我们可以不用手动设置了，如果不需要读取输入流的话那就setDoInput(false)。
