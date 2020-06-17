@@ -69,14 +69,14 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
+        IExpressAdView expressAdView = null;
         if (mAdParams.isAutoShowAd()) {
             if (iad != null) {
                 iad.showAsPopupWindow();
             }
+        } else {
+            expressAdView = new GdtInterstitialAdView(iad);
         }
-
-
-        IExpressAdView expressAdView = new GdtInterstitialAdView(iad);
 
         if (mAdProvider != null) {
             mAdProvider.callbackInteractionLoad(mListener, expressAdView, mAdParams.isAutoShowAd());

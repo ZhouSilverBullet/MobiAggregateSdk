@@ -10,14 +10,12 @@ import java.util.List;
  * @date 2020/6/3 16:08
  * @Dec 略
  */
-public interface IExpressListener extends ITTAppDownloadListener, IAdFailListener {
+public interface IExpressListener extends ITTAppDownloadListener, IAdFailListener, IAdLoadListener {
     void onAdExposure(String type);//广告显示
 
     void onAdClick(String type);//广告被点击
 
     void onAdClose(String type);//广告被关闭
-
-    void onAdLoad(String type, IExpressAdView view, boolean isAutoShow);
 
     void onAdRenderSuccess(String type);//广告渲染成功
 

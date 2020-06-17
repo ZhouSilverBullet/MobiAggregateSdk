@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2020/6/1 18:48
  * @Dec 略
  */
-public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListener {
+public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListener, IAdLoadListener {
     /**
      * 开始
      *
@@ -41,8 +41,4 @@ public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListen
      */
     void onAdClose(String type);
 
-    /**
-     * @param providerType
-     */
-    void onAdLoad(String providerType, IExpressAdView view, boolean isAutoShow);
 }

@@ -85,6 +85,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
+        IExpressAdView expressAdView = null;
         if (mAdParams.isAutoShowAd()) {
             ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(this);
             if (ttFullScreenVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
@@ -99,9 +100,9 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
                 setAppDownloadListener(mListener);
                 ttFullScreenVideoAd.setDownloadListener(this);
             }
+            expressAdView = new CsjAdView(mActivity, ttFullScreenVideoAd);
         }
 
-        IExpressAdView expressAdView = new CsjAdView(mActivity, ttFullScreenVideoAd);
         if (mListener != null) {
             mListener.onAdLoad(mProviderType, expressAdView, mAdParams.isAutoShowAd());
         }

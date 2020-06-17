@@ -98,7 +98,10 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             return;
         }
 
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
 
+        IExpressAdView expressAdView = null;
         if (mAdParams.isAutoShowAd()) {
 
             for (NativeExpressADView nativeExpressADView : list) {
@@ -134,12 +137,11 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             for (NativeExpressADView nativeExpressADView : list) {
                 mViewContainer.addView(nativeExpressADView);
             }
+
+            expressAdView = new GdtExpressAdViewImpl(list);
         }
 
-        setExecSuccess(true);
-        localExecSuccess(mAdProvider);
 
-        IExpressAdView expressAdView = new GdtExpressAdViewImpl(list);
 
         if (mAdProvider != null) {
             mAdProvider.callbackExpressLoad(mListener, expressAdView, mAdParams.isAutoShowAd());

@@ -236,7 +236,6 @@ public class MainActivity extends AppCompatActivity {
                 .setCodeId("1024001")
                 .setOrientation(MobiConstantValue.VERTICAL)
                 .setAdCount(1)
-                .setAutoShowAd(false)
                 .setImageAcceptedSize(640, 320)
                 .setExpressViewAcceptedSize(300, 300)
                 .build();

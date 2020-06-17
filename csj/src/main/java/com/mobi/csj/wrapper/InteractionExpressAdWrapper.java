@@ -111,11 +111,12 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
             mTTAd.setDownloadListener(this);
         }
 
+        IExpressAdView expressAdView = null;
         if (mAdParams.isAutoShowAd()) {
             mTTAd.render();//调用render开始渲染广告
+        } else {
+            expressAdView = new CsjInteractionAdView(mTTAd);
         }
-
-        IExpressAdView expressAdView = new CsjInteractionAdView(mTTAd);
 
         if (mAdProvider != null) {
             mAdProvider.callbackInteractionLoad(mListener, expressAdView, mAdParams.isAutoShowAd());

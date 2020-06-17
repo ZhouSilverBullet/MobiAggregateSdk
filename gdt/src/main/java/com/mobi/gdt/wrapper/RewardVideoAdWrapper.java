@@ -85,16 +85,16 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
                 setExecSuccess(true);
                 localExecSuccess(mAdProvider);
 
+                IExpressAdView expressAdView = null;
                 if (mAdParams.isAutoShowAd()) {
                     rewardVideoAD.showAD();
+                } else {
+                    expressAdView = new GdtRewardAdView(rewardVideoAD);
                 }
-
-                IExpressAdView expressAdView = new GdtRewardAdView(rewardVideoAD);
 
                 if (mAdProvider != null) {
                     mAdProvider.callbackRewardLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
                 }
-
 
             } else {
                 Toast.makeText(mActivity, "激励视频广告已过期，请再次请求广告后进行广告展示！", Toast.LENGTH_LONG).show();

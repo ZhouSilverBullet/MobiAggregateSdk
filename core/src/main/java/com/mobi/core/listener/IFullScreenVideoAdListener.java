@@ -10,14 +10,12 @@ import java.util.List;
  * @date 2020/6/2 21:39
  * @Dec 略
  */
-public interface IFullScreenVideoAdListener extends ITTAppDownloadListener, IAdFailListener {
+public interface IFullScreenVideoAdListener extends ITTAppDownloadListener, IAdFailListener, IAdLoadListener {
     void onAdExposure(String providerType);
 
     void onAdClick(String providerType);
 
     void onAdClose(String providerType);
-
-    void onAdLoad(String providerType, IExpressAdView view, boolean isAutoShow);
 
     void onCached(String providerType);
 

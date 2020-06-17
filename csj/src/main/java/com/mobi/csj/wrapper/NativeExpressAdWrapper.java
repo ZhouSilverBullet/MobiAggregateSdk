@@ -105,7 +105,11 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
             return;
         }
 
+        //任务执行成功
+        setExecSuccess(true);
+        localExecSuccess(mAdProvider);
 
+        CsjExpressAdViewImpl expressAdView = null;
         if (mAdParams.isAutoShowAd()) {
             for (TTNativeExpressAd ttNativeExpressAd : list) {
                 ttNativeExpressAd.setExpressInteractionListener(this);
@@ -126,13 +130,9 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
                     ttNativeExpressAd.setDownloadListener(this);
                 }
             }
+            expressAdView = new CsjExpressAdViewImpl(list);
         }
 
-        //任务执行成功
-        setExecSuccess(true);
-        localExecSuccess(mAdProvider);
-
-        CsjExpressAdViewImpl expressAdView = new CsjExpressAdViewImpl(list);
         if (mAdProvider != null) {
             mAdProvider.callbackExpressLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
         }

@@ -8,7 +8,7 @@ import com.mobi.core.feature.IExpressAdView;
  * @date 2020/6/3 11:17
  * @Dec 略
  */
-public interface IRewardAdListener extends ITTAppDownloadListener, IAdFailListener {
+public interface IRewardAdListener extends ITTAppDownloadListener, IAdFailListener, IAdLoadListener {
 
     void onAdExpose(String type);
 
@@ -16,7 +16,6 @@ public interface IRewardAdListener extends ITTAppDownloadListener, IAdFailListen
 
     void onAdClose(String providerType);
 
-    void onAdLoad(String type, IExpressAdView view, boolean isAutoShow);
     /**
      * gdt 的 show 和 Expose 不一样，所以这里把后面
      * csj 的 show 变成 Expose {@link IRewardAdListener#onAdExpose(String)}

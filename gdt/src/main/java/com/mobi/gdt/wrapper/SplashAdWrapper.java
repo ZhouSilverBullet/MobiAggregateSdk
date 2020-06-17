@@ -157,11 +157,12 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
+        IExpressAdView expressAdView = null;
         if (mAdParams.isAutoShowAd()) {
             mSplashAD.showAd(mSplashContainer);
+        } else {
+            expressAdView = new GdtSplashAdView(mSplashAD, mSplashContainer);
         }
-
-        IExpressAdView expressAdView = new GdtSplashAdView(mSplashAD, mSplashContainer);
 
         if (mAdProvider != null) {
             mAdProvider.callbackSplashLoaded(mListener, expressAdView, mAdParams.isAutoShowAd());

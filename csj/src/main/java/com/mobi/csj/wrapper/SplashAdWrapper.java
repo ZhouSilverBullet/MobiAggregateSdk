@@ -145,11 +145,12 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
             ttSplashAd.setDownloadListener(this);
         }
 
+        IExpressAdView expressAdView = null;
         if (mAdParams.isAutoShowAd()) {
             showAdView(ttSplashAd);
+        } else {
+            expressAdView = new CsjSplashAdView(this, ttSplashAd);
         }
-
-        IExpressAdView expressAdView = new CsjSplashAdView(this, ttSplashAd);
 
         if (mAdProvider != null) {
             mAdProvider.callbackSplashLoaded(mListener, expressAdView, mAdParams.isAutoShowAd());

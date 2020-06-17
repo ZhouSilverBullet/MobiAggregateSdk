@@ -1,5 +1,7 @@
 package com.mobi.core.listener;
 
+import android.support.annotation.Nullable;
+
 import com.mobi.core.feature.IExpressAdView;
 
 /**
@@ -8,7 +10,7 @@ import com.mobi.core.feature.IExpressAdView;
  * @date 2020/6/3 11:17
  * @Dec 略
  */
-public interface IInteractionAdListener extends ITTAppDownloadListener, IAdFailListener {
+public interface IInteractionAdListener extends ITTAppDownloadListener, IAdFailListener, IAdLoadListener {
 
     /**
      * csj 的show 和 gdt的曝光，通过为曝光
@@ -20,15 +22,6 @@ public interface IInteractionAdListener extends ITTAppDownloadListener, IAdFailL
     void onAdClick(String type);
 
     void onAdClose(String providerType);
-
-    /**
-     * csj onAdLoad
-     * <p>
-     * onADReceive
-     *
-     * @param type
-     */
-    void onAdLoad(String type, IExpressAdView view, boolean isAutoShow);
 
     /**
      * gdt
