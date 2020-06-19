@@ -3,11 +3,13 @@ package com.mobi.core.network;
 import android.content.Context;
 import android.util.Log;
 
+import com.mobi.core.BuildConfig;
 import com.mobi.core.CoreSession;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.bean.ConfigAdBean;
 import com.mobi.core.bean.ConfigBean;
 import com.mobi.core.utils.ConfigBeanUtil;
+import com.mobi.core.utils.DeviceUtil;
 import com.mobi.core.utils.SpUtil;
 
 /**
@@ -70,9 +72,10 @@ public class NetworkClient {
 
     private void requestProtoConfig(InitCallback callback) {
         HttpClient httpClient = new HttpClient();
+        String requestUrl = getRequestUrl(CoreSession.get().getProtoUrl());
         Request request = new Request.Builder()
                 .setMethod(Request.GET)
-                .setUrl(CoreSession.get().getProtoUrl())
+                .setUrl(requestUrl)
                 .build();
         Response response = httpClient.execute(request);
 
@@ -135,10 +138,16 @@ public class NetworkClient {
 
     private void requestConfig(InitCallback callback) {
         HttpClient httpClient = new HttpClient();
+
+        String requestUrl = getRequestUrl(MobiConstantValue.LOCAL_URL);
+
         Request request = new Request.Builder()
                 .setMethod(Request.GET)
-                .setUrl(MobiConstantValue.LOCAL_URL)
+                .setUrl(requestUrl)
                 .build();
+
+        RequestUtil.putEventHeader(request);
+
         Response response = httpClient.execute(request);
         if (response.getCode() == 200) {
             String resContent = response.body();
@@ -179,6 +188,16 @@ public class NetworkClient {
 
             });
         }
+    }
+
+    private String getRequestUrl(String reqUrl) {
+        StringBuilder sb = new StringBuilder(reqUrl);
+        sb.append("?sdkv=").append(BuildConfig.VERSION_NAME);
+        sb.append("&imei=").append(DeviceUtil.getDeviceId(CoreSession.get().getContext()));
+        sb.append("&os=").append(MobiConstantValue.PLATFORM);
+        sb.append("&media_id=").append(CoreSession.get().getAppId());
+        sb.append("&uuid=").append(DeviceUtil.getAndroidId(CoreSession.get().getContext()));
+        return sb.toString();
     }
 
 

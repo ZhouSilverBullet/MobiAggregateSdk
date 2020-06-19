@@ -16,9 +16,9 @@ import java.util.List;
  * Description:
  */
 public class AnalysisUtil {
-    private static String getStatistical(AnalysisBean bean) {
+    private static JSONObject getStatistical(AnalysisBean bean) {
         if (bean == null) {
-            return "";
+            return null;
         }
 
         try {
@@ -33,18 +33,20 @@ public class AnalysisUtil {
             jsonObject.put("platform", bean.getPlatform());
             jsonObject.put("sdkv", bean.getSdkv());
             jsonObject.put("channel_no", bean.getChannel_no());
-            return jsonObject.toString();
+            return jsonObject;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return "";
+        return null;
     }
 
     public static String toStatisticalJson(List<AnalysisBean> beanList) {
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<JSONObject> list = new ArrayList<>();
         for (AnalysisBean statisticalBean : beanList) {
-            String statistical = getStatistical(statisticalBean);
-            list.add(statistical);
+            JSONObject statistical = getStatistical(statisticalBean);
+            if (statistical != null) {
+                list.add(statistical);
+            }
         }
         final JSONArray jsonArray = new JSONArray(list);
         final JSONObject jsonObject = new JSONObject();

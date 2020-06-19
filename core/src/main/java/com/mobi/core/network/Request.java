@@ -2,7 +2,8 @@ package com.mobi.core.network;
 
 import android.support.v4.util.ArrayMap;
 
-import java.nio.charset.Charset;
+import com.mobi.core.utils.DeviceUtil;
+
 import java.util.Map;
 
 /**
@@ -51,8 +52,8 @@ public class Request {
     }
 
     private void putDefaultHeader() {
-        headers.put("User-Agent", "MobiSdkHttp1.0");
-        headers.put("Accept-Language", "zh-CN");
+        headers.put("User-Agent", "mobiexchanger.com; http support/1.0 android developer;");
+        headers.put("Accept-Language", DeviceUtil.getLanguageAndCountry());
         headers.put("Connection", "Keep-Alive");
         headers.put("Charset", "UTF-8");
     }

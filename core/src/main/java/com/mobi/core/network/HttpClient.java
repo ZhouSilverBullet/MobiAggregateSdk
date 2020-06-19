@@ -17,7 +17,7 @@ import java.util.zip.GZIPOutputStream;
  * Description:
  */
 public class HttpClient {
-    public static final int TIME_OUT = 50_000;
+    public static final int TIME_OUT = 20_000;
 
 //    static {
 //        SSLContext sslcontext = null;//第一个参数为协议,第二个参数为提供者(可以缺省)
@@ -55,6 +55,7 @@ public class HttpClient {
 
             conn.setRequestMethod(request.getRequestMethod());
 
+            //处理post的请求体
             if (request.getMethod() == Request.POST) {
                 final String fromBody = request.getFromBody();
                 if (fromBody != null) {

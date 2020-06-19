@@ -270,7 +270,7 @@ public class CoreSession implements NetworkClient.InitCallback {
 
     public String getDeviceNo() {
         if (TextUtils.isEmpty(deviceNo)) {
-            deviceNo = DeviceUtil.getDeviceNo(mContext);
+            deviceNo = DeviceUtil.getDeviceId(mContext);
         }
         return deviceNo;
     }
