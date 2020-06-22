@@ -48,7 +48,7 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
             return;
         }
 
-        iad = new UnifiedInterstitialAD(mActivity, getAppId(), mAdParams.getPostId(), this);
+        iad = new UnifiedInterstitialAD(mActivity, mAdParams.getPostId(), this);
         iad.loadAD();
     }
 

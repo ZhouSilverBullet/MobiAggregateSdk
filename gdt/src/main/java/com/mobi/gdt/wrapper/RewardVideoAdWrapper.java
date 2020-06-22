@@ -47,7 +47,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
             return;
         }
 
-        rewardVideoAD = new RewardVideoAD(mActivity, getAppId(), mAdParams.getPostId(), this); // 有声播放
+        rewardVideoAD = new RewardVideoAD(mActivity, mAdParams.getPostId(), this); // 有声播放
         rewardVideoAD.loadAD();
     }
 

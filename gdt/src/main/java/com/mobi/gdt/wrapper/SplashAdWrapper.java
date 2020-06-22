@@ -69,7 +69,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
             mSkipView = mBaseSplashSkipView.createSkipView(mActivity, mSplashContainer);
         }
 
-        mSplashAD = new SplashAD(mActivity, mSkipView, getAppId(), mAdParams.getPostId(), this, 0);
+        mSplashAD = new SplashAD(mActivity, mSkipView, mAdParams.getPostId(), this, 0);
 //        mSplashAD.fetchAndShowIn(mSplashContainer);
         mSplashAD.fetchAdOnly();
     }

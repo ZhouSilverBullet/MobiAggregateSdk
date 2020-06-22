@@ -62,7 +62,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 
         mNativeExpressAD = new NativeExpressAD(mContext,
                 getADSize(true, mAdParams.getExpressViewWidth(), mAdParams.getExpressViewHeight()),
-                getAppId(),
                 mAdParams.getPostId(),
                 this);
 
@@ -235,6 +234,9 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 
     @Override
     public void run() {
+        if (mAdProvider != null) {
+            mAdProvider.trackEventStart(MobiConstantValue.EVENT.SHOW, 3);
+        }
         createNativeExpressAD();
     }
 }

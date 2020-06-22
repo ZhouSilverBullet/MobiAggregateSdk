@@ -193,6 +193,9 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
      */
     @Override
     public void run() {
+        if (mAdProvider != null) {
+            mAdProvider.trackEventStart(10, 3);
+        }
         createNativeExpressAD();
     }
 }
