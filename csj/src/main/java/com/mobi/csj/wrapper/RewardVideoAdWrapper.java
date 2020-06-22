@@ -10,6 +10,7 @@ import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
@@ -74,12 +75,13 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Csj RewardVideoAdWrapper load isCancel");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
             return;
         }
 
         if (isTimeOut()) {
             LogUtils.e(TAG, "Csj RewardVideoAdWrapper load isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_TIMEOUT, "isTimeOut");
             return;
         }
 
@@ -180,5 +182,10 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void run() {
         createRewardVideoAd();
+    }
+
+    @Override
+    public int getStyleType() {
+        return MobiConstantValue.STYLE.REWARD;
     }
 }

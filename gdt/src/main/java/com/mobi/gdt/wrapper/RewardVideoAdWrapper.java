@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
@@ -57,12 +58,13 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Gdt RewardVideoAdWrapper load isCancel");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
             return;
         }
 
         if (isTimeOut()) {
             LogUtils.e(TAG, "Gdt RewardVideoAdWrapper load isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_TIMEOUT, "isTimeOut");
             return;
         }
 
@@ -71,16 +73,6 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
             long delta = 1000;//建议给广告过期时间加个buffer，单位ms，这里demo采用1000ms的buffer
             //广告展示检查3：展示广告前判断广告数据未过期
             if (SystemClock.elapsedRealtime() < (rewardVideoAD.getExpireTimestamp() - delta)) {
-                if (isCancel()) {
-                    LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isCancel");
-                    return;
-                }
-
-                if (isTimeOut()) {
-                    LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isTimeOut");
-                    localExecFail(mAdProvider, -104, " 访问超时 ");
-                    return;
-                }
 
                 setExecSuccess(true);
                 localExecSuccess(mAdProvider);
@@ -187,5 +179,10 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
     @Override
     public void run() {
         createRewardVideoAd();
+    }
+
+    @Override
+    public int getStyleType() {
+        return MobiConstantValue.STYLE.REWARD;
     }
 }

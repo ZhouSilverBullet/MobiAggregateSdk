@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 
 /**
@@ -53,5 +54,10 @@ public class GdtFullScreenVideoAdWrapper extends BaseAdWrapper {
     @Override
     public void run() {
         createFullScreenVideoAd();
+    }
+
+    @Override
+    public int getStyleType() {
+        return MobiConstantValue.STYLE.FULL_SCREEN;
     }
 }

@@ -9,6 +9,7 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.utils.LogUtils;
@@ -73,12 +74,13 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Csj FullScreenVideoAdWrapper load isCancel");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
             return;
         }
 
         if (isTimeOut()) {
             LogUtils.e(TAG, "Csj FullScreenVideoAdWrapper load isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_TIMEOUT, "isTimeOut");
             return;
         }
 
@@ -155,5 +157,10 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     @Override
     public void run() {
         createFullScreenVideoAd();
+    }
+
+    @Override
+    public int getStyleType() {
+        return MobiConstantValue.STYLE.FULL_SCREEN;
     }
 }

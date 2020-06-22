@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.utils.LogUtils;
@@ -57,12 +58,13 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
 
         if (isCancel()) {
             LogUtils.e(TAG, "Gdt UnifiedInterstitialAD isCancel");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
             return;
         }
 
         if (isTimeOut()) {
             LogUtils.e(TAG, "Gdt UnifiedInterstitialAD isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_TIMEOUT, "isTimeOut");
             return;
         }
 
@@ -148,5 +150,10 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     @Override
     public void run() {
         createInterstitialAD();
+    }
+
+    @Override
+    public int getStyleType() {
+        return MobiConstantValue.STYLE.INTERACTION_EXPRESS;
     }
 }

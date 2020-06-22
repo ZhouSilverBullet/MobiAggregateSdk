@@ -13,6 +13,7 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
@@ -108,19 +109,20 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
     @Override
     public void onSplashAdLoad(TTSplashAd ttSplashAd) {
         if (ttSplashAd == null) {
-            localExecFail(mAdProvider, -100, "请求成功，但是返回的广告为null");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_LOAD_EMPTY_ERROR, "请求成功，没有返回的广告");
             return;
         }
 
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Csj SplashAdWrapper load isCancel");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
             return;
         }
 
         if (isTimeOut()) {
             LogUtils.e(TAG, "Csj SplashAdWrapper load isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_TIMEOUT, "isTimeOut");
             return;
         }
 
@@ -238,5 +240,11 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
     @Override
     public void run() {
         createSplashAd();
+    }
+
+
+    @Override
+    public int getStyleType() {
+        return MobiConstantValue.STYLE.SPLASH;
     }
 }

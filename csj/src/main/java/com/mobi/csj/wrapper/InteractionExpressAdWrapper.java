@@ -12,6 +12,7 @@ import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.utils.LogUtils;
@@ -82,18 +83,19 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     @Override
     public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
         if (list == null || list.size() == 0) {
-            localExecFail(mAdProvider, -100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_LOAD_EMPTY_ERROR, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0");
             return;
         }
 
         if (isCancel()) {
             LogUtils.e(TAG, "Csj InteractionExpressAd isCancel");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
             return;
         }
 
         if (isTimeOut()) {
             LogUtils.e(TAG, "Csj InteractionExpressAd isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_TIMEOUT, "isTimeOut");
             return;
         }
 
@@ -163,5 +165,10 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     @Override
     public void run() {
         createInteractionAd();
+    }
+
+    @Override
+    public int getStyleType() {
+        return MobiConstantValue.STYLE.INTERACTION_EXPRESS;
     }
 }
