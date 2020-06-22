@@ -57,10 +57,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 
         String postId = mAdParams.getPostId();
         if (checkPostIdEmpty(mAdProvider, postId)) {
-            if (mAdProvider != null) {
-                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_POSTID_EMPTY_ERROR,
-                        0, "", "postId 获取失败或者为空");
-            }
             return;
         }
 
@@ -85,9 +81,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
         //加载广告成功
 
         if (list == null || list.size() == 0) {
-            if (mAdProvider != null) {
-                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_LOAD_EMPTY_ERROR, 0, "");
-            }
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_LOAD_EMPTY_ERROR, "没有对应的广告");
             return;
         }
 
@@ -97,19 +91,14 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 
         //load前判断一下，是否已经把任务给取消了
         if (isCancel()) {
-            if (mAdProvider != null) {
-                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_CANCEL, 0, "");
-            }
             LogUtils.e(TAG, "GdtNativeExpressAd load isCancel");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
             return;
         }
 
         if (isTimeOut()) {
-            if (mAdProvider != null) {
-                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_TIMEOUT, 0, "");
-            }
             LogUtils.e(TAG, "GdtNativeExpressAd load isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_TIMEOUT, "isTimeOut");
             return;
         }
 
@@ -169,7 +158,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             mViewContainer.removeAllViews();
         }
         //广告渲染失败
-        localRenderFail(mAdProvider, MobiConstantValue.GDT_ERROR_RENDER_CODE,
+        localRenderFail(mAdProvider, MobiConstantValue.ERROR.TYPE_RENDER_ERROR,
                 MobiConstantValue.GDT_ERROR_RENDER_MESSAGE);
     }
 

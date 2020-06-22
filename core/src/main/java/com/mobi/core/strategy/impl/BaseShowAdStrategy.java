@@ -72,7 +72,7 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
         //这里如果一个也没加上
         //就想当于任务没加成功，直接给外面抛异常
         if (mAdRunnableSyncList.size() == 0) {
-            StrategyError strategyError = new StrategyError(TYPE_LOCAL_MOBI, SDK_CODE_2003, SDK_MESSAGE_2003);
+            StrategyError strategyError = new StrategyError(TYPE_LOCAL_MOBI, SDK_CODE_10007, SDK_MESSAGE_10007);
             ArrayList<StrategyError> strategyErrors = new ArrayList<>();
             strategyErrors.add(strategyError);
             if (mAdFailListener != null) {

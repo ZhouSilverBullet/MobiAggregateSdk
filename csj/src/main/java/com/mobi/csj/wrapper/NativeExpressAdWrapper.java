@@ -55,10 +55,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     private void createNativeExpressAD() {
         String postId = mAdParams.getPostId();
         if (checkPostIdEmpty(mAdProvider, postId)) {
-            if (mAdProvider != null) {
-                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_POSTID_EMPTY_ERROR,
-                        0, "", "postId 获取失败或者为空");
-            }
             return;
         }
 
@@ -80,10 +76,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     @Override
     public void onError(int code, String message) {
 
-        if (mAdProvider != null) {
-            mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_ERROR, code, message);
-        }
-
         if (mViewContainer != null) {
             mViewContainer.removeAllViews();
         }
@@ -96,10 +88,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
 
         if (list == null || list.size() == 0) {
-            if (mAdProvider != null) {
-                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_LOAD_EMPTY_ERROR, 0, "");
-            }
-            localExecFail(mAdProvider, -100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_LOAD_EMPTY_ERROR, "没有对应的广告");
             return;
         }
 
@@ -109,19 +98,14 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
-            if (mAdProvider != null) {
-                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_CANCEL, 0, "");
-            }
             LogUtils.e(TAG, "CsjNativeExpressAd load isCancel");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
             return;
         }
 
         if (isTimeOut()) {
-            if (mAdProvider != null) {
-                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_TIMEOUT, 0, "");
-            }
             LogUtils.e(TAG, "CsjNativeExpressAd load isTimeOut");
-            localExecFail(mAdProvider, -104, " 访问超时 ");
+            localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_TIMEOUT, "isTimeOut");
             return;
         }
 
@@ -187,9 +171,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 
     @Override
     public void onRenderFail(View view, String message, int code) {
-        if (mAdProvider != null) {
-            mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_RENDER_ERROR, code, message);
-        }
 //        localExecFail(mAdProvider, code, message);
         localRenderFail(mAdProvider, code, message);
     }

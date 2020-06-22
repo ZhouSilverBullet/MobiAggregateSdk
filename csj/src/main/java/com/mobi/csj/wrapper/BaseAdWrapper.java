@@ -76,8 +76,4 @@ public abstract class BaseAdWrapper extends AdRunnable implements TTAppDownloadL
             mAppDownloadListener.onInstalled(fileName, appName);
         }
     }
-
-    public int getStyleType() {
-        return 0;
-    }
 }

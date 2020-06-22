@@ -3,13 +3,15 @@ package com.mobi.core.strategy;
 import android.text.TextUtils;
 
 import com.mobi.core.BaseAdProvider;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import static com.mobi.core.MobiConstantValue.*;
+import static com.mobi.core.MobiConstantValue.ERROR;
+import static com.mobi.core.MobiConstantValue.SDK_CODE_10008;
+import static com.mobi.core.MobiConstantValue.SDK_MESSAGE_10008;
 
 /**
  * @author zhousaito
@@ -92,7 +94,7 @@ public abstract class AdRunnable implements Runnable {
 
         String providerType = getProviderType(provider);
 
-        saveFailMessage(provider, providerType, code, message);
+        saveFailMessage(provider, providerType, code, message, false);
 
         LogUtils.e(TAG, " localExecFail type: " + providerType + " code: " + code + ", message: " + message);
         if (isCancel) {
@@ -104,8 +106,10 @@ public abstract class AdRunnable implements Runnable {
         }
     }
 
-    private void saveFailMessage(BaseAdProvider provider, String providerType, int code, String message) {
+    private void saveFailMessage(BaseAdProvider provider, String providerType, int code, String message, boolean isRender) {
         if (provider != null) {
+            //上报带有开关的上报事件
+            trackEventError(provider, code, message, isRender);
             provider.trackFail();
         }
 
@@ -113,7 +117,31 @@ public abstract class AdRunnable implements Runnable {
             mStrategyErrorList = new ArrayList<>();
         }
 
-        mStrategyErrorList.add(new StrategyError(providerType, code, message));
+        //取消的任务不往外面打印
+        if (code != ERROR.TYPE_CANCEL) {
+            mStrategyErrorList.add(new StrategyError(providerType, code, message));
+        }
+    }
+
+    private void trackEventError(BaseAdProvider provider, int code, String message, boolean isRender) {
+        if (isRender) {
+            provider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_RENDER_ERROR, code, message);
+        } else {
+            switch (code) {
+                case ERROR.TYPE_CANCEL:
+                case ERROR.TYPE_TIMEOUT:
+                case ERROR.TYPE_LOAD_EMPTY_ERROR:
+                case ERROR.TYPE_POSTID_EMPTY_ERROR:
+                    provider.trackEventError(getStyleType(), code,
+                            0, "", message);
+                    break;
+                default:
+                    provider.trackEventError(getStyleType(), ERROR.TYPE_ERROR,
+                            code, message);
+                    break;
+            }
+        }
+
     }
 
     /**
@@ -126,7 +154,7 @@ public abstract class AdRunnable implements Runnable {
     protected void localRenderFail(BaseAdProvider provider, int code, String message) {
         String providerType = getProviderType(provider);
 
-        saveFailMessage(provider, providerType, code, message);
+        saveFailMessage(provider, providerType, code, message, true);
 
         LogUtils.e(TAG, " localRenderFail type: " + providerType + " code: " + code + ", message: " + message);
 //        if (isCancel) {
@@ -149,7 +177,7 @@ public abstract class AdRunnable implements Runnable {
 
     protected boolean checkPostIdEmpty(BaseAdProvider provider, String postId) {
         if (TextUtils.isEmpty(postId)) {
-            localExecFail(provider, SDK_CODE_2004, SDK_MESSAGE_2004);
+            localExecFail(provider, SDK_CODE_10008, SDK_MESSAGE_10008);
             return true;
         }
         return false;
@@ -179,5 +207,9 @@ public abstract class AdRunnable implements Runnable {
         void onRenderFail(Runnable runnable, String provideType);
 
         void onFail(Runnable runnable, String provideType);
+    }
+
+    public int getStyleType() {
+        return 0;
     }
 }

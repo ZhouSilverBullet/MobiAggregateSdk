@@ -39,14 +39,14 @@ public class MobiConstantValue {
      */
     public static final String TYPE_LOCAL_MOBI= "MobiType";
 
-    public static final int SDK_CODE_2001 = 2001;
-    public static final String SDK_MESSAGE_2001 = "mobi codeid 不正确 或者 codeId == null";
-    public static final int SDK_CODE_2002 = 2002;
-    public static final String SDK_MESSAGE_2002 = "mobi 的策略，本地还没有支持";
-    public static final int SDK_CODE_2003 = 2003;
-    public static final String SDK_MESSAGE_2003 = "mobi 没有策略任务";
-    public static final int SDK_CODE_2004 = 2004;
-    public static final String SDK_MESSAGE_2004 = "mobi 后台获取的 postId 不正确 或者 postId == null";
+    public static final int SDK_CODE_10005 = 10005;
+    public static final String SDK_MESSAGE_10005 = "mobi codeid 不正确 或者 codeId == null";
+    public static final int SDK_CODE_10006 = 10006;
+    public static final String SDK_MESSAGE_10006 = "mobi 的策略，本地还没有支持";
+    public static final int SDK_CODE_10007 = 10007;
+    public static final String SDK_MESSAGE_10007 = "mobi 没有策略任务";
+    public static final int SDK_CODE_10008 = 10008;
+    public static final String SDK_MESSAGE_10008 = "mobi 后台获取的 postId 不正确 或者 postId == null";
 
 
     /**
@@ -148,7 +148,7 @@ public class MobiConstantValue {
         /**
          * postId 获取的时候为空错误
          */
-        public static final int TYPE_POSTID_EMPTY_ERROR = 10005;
+        public static final int TYPE_POSTID_EMPTY_ERROR = SDK_CODE_10008;
 
 
 
