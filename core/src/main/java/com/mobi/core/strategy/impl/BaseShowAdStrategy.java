@@ -6,6 +6,7 @@ import android.os.Looper;
 import com.mobi.core.CoreSession;
 import com.mobi.core.listener.IAdFailListener;
 import com.mobi.core.strategy.AdRunnable;
+import com.mobi.core.strategy.AdStrategyFactory;
 import com.mobi.core.strategy.IShowAdStrategy;
 import com.mobi.core.strategy.StrategyError;
 import com.mobi.core.utils.LogUtils;
@@ -134,6 +135,10 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
         if (mAdFailListener != null) {
             mAdFailListener.onAdFail(list);
         }
+    }
+
+    private int getStrategyType() {
+        return AdStrategyFactory.getType(this);
     }
 
     public void setAdFailListener(IAdFailListener adFailListener) {

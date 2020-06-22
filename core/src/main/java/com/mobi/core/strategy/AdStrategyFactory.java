@@ -29,5 +29,16 @@ public class AdStrategyFactory {
         return null;
     }
 
+    public static int getType(IShowAdStrategy strategy) {
 
+        if (strategy instanceof OrderShowAdStrategy) {
+            return SORT_TYPE_ORDER;
+        } else if (strategy instanceof ServiceOrderShowAdStrategy) {
+            return SORT_TYPE_SERVICE_ORDER;
+        } else if (strategy instanceof TogetherShowAdStrategy) {
+            return SORT_TYPE_TOGETHER;
+        }
+
+        return 0;
+    }
 }

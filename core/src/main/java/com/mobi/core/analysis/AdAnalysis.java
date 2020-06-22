@@ -74,9 +74,6 @@ public class AdAnalysis {
         HttpClient httpClient = new HttpClient();
 
         List<AnalysisBean> beanList = new ArrayList<>();
-        if (!beanList.isEmpty()) {
-            beanList.clear();
-        }
         beanList.add(bean);
         //有上传失败的时候，就把库里面的也读出来
         boolean isDbDataNotEmpty = false;

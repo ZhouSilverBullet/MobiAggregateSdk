@@ -46,6 +46,11 @@ public class CoreSession implements NetworkClient.InitCallback {
     private String reportUrl;
 
     /**
+     * 上报广告事件使用
+     */
+    private String developerUrl;
+
+    /**
      * 协议的url
      */
     private String protoUrl;
@@ -282,6 +287,15 @@ public class CoreSession implements NetworkClient.InitCallback {
             }
         }
         return reportUrl;
+    }
+
+    public String getDeveloperUrl() {
+        if (TextUtils.isEmpty(developerUrl)) {
+            if (configAdBean != null) {
+                developerUrl = configAdBean.getDeveloperUrl();
+            }
+        }
+        return developerUrl;
     }
 
     public String getProtoUrl() {

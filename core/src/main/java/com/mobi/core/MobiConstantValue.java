@@ -49,4 +49,101 @@ public class MobiConstantValue {
     public static final String SDK_MESSAGE_2004 = "mobi 后台获取的 postId 不正确 或者 postId == null";
 
 
+    /**
+     * 所有事件的集合
+     */
+    public interface EVENT {
+        /**
+         * 开始请求
+         */
+        public static final int START = 10;
+
+        /**
+         * 填充 or load
+         */
+        public static final int LOAD = 20;
+
+        /**
+         * 展示PV
+         */
+        public static final int SHOW = 30;
+
+        /**
+         * 点击
+         */
+        public static final int CLICK = 40;
+
+        /**
+         * 关闭
+         */
+        public static final int CLOSE = 50;
+
+        /**
+         * 错误
+         */
+        public static final int ERROR = 100;
+    }
+
+    /**
+     * 上传的广告类型
+     */
+    public interface STYLE {
+
+        /**
+         * 启动页广告
+         */
+        public static final int SPLASH = 1;
+
+
+        /**
+         * 插入广告
+         */
+        public static final int INTERACTION_EXPRESS = 2;
+
+        /**
+         * 本地信息流
+         */
+        public static final int NATIVE_EXPRESS = 3;
+
+
+        /**
+         * 激励视频
+         */
+        public static final int REWARD = 4;
+
+        /**
+         * 激励视频
+         */
+        public static final int FULL_SCREEN = 4;
+    }
+
+
+    public interface ERROR {
+        /**
+         * 取消
+         */
+        public static final int TYPE_CANCEL = 10000;
+
+        /**
+         * 超时
+         */
+        public static final int TYPE_TIMEOUT = 10001;
+
+        /**
+         * 普通出错
+         */
+        public static final int TYPE_ERROR = 10002;
+
+        /**
+         * 渲染出错
+         */
+        public static final int TYPE_RENDER_ERROR = 10003;
+
+
+        /**
+         * postId 获取的时候为空错误
+         */
+        public static final int TYPE_POSTID_EMPTY_ERROR = 10004;
+
+    }
 }

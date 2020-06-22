@@ -31,4 +31,7 @@ public abstract class BaseAdWrapper extends AdRunnable {
         return GdtSession.get().getAppId();
     }
 
+    public int getStyleType() {
+        return 0;
+    }
 }

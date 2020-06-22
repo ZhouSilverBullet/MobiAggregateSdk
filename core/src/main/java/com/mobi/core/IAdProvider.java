@@ -27,6 +27,12 @@ public interface IAdProvider {
     void setMobiCodeId(String mobiCodeId);
 
     /**
+     *
+     * @param sortType
+     */
+    void setSortType(int sortType);
+
+    /**
      * @param activity
      * @param codeId            对应的广告id
      * @param expressViewWidth  如果传 <=0 就是全屏 csj需要

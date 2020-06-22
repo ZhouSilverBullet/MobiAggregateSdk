@@ -1,6 +1,7 @@
 package com.mobi.core;
 
 import com.mobi.core.analysis.AdAnalysis;
+import com.mobi.core.analysis.event.PushEventTrack;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IInteractionAdListener;
@@ -16,6 +17,7 @@ import com.mobi.core.listener.ISplashAdListener;
 public abstract class BaseCallbackProvider implements IAdProvider {
     protected String mProviderType;
     private String mMobiCodeId;
+    private int mSortType;
 
     public BaseCallbackProvider(String providerType) {
         mProviderType = providerType;
@@ -219,6 +221,15 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         mMobiCodeId = mobiCodeId;
     }
 
+    @Override
+    public void setSortType(int sortType) {
+        mSortType = sortType;
+    }
+
+    public int getSortType() {
+        return mSortType;
+    }
+
     /**
      * 上报点击统计
      */
@@ -226,6 +237,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         //统计点击
         AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_FALSE, AdAnalysis.STATUS_CODE_TRUE);
     }
+
     /**
      * 上报展示点击
      */
@@ -240,5 +252,98 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     public void trackFail() {
         //统计点击
         AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_FALSE, AdAnalysis.STATUS_CODE_FALSE);
+    }
+
+    /**
+     * 事件上报
+     *
+     * @param event     显示 ...
+     * @param styleType 类型：插屏 ...
+     */
+    public void trackEvent(int event, int styleType) {
+        PushEventTrack.trackAD(event,
+                styleType,
+                getMobiCodeId(),
+                getSortType(),
+                mProviderType);
+    }
+
+    /**
+     * 事件上报开始
+     *
+     * @param styleType 类型：插屏 ...
+     */
+    public void trackEventStart(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.START, styleType);
+    }
+
+    /**
+     * 事件上报 填充->下载好了
+     *
+     * @param styleType 类型：插屏 ...
+     */
+    public void trackEventLoad(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.LOAD, styleType);
+    }
+
+
+    /**
+     * 事件上报 填充->下载好了
+     *
+     * @param styleType 类型：插屏 ...
+     */
+    public void trackEventShow(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.SHOW, styleType);
+    }
+
+    /**
+     * 事件上报 填充->下载好了
+     *
+     * @param styleType 类型：插屏 ...
+     */
+    public void trackEventClick(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.CLICK, styleType);
+    }
+
+    /**
+     * 事件上报 填充->下载好了
+     *
+     * @param styleType 类型：插屏 ...
+     */
+    public void trackEventClose(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.CLOSE, styleType);
+    }
+
+    /**
+     *
+     * @param styleType
+     * @param type 错误类型
+     * @param code
+     * @param message
+     * @param debug
+     */
+    public void trackEventError(int styleType, int type,
+                                int code,
+                                String message,
+                                String debug) {
+
+        PushEventTrack.trackAD(MobiConstantValue.EVENT.ERROR,
+                styleType,
+                getMobiCodeId(),
+                getSortType(),
+                mProviderType,
+                type,
+                code,
+                message,
+                debug);
+    }
+
+
+    public void trackEventError(int styleType,
+                                int type,
+                                int code,
+                                String message) {
+
+        trackEventError(styleType, type, code, message, "");
     }
 }

@@ -59,6 +59,7 @@ public class MobiPubSdk {
 
     /**
      * setDebug
+     *
      * @param isDebug
      */
     public static void setDebug(boolean isDebug) {
@@ -104,10 +105,11 @@ public class MobiPubSdk {
         for (ShowAdBean showAdBean : adBeans) {
             String postId = showAdBean.getPostId();
 
-            LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+            LocalAdParams localAdParams = LocalAdParams.create(postId, sortType, adParams);
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
                 provider.setMobiCodeId(localAdParams.getMobiCodeId());
+                provider.setSortType(sortType);
                 AdRunnable runnable = provider
                         .splash(activity,
                                 splashContainer,
@@ -169,11 +171,12 @@ public class MobiPubSdk {
         for (ShowAdBean showAdBean : adBeans) {
             String postId = showAdBean.getPostId();
 
-            LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+            LocalAdParams localAdParams = LocalAdParams.create(postId, sortType, adParams);
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
                 provider.setMobiCodeId(localAdParams.getMobiCodeId());
+                provider.setSortType(sortType);
                 AdRunnable runnable = provider
                         .nativeExpress(activity,
                                 viewContainer,
@@ -218,11 +221,12 @@ public class MobiPubSdk {
         for (ShowAdBean showAdBean : adBeans) {
             String postId = showAdBean.getPostId();
 
-            LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+            LocalAdParams localAdParams = LocalAdParams.create(postId, sortType, adParams);
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
                 provider.setMobiCodeId(localAdParams.getMobiCodeId());
+                provider.setSortType(sortType);
                 AdRunnable runnable = provider
                         .fullscreen(activity,
                                 localAdParams,
@@ -267,11 +271,12 @@ public class MobiPubSdk {
         for (ShowAdBean showAdBean : adBeans) {
             String postId = showAdBean.getPostId();
 
-            LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+            LocalAdParams localAdParams = LocalAdParams.create(postId, sortType, adParams);
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
                 provider.setMobiCodeId(localAdParams.getMobiCodeId());
+                provider.setSortType(sortType);
                 AdRunnable runnable = provider
                         .rewardVideo(activity,
                                 localAdParams,
@@ -321,10 +326,11 @@ public class MobiPubSdk {
         for (ShowAdBean showAdBean : adBeans) {
             String postId = showAdBean.getPostId();
 
-            LocalAdParams localAdParams = LocalAdParams.create(postId, adParams);
+            LocalAdParams localAdParams = LocalAdParams.create(postId, sortType, adParams);
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
                 provider.setMobiCodeId(localAdParams.getMobiCodeId());
+                provider.setSortType(sortType);
                 AdRunnable runnable = provider
                         .interactionExpress(activity,
                                 localAdParams,

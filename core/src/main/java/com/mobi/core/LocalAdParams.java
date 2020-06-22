@@ -37,6 +37,8 @@ public class LocalAdParams {
      */
     private boolean autoShowAd;
 
+    private int sortType;
+
     private LocalAdParams(Builder builder) {
         mobiCodeId = builder.mobiCodeId;
         supportDeepLink = builder.supportDeepLink;
@@ -57,7 +59,7 @@ public class LocalAdParams {
         autoShowAd = builder.autoShowAd;
     }
 
-    public static LocalAdParams create(String postId, AdParams adParams) {
+    public static LocalAdParams create(String postId, int sortType, AdParams adParams) {
         if (adParams == null) {
             return null;
         }
@@ -65,6 +67,7 @@ public class LocalAdParams {
 
         return new Builder()
                 .setPostId(postId)
+                .setSortType(sortType)
                 .setMobiCodeId(adParams.getCodeId())
                 .setAdCount(adParams.getAdCount())
                 .setExpressViewAcceptedSize(adParams.getExpressViewWidth(), adParams.getExpressViewHeight())
@@ -176,6 +179,8 @@ public class LocalAdParams {
          */
         private boolean autoShowAd = true;
 
+        private int sortType;
+
         public Builder() {
         }
 
@@ -258,6 +263,11 @@ public class LocalAdParams {
 
         public Builder setAutoShowAd(boolean autoShowAd) {
             this.autoShowAd = autoShowAd;
+            return this;
+        }
+
+        public Builder setSortType(int sortType) {
+            this.sortType = sortType;
             return this;
         }
 

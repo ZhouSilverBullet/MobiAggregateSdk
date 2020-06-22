@@ -57,6 +57,10 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
 
         String postId = mAdParams.getPostId();
         if (checkPostIdEmpty(mAdProvider, postId)) {
+            if (mAdProvider != null) {
+                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_ERROR,
+                        0, "", "postId 获取失败或者为空");
+            }
             return;
         }
 
@@ -80,6 +84,13 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     public void onADLoaded(List<NativeExpressADView> list) {
         //加载广告成功
 
+        if (list == null || list.size() == 0) {
+            return;
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackEventLoad(getStyleType());
+        }
 
         //load前判断一下，是否已经把任务给取消了
         if (isCancel()) {
@@ -93,9 +104,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
             return;
         }
 
-        if (list == null || list.size() == 0) {
-            return;
-        }
 
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
@@ -141,7 +149,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
         }
 
 
-
         if (mAdProvider != null) {
             mAdProvider.callbackExpressLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
         }
@@ -183,6 +190,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
         //广告曝光
         if (mAdProvider != null) {
             mAdProvider.trackShow();
+            mAdProvider.trackEventShow(getStyleType());
             mAdProvider.callbackExpressShow(mListener);
         }
     }
@@ -192,6 +200,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
         //广告被点击
         if (mAdProvider != null) {
             mAdProvider.trackClick();
+            mAdProvider.trackEventClick(getStyleType());
             mAdProvider.callbackExpressClick(mListener);
         }
     }
@@ -200,6 +209,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     public void onADClosed(NativeExpressADView nativeExpressADView) {
 
         if (mAdProvider != null) {
+            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackExpressDismissed(mListener);
         }
     }
@@ -235,8 +245,13 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     @Override
     public void run() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventStart(MobiConstantValue.EVENT.SHOW, 3);
+            mAdProvider.trackEventStart(getStyleType());
         }
         createNativeExpressAD();
+    }
+
+    @Override
+    public int getStyleType() {
+        return MobiConstantValue.STYLE.NATIVE_EXPRESS;
     }
 }
