@@ -141,9 +141,16 @@ public class MobiConstantValue {
 
 
         /**
+         * 获取的广告为空
+         */
+        public static final int TYPE_LOAD_EMPTY_ERROR = 10004;
+
+        /**
          * postId 获取的时候为空错误
          */
-        public static final int TYPE_POSTID_EMPTY_ERROR = 10004;
+        public static final int TYPE_POSTID_EMPTY_ERROR = 10005;
+
+
 
     }
 }

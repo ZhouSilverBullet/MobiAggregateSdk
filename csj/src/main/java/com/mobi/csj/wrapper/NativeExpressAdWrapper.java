@@ -56,7 +56,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
         String postId = mAdParams.getPostId();
         if (checkPostIdEmpty(mAdProvider, postId)) {
             if (mAdProvider != null) {
-                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_ERROR,
+                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_POSTID_EMPTY_ERROR,
                         0, "", "postId 获取失败或者为空");
             }
             return;
@@ -96,6 +96,9 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
 
         if (list == null || list.size() == 0) {
+            if (mAdProvider != null) {
+                mAdProvider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_LOAD_EMPTY_ERROR, 0, "");
+            }
             localExecFail(mAdProvider, -100, "type TTNativeExpressAd  == null || type TTNativeExpressAd list.size() == 0 ");
             return;
         }
