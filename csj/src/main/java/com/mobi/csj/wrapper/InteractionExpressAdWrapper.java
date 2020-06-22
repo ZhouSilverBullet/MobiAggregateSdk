@@ -87,6 +87,10 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
             return;
         }
 
+        if (mAdProvider != null) {
+            mAdProvider.trackEventLoad(getStyleType());
+        }
+
         if (isCancel()) {
             LogUtils.e(TAG, "Csj InteractionExpressAd isCancel");
             localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
@@ -129,6 +133,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     @Override
     public void onAdDismiss() {
         if (mAdProvider != null) {
+            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackInteractionClose(mListener);
         }
     }
@@ -137,6 +142,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     public void onAdClicked(View view, int i) {
         if (mAdProvider != null) {
             mAdProvider.trackClick();
+            mAdProvider.trackEventClick(getStyleType());
             mAdProvider.callbackInteractionClick(mListener);
         }
     }
@@ -145,6 +151,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     public void onAdShow(View view, int i) {
         if (mAdProvider != null) {
             mAdProvider.trackShow();
+            mAdProvider.trackEventShow(getStyleType());
             mAdProvider.callbackInteractionExposure(mListener);
         }
     }
@@ -164,6 +171,9 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
 
     @Override
     public void run() {
+        if (mAdProvider != null) {
+            mAdProvider.trackEventStart(getStyleType());
+        }
         createInteractionAd();
     }
 

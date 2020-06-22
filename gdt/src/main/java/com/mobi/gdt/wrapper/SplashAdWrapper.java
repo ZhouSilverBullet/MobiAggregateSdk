@@ -80,6 +80,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
     public void onADDismissed() {
         Log.w(TAG, "onADDismissed");
         if (mAdProvider != null) {
+            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackSplashDismissed(mListener);
         }
     }
@@ -116,6 +117,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
         Log.w(TAG, "onADClicked");
         if (mAdProvider != null) {
             mAdProvider.trackClick();
+            mAdProvider.trackEventClick(getStyleType());
             mAdProvider.callbackSplashClicked(mListener);
         }
 
@@ -135,6 +137,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
         Log.w(TAG, "onADExposure");
         if (mAdProvider != null) {
             mAdProvider.trackShow();
+            mAdProvider.trackEventShow(getStyleType());
             mAdProvider.callbackSplashExposure(mListener);
         }
     }
@@ -142,6 +145,9 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
     @Override
     public void onADLoaded(long l) {
         Log.w(TAG, "onADLoaded");
+        if (mAdProvider != null) {
+            mAdProvider.trackEventLoad(getStyleType());
+        }
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Gdt SplashAdWrapper load isCancel");
@@ -173,6 +179,9 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
 
     @Override
     public void run() {
+        if (mAdProvider != null) {
+            mAdProvider.trackEventStart(getStyleType());
+        }
         createSplashAd();
     }
 

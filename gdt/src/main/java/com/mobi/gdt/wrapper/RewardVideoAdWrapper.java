@@ -55,6 +55,10 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
     @Override
     public void onADLoad() {
 
+        if (mAdProvider != null) {
+            mAdProvider.trackEventLoad(getStyleType());
+        }
+
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Gdt RewardVideoAdWrapper load isCancel");
@@ -128,6 +132,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
         if (mAdProvider != null) {
             mAdProvider.trackShow();
+            mAdProvider.trackEventShow(getStyleType());
             mAdProvider.callbackRewardExpose(mListener);
         }
     }
@@ -145,6 +150,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
         if (mAdProvider != null) {
             mAdProvider.trackClick();
+            mAdProvider.trackEventClick(getStyleType());
             mAdProvider.callbackRewardClick(mListener);
         }
 
@@ -161,6 +167,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
     public void onADClose() {
 
         if (mAdProvider != null) {
+            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackRewardClose(mListener);
         }
     }
@@ -178,6 +185,9 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void run() {
+        if (mAdProvider != null) {
+            mAdProvider.trackEventStart(getStyleType());
+        }
         createRewardVideoAd();
     }
 

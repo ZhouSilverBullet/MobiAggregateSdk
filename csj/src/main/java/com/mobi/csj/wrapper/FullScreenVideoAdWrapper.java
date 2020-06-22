@@ -71,6 +71,10 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     @Override
     public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ttFullScreenVideoAd) {
 
+        if (mAdProvider != null) {
+            mAdProvider.trackEventLoad(getStyleType());
+        }
+
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Csj FullScreenVideoAdWrapper load isCancel");
@@ -121,6 +125,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     public void onAdShow() {
         if (mListener != null) {
             mAdProvider.trackShow();
+            mAdProvider.trackEventShow(getStyleType());
             mListener.onAdExposure(mProviderType);
         }
     }
@@ -129,6 +134,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     public void onAdVideoBarClick() {
         if (mListener != null) {
             mAdProvider.trackClick();
+            mAdProvider.trackEventClick(getStyleType());
             mListener.onAdClick(mProviderType);
         }
     }
@@ -136,6 +142,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     @Override
     public void onAdClose() {
         if (mListener != null) {
+            mAdProvider.trackEventClose(getStyleType());
             mListener.onAdClose(mProviderType);
         }
     }
@@ -156,6 +163,9 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
 
     @Override
     public void run() {
+        if (mAdProvider != null) {
+            mAdProvider.trackEventStart(getStyleType());
+        }
         createFullScreenVideoAd();
     }
 

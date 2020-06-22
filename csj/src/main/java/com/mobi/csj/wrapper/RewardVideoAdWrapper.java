@@ -72,6 +72,10 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onRewardVideoAdLoad(TTRewardVideoAd ttRewardVideoAd) {
 
+        if (mAdProvider != null) {
+            mAdProvider.trackEventLoad(getStyleType());
+        }
+
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Csj RewardVideoAdWrapper load isCancel");
@@ -126,6 +130,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 
         if (mAdProvider != null) {
             mAdProvider.trackShow();
+            mAdProvider.trackEventShow(getStyleType());
             mAdProvider.callbackRewardExpose(mListener);
         }
     }
@@ -135,6 +140,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 
         if (mAdProvider != null) {
             mAdProvider.trackClick();
+            mAdProvider.trackEventClick(getStyleType());
             mAdProvider.callbackRewardClick(mListener);
         }
     }
@@ -142,8 +148,8 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onAdClose() {
         //广告关闭
-
         if (mAdProvider != null) {
+            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackRewardClose(mListener);
         }
     }
@@ -181,6 +187,9 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
 
     @Override
     public void run() {
+        if (mAdProvider != null) {
+            mAdProvider.trackEventStart(getStyleType());
+        }
         createRewardVideoAd();
     }
 

@@ -56,6 +56,10 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     @Override
     public void onADReceive() {
 
+        if (mAdProvider != null) {
+            mAdProvider.trackEventLoad(getStyleType());
+        }
+
         if (isCancel()) {
             LogUtils.e(TAG, "Gdt UnifiedInterstitialAD isCancel");
             localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
@@ -121,6 +125,7 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     public void onADExposure() {
         if (mAdProvider != null) {
             mAdProvider.trackShow();
+            mAdProvider.trackEventShow(getStyleType());
             mAdProvider.callbackInteractionExposure(mListener);
         }
     }
@@ -129,6 +134,7 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     public void onADClicked() {
         if (mAdProvider != null) {
             mAdProvider.trackClick();
+            mAdProvider.trackEventClick(getStyleType());
             mAdProvider.callbackInteractionClick(mListener);
         }
     }
@@ -143,12 +149,16 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     @Override
     public void onADClosed() {
         if (mAdProvider != null) {
+            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackInteractionClose(mListener);
         }
     }
 
     @Override
     public void run() {
+        if (mAdProvider != null) {
+            mAdProvider.trackEventStart(getStyleType());
+        }
         createInterstitialAD();
     }
 

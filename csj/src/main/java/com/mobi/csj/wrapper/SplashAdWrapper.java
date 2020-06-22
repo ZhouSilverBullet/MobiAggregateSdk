@@ -113,6 +113,10 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
             return;
         }
 
+        if (mAdProvider != null) {
+            mAdProvider.trackEventLoad(getStyleType());
+        }
+
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
             LogUtils.e(TAG, "Csj SplashAdWrapper load isCancel");
@@ -128,6 +132,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
         if (mSplashContainer.getChildCount() >= 1) {
             LogUtils.e(TAG, "Csj SplashAdWrapper mSplashContainer.getChildCount() >= 1 isCancel");
+            localExecFail(mAdProvider, -105, "Csj splashContainer.getChildCount() >= 1 isCancel");
             return;
         }
 
@@ -204,6 +209,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
         if (mAdProvider != null) {
             mAdProvider.trackClick();
+            mAdProvider.trackEventClick(getStyleType());
             mAdProvider.callbackSplashClicked(mListener);
         }
     }
@@ -214,6 +220,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
         if (mAdProvider != null) {
             mAdProvider.trackShow();
+            mAdProvider.trackEventShow(getStyleType());
             mAdProvider.callbackSplashExposure(mListener);
         }
     }
@@ -223,6 +230,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         LogUtils.e(TAG, "onAdSkip");
 
         if (mAdProvider != null) {
+            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackSplashDismissed(mListener);
         }
 
@@ -239,6 +247,9 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
     @Override
     public void run() {
+        if (mAdProvider != null) {
+            mAdProvider.trackEventStart(getStyleType());
+        }
         createSplashAd();
     }
 
