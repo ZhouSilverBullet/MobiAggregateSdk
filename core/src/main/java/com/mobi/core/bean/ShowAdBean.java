@@ -11,6 +11,11 @@ public class ShowAdBean {
     private String postId;
     private String providerType;
     private String appName;
+    /**
+     *  tt , gdt..
+     *  用于md5加密使用的一项数据
+     */
+    private String sdk;
 
     public String getPostId() {
         return postId;
@@ -42,5 +47,13 @@ public class ShowAdBean {
 
     public void setAppName(String appName) {
         this.appName = appName;
+    }
+
+    public String getSdk() {
+        return sdk;
+    }
+
+    public void setSdk(String sdk) {
+        this.sdk = sdk;
     }
 }

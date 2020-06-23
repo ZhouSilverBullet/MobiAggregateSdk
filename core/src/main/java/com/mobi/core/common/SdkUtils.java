@@ -93,7 +93,7 @@ class SdkUtils {
             throw new MobiNullPointerException("context == null");
         }
 
-        CoreSession.get().init(context, appId ,true);
+        CoreSession.get().init(context, appId, true);
     }
 
     static void setDebug(boolean isAppDebug) {
@@ -127,6 +127,7 @@ class SdkUtils {
                 codeId,
                 sortType,
                 type,
+                "",
                 code,
                 0,
                 "",

@@ -18,6 +18,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     protected String mProviderType;
     private String mMobiCodeId;
     private int mSortType;
+    private String mMd5;
 
     public BaseCallbackProvider(String providerType) {
         mProviderType = providerType;
@@ -222,6 +223,15 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     }
 
     @Override
+    public void setMd5(String md5) {
+        mMd5 = md5;
+    }
+
+    public String getMd5() {
+        return mMd5;
+    }
+
+    @Override
     public void setSortType(int sortType) {
         mSortType = sortType;
     }
@@ -265,7 +275,8 @@ public abstract class BaseCallbackProvider implements IAdProvider {
                 styleType,
                 getMobiCodeId(),
                 getSortType(),
-                mProviderType);
+                mProviderType,
+                getMd5());
     }
 
     /**
@@ -315,9 +326,8 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     }
 
     /**
-     *
      * @param styleType
-     * @param type 错误类型
+     * @param type      错误类型
      * @param code
      * @param message
      * @param debug
@@ -332,6 +342,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
                 getMobiCodeId(),
                 getSortType(),
                 mProviderType,
+                getMd5(),
                 type,
                 code,
                 message,

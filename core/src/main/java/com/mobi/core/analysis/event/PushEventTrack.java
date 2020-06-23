@@ -34,12 +34,13 @@ public class PushEventTrack {
                                int styleType,
                                String postId,
                                int sortType,
-                               String network) {
+                               String network,
+                               String md5) {
 
         SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
             @Override
             public void run() {
-                PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network);
+                PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network, md5);
                 trackAD(pushEvent);
             }
         });
@@ -51,6 +52,7 @@ public class PushEventTrack {
                                String postId,
                                int sortType,
                                String network,
+                               String md5,
                                int errorType,
                                int code,
                                String message,
@@ -59,7 +61,7 @@ public class PushEventTrack {
         SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
             @Override
             public void run() {
-                PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network);
+                PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network, md5);
                 pushEvent.setType(errorType);
                 pushEvent.setCode(code);
                 pushEvent.setMessage(message);

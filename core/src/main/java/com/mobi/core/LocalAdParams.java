@@ -1,5 +1,7 @@
 package com.mobi.core;
 
+import com.mobi.core.utils.MD5Helper;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -38,6 +40,7 @@ public class LocalAdParams {
     private boolean autoShowAd;
 
     private int sortType;
+    private String md5;
 
     private LocalAdParams(Builder builder) {
         mobiCodeId = builder.mobiCodeId;
@@ -57,17 +60,23 @@ public class LocalAdParams {
         maxVideoDuration = builder.maxVideoDuration;
         isSplashNotAllowSdkCountdown = builder.isSplashNotAllowSdkCountdown;
         autoShowAd = builder.autoShowAd;
+        sortType = builder.sortType;
+        md5 = builder.md5;
+
     }
 
-    public static LocalAdParams create(String postId, int sortType, AdParams adParams) {
+    public static LocalAdParams create(String postId, int sortType, AdParams adParams, String sdk) {
         if (adParams == null) {
             return null;
         }
 
+        //请求的一条串行标志
+        String md5 = getMd5Value(postId, sortType, sdk);
 
         return new Builder()
                 .setPostId(postId)
                 .setSortType(sortType)
+                .setMd5(md5)
                 .setMobiCodeId(adParams.getCodeId())
                 .setAdCount(adParams.getAdCount())
                 .setExpressViewAcceptedSize(adParams.getExpressViewWidth(), adParams.getExpressViewHeight())
@@ -85,6 +94,11 @@ public class LocalAdParams {
                 .setSplashNotAllowSdkCountdown(adParams.isSplashNotAllowSdkCountdown())
                 .build();
     }
+
+    private static String getMd5Value(String postId, int sortType, String sdk) {
+        return MD5Helper.encode(postId + sortType + sdk + System.currentTimeMillis());
+    }
+
 
     public String getMobiCodeId() {
         return mobiCodeId;
@@ -154,6 +168,14 @@ public class LocalAdParams {
         return autoShowAd;
     }
 
+    public int getSortType() {
+        return sortType;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
     public static final class Builder {
         private String mobiCodeId = "";
         private boolean supportDeepLink = true;
@@ -180,6 +202,7 @@ public class LocalAdParams {
         private boolean autoShowAd = true;
 
         private int sortType;
+        private String md5;
 
         public Builder() {
         }
@@ -268,6 +291,11 @@ public class LocalAdParams {
 
         public Builder setSortType(int sortType) {
             this.sortType = sortType;
+            return this;
+        }
+
+        public Builder setMd5(String md5) {
+            this.md5 = md5;
             return this;
         }
 

@@ -43,6 +43,7 @@ public class PushEventUtil {
             jsonObject.put("sort_type", bean.getSortType());
             jsonObject.put("posid", bean.getPostId());
             jsonObject.put("network", bean.getNetwork());
+            jsonObject.put("tk", bean.getMd5());
 
             jsonObject.put("day", bean.getDay());
             jsonObject.put("time", bean.getTime());
@@ -109,7 +110,8 @@ public class PushEventUtil {
                                 beanJson.optInt("style_type"),
                                 beanJson.optString("posid"),
                                 beanJson.optInt("sort_type"),
-                                beanJson.optString("network")));
+                                beanJson.optString("network"),
+                                beanJson.getString("tk")));
                     }
                 }
             } catch (JSONException e) {

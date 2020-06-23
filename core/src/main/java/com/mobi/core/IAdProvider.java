@@ -26,6 +26,9 @@ public interface IAdProvider {
      */
     void setMobiCodeId(String mobiCodeId);
 
+
+    void setMd5(String md5);
+
     /**
      *
      * @param sortType

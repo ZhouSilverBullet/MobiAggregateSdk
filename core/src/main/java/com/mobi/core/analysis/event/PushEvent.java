@@ -28,6 +28,10 @@ public class PushEvent {
     private int styleType;
     private int sortType;
     private String network;
+    /**
+     * 用来广告一条线追踪
+     */
+    private String md5;
 
     /**
      * 与错误相关的属性类
@@ -47,12 +51,14 @@ public class PushEvent {
                      int styleType,
                      String postId,
                      int sortType,
-                     String network) {
+                     String network,
+                     String md5) {
         this.event = event;
         this.styleType = styleType;
         this.postId = postId;
         this.sortType = sortType;
         this.network = network;
+        this.md5 = md5;
     }
 
     public int getType() {
@@ -144,5 +150,9 @@ public class PushEvent {
 
     public String getNetwork() {
         return network;
+    }
+
+    public String getMd5() {
+        return md5;
     }
 }

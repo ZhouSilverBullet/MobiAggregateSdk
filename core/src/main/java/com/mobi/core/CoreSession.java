@@ -243,6 +243,7 @@ public class CoreSession implements NetworkClient.InitCallback {
                 showAdBean.setPostId(posId);
                 showAdBean.setAppId(appid);
                 showAdBean.setAppName(appname);
+                showAdBean.setSdk(sdk);
                 if ("tt".equals(sdk)) {
                     showAdBean.setProviderType(AdProviderManager.TYPE_CSJ);
                     list.add(showAdBean);
