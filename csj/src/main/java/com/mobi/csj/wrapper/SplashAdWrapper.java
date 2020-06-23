@@ -103,7 +103,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
     @Override
     public void onTimeout() {
-        localExecFail(mAdProvider, -100, "请求超时");
+        localExecFail(mAdProvider, 0, "请求超时");
     }
 
     @Override

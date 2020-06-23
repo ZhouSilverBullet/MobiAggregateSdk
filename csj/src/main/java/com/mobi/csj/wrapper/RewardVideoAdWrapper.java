@@ -165,7 +165,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onVideoError() {
         //播放错误
-        localExecFail(mAdProvider, -100, "播放错误 onVideoError");
+        localExecFail(mAdProvider, 0, "播放错误 onVideoError");
     }
 
     //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称

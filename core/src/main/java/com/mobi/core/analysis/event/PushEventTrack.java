@@ -51,7 +51,7 @@ public class PushEventTrack {
                                String postId,
                                int sortType,
                                String network,
-                               int type,
+                               int errorType,
                                int code,
                                String message,
                                String debug) {
@@ -60,7 +60,7 @@ public class PushEventTrack {
             @Override
             public void run() {
                 PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network);
-                pushEvent.setType(type);
+                pushEvent.setType(errorType);
                 pushEvent.setCode(code);
                 pushEvent.setMessage(message);
                 pushEvent.setDebug(debug);

@@ -86,7 +86,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -96,7 +96,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 
@@ -153,7 +153,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -162,7 +162,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 
@@ -203,7 +203,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -212,7 +212,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 
@@ -253,7 +253,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -262,7 +262,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 
@@ -308,7 +308,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -317,7 +317,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 

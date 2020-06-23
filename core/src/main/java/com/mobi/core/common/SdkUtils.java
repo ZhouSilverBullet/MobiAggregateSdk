@@ -11,6 +11,8 @@ import com.mobi.core.AdProviderManager;
 import com.mobi.core.CoreSession;
 import com.mobi.core.IAdSession;
 import com.mobi.core.FakeAdSession;
+import com.mobi.core.MobiConstantValue;
+import com.mobi.core.analysis.event.PushEventTrack;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.listener.IAdFailListener;
@@ -111,13 +113,24 @@ class SdkUtils {
         return localAdBean;
     }
 
-    static void callOnFail(String type, int code, String message, IAdFailListener listener) {
+    static void callOnFail(String codeId, int sortType, String type, int code, String message, IAdFailListener listener) {
+
         if (listener != null) {
             StrategyError strategyError = new StrategyError(type, code, message);
             ArrayList<StrategyError> strategyErrorList = new ArrayList<>();
             strategyErrorList.add(strategyError);
             listener.onAdFail(strategyErrorList);
         }
+
+        PushEventTrack.trackAD(MobiConstantValue.EVENT.ERROR,
+                0,
+                codeId,
+                sortType,
+                type,
+                code,
+                0,
+                "",
+                message);
     }
 
 
