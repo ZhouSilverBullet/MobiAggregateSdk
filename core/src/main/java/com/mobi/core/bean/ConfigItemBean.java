@@ -1,5 +1,7 @@
 package com.mobi.core.bean;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,15 +15,18 @@ public class ConfigItemBean implements Serializable {
 
     private String posid;//自己服务器广告位id
     private int sort_type;//排序类型 1按顺序 2按价格
+    private ConfBean conf;
     private List<AdBean> network;
     private List<String> sortParameters;
 
     public ConfigItemBean(String posid,
                           int sort_type,
+                          ConfBean conf,
                           List<AdBean> network,
                           List<String> sortParameters) {
         this.posid = posid;
         this.sort_type = sort_type;
+        this.conf = conf;
         this.network = network;
         this.sortParameters = sortParameters;
     }
@@ -49,6 +54,7 @@ public class ConfigItemBean implements Serializable {
 
     /**
      * 排序一次
+     *
      * @return
      */
     public List<AdBean> getNetwork() {
@@ -78,5 +84,19 @@ public class ConfigItemBean implements Serializable {
                 ", network=" + network +
                 ", sort_parameter=" + sortParameters +
                 '}';
+    }
+
+    /**
+     * 是否上报信息
+     *
+     * @return
+     */
+    public boolean isPushMessage() {
+        if (conf != null) {
+            if (conf.getRpErr() == 1) {
+                return true;
+            }
+        }
+        return false;
     }
 }

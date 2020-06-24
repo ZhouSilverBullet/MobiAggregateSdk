@@ -3,6 +3,7 @@ package com.mobi.core.utils;
 import android.text.TextUtils;
 
 import com.mobi.core.bean.AdBean;
+import com.mobi.core.bean.ConfBean;
 import com.mobi.core.bean.ConfigAdBean;
 import com.mobi.core.bean.ConfigBean;
 import com.mobi.core.bean.ConfigItemBean;
@@ -80,7 +81,7 @@ public class ConfigBeanUtil {
         for (int i = 0; i < list.length(); i++) {
             final JSONObject configItemBeanJson = list.optJSONObject(i);
             if (configItemBeanJson == null) {
-                configItemBeanList.add(new ConfigItemBean("0", 0, new ArrayList<>(), new ArrayList<>()));
+                configItemBeanList.add(new ConfigItemBean("0", 0, null, new ArrayList<>(), new ArrayList<>()));
             } else {
                 List<AdBean> networkList;
                 final JSONArray network = configItemBeanJson.optJSONArray("network");
@@ -97,11 +98,32 @@ public class ConfigBeanUtil {
                     sortParameterList = getSortParameterList(sortParameter);
                 }
 
-                configItemBeanList.add(new ConfigItemBean(configItemBeanJson.optString("posid")
-                        , configItemBeanJson.optInt("sort_type"), networkList, sortParameterList));
+                int rpErr = getRpErr(configItemBeanJson);
+
+                configItemBeanList.add(new ConfigItemBean(configItemBeanJson.optString("posid"),
+                        configItemBeanJson.optInt("sort_type"),
+                        new ConfBean(rpErr),
+                        networkList,
+                        sortParameterList));
             }
         }
         return configItemBeanList;
+    }
+
+    /**
+     * 获取控制的状态
+     * @param configItemBeanJson
+     * @return
+     */
+    private static int getRpErr(JSONObject configItemBeanJson) {
+        if (configItemBeanJson != null) {
+            JSONObject conf = configItemBeanJson.optJSONObject("conf");
+            if (conf != null) {
+                return conf.optInt("rp_err");
+            }
+        }
+
+        return 0;
     }
 
     private static List<String> getSortParameterList(JSONArray sortParameter) {

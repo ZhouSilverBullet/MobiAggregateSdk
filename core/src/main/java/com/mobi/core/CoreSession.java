@@ -254,6 +254,7 @@ public class CoreSession implements NetworkClient.InitCallback, OAIdSdk.ResultCa
                 showAdBean.setAppId(appid);
                 showAdBean.setAppName(appname);
                 showAdBean.setSdk(sdk);
+                showAdBean.setPushMessage(configItemBean.isPushMessage());
                 if ("tt".equals(sdk)) {
                     showAdBean.setProviderType(AdProviderManager.TYPE_CSJ);
                     list.add(showAdBean);

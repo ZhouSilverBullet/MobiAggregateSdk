@@ -1,5 +1,6 @@
 package com.mobi.core;
 
+import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.utils.MD5Helper;
 
 /**
@@ -41,6 +42,7 @@ public class LocalAdParams {
 
     private int sortType;
     private String md5;
+    private boolean isPushMessage;
 
     private LocalAdParams(Builder builder) {
         mobiCodeId = builder.mobiCodeId;
@@ -62,21 +64,24 @@ public class LocalAdParams {
         autoShowAd = builder.autoShowAd;
         sortType = builder.sortType;
         md5 = builder.md5;
+        isPushMessage = builder.isPushMessage;
 
     }
 
-    public static LocalAdParams create(String postId, int sortType, AdParams adParams, String sdk) {
-        if (adParams == null) {
+    public static LocalAdParams create(int sortType, AdParams adParams, ShowAdBean showAdBean) {
+        if (adParams == null || showAdBean == null) {
             return null;
         }
 
         //请求的一条串行标志
-        String md5 = getMd5Value(postId, sortType, sdk);
+        String postId = showAdBean.getPostId();
+        String md5 = getMd5Value(postId, sortType, showAdBean.getSdk());
 
         return new Builder()
                 .setPostId(postId)
                 .setSortType(sortType)
                 .setMd5(md5)
+                .setPushMessage(showAdBean.isPushMessage())
                 .setMobiCodeId(adParams.getCodeId())
                 .setAdCount(adParams.getAdCount())
                 .setExpressViewAcceptedSize(adParams.getExpressViewWidth(), adParams.getExpressViewHeight())
@@ -176,6 +181,10 @@ public class LocalAdParams {
         return md5;
     }
 
+    public boolean isPushMessage() {
+        return isPushMessage;
+    }
+
     public static final class Builder {
         private String mobiCodeId = "";
         private boolean supportDeepLink = true;
@@ -203,6 +212,8 @@ public class LocalAdParams {
 
         private int sortType;
         private String md5;
+
+        private boolean isPushMessage = true;
 
         public Builder() {
         }
@@ -296,6 +307,11 @@ public class LocalAdParams {
 
         public Builder setMd5(String md5) {
             this.md5 = md5;
+            return this;
+        }
+
+        public Builder setPushMessage(boolean pushMessage) {
+            isPushMessage = pushMessage;
             return this;
         }
 

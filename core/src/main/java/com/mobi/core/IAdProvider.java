@@ -36,6 +36,12 @@ public interface IAdProvider {
     void setSortType(int sortType);
 
     /**
+     * 是否上传消息
+     * @param pushMessage
+     */
+    void setPushMessage(boolean pushMessage);
+
+    /**
      * @param activity
      * @param codeId            对应的广告id
      * @param expressViewWidth  如果传 <=0 就是全屏 csj需要

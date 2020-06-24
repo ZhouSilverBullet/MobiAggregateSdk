@@ -109,7 +109,9 @@ public abstract class AdRunnable implements Runnable {
     private void saveFailMessage(BaseAdProvider provider, String providerType, int code, String message, boolean isRender) {
         if (provider != null) {
             //上报带有开关的上报事件
-            trackEventError(provider, code, message, isRender);
+            if (provider.isPushMessage()) {
+                trackEventError(provider, code, message, isRender);
+            }
             provider.trackFail();
         }
 

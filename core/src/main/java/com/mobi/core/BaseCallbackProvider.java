@@ -1,5 +1,7 @@
 package com.mobi.core;
 
+import android.util.Log;
+
 import com.mobi.core.analysis.AdAnalysis;
 import com.mobi.core.analysis.event.PushEventTrack;
 import com.mobi.core.feature.IExpressAdView;
@@ -15,10 +17,13 @@ import com.mobi.core.listener.ISplashAdListener;
  * @Dec 略
  */
 public abstract class BaseCallbackProvider implements IAdProvider {
+    public static final String TAG = "BaseCallbackProvider";
+
     protected String mProviderType;
     private String mMobiCodeId;
     private int mSortType;
     private String mMd5;
+    private boolean mPushMessage;
 
     public BaseCallbackProvider(String providerType) {
         mProviderType = providerType;
@@ -240,6 +245,15 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         return mSortType;
     }
 
+    @Override
+    public void setPushMessage(boolean pushMessage) {
+        mPushMessage = pushMessage;
+    }
+
+    public boolean isPushMessage() {
+        return mPushMessage;
+    }
+
     /**
      * 上报点击统计
      */
@@ -271,6 +285,11 @@ public abstract class BaseCallbackProvider implements IAdProvider {
      * @param styleType 类型：插屏 ...
      */
     public void trackEvent(int event, int styleType) {
+        if (!isPushMessage()) {
+            Log.e(TAG, " 消息拦截 不再上报 ");
+            return;
+        }
+
         PushEventTrack.trackAD(event,
                 styleType,
                 getMobiCodeId(),
@@ -337,6 +356,10 @@ public abstract class BaseCallbackProvider implements IAdProvider {
                                 String message,
                                 String debug) {
 
+        if (!isPushMessage()) {
+            Log.e(TAG, " 消息拦截 不再上报 ");
+            return;
+        }
         PushEventTrack.trackAD(MobiConstantValue.EVENT.ERROR,
                 styleType,
                 getMobiCodeId(),
