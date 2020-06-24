@@ -30,7 +30,7 @@ public class RequestUtil {
         headers.put("uuid", DeviceUtil.getAndroidId(context));
         headers.put("imei", DeviceUtil.getDeviceId(context));
         headers.put("idfa", "");
-        headers.put("oaid", "xxxxxxx");
+        headers.put("oaid", CoreSession.get().getOaId());
         headers.put("mak", DeviceUtil.getBrand());
         headers.put("mod", DeviceUtil.getSystemModel());
         headers.put("osv", DeviceUtil.getSystemVersion());

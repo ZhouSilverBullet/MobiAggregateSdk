@@ -18,6 +18,7 @@ import com.mobi.core.strategy.IShowAdStrategy;
 import com.mobi.core.strategy.impl.ServiceOrderShowAdStrategy;
 import com.mobi.core.utils.DeviceUtil;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.core.utils.OAIdSdk;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
  * @date 2020/6/1 18:27
  * @Dec 略
  */
-public class CoreSession implements NetworkClient.InitCallback {
+public class CoreSession implements NetworkClient.InitCallback, OAIdSdk.ResultCallback {
     public static final String TAG = "CoreSession";
 
     private static boolean isAppDebug = true;
@@ -63,6 +64,8 @@ public class CoreSession implements NetworkClient.InitCallback {
      */
     private String mAppId;
 
+    private String oaId;
+
     private CoreSession() {
         mHandler = new Handler(Looper.getMainLooper());
     }
@@ -89,6 +92,11 @@ public class CoreSession implements NetworkClient.InitCallback {
         LogUtils.e(TAG, " 获取配置失败 ： " + message);
     }
 
+    @Override
+    public void onResult(boolean isSupport, String oaid, String vaid, String aaid) {
+        this.oaId = oaid;
+    }
+
     private static class SingletonHolder {
         private static final CoreSession INSTANCE = new CoreSession();
     }
@@ -109,7 +117,9 @@ public class CoreSession implements NetworkClient.InitCallback {
         isAppDebug = isDebug;
 
         mNetworkClient = new NetworkClient();
-        mNetworkClient.init(context, this);
+        mNetworkClient.init(mContext, this);
+
+        OAIdSdk.init(mContext, this);
     }
 
     public Context getContext() {
@@ -323,5 +333,12 @@ public class CoreSession implements NetworkClient.InitCallback {
 
     public String getAppId() {
         return mAppId;
+    }
+
+    public String getOaId() {
+        if (oaId == null) {
+            oaId = "";
+        }
+        return oaId;
     }
 }
