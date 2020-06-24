@@ -121,6 +121,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 //
 //        setExecSuccess(true);
 //        localExecSuccess(mAdProvider);
+        //  todo
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardGdtShow(mListener);
@@ -139,7 +140,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onReward() {
-
+        //  todo
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVerify(false, 0, "", mListener);
         }
@@ -158,6 +159,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
 
     @Override
     public void onVideoComplete() {
+        //  todo
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVideoComplete(mListener);
         }

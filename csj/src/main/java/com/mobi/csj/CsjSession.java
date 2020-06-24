@@ -7,6 +7,7 @@ import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.mobi.core.AdProviderManager;
+import com.mobi.core.IAdProvider;
 import com.mobi.core.IAdSession;
 import com.mobi.core.utils.LogUtils;
 
@@ -63,8 +64,8 @@ public class CsjSession implements IAdSession {
         mContext = context.getApplicationContext();
         mTTAdManager = TTAdSdk.init(context.getApplicationContext(), ttAdConfig);
 
-        AdProviderManager.get().putProvider(AdProviderManager.TYPE_CSJ,
-                new CsjProvider(AdProviderManager.TYPE_CSJ));
+        AdProviderManager.get().putCreateProvider(AdProviderManager.TYPE_CSJ,
+                () -> new CsjProvider(AdProviderManager.TYPE_CSJ));
 
         LogUtils.e(TAG, "csj 初始化");
 

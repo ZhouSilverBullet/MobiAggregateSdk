@@ -3,6 +3,7 @@ package com.mobi.gdt;
 import android.content.Context;
 
 import com.mobi.core.AdProviderManager;
+import com.mobi.core.IAdProvider;
 import com.mobi.core.IAdSession;
 import com.mobi.core.utils.LogUtils;
 import com.qq.e.comm.managers.GDTADManager;
@@ -49,8 +50,8 @@ public class GdtSession implements IAdSession {
 
         GDTADManager.getInstance().initWith(context, gdtAdAppId);
 
-        AdProviderManager.get().putProvider(AdProviderManager.TYPE_GDT,
-                new GdtProvider(AdProviderManager.TYPE_GDT));
+        AdProviderManager.get().putCreateProvider(AdProviderManager.TYPE_GDT,
+                () -> new GdtProvider(AdProviderManager.TYPE_GDT));
 
         LogUtils.e(TAG, " gdt 初始化结束 ！1" + mIsInit);
     }

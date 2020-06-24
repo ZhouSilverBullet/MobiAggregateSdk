@@ -23,7 +23,7 @@ public class AdProviderManager {
     public static final String TYPE_GDT = SKD_PLATFORM[1];
     public static final String TYPE_GDT_PATH = "com.mobi.gdt.GdtSession";
 
-    private Map<String, IAdProvider> mAdProviderMap;
+    private Map<String, ILazyCreateProvider> mAdProviderMap;
     /**
      * 用于存放 所有session的单例实例，这样来判断
      * 是否存在对应的广告引入
@@ -33,7 +33,7 @@ public class AdProviderManager {
     /**
      * 执行广告下标，给 {@link ServiceOrderShowAdStrategy}
      * 使用 key ： postId
-     *     value : sort_parameter[] 的下标
+     * value : sort_parameter[] 的下标
      */
     private Map<String, Integer> mAdExecIndex;
 
@@ -51,20 +51,29 @@ public class AdProviderManager {
         private static final AdProviderManager INSTANCE = new AdProviderManager();
     }
 
-    public void putProvider(String key, IAdProvider provider) {
+    public void putCreateProvider(String key, ILazyCreateProvider provider) {
         if (mAdProviderMap != null) {
-            mAdProviderMap.put(key, provider);
+            // 不包含，或者已经为null了
+            //用于防止重复创建
+            if (!mAdProviderMap.containsKey(key)
+                    || mAdProviderMap.get(key) == null) {
+                mAdProviderMap.put(key, provider);
+            }
         }
     }
 
-    public void removeProvider(String key) {
+    public void removeCreateProvider(String key) {
         if (mAdProviderMap != null) {
             mAdProviderMap.remove(key);
         }
     }
 
     public IAdProvider getProvider(String key) {
-        return mAdProviderMap.get(key);
+        ILazyCreateProvider createProvider = mAdProviderMap.get(key);
+        if (createProvider != null) {
+            return createProvider.create();
+        }
+        return null;
     }
 
     @Deprecated
@@ -91,6 +100,17 @@ public class AdProviderManager {
     public int getAdExecIndex(String key) {
         Integer integer = mAdExecIndex.get(key);
         return integer == null ? 0 : integer;
+    }
+
+    /**
+     * 由于不知道外界怎么实现的，所以只能让外界进行初始化操作
+     * 然后new 对象。
+     * 关键前面用唯一性来解决的时候，发现公用了一个Provider
+     * 会导致公用的Provider codeId和md5 会被覆盖这个问题
+     * 所以用这个接口来进行重复创建
+     */
+    public interface ILazyCreateProvider {
+        IAdProvider create();
     }
 
 }
