@@ -3,6 +3,8 @@ package com.mobi.csj.impl;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.core.feature.IExpressAdView;
 
+import java.util.List;
+
 /**
  * @author zhousaito
  * @version 1.0
@@ -10,16 +12,19 @@ import com.mobi.core.feature.IExpressAdView;
  * @Dec 略
  */
 public class CsjInteractionAdView implements IExpressAdView {
-    private final TTNativeExpressAd mTtFullScreenVideoAd;
+    private final List<TTNativeExpressAd> mTtFullScreenVideoAds;
 
-    public CsjInteractionAdView(TTNativeExpressAd ttFullScreenVideoAd) {
-        mTtFullScreenVideoAd = ttFullScreenVideoAd;
+    public CsjInteractionAdView(List<TTNativeExpressAd> list) {
+        mTtFullScreenVideoAds = list;
     }
 
     @Override
     public void render() {
-        if (mTtFullScreenVideoAd != null) {
-            mTtFullScreenVideoAd.render();
+        if (mTtFullScreenVideoAds == null) {
+            return;
+        }
+        for (TTNativeExpressAd ttFullScreenVideoAd : mTtFullScreenVideoAds) {
+            ttFullScreenVideoAd.render();
         }
     }
 }

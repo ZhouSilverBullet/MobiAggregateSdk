@@ -33,8 +33,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     private BaseAdProvider mAdProvider;
     private Activity mActivity;
     private IInteractionAdListener mListener;
-
-    private TTNativeExpressAd mTTAd;
+    private List<TTNativeExpressAd> mTTNativeExpressAds;
 
     public InteractionExpressAdWrapper(BaseAdProvider baseAdProvider,
                                        Activity activity,
@@ -107,21 +106,26 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
+        mTTNativeExpressAds = list;
 
-        mTTAd = list.get(0);
-        mTTAd.setExpressInteractionListener(this);
-        if (mTTAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-            //本地接口扔到Base里面去回调
-            setAppDownloadListener(mListener);
+        for (TTNativeExpressAd ttNativeExpressAd : list) {
+            ttNativeExpressAd.setExpressInteractionListener(this);
+            if (ttNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+                //本地接口扔到Base里面去回调
+                setAppDownloadListener(mListener);
 
-            mTTAd.setDownloadListener(this);
+                ttNativeExpressAd.setDownloadListener(this);
+            }
+
+            if (mAdParams.isAutoShowAd()) {
+                ttNativeExpressAd.render();//调用render开始渲染广告
+            }
+
         }
 
         IExpressAdView expressAdView = null;
-        if (mAdParams.isAutoShowAd()) {
-            mTTAd.render();//调用render开始渲染广告
-        } else {
-            expressAdView = new CsjInteractionAdView(mTTAd);
+        if (!mAdParams.isAutoShowAd()) {
+            expressAdView = new CsjInteractionAdView(list);
         }
 
         if (mAdProvider != null) {
@@ -164,8 +168,11 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
 
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
-        if (mTTAd != null) {
-            mTTAd.showInteractionExpressAd(mActivity);
+        //todo
+        if (mTTNativeExpressAds != null) {
+            for (TTNativeExpressAd ttNativeExpressAd : mTTNativeExpressAds) {
+                ttNativeExpressAd. showInteractionExpressAd(mActivity);
+            }
         }
     }
 
