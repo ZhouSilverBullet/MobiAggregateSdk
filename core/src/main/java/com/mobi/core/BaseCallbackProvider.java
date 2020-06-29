@@ -285,10 +285,10 @@ public abstract class BaseCallbackProvider implements IAdProvider {
      * @param styleType 类型：插屏 ...
      */
     public void trackEvent(int event, int styleType) {
-        if (!isPushMessage()) {
-            Log.e(TAG, " 消息拦截 不再上报 ");
-            return;
-        }
+//        if (!isPushMessage()) {
+//            Log.e(TAG, " 消息拦截 不再上报 ");
+//            return;
+//        }
 
         PushEventTrack.trackAD(event,
                 styleType,
@@ -356,10 +356,10 @@ public abstract class BaseCallbackProvider implements IAdProvider {
                                 String message,
                                 String debug) {
 
-        if (!isPushMessage()) {
-            Log.e(TAG, " 消息拦截 不再上报 ");
-            return;
-        }
+//        if (!isPushMessage()) {
+//            Log.e(TAG, " 消息拦截 不再上报 ");
+//            return;
+//        }
         PushEventTrack.trackAD(MobiConstantValue.EVENT.ERROR,
                 styleType,
                 getMobiCodeId(),

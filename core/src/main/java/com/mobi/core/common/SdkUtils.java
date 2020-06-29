@@ -20,6 +20,7 @@ import com.mobi.core.reflection.SdkReflection;
 import com.mobi.core.strategy.StrategyError;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.core.exception.MobiNullPointerException;
+import com.mobi.core.utils.MD5Helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,6 +168,18 @@ class SdkUtils {
             initSession(context, providerType, appId, appName, appDebug);
         }
     }
+
+    /**
+     * 计算用户一次请求的hash值，用于服务端分析这次请求的一条线
+     *
+     * @param mobiCodeId
+     * @param sortType
+     * @return
+     */
+    static String getMd5Value(String mobiCodeId, int sortType) {
+        return MD5Helper.encode(mobiCodeId + sortType + "mobi" + System.currentTimeMillis());
+    }
+
 
     static void initSession(Context context, String providerType, String appId, String appName, boolean appDebug) {
         IAdSession adSession = AdProviderManager.get().getAdSession(providerType);

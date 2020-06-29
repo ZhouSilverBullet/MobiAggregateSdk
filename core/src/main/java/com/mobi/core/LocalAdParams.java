@@ -68,14 +68,13 @@ public class LocalAdParams {
 
     }
 
-    public static LocalAdParams create(int sortType, AdParams adParams, ShowAdBean showAdBean) {
+    public static LocalAdParams create(int sortType, AdParams adParams, ShowAdBean showAdBean, String md5) {
         if (adParams == null || showAdBean == null) {
             return null;
         }
 
         //请求的一条串行标志
         String postId = showAdBean.getPostId();
-        String md5 = getMd5Value(postId, sortType, showAdBean.getSdk());
 
         return new Builder()
                 .setPostId(postId)
@@ -99,11 +98,6 @@ public class LocalAdParams {
                 .setSplashNotAllowSdkCountdown(adParams.isSplashNotAllowSdkCountdown())
                 .build();
     }
-
-    private static String getMd5Value(String postId, int sortType, String sdk) {
-        return MD5Helper.encode(postId + sortType + sdk + System.currentTimeMillis());
-    }
-
 
     public String getMobiCodeId() {
         return mobiCodeId;

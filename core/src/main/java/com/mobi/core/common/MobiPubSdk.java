@@ -26,6 +26,7 @@ import static com.mobi.core.MobiConstantValue.*;
 import static com.mobi.core.common.SdkUtils.callOnFail;
 import static com.mobi.core.common.SdkUtils.checkSafe;
 import static com.mobi.core.common.SdkUtils.findsShowAdBean;
+import static com.mobi.core.common.SdkUtils.getMd5Value;
 import static com.mobi.core.common.SdkUtils.isAdInvalid;
 
 /**
@@ -102,9 +103,11 @@ public class MobiPubSdk {
 
         strategy.setAdFailListener(listener);
 
+        String md5Value = getMd5Value(adParams.getCodeId(), sortType);
+
         for (ShowAdBean showAdBean : adBeans) {
 
-            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean);
+            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean, md5Value);
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
                 provider.setMobiCodeId(localAdParams.getMobiCodeId());
@@ -169,9 +172,11 @@ public class MobiPubSdk {
 
         strategy.setAdFailListener(listener);
 
+        String md5Value = getMd5Value(adParams.getCodeId(), sortType);
+
         for (ShowAdBean showAdBean : adBeans) {
 
-            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean);
+            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean, md5Value);
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
@@ -220,9 +225,11 @@ public class MobiPubSdk {
 
         strategy.setAdFailListener(listener);
 
+        String md5Value = getMd5Value(adParams.getCodeId(), sortType);
+
         for (ShowAdBean showAdBean : adBeans) {
 
-            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean);
+            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean, md5Value);
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
@@ -271,9 +278,11 @@ public class MobiPubSdk {
 
         strategy.setAdFailListener(listener);
 
+        String md5Value = getMd5Value(adParams.getCodeId(), sortType);
+
         for (ShowAdBean showAdBean : adBeans) {
 
-            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean);
+            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean, md5Value);
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
@@ -327,9 +336,11 @@ public class MobiPubSdk {
 
         strategy.setAdFailListener(listener);
 
+        String md5Value = getMd5Value(adParams.getCodeId(), sortType);
+
         for (ShowAdBean showAdBean : adBeans) {
 
-            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean);
+            LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean, md5Value);
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
                 provider.setMobiCodeId(localAdParams.getMobiCodeId());
