@@ -12,6 +12,7 @@ import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
+import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.csj.impl.CsjExpressAdViewImpl;
@@ -24,7 +25,7 @@ import java.util.List;
  * @date 2020/6/3 18:03
  * @Dec csj wrapper
  */
-public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.ExpressAdInteractionListener, TTAppDownloadListener {
+public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdView, TTAdNative.NativeExpressAdListener, TTNativeExpressAd.ExpressAdInteractionListener, TTAppDownloadListener {
     public static final String TAG = "CsjNativeExpressAd";
     private final BaseAdProvider mAdProvider;
     private final LocalAdParams mAdParams;
@@ -33,6 +34,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     Activity mContext;
     ViewGroup mViewContainer;
     IExpressListener mListener;
+    private List<TTNativeExpressAd> mList;
 
     public NativeExpressAdWrapper(BaseAdProvider adProvider,
                                   Activity context,
@@ -114,32 +116,42 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
-        CsjExpressAdViewImpl expressAdView = null;
-        if (mAdParams.isAutoShowAd()) {
-            for (TTNativeExpressAd ttNativeExpressAd : list) {
-                ttNativeExpressAd.setExpressInteractionListener(this);
-                //这里default
-                if (ttNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-                    setAppDownloadListener(mListener);
-                    ttNativeExpressAd.setDownloadListener(this);
-                }
-                ttNativeExpressAd.render();
+//        CsjExpressAdViewImpl expressAdView = null;
+//        if (mAdParams.isAutoShowAd()) {
+//            for (TTNativeExpressAd ttNativeExpressAd : list) {
+//                ttNativeExpressAd.setExpressInteractionListener(this);
+//                //这里default
+//                if (ttNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+//                    setAppDownloadListener(mListener);
+//                    ttNativeExpressAd.setDownloadListener(this);
+//                }
+//                ttNativeExpressAd.render();
+//            }
+//        } else {
+//            LogUtils.e(TAG, "CsjNativeExpressAd load not show");
+//            for (TTNativeExpressAd ttNativeExpressAd : list) {
+//                ttNativeExpressAd.setExpressInteractionListener(this);
+//                //这里default
+//                if (ttNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+//                    setAppDownloadListener(mListener);
+//                    ttNativeExpressAd.setDownloadListener(this);
+//                }
+//            }
+//            expressAdView = new CsjExpressAdViewImpl(list);
+//        }
+        mList = list;
+
+        for (TTNativeExpressAd ttNativeExpressAd : list) {
+            ttNativeExpressAd.setExpressInteractionListener(this);
+            //这里default
+            if (ttNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+                setAppDownloadListener(mListener);
+                ttNativeExpressAd.setDownloadListener(this);
             }
-        } else {
-            LogUtils.e(TAG, "CsjNativeExpressAd load not show");
-            for (TTNativeExpressAd ttNativeExpressAd : list) {
-                ttNativeExpressAd.setExpressInteractionListener(this);
-                //这里default
-                if (ttNativeExpressAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-                    setAppDownloadListener(mListener);
-                    ttNativeExpressAd.setDownloadListener(this);
-                }
-            }
-            expressAdView = new CsjExpressAdViewImpl(list);
         }
 
         if (mAdProvider != null) {
-            mAdProvider.callbackExpressLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
+            mAdProvider.callbackExpressLoad(mListener, this, mAdParams.isAutoShowAd());
         }
     }
 
@@ -209,5 +221,27 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
     @Override
     public int getStyleType() {
         return MobiConstantValue.STYLE.NATIVE_EXPRESS;
+    }
+
+    @Override
+    public void render() {
+        if (mList == null) {
+            return;
+        }
+        for (TTNativeExpressAd view : mList) {
+            ((TTNativeExpressAd) view).render();
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow(getStyleType());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mContext = null;
+        if (mList != null) {
+            mList.clear();
+        }
     }
 }

@@ -22,12 +22,13 @@ import com.mobi.csj.impl.CsjRewardAdView;
  * @date 2020/6/4 10:53
  * @Dec 略
  */
-public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.RewardVideoAdListener, TTRewardVideoAd.RewardAdInteractionListener {
+public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdView, TTAdNative.RewardVideoAdListener, TTRewardVideoAd.RewardAdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     BaseAdProvider mAdProvider;
     Activity mActivity;
     IRewardAdListener mListener;
+    private TTRewardVideoAd mTtRewardVideoAd;
 
     public RewardVideoAdWrapper(BaseAdProvider adProvider,
                                 Activity activity,
@@ -92,6 +93,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
+        mTtRewardVideoAd = ttRewardVideoAd;
         //加载成功
         ttRewardVideoAd.setRewardAdInteractionListener(this);
 
@@ -102,17 +104,17 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
             ttRewardVideoAd.setDownloadListener(this);
         }
 
-        IExpressAdView expressAdView = null;
-
-        if (mAdParams.isAutoShowAd()) {
-            ttRewardVideoAd.showRewardVideoAd(mActivity);
-        } else {
-            expressAdView = new CsjRewardAdView(mActivity, ttRewardVideoAd);
-        }
+//        IExpressAdView expressAdView = null;
+//
+//        if (mAdParams.isAutoShowAd()) {
+//            ttRewardVideoAd.showRewardVideoAd(mActivity);
+//        } else {
+//            expressAdView = new CsjRewardAdView(mActivity, ttRewardVideoAd);
+//        }
 
 
         if (mAdProvider != null) {
-            mAdProvider.callbackRewardLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
+            mAdProvider.callbackRewardLoad(mListener, this, mAdParams.isAutoShowAd());
         }
     }
 
@@ -199,5 +201,22 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public int getStyleType() {
         return MobiConstantValue.STYLE.REWARD;
+    }
+
+    @Override
+    public void render() {
+        if (mTtRewardVideoAd != null) {
+            mTtRewardVideoAd.showRewardVideoAd(mActivity);
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow(getStyleType());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mActivity = null;
+        mTtRewardVideoAd = null;
     }
 }

@@ -93,7 +93,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAdLoad(String providerType, IExpressAdView view, boolean isAutoShow) {
                 Log.e(TAG, "onAdLoaded " + "providerType: " + providerType);
-                renderAd(view, isAutoShow, 3000);
+                renderAd(view, isAutoShow, 0);
             }
         });
     }
@@ -101,7 +101,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void renderAd(IExpressAdView view, boolean isAutoShow, long delayTime) {
-        if (view != null && !isAutoShow) {
+        if (view != null) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

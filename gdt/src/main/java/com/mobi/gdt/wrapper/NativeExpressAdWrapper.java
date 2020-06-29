@@ -10,11 +10,9 @@ import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.gdt.impl.GdtExpressAdViewImpl;
 import com.qq.e.ads.cfg.VideoOption;
 import com.qq.e.ads.nativ.NativeExpressAD;
 import com.qq.e.ads.nativ.NativeExpressADView;
-import com.qq.e.comm.constants.AdPatternType;
 import com.qq.e.comm.util.AdError;
 
 import java.util.List;
@@ -25,7 +23,7 @@ import java.util.List;
  * @date 2020/6/3 17:00
  * @Dec 略
  */
-public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpressAD.NativeExpressADListener {
+public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdView, NativeExpressAD.NativeExpressADListener {
     public static final String TAG = "GdtNativeExpressAd";
 
     private final BaseAdProvider mAdProvider;
@@ -35,6 +33,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     ViewGroup mViewContainer;
     IExpressListener mListener;
     private NativeExpressAD mNativeExpressAD;
+    private List<NativeExpressADView> mNativeExpressADViews;
 
     public NativeExpressAdWrapper(BaseAdProvider adProvider,
                                   Activity context,
@@ -106,39 +105,47 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
-        IExpressAdView expressAdView = null;
-        if (mAdParams.isAutoShowAd()) {
+//        IExpressAdView expressAdView = null;
 
-            for (NativeExpressADView nativeExpressADView : list) {
-                if (nativeExpressADView != null) {
-                    if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
-                        //如果是视频广告 可添加视频播放监听
-                        nativeExpressADView.setMediaListener(null);
-                    }
-                    nativeExpressADView.render();
-                    if (mViewContainer.getChildCount() > 0) {
-                        mViewContainer.removeAllViews();
-                    }
 
-                    LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess");
 
-                    // 需要保证 View 被绘制的时候是可见的，否则将无法产生曝光和收益。
-                    // 有的时候还不显示广告，闪的一下就过去了的bug
-                    mViewContainer.addView(nativeExpressADView);
-                }
-            }
-        } else {
-            LogUtils.e(TAG, "GdtNativeExpressAd load not show");
-            for (NativeExpressADView nativeExpressADView : list) {
-                mViewContainer.addView(nativeExpressADView);
-            }
+//        if (mAdParams.isAutoShowAd()) {
+//            for (NativeExpressADView nativeExpressADView : list) {
+//                if (nativeExpressADView != null) {
+//                    if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
+//                        //如果是视频广告 可添加视频播放监听
+//                        nativeExpressADView.setMediaListener(null);
+//                    }
+//                    nativeExpressADView.render();
+//
+//
+//                    LogUtils.e(TAG, "GdtNativeExpressAd onRenderSuccess");
+//
+//                    // 需要保证 View 被绘制的时候是可见的，否则将无法产生曝光和收益。
+//                    // 有的时候还不显示广告，闪的一下就过去了的bug
+//                    mViewContainer.addView(nativeExpressADView);
+//                }
+//            }
+//        } else {
+//            LogUtils.e(TAG, "GdtNativeExpressAd load not show");
+//            for (NativeExpressADView nativeExpressADView : list) {
+//                mViewContainer.addView(nativeExpressADView);
+//            }
+//
+//            expressAdView = new GdtExpressAdViewImpl(list);
+//        }
+        mNativeExpressADViews = list;
 
-            expressAdView = new GdtExpressAdViewImpl(list);
+        if (mViewContainer.getChildCount() > 0) {
+            mViewContainer.removeAllViews();
         }
 
+        for (NativeExpressADView nativeExpressADView : list) {
+            mViewContainer.addView(nativeExpressADView);
+        }
 
         if (mAdProvider != null) {
-            mAdProvider.callbackExpressLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
+            mAdProvider.callbackExpressLoad(mListener, this, mAdParams.isAutoShowAd());
         }
     }
 
@@ -241,5 +248,33 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements NativeExpre
     @Override
     public int getStyleType() {
         return MobiConstantValue.STYLE.NATIVE_EXPRESS;
+    }
+
+    @Override
+    public void render() {
+        if (mNativeExpressADViews == null) {
+            return;
+        }
+
+        for (View view : mNativeExpressADViews) {
+            if (view instanceof NativeExpressADView) {
+                ((NativeExpressADView) view).render();
+            }
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow(getStyleType());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mContext = null;
+        if (mNativeExpressADViews != null) {
+            mNativeExpressADViews.clear();
+        }
+        if (mNativeExpressAD != null) {
+            mNativeExpressAD = null;
+        }
     }
 }

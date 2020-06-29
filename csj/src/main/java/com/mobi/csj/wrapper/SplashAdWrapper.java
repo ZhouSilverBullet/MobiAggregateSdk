@@ -27,7 +27,7 @@ import com.mobi.csj.splash.CsjSplashSkipViewControl;
  * @date 2020/6/4 14:07
  * @Dec 略
  */
-public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashAdListener, TTSplashAd.AdInteractionListener, TTAppDownloadListener {
+public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TTAdNative.SplashAdListener, TTSplashAd.AdInteractionListener, TTAppDownloadListener {
     public static final String TAG = "SplashAdWrapper";
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
@@ -38,6 +38,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
     ViewGroup mSplashContainer;
     ISplashAdListener mListener;
     private BaseSplashSkipView mBaseSplashSkipView;
+    private TTSplashAd mTtSplashAd;
 
     public SplashAdWrapper(BaseAdProvider adProvider,
                            Activity activity,
@@ -140,9 +141,12 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
+        mTtSplashAd = ttSplashAd;
+
         if (mAdParams.isSplashNotAllowSdkCountdown()) {
             ttSplashAd.setNotAllowSdkCountdown();
         }
+
         ttSplashAd.setSplashInteractionListener(this);
 
         //下载相关的
@@ -153,15 +157,15 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
             ttSplashAd.setDownloadListener(this);
         }
 
-        IExpressAdView expressAdView = null;
-        if (mAdParams.isAutoShowAd()) {
-            showAdView(ttSplashAd);
-        } else {
-            expressAdView = new CsjSplashAdView(this, ttSplashAd);
-        }
+//        IExpressAdView expressAdView = null;
+//        if (mAdParams.isAutoShowAd()) {
+//            showAdView(ttSplashAd);
+//        } else {
+//            expressAdView = new CsjSplashAdView(this, ttSplashAd);
+//        }
 
         if (mAdProvider != null) {
-            mAdProvider.callbackSplashLoaded(mListener, expressAdView, mAdParams.isAutoShowAd());
+            mAdProvider.callbackSplashLoaded(mListener, this, mAdParams.isAutoShowAd());
         }
 
     }
@@ -259,5 +263,22 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
     @Override
     public int getStyleType() {
         return MobiConstantValue.STYLE.SPLASH;
+    }
+
+    @Override
+    public void render() {
+        if (mTtSplashAd != null) {
+            showAdView(mTtSplashAd);
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow(getStyleType());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mActivity = null;
+        mTtSplashAd = null;
     }
 }

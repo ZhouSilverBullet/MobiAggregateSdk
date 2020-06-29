@@ -19,7 +19,7 @@ import com.qq.e.comm.util.AdError;
  * @date 2020/6/3 21:18
  * @Dec 略
  */
-public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements UnifiedInterstitialADListener {
+public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements IExpressAdView, UnifiedInterstitialADListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;
@@ -75,17 +75,17 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
-        IExpressAdView expressAdView = null;
-        if (mAdParams.isAutoShowAd()) {
-            if (iad != null) {
-                iad.showAsPopupWindow();
-            }
-        } else {
-            expressAdView = new GdtInterstitialAdView(iad);
-        }
+//        IExpressAdView expressAdView = null;
+//        if (mAdParams.isAutoShowAd()) {
+//            if (iad != null) {
+//                iad.showAsPopupWindow();
+//            }
+//        } else {
+//            expressAdView = new GdtInterstitialAdView(iad);
+//        }
 
         if (mAdProvider != null) {
-            mAdProvider.callbackInteractionLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
+            mAdProvider.callbackInteractionLoad(mListener, this, mAdParams.isAutoShowAd());
         }
     }
 
@@ -165,5 +165,25 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements Unifi
     @Override
     public int getStyleType() {
         return MobiConstantValue.STYLE.INTERACTION_EXPRESS;
+    }
+
+    @Override
+    public void render() {
+        if (iad != null) {
+            iad.showAsPopupWindow();
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow(getStyleType());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mActivity = null;
+        if (iad != null) {
+            iad.destroy();
+            iad = null;
+        }
     }
 }

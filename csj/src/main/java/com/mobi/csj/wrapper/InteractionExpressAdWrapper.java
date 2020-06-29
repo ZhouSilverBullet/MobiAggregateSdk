@@ -26,7 +26,7 @@ import java.util.List;
  * @date 2020/6/3 22:27
  * @Dec 略
  */
-public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener {
+public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpressAdView, TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;
@@ -117,19 +117,19 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
                 ttNativeExpressAd.setDownloadListener(this);
             }
 
-            if (mAdParams.isAutoShowAd()) {
-                ttNativeExpressAd.render();//调用render开始渲染广告
-            }
+//            if (mAdParams.isAutoShowAd()) {
+//                ttNativeExpressAd.render();//调用render开始渲染广告
+//            }
 
         }
 
-        IExpressAdView expressAdView = null;
-        if (!mAdParams.isAutoShowAd()) {
-            expressAdView = new CsjInteractionAdView(list);
-        }
+//        IExpressAdView expressAdView = null;
+//        if (!mAdParams.isAutoShowAd()) {
+//            expressAdView = new CsjInteractionAdView(list);
+//        }
 
         if (mAdProvider != null) {
-            mAdProvider.callbackInteractionLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
+            mAdProvider.callbackInteractionLoad(mListener, this, mAdParams.isAutoShowAd());
         }
 
     }
@@ -171,7 +171,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
         //todo
         if (mTTNativeExpressAds != null) {
             for (TTNativeExpressAd ttNativeExpressAd : mTTNativeExpressAds) {
-                ttNativeExpressAd. showInteractionExpressAd(mActivity);
+                ttNativeExpressAd.showInteractionExpressAd(mActivity);
             }
         }
     }
@@ -187,5 +187,28 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements TTAdNa
     @Override
     public int getStyleType() {
         return MobiConstantValue.STYLE.INTERACTION_EXPRESS;
+    }
+
+    @Override
+    public void render() {
+        if (mTTNativeExpressAds == null) {
+            return;
+        }
+
+        for (TTNativeExpressAd ttFullScreenVideoAd : mTTNativeExpressAds) {
+            ttFullScreenVideoAd.render();
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow(getStyleType());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mActivity = null;
+        if (mTTNativeExpressAds != null) {
+            mTTNativeExpressAds.clear();
+        }
     }
 }

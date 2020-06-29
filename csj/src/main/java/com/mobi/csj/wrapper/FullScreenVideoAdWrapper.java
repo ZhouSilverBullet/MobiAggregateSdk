@@ -21,13 +21,14 @@ import com.mobi.csj.impl.CsjAdView;
  * @date 2020/6/7 18:29
  * @Dec 略
  */
-public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNative.FullScreenVideoAdListener, TTFullScreenVideoAd.FullScreenVideoAdInteractionListener {
+public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressAdView, TTAdNative.FullScreenVideoAdListener, TTFullScreenVideoAd.FullScreenVideoAdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;
     BaseAdProvider mAdProvider;
     Activity mActivity;
     IFullScreenVideoAdListener mListener;
+    private TTFullScreenVideoAd mTtFullScreenVideoAd;
 
     public FullScreenVideoAdWrapper(BaseAdProvider adProvider,
                                     Activity activity,
@@ -91,26 +92,32 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
-        IExpressAdView expressAdView = null;
-        if (mAdParams.isAutoShowAd()) {
-            ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(this);
-            if (ttFullScreenVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-                setAppDownloadListener(mListener);
-                ttFullScreenVideoAd.setDownloadListener(this);
-            }
+        mTtFullScreenVideoAd = ttFullScreenVideoAd;
 
-            ttFullScreenVideoAd.showFullScreenVideoAd(mActivity);
-        } else {
-            ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(this);
-            if (ttFullScreenVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-                setAppDownloadListener(mListener);
-                ttFullScreenVideoAd.setDownloadListener(this);
-            }
-            expressAdView = new CsjAdView(mActivity, ttFullScreenVideoAd);
+//        if (mAdParams.isAutoShowAd()) {
+//            ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(this);
+//            if (ttFullScreenVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+//                setAppDownloadListener(mListener);
+//                ttFullScreenVideoAd.setDownloadListener(this);
+//            }
+//
+//            ttFullScreenVideoAd.showFullScreenVideoAd(mActivity);
+//
+//            if (mAdProvider != null) {
+//                mAdProvider.trackStartShow(getStyleType());
+//            }
+//
+//        } else {
+//        }
+
+        ttFullScreenVideoAd.setFullScreenVideoAdInteractionListener(this);
+        if (ttFullScreenVideoAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+            setAppDownloadListener(mListener);
+            ttFullScreenVideoAd.setDownloadListener(this);
         }
 
         if (mListener != null) {
-            mListener.onAdLoad(mProviderType, expressAdView, mAdParams.isAutoShowAd());
+            mListener.onAdLoad(mProviderType, this, mAdParams.isAutoShowAd());
         }
     }
 
@@ -174,5 +181,22 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     @Override
     public int getStyleType() {
         return MobiConstantValue.STYLE.FULL_SCREEN;
+    }
+
+    @Override
+    public void render() {
+        if (mTtFullScreenVideoAd != null) {
+            mTtFullScreenVideoAd.showFullScreenVideoAd(mActivity);
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow(getStyleType());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mActivity = null;
+        mTtFullScreenVideoAd = null;
     }
 }

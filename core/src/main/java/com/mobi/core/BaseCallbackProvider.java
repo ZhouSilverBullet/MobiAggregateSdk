@@ -345,6 +345,15 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     }
 
     /**
+     * 开始显示
+     *
+     * @param styleType
+     */
+    public void trackStartShow(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.START_SHOW, styleType);
+    }
+
+    /**
      * @param styleType
      * @param type      错误类型
      * @param code

@@ -22,7 +22,7 @@ import com.qq.e.comm.util.AdError;
  * @date 2020/6/4 11:29
  * @Dec 略
  */
-public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoADListener {
+public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdView, RewardVideoADListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     BaseAdProvider mAdProvider;
@@ -81,15 +81,15 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
                 setExecSuccess(true);
                 localExecSuccess(mAdProvider);
 
-                IExpressAdView expressAdView = null;
-                if (mAdParams.isAutoShowAd()) {
-                    rewardVideoAD.showAD();
-                } else {
-                    expressAdView = new GdtRewardAdView(rewardVideoAD);
-                }
+//                IExpressAdView expressAdView = null;
+//                if (mAdParams.isAutoShowAd()) {
+//                    rewardVideoAD.showAD();
+//                } else {
+//                    expressAdView = new GdtRewardAdView(rewardVideoAD);
+//                }
 
                 if (mAdProvider != null) {
-                    mAdProvider.callbackRewardLoad(mListener, expressAdView, mAdParams.isAutoShowAd());
+                    mAdProvider.callbackRewardLoad(mListener, this, mAdParams.isAutoShowAd());
                 }
 
             } else {
@@ -196,5 +196,24 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardVideoAD
     @Override
     public int getStyleType() {
         return MobiConstantValue.STYLE.REWARD;
+    }
+
+    @Override
+    public void render() {
+        if (rewardVideoAD != null) {
+            rewardVideoAD.showAD();
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow(getStyleType());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mActivity = null;
+        if (rewardVideoAD != null) {
+            rewardVideoAD = null;
+        }
     }
 }

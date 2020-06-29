@@ -24,7 +24,7 @@ import com.qq.e.comm.util.AdError;
  * @date 2020/6/4 15:02
  * @Dec 略
  */
-public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
+public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, SplashADListener {
     public static final String TAG = "SplashAdWrapper";
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
@@ -165,15 +165,15 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
-        IExpressAdView expressAdView = null;
-        if (mAdParams.isAutoShowAd()) {
-            mSplashAD.showAd(mSplashContainer);
-        } else {
-            expressAdView = new GdtSplashAdView(mSplashAD, mSplashContainer);
-        }
+//        IExpressAdView expressAdView = null;
+//        if (mAdParams.isAutoShowAd()) {
+//            mSplashAD.showAd(mSplashContainer);
+//        } else {
+//            expressAdView = new GdtSplashAdView(mSplashAD, mSplashContainer);
+//        }
 
         if (mAdProvider != null) {
-            mAdProvider.callbackSplashLoaded(mListener, expressAdView, mAdParams.isAutoShowAd());
+            mAdProvider.callbackSplashLoaded(mListener, this, mAdParams.isAutoShowAd());
         }
     }
 
@@ -188,5 +188,24 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashADListener {
     @Override
     public int getStyleType() {
         return MobiConstantValue.STYLE.SPLASH;
+    }
+
+    @Override
+    public void render() {
+        if (mSplashAD != null) {
+            mSplashAD.showAd(mSplashContainer);
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow(getStyleType());
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        mActivity = null;
+        if (mSplashAD != null) {
+            mSplashAD = null;
+        }
     }
 }

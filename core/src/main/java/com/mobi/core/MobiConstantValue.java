@@ -73,10 +73,17 @@ public class MobiConstantValue {
          */
         public static final int CLICK = 40;
 
+
+
+        /**
+         * 开始展示
+         */
+        public static final int START_SHOW = 80;
+
         /**
          * 关闭
          */
-        public static final int CLOSE = 50;
+        public static final int CLOSE = 81;
 
         /**
          * 错误
@@ -112,9 +119,9 @@ public class MobiConstantValue {
         public static final int REWARD = 4;
 
         /**
-         * 激励视频
+         * 全屏视频
          */
-        public static final int FULL_SCREEN = 4;
+        public static final int FULL_SCREEN = 5;
     }
 
 

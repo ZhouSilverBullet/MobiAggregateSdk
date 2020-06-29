@@ -13,11 +13,13 @@ import com.mobi.core.feature.IExpressAdView;
  */
 public class CsjAdView implements IExpressAdView {
     private final TTFullScreenVideoAd mTtFullScreenVideoAd;
+    private final Runnable mRun;
     private Activity mActivity;
 
-    public CsjAdView(Activity activity, TTFullScreenVideoAd ttFullScreenVideoAd) {
+    public CsjAdView(Activity activity, TTFullScreenVideoAd ttFullScreenVideoAd, Runnable run) {
         mActivity = activity;
         mTtFullScreenVideoAd = ttFullScreenVideoAd;
+        mRun = run;
     }
 
     @Override

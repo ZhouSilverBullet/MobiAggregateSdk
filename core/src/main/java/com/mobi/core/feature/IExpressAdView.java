@@ -13,7 +13,10 @@ public interface IExpressAdView {
     void render();
 
     /**
-     * 添加到View上
+     * 销毁回调
      */
-//    void addInContainerView();
+    default void onDestroy() {
+
+    }
+
 }
