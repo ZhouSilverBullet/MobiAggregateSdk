@@ -103,6 +103,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
 
     @Override
     public void onTimeout() {
+        //todo
         localExecFail(mAdProvider, 0, "请求超时");
     }
 
@@ -230,7 +231,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
         LogUtils.e(TAG, "onAdSkip");
 
         if (mAdProvider != null) {
-            mAdProvider.trackEventClose(getStyleType());
+//            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackSplashDismissed(mListener);
         }
 
@@ -239,6 +240,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements TTAdNative.SplashA
     @Override
     public void onAdTimeOver() {
         LogUtils.e(TAG, "onAdTimeOver");
+        //todo
         if (mAdProvider != null) {
             mAdProvider.callbackSplashDismissed(mListener);
         }

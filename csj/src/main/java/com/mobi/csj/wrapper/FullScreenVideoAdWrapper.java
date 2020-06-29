@@ -150,6 +150,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     @Override
     public void onVideoComplete() {
         if (mListener != null) {
+            //todo
             mListener.onVideoComplete(mProviderType);
         }
     }
@@ -157,6 +158,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements TTAdNativ
     @Override
     public void onSkippedVideo() {
         if (mListener != null) {
+            //todo
             mListener.onSkippedVideo(mProviderType);
         }
     }

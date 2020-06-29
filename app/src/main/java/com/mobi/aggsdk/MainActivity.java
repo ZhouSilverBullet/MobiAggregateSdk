@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnInteraction(View view) {
         AdParams adParams = new AdParams.Builder()
                 .setCodeId("1024004")
-                .setAutoShowAd(false)
+                .setAutoShowAd(true)
                 .build();
         MobiPubSdk.showInteractionExpress(this, adParams, new IInteractionAdListener() {
             @Override
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
-                renderAd(view, isAutoShow, 3000);
+                renderAd(view, isAutoShow, 0);
             }
 
             @Override

@@ -158,6 +158,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     public void onVideoComplete() {
         //播放完成
         if (mAdProvider != null) {
+            //todo
             mAdProvider.callbackRewardVideoComplete(mListener);
         }
     }
@@ -172,6 +173,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
         //视频播放完成，奖励回调验证
+        //todo
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVerify(rewardVerify, rewardAmount, rewardName, mListener);
         }
@@ -180,6 +182,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements TTAdNative.Re
     @Override
     public void onSkippedVideo() {
         //跳过广告
+        //todo
         if (mAdProvider != null) {
             mAdProvider.callbackRewardSkippedVideo(mListener);
         }

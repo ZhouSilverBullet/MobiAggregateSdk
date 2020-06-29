@@ -24,7 +24,7 @@ import java.util.List;
  * @date 2020/6/3 18:03
  * @Dec csj wrapper
  */
-public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener, TTAppDownloadListener {
+public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.NativeExpressAdListener, TTNativeExpressAd.ExpressAdInteractionListener, TTAppDownloadListener {
     public static final String TAG = "CsjNativeExpressAd";
     private final BaseAdProvider mAdProvider;
     private final LocalAdParams mAdParams;
@@ -143,13 +143,13 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
         }
     }
 
-    @Override
-    public void onAdDismiss() {
-        if (mAdProvider != null) {
-            mAdProvider.trackEventClose(getStyleType());
-            mAdProvider.callbackExpressDismissed(mListener);
-        }
-    }
+//    @Override
+//    public void onAdDismiss() {
+//        if (mAdProvider != null) {
+//            mAdProvider.trackEventClose(getStyleType());
+//            mAdProvider.callbackExpressDismissed(mListener);
+//        }
+//    }
 
     @Override
     public void onAdClicked(View view, int i) {
@@ -177,7 +177,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements TTAdNative.
 
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
-
+        // todo
         if (mViewContainer.getVisibility() != View.VISIBLE) {
             mViewContainer.setVisibility(View.VISIBLE);
         }
