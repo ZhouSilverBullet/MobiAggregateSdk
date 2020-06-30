@@ -7,6 +7,7 @@ import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.listener.ISplashAdListener;
+import com.mobi.core.utils.LogUtils;
 
 /**
  * @author zhousaito
@@ -269,17 +270,20 @@ public abstract class BaseCallbackProvider implements IAdProvider {
      * @param event 显示 ...
      */
     public void trackEvent(int event) {
-//        if (!isPushMessage()) {
-//            Log.e(TAG, " 消息拦截 不再上报 ");
-//            return;
-//        }
 
-        PushEventTrack.trackAD(event,
-                getStyleType(),
-                getMobiCodeId(),
-                getSortType(),
-                mProviderType,
-                getMd5());
+        //如果一定要push的4个类型，和需要push的类型
+        if (PushEventTrack.isMushPushEvent(event)
+                || isPushOtherEvent()) {
+            PushEventTrack.trackAD(event,
+                    getStyleType(),
+                    getMobiCodeId(),
+                    getSortType(),
+                    mProviderType,
+                    getMd5());
+        } else {
+            LogUtils.e(TAG, " 消息拦截 不再上报 ");
+        }
+
     }
 
     /**
@@ -400,20 +404,20 @@ public abstract class BaseCallbackProvider implements IAdProvider {
                                 String message,
                                 String debug) {
 
-//        if (!isPushMessage()) {
-//            Log.e(TAG, " 消息拦截 不再上报 ");
-//            return;
-//        }
-        PushEventTrack.trackAD(MobiConstantValue.EVENT.ERROR,
-                getStyleType(),
-                getMobiCodeId(),
-                getSortType(),
-                mProviderType,
-                getMd5(),
-                type,
-                code,
-                message,
-                debug);
+        if (isPushOtherEvent()) {
+            PushEventTrack.trackAD(MobiConstantValue.EVENT.ERROR,
+                    getStyleType(),
+                    getMobiCodeId(),
+                    getSortType(),
+                    mProviderType,
+                    getMd5(),
+                    type,
+                    code,
+                    message,
+                    debug);
+        } else {
+            LogUtils.e(TAG, " 错误消息拦截 不再上报 ");
+        }
     }
 
 

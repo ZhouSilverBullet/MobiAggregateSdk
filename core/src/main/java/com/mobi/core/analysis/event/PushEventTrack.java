@@ -3,6 +3,7 @@ package com.mobi.core.analysis.event;
 import android.text.TextUtils;
 
 import com.mobi.core.CoreSession;
+import com.mobi.core.MobiConstantValue;
 import com.mobi.core.analysis.AnalysisBean;
 import com.mobi.core.analysis.AnalysisUtil;
 import com.mobi.core.db.use.DataManager;
@@ -134,5 +135,19 @@ public class PushEventTrack {
             }
         }
         return true;
+    }
+
+    /**
+     * 必须要上传的事件
+     *
+     * @param eventType
+     * @return
+     */
+    public static boolean isMushPushEvent(int eventType) {
+        return eventType == MobiConstantValue.EVENT.START
+                || eventType == MobiConstantValue.EVENT.LOAD
+                || eventType == MobiConstantValue.EVENT.SHOW
+                || eventType == MobiConstantValue.EVENT.CLICK
+                || eventType == MobiConstantValue.EVENT.ERROR;
     }
 }
