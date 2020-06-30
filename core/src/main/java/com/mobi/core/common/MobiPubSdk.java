@@ -3,6 +3,7 @@ package com.mobi.core.common;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.MainThread;
+import android.support.annotation.Nullable;
 import android.view.ViewGroup;
 
 import com.mobi.core.AdParams;
@@ -70,11 +71,12 @@ public class MobiPubSdk {
         SdkUtils.setDebug(isDebug);
     }
 
-    public static void showSplash(final Activity activity,
-                                  final ViewGroup splashContainer,
-                                  BaseSplashSkipView skipView,
+    @MainThread
+    public static void showSplash(Activity activity,
+                                  ViewGroup splashContainer,
+                                  @Nullable BaseSplashSkipView skipView,
                                   AdParams adParams,
-                                  final ISplashAdListener listener) {
+                                  ISplashAdListener listener) {
 
         if (!checkSafe(activity)) {
             return;
@@ -138,10 +140,10 @@ public class MobiPubSdk {
      * @param listener
      */
     @MainThread
-    public static void showNativeExpress(final Activity activity,
-                                         final ViewGroup viewContainer,
+    public static void showNativeExpress(Activity activity,
+                                         ViewGroup viewContainer,
                                          AdParams adParams,
-                                         final IExpressListener listener) {
+                                         IExpressListener listener) {
         if (!checkSafe(activity)) {
             return;
         }
@@ -198,9 +200,9 @@ public class MobiPubSdk {
     }
 
 
-    public static void showFullscreen(final Activity activity,
+    public static void showFullscreen(Activity activity,
                                       AdParams adParams,
-                                      final IFullScreenVideoAdListener listener) {
+                                      IFullScreenVideoAdListener listener) {
 
         if (!checkSafe(activity)) {
             return;
@@ -251,9 +253,10 @@ public class MobiPubSdk {
 
     }
 
-    public static void showRewardView(final Activity activity,
+    @MainThread
+    public static void showRewardView(Activity activity,
                                       AdParams adParams,
-                                      final IRewardAdListener listener) {
+                                      IRewardAdListener listener) {
 
         if (!checkSafe(activity)) {
             return;
@@ -309,9 +312,10 @@ public class MobiPubSdk {
      * @param adParams
      * @param listener
      */
-    public static void showInteractionExpress(final Activity activity,
+    @MainThread
+    public static void showInteractionExpress(Activity activity,
                                               AdParams adParams,
-                                              final IInteractionAdListener listener) {
+                                              IInteractionAdListener listener) {
 
         if (!checkSafe(activity)) {
             return;

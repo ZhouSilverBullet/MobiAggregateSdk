@@ -39,16 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         flContainer = findViewById(R.id.flContainer);
 
-//        AdSlot adSlot = new AdSlot.Builder()
-//                .setCodeId("1028117") //广告位id
-//                .setSupportDeepLink(true)
-//                .setAdCount(1) //请求广告数量为1到3条
-//                .setExpressViewAcceptedSize(350, 0) //必填：期望个性化模板广告view的size,单位dp
-//                .setImageAcceptedSize(640, 320) //这个参数设置即可，不影响个性化模板广告的size
-//                .build();
-
-//        CsjSession.get().getAdManager().requestPermissionIfNecessary(this);
-
     }
 
     public void btnSplash(View view) {
@@ -139,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdGdtShow(String type) {
+            public void onAdShow(String type) {
                 LogUtils.e(TAG, "onAdGdtShow type : " + type);
             }
 
@@ -271,19 +261,6 @@ public class MainActivity extends AppCompatActivity {
                 LogUtils.e(TAG, "onAdShow type : " + type);
             }
         });
-    }
-
-    public void btnAnalysis(View view) {
-        SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
-            @Override
-            public void run() {
-                List<AnalysisBean> allAnalysis = DataManager.getAllAnalysis(view.getContext());
-                for (AnalysisBean analysis : allAnalysis) {
-                    LogUtils.e(TAG, "analysis: " + analysis.toString());
-                }
-            }
-        });
-
     }
 
     private void renderAd(IExpressAdView view, boolean isAutoShow, long delayTime) {

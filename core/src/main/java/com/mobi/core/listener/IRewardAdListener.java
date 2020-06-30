@@ -23,7 +23,7 @@ public interface IRewardAdListener extends ITTAppDownloadListener, IAdFailListen
      *
      * @param type
      */
-    default void onAdGdtShow(String type) {
+    default void onAdShow(String type) {
 
     }
     void onVideoComplete(String providerType);

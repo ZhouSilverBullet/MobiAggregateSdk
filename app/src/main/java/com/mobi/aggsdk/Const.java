@@ -7,11 +7,8 @@ package com.mobi.aggsdk;
  * @Dec 略
  */
 public class Const {
-    public static String CSJ_APPID = false ? "******" : "5001121";//穿山甲APPID
-    public static String CSJ_APPNAME = false ? "******" :"测试app";//穿上甲APPName
 
-    public static final String GDT_APPID = "1101152570";
+    public static String CSJ_APPID = "5001121";//穿山甲APPID
+    public static String CSJ_APPNAME = "测试app";//穿上甲APPName
 
-    public static final String CSJ_SPLASH_ID = "801121648";
-    public static final String GDT_SPLASH_ID = "8863364436303842593";
 }

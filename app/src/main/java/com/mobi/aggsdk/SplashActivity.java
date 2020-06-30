@@ -80,14 +80,9 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAdClose(String type) {
                 Log.e(TAG, "onAdDismissed " + "providerType: " + type);
-//                if (!isClicked) {
-//                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//                }
-//                isClicked = false;
-//                delayToHome(300);
+
                 next();
-//                if ("tt".equals(type)) {
-//                }
+
             }
 
             @Override
@@ -132,9 +127,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onResume();
         next();
         canSkip = true;
-//        if (canSkip) {
-//            delayToHome(0);
-//        }
     }
 
     /**

@@ -70,7 +70,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     public final void callbackRewardGdtShow(IRewardAdListener listener) {
         if (listener != null) {
-            listener.onAdGdtShow(mProviderType);
+            listener.onAdShow(mProviderType);
         }
     }
 
@@ -257,7 +257,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
      */
     public void trackClick() {
         //统计点击
-        AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_FALSE, AdAnalysis.STATUS_CODE_TRUE);
+//        AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_FALSE, AdAnalysis.STATUS_CODE_TRUE);
     }
 
     /**
@@ -265,7 +265,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
      */
     public void trackShow() {
         //统计点击
-        AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_TRUE, AdAnalysis.STATUS_CODE_FALSE);
+//        AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_TRUE, AdAnalysis.STATUS_CODE_FALSE);
     }
 
     /**
@@ -273,7 +273,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
      */
     public void trackFail() {
         //统计点击
-        AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_FALSE, AdAnalysis.STATUS_CODE_FALSE);
+//        AdAnalysis.trackAD(mProviderType, getMobiCodeId(), AdAnalysis.STATUS_CODE_FALSE, AdAnalysis.STATUS_CODE_FALSE);
     }
 
     /**

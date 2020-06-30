@@ -26,7 +26,7 @@ public class App extends Application {
 
         //初始化穿山甲
         TTSdkInit.init(this,
-                buildConfig(this, "5001121", "测试广告"),
+                buildConfig(this, Const.CSJ_APPID, Const.CSJ_APPNAME),
                 BuildConfig.DEBUG);
 
     }
