@@ -91,13 +91,9 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements IExpr
 
     @Override
     public void onVideoCached() {
-
-//        if (iad != null) {
-//            iad.showAsPopupWindow();
-//        }
-
         if (mAdProvider != null) {
             mAdProvider.callbackInteractionCached(mListener);
+            mAdProvider.trackCache(getStyleType());
         }
     }
 
@@ -117,6 +113,7 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements IExpr
 
         if (mAdProvider != null) {
             mAdProvider.callbackInteractionOpened(mListener);
+            mAdProvider.trackGdtShow(getStyleType());
         }
 
     }
@@ -144,13 +141,16 @@ public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements IExpr
         if (mListener != null) {
             mListener.onGdtLeftApplication(mProviderType);
         }
+        if (mAdProvider != null) {
+            mAdProvider.trackGdtLeftApplication(getStyleType());
+        }
     }
 
     @Override
     public void onADClosed() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackInteractionClose(mListener);
+            mAdProvider.trackEventClose(getStyleType());
         }
     }
 

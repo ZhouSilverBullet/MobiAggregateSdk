@@ -162,7 +162,6 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     @Override
     public void onRenderSuccess(NativeExpressADView nativeExpressADView) {
 
-
         //广告渲染成功
         if (mViewContainer.getVisibility() != View.VISIBLE) {
             mViewContainer.setVisibility(View.VISIBLE);
@@ -176,6 +175,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
 
         if (mAdProvider != null) {
             mAdProvider.callbackExpressRenderSuccess(mListener);
+            mAdProvider.trackRenderSuccess(getStyleType());
         }
 
     }
@@ -220,6 +220,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     public void onADOpenOverlay(NativeExpressADView nativeExpressADView) {
         if (mAdProvider != null) {
             mAdProvider.callbackExpressOpenOverlay(mListener);
+            mAdProvider.trackGdtOpenOverlay(getStyleType());
         }
     }
 
@@ -227,12 +228,12 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     public void onADCloseOverlay(NativeExpressADView nativeExpressADView) {
         if (mAdProvider != null) {
             mAdProvider.callbackExpressCloseOverlay(mListener);
+            mAdProvider.trackGdtCloseOverlay(getStyleType());
         }
     }
 
     @Override
     public void onNoAD(AdError adError) {
-//                        AdStatistical.trackAD(mContext, mProviderType, POS_ID, Constants.STATUS_CODE_FALSE, Constants.STATUS_CODE_FALSE);
         //加载失败
         localExecFail(mAdProvider, adError.getErrorCode(), adError.getErrorMsg());
     }

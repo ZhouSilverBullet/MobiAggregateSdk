@@ -183,7 +183,6 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
             //把SplashView 添加到ViewGroup中,注意开屏广告view：width >=70%屏幕宽；height >=50%屏幕高
             mSplashContainer.addView(view);
             //设置不开启开屏广告倒计时功能以及不显示跳过按钮,如果这么设置，您需要自定义倒计时逻辑
-            // todo 自定义的splash
             if (mBaseSplashSkipView != null) {
                 handleSplashSkipView(mSplashContainer);
             }
@@ -237,6 +236,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
         if (mAdProvider != null) {
 //            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackSplashDismissed(mListener);
+            mAdProvider.trackSkip(getStyleType());
         }
 
     }
@@ -244,7 +244,6 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
     @Override
     public void onAdTimeOver() {
         LogUtils.e(TAG, "onAdTimeOver");
-        //todo
         if (mAdProvider != null) {
             mAdProvider.callbackSplashDismissed(mListener);
         }

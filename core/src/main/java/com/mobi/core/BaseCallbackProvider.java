@@ -1,7 +1,5 @@
 package com.mobi.core;
 
-import android.util.Log;
-
 import com.mobi.core.analysis.AdAnalysis;
 import com.mobi.core.analysis.event.PushEventTrack;
 import com.mobi.core.feature.IExpressAdView;
@@ -352,6 +350,88 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     public void trackStartShow(int styleType) {
         trackEvent(MobiConstantValue.EVENT.START_SHOW, styleType);
     }
+
+    /**
+     * 缓存好的一个事件
+     *
+     * @param styleType
+     */
+    public void trackCache(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.CACHE, styleType);
+    }
+
+    /**
+     * 完成了一个事件
+     *
+     * @param styleType
+     */
+    public void trackComplete(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.COMPLETE, styleType);
+    }
+
+    /**
+     * 跳过一个事件
+     *
+     * @param styleType
+     */
+    public void trackSkip(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.SKIP, styleType);
+    }
+
+    /**
+     * 事件渲染成功
+     *
+     * @param styleType
+     */
+    public void trackRenderSuccess(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.RENDER_SUCCESS, styleType);
+    }
+
+    /**
+     * 事件渲染成功
+     *
+     * @param styleType
+     */
+    public void trackRewardVerify(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.REWARD_VERIFY, styleType);
+    }
+
+    /**
+     * 广告展开遮盖时调用
+     *
+     * @param styleType
+     */
+    public void trackGdtOpenOverlay(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.GDT_OPEN_OVERLAY, styleType);
+    }
+
+    /**
+     * 广告关闭遮盖时调用
+     *
+     * @param styleType
+     */
+    public void trackGdtCloseOverlay(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.GDT_CLOSE_OVERLAY, styleType);
+    }
+
+    /**
+     * 广告关闭遮盖时调用
+     *
+     * @param styleType
+     */
+    public void trackGdtShow(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.GDT_SHOW, styleType);
+    }
+
+    /**
+     * gdt离开app的回调
+     *
+     * @param styleType
+     */
+    public void trackGdtLeftApplication(int styleType) {
+        trackEvent(MobiConstantValue.EVENT.GDT_LEFT_APPLICATION, styleType);
+    }
+
 
     /**
      * @param styleType

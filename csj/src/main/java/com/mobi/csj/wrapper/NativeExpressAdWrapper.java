@@ -203,6 +203,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
 
         if (mAdProvider != null) {
             mAdProvider.callbackExpressRenderSuccess(mListener);
+            mAdProvider.trackRenderSuccess(getStyleType());
         }
     }
 

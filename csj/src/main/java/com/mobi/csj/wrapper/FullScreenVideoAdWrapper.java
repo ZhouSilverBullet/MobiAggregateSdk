@@ -1,7 +1,6 @@
 package com.mobi.csj.wrapper;
 
 import android.app.Activity;
-import android.text.TextUtils;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
@@ -13,7 +12,6 @@ import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.csj.impl.CsjAdView;
 
 /**
  * @author zhousaito
@@ -126,6 +124,10 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
         if (mListener != null) {
             mListener.onCached(mProviderType);
         }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackCache(getStyleType());
+        }
     }
 
     @Override
@@ -157,16 +159,22 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
     @Override
     public void onVideoComplete() {
         if (mListener != null) {
-            //todo
             mListener.onVideoComplete(mProviderType);
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackComplete(getStyleType());
         }
     }
 
     @Override
     public void onSkippedVideo() {
         if (mListener != null) {
-            //todo
             mListener.onSkippedVideo(mProviderType);
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackSkip(getStyleType());
         }
     }
 

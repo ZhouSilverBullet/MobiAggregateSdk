@@ -86,6 +86,51 @@ public class MobiConstantValue {
         public static final int CLOSE = 81;
 
         /**
+         * 缓存
+         */
+        public static final int CACHE = 82;
+
+        /**
+         * 完成
+         */
+        public static final int COMPLETE = 83;
+
+        /**
+         * 跳过
+         */
+        public static final int SKIP = 84;
+
+        /**
+         * 渲染成功
+         */
+        public static final int RENDER_SUCCESS = 85;
+
+        /**
+         * 奖励
+         */
+        public static final int REWARD_VERIFY = 86;
+
+        /**
+         * 广告展开遮盖时调用
+         */
+        public static final int GDT_OPEN_OVERLAY = 87;
+
+        /**
+         * 广告关闭遮盖时调用
+         */
+        public static final int GDT_CLOSE_OVERLAY = 88;
+
+        /**
+         * 广点通广告显示
+         */
+        public static final int GDT_SHOW = 89;
+
+        /**
+         * 广点通广告显示
+         */
+        public static final int GDT_LEFT_APPLICATION = 90;
+
+        /**
          * 错误
          */
         public static final int ERROR = 100;

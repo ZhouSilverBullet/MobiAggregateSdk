@@ -100,15 +100,13 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, Sp
     @Override
     public void onADPresent() {
         Log.w(TAG, "onADPresent");
-        //show成功前判断一下，是否已经把任务给取消了
-//        if (isCancel()) {
-//            LogUtils.e(TAG, "Gdt SplashAdWrapper onAdShow isCancel");
-//            return;
-//        }
 
         if (mBaseSplashSkipView != null) {
             mSplashContainer.addView(mSkipView,
                     mBaseSplashSkipView.getLayoutParams());
+        }
+        if (mAdProvider != null) {
+            mAdProvider.trackGdtShow(getStyleType());
         }
     }
 

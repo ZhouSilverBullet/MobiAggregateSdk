@@ -168,11 +168,14 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpre
 
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
-        //todo
         if (mTTNativeExpressAds != null) {
             for (TTNativeExpressAd ttNativeExpressAd : mTTNativeExpressAds) {
                 ttNativeExpressAd.showInteractionExpressAd(mActivity);
             }
+        }
+
+        if (mAdProvider != null) {
+            mAdProvider.trackRenderSuccess(getStyleType());
         }
     }
 

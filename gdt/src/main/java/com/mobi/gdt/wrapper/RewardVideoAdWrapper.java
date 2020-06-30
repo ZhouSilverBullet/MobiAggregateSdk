@@ -107,6 +107,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
 
         if (mAdProvider != null) {
             mAdProvider.callbackRewardCached(mListener);
+            mAdProvider.trackCache(getStyleType());
         }
 
     }
@@ -114,17 +115,9 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
     @Override
     public void onADShow() {
         //show成功前判断一下，是否已经把任务给取消了
-//        if (isCancel()) {
-//            LogUtils.e(TAG, "Gdt RewardVideoAdWrapper onAdShow isCancel");
-//            return;
-//        }
-//
-//        setExecSuccess(true);
-//        localExecSuccess(mAdProvider);
-        //  todo
-
         if (mAdProvider != null) {
             mAdProvider.callbackRewardGdtShow(mListener);
+            mAdProvider.trackGdtShow(getStyleType());
         }
     }
 
@@ -140,9 +133,9 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
 
     @Override
     public void onReward() {
-        //  todo
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVerify(false, 0, "", mListener);
+            mAdProvider.trackRewardVerify(getStyleType());
         }
     }
 
@@ -159,9 +152,9 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
 
     @Override
     public void onVideoComplete() {
-        //  todo
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVideoComplete(mListener);
+            mAdProvider.trackComplete(getStyleType());
         }
     }
 
