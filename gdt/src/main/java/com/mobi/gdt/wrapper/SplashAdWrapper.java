@@ -1,7 +1,6 @@
 package com.mobi.gdt.wrapper;
 
 import android.app.Activity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.gdt.impl.GdtSplashAdView;
 import com.qq.e.ads.splash.SplashAD;
 import com.qq.e.ads.splash.SplashADListener;
 import com.qq.e.comm.util.AdError;

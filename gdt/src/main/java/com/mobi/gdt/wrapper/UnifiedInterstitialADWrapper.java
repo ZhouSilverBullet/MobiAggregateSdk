@@ -8,7 +8,6 @@ import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.gdt.impl.GdtInterstitialAdView;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialADListener;
 import com.qq.e.comm.util.AdError;

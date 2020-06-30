@@ -2,7 +2,6 @@ package com.mobi.gdt.wrapper;
 
 import android.app.Activity;
 import android.os.SystemClock;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.mobi.core.BaseAdProvider;
@@ -11,7 +10,6 @@ import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.gdt.impl.GdtRewardAdView;
 import com.qq.e.ads.rewardvideo.RewardVideoAD;
 import com.qq.e.ads.rewardvideo.RewardVideoADListener;
 import com.qq.e.comm.util.AdError;

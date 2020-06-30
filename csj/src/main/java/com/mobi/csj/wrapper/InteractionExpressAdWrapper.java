@@ -1,14 +1,11 @@
 package com.mobi.csj.wrapper;
 
 import android.app.Activity;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
@@ -16,7 +13,6 @@ import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.csj.impl.CsjInteractionAdView;
 
 import java.util.List;
 

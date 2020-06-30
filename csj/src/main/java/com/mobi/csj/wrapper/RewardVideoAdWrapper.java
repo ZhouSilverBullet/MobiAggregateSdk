@@ -1,20 +1,17 @@
 package com.mobi.csj.wrapper;
 
 import android.app.Activity;
-import android.text.TextUtils;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
-import com.mobi.core.AdParams;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.csj.impl.CsjRewardAdView;
 
 /**
  * @author zhousaito

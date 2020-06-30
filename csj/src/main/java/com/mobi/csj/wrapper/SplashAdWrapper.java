@@ -1,8 +1,6 @@
 package com.mobi.csj.wrapper;
 
 import android.app.Activity;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,7 +16,6 @@ import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.csj.impl.CsjSplashAdView;
 import com.mobi.csj.splash.CsjSplashSkipViewControl;
 
 /**

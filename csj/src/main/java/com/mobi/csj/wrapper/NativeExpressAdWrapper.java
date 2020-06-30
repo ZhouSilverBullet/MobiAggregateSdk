@@ -15,7 +15,6 @@ import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.utils.LogUtils;
-import com.mobi.csj.impl.CsjExpressAdViewImpl;
 
 import java.util.List;
 
