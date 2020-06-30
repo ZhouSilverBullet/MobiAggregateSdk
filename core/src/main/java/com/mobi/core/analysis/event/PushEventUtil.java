@@ -39,17 +39,17 @@ public class PushEventUtil {
         try {
             final JSONObject jsonObject = new JSONObject();
             jsonObject.put("event", bean.getEvent());
-            jsonObject.put("style_type", bean.getStyleType());
-            jsonObject.put("sort_type", bean.getSortType());
+            jsonObject.put("st_t", bean.getStyleType());
+            jsonObject.put("so_t", bean.getSortType());
             jsonObject.put("posid", bean.getPostId());
             jsonObject.put("network", bean.getNetwork());
             jsonObject.put("tk", bean.getMd5());
 
             jsonObject.put("day", bean.getDay());
             jsonObject.put("time", bean.getTime());
-            jsonObject.put("timestamp", bean.getTimestamp());
-            jsonObject.put("bundle", bean.getBundle());
-            jsonObject.put("appId", bean.getAppId());
+//            jsonObject.put("timestamp", bean.getTimestamp());
+//            jsonObject.put("bundle", bean.getBundle());
+            jsonObject.put("appid", bean.getAppId());
 
             //获取的消息和debug的消息不为空，就加入下面字段
             if (!TextUtils.isEmpty(bean.getMessage())
@@ -57,7 +57,7 @@ public class PushEventUtil {
                     || bean.getType() != 0) {
                 jsonObject.put("type", bean.getType());
                 jsonObject.put("code", bean.getCode());
-                jsonObject.put("message", bean.getMessage());
+                jsonObject.put("msg", bean.getMessage());
                 jsonObject.put("debug", bean.getDebug());
             }
 
@@ -107,9 +107,9 @@ public class PushEventUtil {
                         final JSONObject beanJson = new JSONObject(beanJsonStr);
                         list.add(new PushEvent(
                                 beanJson.optInt("event"),
-                                beanJson.optInt("style_type"),
+                                beanJson.optInt("st_t"),
                                 beanJson.optString("posid"),
-                                beanJson.optInt("sort_type"),
+                                beanJson.optInt("so_t"),
                                 beanJson.optString("network"),
                                 beanJson.getString("tk")));
                     }

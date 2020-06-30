@@ -26,13 +26,13 @@ public class RequestUtil {
         }
 
         Map<String, String> headers = request.getHeaders();
-        headers.put("carrier", DeviceUtil.getCellularOperator(context));
-        headers.put("uuid", DeviceUtil.getAndroidId(context));
-        headers.put("imei", DeviceUtil.getDeviceId(context));
-        headers.put("idfa", "");
-        headers.put("oaid", CoreSession.get().getOaId());
-        headers.put("mak", DeviceUtil.getBrand());
-        headers.put("mod", DeviceUtil.getSystemModel());
+        headers.put("crr", DeviceUtil.getCellularOperator(context));
+        headers.put("uud", DeviceUtil.getAndroidId(context));
+        headers.put("med", DeviceUtil.getDeviceId(context));
+        headers.put("fad", "");
+        headers.put("oad", CoreSession.get().getOaId());
+        headers.put("mk", DeviceUtil.getBrand());
+        headers.put("md", DeviceUtil.getSystemModel());
         headers.put("osv", DeviceUtil.getSystemVersion());
         headers.put("os", "android");
         headers.put("lan", DeviceUtil.getLanguageAndCountry());
