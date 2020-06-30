@@ -13,7 +13,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.mobi.core.CoreSession;
+import com.mobi.core.analysis.event.PushEventTrack;
 import com.mobi.core.db.use.AnalysisTable;
+import com.mobi.core.db.use.PushEventTable;
 import com.mobi.core.utils.LogUtils;
 
 /**
@@ -36,6 +38,7 @@ public class AdProvider extends ContentProvider {
     public static Uri AUTHORITY_URI = null;
     //code
     private static final int PEOPLE_INFO_CODE = 1;
+    private static final int PEOPLE_INFO_CODE2 = 2;
 
     @Override
     public boolean onCreate() {
@@ -54,6 +57,7 @@ public class AdProvider extends ContentProvider {
         //延迟创建一下这个MATCHER
         MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
         MATCHER.addURI(PEOPLE_INFO_AUTHORITY, AnalysisTable.TABLE_NAME, PEOPLE_INFO_CODE);
+        MATCHER.addURI(PEOPLE_INFO_AUTHORITY, PushEventTable.TABLE_NAME, PEOPLE_INFO_CODE2);
     }
 
     @Nullable
@@ -71,6 +75,9 @@ public class AdProvider extends ContentProvider {
                 switch (MATCHER.match(uri)) {
                     case PEOPLE_INFO_CODE:
                         return db.query(AnalysisTable.TABLE_NAME, projection, selection, selectionArgs,
+                                null, null, sortOrder);
+                    case PEOPLE_INFO_CODE2:
+                        return db.query(PushEventTable.TABLE_NAME, projection, selection, selectionArgs,
                                 null, null, sortOrder);
                     default:
                         LogUtils.e(TAG, " query 匹配失败" + uri);
@@ -99,7 +106,7 @@ public class AdProvider extends ContentProvider {
         LogUtils.e(TAG, " insert ");
         SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
         switch (MATCHER.match(uri)) {
-            case PEOPLE_INFO_CODE:
+            case PEOPLE_INFO_CODE: {
                 // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
                 long rowid = db.insert(AnalysisTable.TABLE_NAME, null, values);
                 Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
@@ -112,6 +119,22 @@ public class AdProvider extends ContentProvider {
                     this.getContext().getContentResolver().notifyChange(uri, null);
                 }
                 return insertUri;
+            }
+
+            case PEOPLE_INFO_CODE2: {
+                // 特别说一下第二个参数是当name字段为空时，将自动插入一个NULL。
+                long rowid = db.insert(PushEventTable.TABLE_NAME, null, values);
+                Uri insertUri = ContentUris.withAppendedId(uri, rowid);// 得到代表新增记录的Uri
+                if (getContext() == null) {
+                    Context context = CoreSession.get().getContext();
+                    if (context != null) {
+                        context.getContentResolver().notifyChange(uri, null);
+                    }
+                } else {
+                    this.getContext().getContentResolver().notifyChange(uri, null);
+                }
+                return insertUri;
+            }
 
             default:
                 LogUtils.e(TAG, " insert 匹配失败");
@@ -134,7 +157,9 @@ public class AdProvider extends ContentProvider {
             case PEOPLE_INFO_CODE:
                 count = db.delete(AnalysisTable.TABLE_NAME, selection, selectionArgs);
                 return count;
-
+            case PEOPLE_INFO_CODE2:
+                count = db.delete(PushEventTable.TABLE_NAME, selection, selectionArgs);
+                return count;
             default:
                 LogUtils.e(TAG, "delete 匹配失败 " + uri.toString());
                 break;
@@ -154,6 +179,9 @@ public class AdProvider extends ContentProvider {
         switch (MATCHER.match(uri)) {
             case PEOPLE_INFO_CODE:
                 count = db.update(AnalysisTable.TABLE_NAME, values, selection, selectionArgs);
+                return count;
+            case PEOPLE_INFO_CODE2:
+                count = db.update(PushEventTable.TABLE_NAME, values, selection, selectionArgs);
                 return count;
             default:
                 LogUtils.e(TAG, "update 匹配失败 " + uri.toString());

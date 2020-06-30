@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
 import com.mobi.core.db.use.AnalysisTable;
+import com.mobi.core.db.use.PushEventTable;
 
 /**
  * @author zhousaito
@@ -26,6 +27,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(AnalysisTable.CREATE_ANALYSIS_TABLE);
+        db.execSQL(PushEventTable.CREATE_PUSH_EVENT_TABLE);
     }
 
     @Override

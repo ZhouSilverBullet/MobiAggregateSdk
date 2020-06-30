@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.mobi.core.analysis.AnalysisBean;
+import com.mobi.core.analysis.event.PushEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,4 +79,35 @@ public class DataManager {
         return list;
     }
 
+    public static void addPushEvent(Context context, PushEvent bean) {
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = PushEventTable.getContentUri();
+        ContentValues contentValues = PushEventTable.putValues(bean);
+        contentResolver.insert(uri, contentValues);
+    }
+
+
+    public static int deleteAllPushEvent(Context context) {
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = PushEventTable.getContentUri();
+        return contentResolver.delete(uri, null, null);
+    }
+
+    public static List<PushEvent> getAllPushEvent(Context context) {
+        ArrayList<PushEvent> list = new ArrayList<>();
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = PushEventTable.getContentUri();
+        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                PushEvent bean = PushEventTable.getValues(cursor);
+                list.add(bean);
+                //要往下一个跑
+//                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+
+        return list;
+    }
 }

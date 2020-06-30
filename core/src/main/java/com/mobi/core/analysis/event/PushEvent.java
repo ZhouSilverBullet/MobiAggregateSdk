@@ -22,7 +22,7 @@ public class PushEvent {
     //            "posid":"2048001", //给用户的使用的 postId
     //            "style_type":1, //插屏
     //            "timestamp":1592465118652 //时间戳
-
+    private int id;
     private int event;
     private String postId;
     private int styleType;
@@ -154,5 +154,55 @@ public class PushEvent {
 
     public String getMd5() {
         return md5;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setBundle(String bundle) {
+        this.bundle = bundle;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    @Override
+    public String toString() {
+        return "PushEvent{" +
+                "id=" + id +
+                ", event=" + event +
+                ", postId='" + postId + '\'' +
+                ", styleType=" + styleType +
+                ", sortType=" + sortType +
+                ", network='" + network + '\'' +
+                ", md5='" + md5 + '\'' +
+                ", type=" + type +
+                ", code=" + code +
+                ", message='" + message + '\'' +
+                ", debug='" + debug + '\'' +
+                ", day='" + day + '\'' +
+                ", time='" + time + '\'' +
+                ", timestamp=" + timestamp +
+                ", bundle='" + bundle + '\'' +
+                ", appId='" + appId + '\'' +
+                '}';
     }
 }

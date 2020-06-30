@@ -31,6 +31,16 @@ public class PushEventTrack {
     public static final String TAG = "PushEventTrack";
     public static String DEVELOPER_URL = "";
 
+    /**
+     * 是否上传失败了的标志
+     * 默认第一次是true的，这样第一次上报的时候
+     *
+     * 就会去扫描本地的数据库，有数据的话，
+     * 就会同时带着第一次的数据上传给服务器了
+     *
+     */
+    private static volatile boolean isFailReport = true;
+
     public static void trackAD(int event,
                                int styleType,
                                String postId,
@@ -77,12 +87,16 @@ public class PushEventTrack {
         //获取UpdateUrl
         if (!updateUrlGetSuccess()) {
             LogUtils.e(TAG, "updateUrl为空 数据存数据库里头");
+            saveDb(bean);
+            isFailReport = true;
             return;
         }
 
         if (!DeviceUtil.isNetAvailable(CoreSession.get().getContext())) {
             //网络不可用存数据库里头
             LogUtils.e(TAG, "网络不可用 数据存数据库里头");
+            saveDb(bean);
+            isFailReport = true;
             return;
         }
 
@@ -90,6 +104,17 @@ public class PushEventTrack {
 
         List<PushEvent> beanList = new ArrayList<>();
         beanList.add(bean);
+
+        //有上传失败的时候，就把库里面的也读出来
+        boolean isDbDataNotEmpty = false;
+        if (isFailReport) {
+            //获取库里面所有的数据
+            List<PushEvent> dpList = DataManager.getAllPushEvent(CoreSession.get().getContext());
+            if (!dpList.isEmpty()) {
+                beanList.addAll(dpList);
+                isDbDataNotEmpty = true;
+            }
+        }
 
         //把数据变成json数据传给后台
         String fromBody = PushEventUtil.toPushEventJson(beanList);
@@ -104,6 +129,9 @@ public class PushEventTrack {
 
         Response response = httpClient.execute(request);
 
+        //默认都算上传失败
+        isFailReport = true;
+
         if (response.getCode() == 200) {
             String body = response.body();
             try {
@@ -111,17 +139,28 @@ public class PushEventTrack {
                 int serverCode = jsonObject.optInt("code");
                 if (serverCode == 200) {
                     LogUtils.e(TAG, "上传成功 postId : " + bean.getPostId() + " network : " + bean.getNetwork());
+                    isFailReport = false;
+
+                    if (isDbDataNotEmpty) {
+                        int index = DataManager.deleteAllPushEvent(CoreSession.get().getContext());
+                        LogUtils.e(TAG, " 删除了所有数据库的数据条数：" + index);
+                    }
+
                 } else {
+                    //失败了就存数据库里头
+                    saveDb(bean);
                     LogUtils.e(TAG, "上传失败 code = " + serverCode + " postId : " + bean.getPostId() + " network : " + bean.getNetwork());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 //失败了就存数据库里头
+                saveDb(bean);
                 LogUtils.e(TAG, "上传失败 e = " + e.getMessage());
 
             }
         } else {
             //失败了就存数据库里头
+            saveDb(bean);
             LogUtils.e(TAG, "上传失败 postId : " + bean.getPostId() + " network : " + bean.getNetwork());
         }
     }
@@ -147,7 +186,16 @@ public class PushEventTrack {
         return eventType == MobiConstantValue.EVENT.START
                 || eventType == MobiConstantValue.EVENT.LOAD
                 || eventType == MobiConstantValue.EVENT.SHOW
-                || eventType == MobiConstantValue.EVENT.CLICK
-                || eventType == MobiConstantValue.EVENT.ERROR;
+                || eventType == MobiConstantValue.EVENT.CLICK;
     }
+
+    private static void saveDb(PushEvent bean) {
+        if (bean != null) {
+            if (isMushPushEvent(bean.getEvent())) {
+                DataManager.addPushEvent(CoreSession.get().getContext(), bean);
+                LogUtils.e(TAG, "save " + bean.toString());
+            }
+        }
+    }
+
 }
