@@ -113,7 +113,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackEventLoad(getStyleType());
+            mAdProvider.trackEventLoad();
         }
 
         //load成功前判断一下，是否已经把任务给取消了
@@ -210,7 +210,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
 
         if (mAdProvider != null) {
             mAdProvider.trackClick();
-            mAdProvider.trackEventClick(getStyleType());
+            mAdProvider.trackEventClick();
             mAdProvider.callbackSplashClicked(mListener);
         }
     }
@@ -221,7 +221,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
 
         if (mAdProvider != null) {
             mAdProvider.trackShow();
-            mAdProvider.trackEventShow(getStyleType());
+            mAdProvider.trackEventShow();
             mAdProvider.callbackSplashExposure(mListener);
         }
     }
@@ -233,7 +233,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
         if (mAdProvider != null) {
 //            mAdProvider.trackEventClose(getStyleType());
             mAdProvider.callbackSplashDismissed(mListener);
-            mAdProvider.trackSkip(getStyleType());
+            mAdProvider.trackSkip();
         }
 
     }
@@ -250,7 +250,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
     @Override
     public void run() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventStart(getStyleType());
+            mAdProvider.trackEventStart();
         }
         createSplashAd();
     }
@@ -268,7 +268,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackStartShow(getStyleType());
+            mAdProvider.trackStartShow();
         }
     }
 

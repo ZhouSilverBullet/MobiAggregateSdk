@@ -94,7 +94,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackEventLoad(getStyleType());
+            mAdProvider.trackEventLoad();
         }
 
         //load成功前判断一下，是否已经把任务给取消了
@@ -166,7 +166,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     public void onAdClicked(View view, int i) {
         if (mAdProvider != null) {
             mAdProvider.trackClick();
-            mAdProvider.trackEventClick(getStyleType());
+            mAdProvider.trackEventClick();
             mAdProvider.callbackExpressClick(mListener);
         }
     }
@@ -175,7 +175,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     public void onAdShow(View view, int i) {
         if (mAdProvider != null) {
             mAdProvider.trackShow();
-            mAdProvider.trackEventShow(getStyleType());
+            mAdProvider.trackEventShow();
             mAdProvider.callbackExpressShow(mListener);
         }
     }
@@ -202,7 +202,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
 
         if (mAdProvider != null) {
             mAdProvider.callbackExpressRenderSuccess(mListener);
-            mAdProvider.trackRenderSuccess(getStyleType());
+            mAdProvider.trackRenderSuccess();
         }
     }
 
@@ -213,7 +213,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     @Override
     public void run() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventStart(getStyleType());
+            mAdProvider.trackEventStart();
         }
         createNativeExpressAD();
     }
@@ -233,7 +233,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackStartShow(getStyleType());
+            mAdProvider.trackStartShow();
         }
     }
 

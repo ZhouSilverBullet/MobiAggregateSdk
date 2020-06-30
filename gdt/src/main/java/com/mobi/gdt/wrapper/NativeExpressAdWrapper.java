@@ -85,7 +85,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackEventLoad(getStyleType());
+            mAdProvider.trackEventLoad();
         }
 
         //load前判断一下，是否已经把任务给取消了
@@ -175,7 +175,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
 
         if (mAdProvider != null) {
             mAdProvider.callbackExpressRenderSuccess(mListener);
-            mAdProvider.trackRenderSuccess(getStyleType());
+            mAdProvider.trackRenderSuccess();
         }
 
     }
@@ -185,7 +185,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
         //广告曝光
         if (mAdProvider != null) {
             mAdProvider.trackShow();
-            mAdProvider.trackEventShow(getStyleType());
+            mAdProvider.trackEventShow();
             mAdProvider.callbackExpressShow(mListener);
         }
     }
@@ -195,7 +195,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
         //广告被点击
         if (mAdProvider != null) {
             mAdProvider.trackClick();
-            mAdProvider.trackEventClick(getStyleType());
+            mAdProvider.trackEventClick();
             mAdProvider.callbackExpressClick(mListener);
         }
     }
@@ -204,7 +204,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     public void onADClosed(NativeExpressADView nativeExpressADView) {
 
         if (mAdProvider != null) {
-            mAdProvider.trackEventClose(getStyleType());
+            mAdProvider.trackEventClose();
             mAdProvider.callbackExpressDismissed(mListener);
         }
     }
@@ -220,7 +220,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     public void onADOpenOverlay(NativeExpressADView nativeExpressADView) {
         if (mAdProvider != null) {
             mAdProvider.callbackExpressOpenOverlay(mListener);
-            mAdProvider.trackGdtOpenOverlay(getStyleType());
+            mAdProvider.trackGdtOpenOverlay();
         }
     }
 
@@ -228,7 +228,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     public void onADCloseOverlay(NativeExpressADView nativeExpressADView) {
         if (mAdProvider != null) {
             mAdProvider.callbackExpressCloseOverlay(mListener);
-            mAdProvider.trackGdtCloseOverlay(getStyleType());
+            mAdProvider.trackGdtCloseOverlay();
         }
     }
 
@@ -241,7 +241,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     @Override
     public void run() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventStart(getStyleType());
+            mAdProvider.trackEventStart();
         }
         createNativeExpressAD();
     }
@@ -264,7 +264,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackStartShow(getStyleType());
+            mAdProvider.trackStartShow();
         }
     }
 

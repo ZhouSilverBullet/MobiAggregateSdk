@@ -16,7 +16,7 @@ public class ShowAdBean {
      *  用于md5加密使用的一项数据
      */
     private String sdk;
-    private boolean isPushMessage;
+    private boolean isPushOtherEvent;
 
     public String getPostId() {
         return postId;
@@ -58,11 +58,11 @@ public class ShowAdBean {
         this.sdk = sdk;
     }
 
-    public boolean isPushMessage() {
-        return isPushMessage;
+    public boolean isPushOtherEvent() {
+        return isPushOtherEvent;
     }
 
-    public void setPushMessage(boolean pushMessage) {
-        isPushMessage = pushMessage;
+    public void setPushOtherEvent(boolean isPushOtherEvent) {
+        this.isPushOtherEvent = isPushOtherEvent;
     }
 }

@@ -54,7 +54,7 @@ public class GdtFullScreenVideoAdWrapper extends BaseAdWrapper {
     @Override
     public void run() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventStart(getStyleType());
+            mAdProvider.trackEventStart();
         }
         createFullScreenVideoAd();
     }

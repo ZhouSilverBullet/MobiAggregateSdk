@@ -109,7 +109,7 @@ public abstract class AdRunnable implements Runnable {
     private void saveFailMessage(BaseAdProvider provider, String providerType, int code, String message, boolean isRender) {
         if (provider != null) {
             //上报带有开关的上报事件
-            if (provider.isPushMessage()) {
+            if (provider.isPushOtherEvent()) {
                 trackEventError(provider, code, message, isRender);
             }
             provider.trackFail();
@@ -127,18 +127,18 @@ public abstract class AdRunnable implements Runnable {
 
     private void trackEventError(BaseAdProvider provider, int code, String message, boolean isRender) {
         if (isRender) {
-            provider.trackEventError(getStyleType(), MobiConstantValue.ERROR.TYPE_RENDER_ERROR, code, message);
+            provider.trackEventError(MobiConstantValue.ERROR.TYPE_RENDER_ERROR, code, message);
         } else {
             switch (code) {
                 case ERROR.TYPE_CANCEL:
                 case ERROR.TYPE_TIMEOUT:
                 case ERROR.TYPE_LOAD_EMPTY_ERROR:
                 case ERROR.TYPE_POSTID_EMPTY_ERROR:
-                    provider.trackEventError(getStyleType(), code,
+                    provider.trackEventError(code,
                             0, "", message);
                     break;
                 default:
-                    provider.trackEventError(getStyleType(), ERROR.TYPE_ERROR,
+                    provider.trackEventError(ERROR.TYPE_ERROR,
                             code, message);
                     break;
             }

@@ -114,7 +114,7 @@ class SdkUtils {
         return localAdBean;
     }
 
-    static void callOnFail(String codeId, int sortType, String type, int code, String message, IAdFailListener listener) {
+    static void callOnFail(String codeId, int sortType, int styleType, String type, int code, String message, IAdFailListener listener) {
 
         if (listener != null) {
             StrategyError strategyError = new StrategyError(type, code, message);
@@ -124,7 +124,7 @@ class SdkUtils {
         }
 
         PushEventTrack.trackAD(MobiConstantValue.EVENT.ERROR,
-                0,
+                styleType,
                 codeId,
                 sortType,
                 type,

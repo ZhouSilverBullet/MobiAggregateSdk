@@ -83,7 +83,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpre
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackEventLoad(getStyleType());
+            mAdProvider.trackEventLoad();
         }
 
         if (isCancel()) {
@@ -133,7 +133,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpre
     @Override
     public void onAdDismiss() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventClose(getStyleType());
+            mAdProvider.trackEventClose();
             mAdProvider.callbackInteractionClose(mListener);
         }
     }
@@ -142,7 +142,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpre
     public void onAdClicked(View view, int i) {
         if (mAdProvider != null) {
             mAdProvider.trackClick();
-            mAdProvider.trackEventClick(getStyleType());
+            mAdProvider.trackEventClick();
             mAdProvider.callbackInteractionClick(mListener);
         }
     }
@@ -151,7 +151,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpre
     public void onAdShow(View view, int i) {
         if (mAdProvider != null) {
             mAdProvider.trackShow();
-            mAdProvider.trackEventShow(getStyleType());
+            mAdProvider.trackEventShow();
             mAdProvider.callbackInteractionExposure(mListener);
         }
     }
@@ -171,14 +171,14 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpre
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackRenderSuccess(getStyleType());
+            mAdProvider.trackRenderSuccess();
         }
     }
 
     @Override
     public void run() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventStart(getStyleType());
+            mAdProvider.trackEventStart();
         }
         createInteractionAd();
     }
@@ -199,7 +199,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpre
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackStartShow(getStyleType());
+            mAdProvider.trackStartShow();
         }
     }
 

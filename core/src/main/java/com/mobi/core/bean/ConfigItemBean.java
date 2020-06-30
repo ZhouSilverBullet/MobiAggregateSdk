@@ -91,7 +91,7 @@ public class ConfigItemBean implements Serializable {
      *
      * @return
      */
-    public boolean isPushMessage() {
+    public boolean isPushOtherEvent() {
         if (conf != null) {
             if (conf.getRpErr() == 1) {
                 return true;

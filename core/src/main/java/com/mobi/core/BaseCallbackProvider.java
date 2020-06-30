@@ -1,6 +1,6 @@
 package com.mobi.core;
 
-import com.mobi.core.analysis.AdAnalysis;
+import com.mobi.core.analysis.AdPushParams;
 import com.mobi.core.analysis.event.PushEventTrack;
 import com.mobi.core.feature.IExpressAdView;
 import com.mobi.core.listener.IExpressListener;
@@ -18,10 +18,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     public static final String TAG = "BaseCallbackProvider";
 
     protected String mProviderType;
-    private String mMobiCodeId;
-    private int mSortType;
-    private String mMd5;
-    private boolean mPushMessage;
+    private AdPushParams mPushParams;
 
     public BaseCallbackProvider(String providerType) {
         mProviderType = providerType;
@@ -213,43 +210,33 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     ////////////信息流回调 end //////////
 
 
+    @Override
+    public void setPushParams(AdPushParams pushParams) {
+        mPushParams = pushParams;
+    }
+
     public String getProviderType() {
         return mProviderType;
     }
 
     public String getMobiCodeId() {
-        return mMobiCodeId;
-    }
-
-    public void setMobiCodeId(String mobiCodeId) {
-        mMobiCodeId = mobiCodeId;
-    }
-
-    @Override
-    public void setMd5(String md5) {
-        mMd5 = md5;
+        return mPushParams.getMobiCodeId();
     }
 
     public String getMd5() {
-        return mMd5;
-    }
-
-    @Override
-    public void setSortType(int sortType) {
-        mSortType = sortType;
+        return mPushParams.getMd5();
     }
 
     public int getSortType() {
-        return mSortType;
+        return mPushParams.getSortType();
     }
 
-    @Override
-    public void setPushMessage(boolean pushMessage) {
-        mPushMessage = pushMessage;
+    public int getStyleType() {
+        return mPushParams.getStyleType();
     }
 
-    public boolean isPushMessage() {
-        return mPushMessage;
+    public boolean isPushOtherEvent() {
+        return mPushParams.isPushOtherEvent();
     }
 
     /**
@@ -279,17 +266,16 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     /**
      * 事件上报
      *
-     * @param event     显示 ...
-     * @param styleType 类型：插屏 ...
+     * @param event 显示 ...
      */
-    public void trackEvent(int event, int styleType) {
+    public void trackEvent(int event) {
 //        if (!isPushMessage()) {
 //            Log.e(TAG, " 消息拦截 不再上报 ");
 //            return;
 //        }
 
         PushEventTrack.trackAD(event,
-                styleType,
+                getStyleType(),
                 getMobiCodeId(),
                 getSortType(),
                 mProviderType,
@@ -298,149 +284,118 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     /**
      * 事件上报开始
-     *
-     * @param styleType 类型：插屏 ...
      */
-    public void trackEventStart(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.START, styleType);
+    public void trackEventStart() {
+        trackEvent(MobiConstantValue.EVENT.START);
     }
 
     /**
      * 事件上报 填充->下载好了
-     *
-     * @param styleType 类型：插屏 ...
      */
-    public void trackEventLoad(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.LOAD, styleType);
+    public void trackEventLoad() {
+        trackEvent(MobiConstantValue.EVENT.LOAD);
     }
 
 
     /**
      * 事件上报 填充->下载好了
-     *
-     * @param styleType 类型：插屏 ...
      */
-    public void trackEventShow(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.SHOW, styleType);
+    public void trackEventShow() {
+        trackEvent(MobiConstantValue.EVENT.SHOW);
     }
 
     /**
      * 事件上报 填充->下载好了
-     *
-     * @param styleType 类型：插屏 ...
      */
-    public void trackEventClick(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.CLICK, styleType);
+    public void trackEventClick() {
+        trackEvent(MobiConstantValue.EVENT.CLICK);
     }
 
     /**
      * 事件上报 填充->下载好了
-     *
-     * @param styleType 类型：插屏 ...
      */
-    public void trackEventClose(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.CLOSE, styleType);
+    public void trackEventClose() {
+        trackEvent(MobiConstantValue.EVENT.CLOSE);
     }
 
     /**
      * 开始显示
-     *
-     * @param styleType
      */
-    public void trackStartShow(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.START_SHOW, styleType);
+    public void trackStartShow() {
+        trackEvent(MobiConstantValue.EVENT.START_SHOW);
     }
 
     /**
      * 缓存好的一个事件
-     *
-     * @param styleType
      */
-    public void trackCache(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.CACHE, styleType);
+    public void trackCache() {
+        trackEvent(MobiConstantValue.EVENT.CACHE);
     }
 
     /**
      * 完成了一个事件
-     *
-     * @param styleType
      */
-    public void trackComplete(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.COMPLETE, styleType);
+    public void trackComplete() {
+        trackEvent(MobiConstantValue.EVENT.COMPLETE);
     }
 
     /**
      * 跳过一个事件
-     *
-     * @param styleType
      */
-    public void trackSkip(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.SKIP, styleType);
+    public void trackSkip() {
+        trackEvent(MobiConstantValue.EVENT.SKIP);
     }
 
     /**
      * 事件渲染成功
-     *
-     * @param styleType
      */
-    public void trackRenderSuccess(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.RENDER_SUCCESS, styleType);
+    public void trackRenderSuccess() {
+        trackEvent(MobiConstantValue.EVENT.RENDER_SUCCESS);
     }
 
     /**
      * 事件渲染成功
-     *
-     * @param styleType
      */
-    public void trackRewardVerify(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.REWARD_VERIFY, styleType);
+    public void trackRewardVerify() {
+        trackEvent(MobiConstantValue.EVENT.REWARD_VERIFY);
     }
 
     /**
      * 广告展开遮盖时调用
-     *
-     * @param styleType
      */
-    public void trackGdtOpenOverlay(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.GDT_OPEN_OVERLAY, styleType);
+    public void trackGdtOpenOverlay() {
+        trackEvent(MobiConstantValue.EVENT.GDT_OPEN_OVERLAY);
     }
 
     /**
      * 广告关闭遮盖时调用
-     *
-     * @param styleType
      */
-    public void trackGdtCloseOverlay(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.GDT_CLOSE_OVERLAY, styleType);
+    public void trackGdtCloseOverlay() {
+        trackEvent(MobiConstantValue.EVENT.GDT_CLOSE_OVERLAY);
     }
 
     /**
      * 广告关闭遮盖时调用
-     *
-     * @param styleType
      */
-    public void trackGdtShow(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.GDT_SHOW, styleType);
+    public void trackGdtShow() {
+        trackEvent(MobiConstantValue.EVENT.GDT_SHOW);
     }
 
     /**
      * gdt离开app的回调
-     *
-     * @param styleType
      */
-    public void trackGdtLeftApplication(int styleType) {
-        trackEvent(MobiConstantValue.EVENT.GDT_LEFT_APPLICATION, styleType);
+    public void trackGdtLeftApplication() {
+        trackEvent(MobiConstantValue.EVENT.GDT_LEFT_APPLICATION);
     }
 
 
     /**
-     * @param styleType
-     * @param type      错误类型
+     * @param type    错误类型
      * @param code
      * @param message
      * @param debug
      */
-    public void trackEventError(int styleType, int type,
+    public void trackEventError(int type,
                                 int code,
                                 String message,
                                 String debug) {
@@ -450,7 +405,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 //            return;
 //        }
         PushEventTrack.trackAD(MobiConstantValue.EVENT.ERROR,
-                styleType,
+                getStyleType(),
                 getMobiCodeId(),
                 getSortType(),
                 mProviderType,
@@ -462,11 +417,8 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     }
 
 
-    public void trackEventError(int styleType,
-                                int type,
-                                int code,
-                                String message) {
+    public void trackEventError(int type, int code, String message) {
 
-        trackEventError(styleType, type, code, message, "");
+        trackEventError(type, code, message, "");
     }
 }

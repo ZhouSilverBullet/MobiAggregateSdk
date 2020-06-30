@@ -78,7 +78,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, Sp
     public void onADDismissed() {
         Log.w(TAG, "onADDismissed");
         if (mAdProvider != null) {
-            mAdProvider.trackEventClose(getStyleType());
+            mAdProvider.trackEventClose();
             mAdProvider.callbackSplashDismissed(mListener);
         }
     }
@@ -104,7 +104,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, Sp
                     mBaseSplashSkipView.getLayoutParams());
         }
         if (mAdProvider != null) {
-            mAdProvider.trackGdtShow(getStyleType());
+            mAdProvider.trackGdtShow();
         }
     }
 
@@ -113,7 +113,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, Sp
         Log.w(TAG, "onADClicked");
         if (mAdProvider != null) {
             mAdProvider.trackClick();
-            mAdProvider.trackEventClick(getStyleType());
+            mAdProvider.trackEventClick();
             mAdProvider.callbackSplashClicked(mListener);
         }
 
@@ -133,7 +133,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, Sp
         Log.w(TAG, "onADExposure");
         if (mAdProvider != null) {
             mAdProvider.trackShow();
-            mAdProvider.trackEventShow(getStyleType());
+            mAdProvider.trackEventShow();
             mAdProvider.callbackSplashExposure(mListener);
         }
     }
@@ -142,7 +142,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, Sp
     public void onADLoaded(long l) {
         Log.w(TAG, "onADLoaded");
         if (mAdProvider != null) {
-            mAdProvider.trackEventLoad(getStyleType());
+            mAdProvider.trackEventLoad();
         }
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
@@ -176,7 +176,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, Sp
     @Override
     public void run() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventStart(getStyleType());
+            mAdProvider.trackEventStart();
         }
         createSplashAd();
     }
@@ -193,7 +193,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, Sp
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackStartShow(getStyleType());
+            mAdProvider.trackStartShow();
         }
     }
 

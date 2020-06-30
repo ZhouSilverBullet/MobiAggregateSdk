@@ -71,7 +71,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
     public void onRewardVideoAdLoad(TTRewardVideoAd ttRewardVideoAd) {
 
         if (mAdProvider != null) {
-            mAdProvider.trackEventLoad(getStyleType());
+            mAdProvider.trackEventLoad();
         }
 
         //load成功前判断一下，是否已经把任务给取消了
@@ -120,7 +120,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
         //缓存在了本地
         if (mAdProvider != null) {
             mAdProvider.callbackRewardCached(mListener);
-            mAdProvider.trackCache(getStyleType());
+            mAdProvider.trackCache();
         }
     }
 
@@ -130,7 +130,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
 
         if (mAdProvider != null) {
             mAdProvider.trackShow();
-            mAdProvider.trackEventShow(getStyleType());
+            mAdProvider.trackEventShow();
             mAdProvider.callbackRewardExpose(mListener);
         }
     }
@@ -140,7 +140,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
 
         if (mAdProvider != null) {
             mAdProvider.trackClick();
-            mAdProvider.trackEventClick(getStyleType());
+            mAdProvider.trackEventClick();
             mAdProvider.callbackRewardClick(mListener);
         }
     }
@@ -149,7 +149,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
     public void onAdClose() {
         //广告关闭
         if (mAdProvider != null) {
-            mAdProvider.trackEventClose(getStyleType());
+            mAdProvider.trackEventClose();
             mAdProvider.callbackRewardClose(mListener);
         }
     }
@@ -159,7 +159,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
         //播放完成
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVideoComplete(mListener);
-            mAdProvider.trackComplete(getStyleType());
+            mAdProvider.trackComplete();
         }
     }
 
@@ -175,7 +175,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
         //视频播放完成，奖励回调验证
         if (mAdProvider != null) {
             mAdProvider.callbackRewardVerify(rewardVerify, rewardAmount, rewardName, mListener);
-            mAdProvider.trackRewardVerify(getStyleType());
+            mAdProvider.trackRewardVerify();
         }
     }
 
@@ -184,7 +184,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
         //跳过广告
         if (mAdProvider != null) {
             mAdProvider.callbackRewardSkippedVideo(mListener);
-            mAdProvider.trackSkip(getStyleType());
+            mAdProvider.trackSkip();
         }
 
     }
@@ -192,7 +192,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
     @Override
     public void run() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventStart(getStyleType());
+            mAdProvider.trackEventStart();
         }
         createRewardVideoAd();
     }
@@ -209,7 +209,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackStartShow(getStyleType());
+            mAdProvider.trackStartShow();
         }
     }
 

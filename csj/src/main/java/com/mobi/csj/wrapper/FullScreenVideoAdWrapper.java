@@ -71,7 +71,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
     public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ttFullScreenVideoAd) {
 
         if (mAdProvider != null) {
-            mAdProvider.trackEventLoad(getStyleType());
+            mAdProvider.trackEventLoad();
         }
 
         //load成功前判断一下，是否已经把任务给取消了
@@ -126,7 +126,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackCache(getStyleType());
+            mAdProvider.trackCache();
         }
     }
 
@@ -134,7 +134,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
     public void onAdShow() {
         if (mListener != null) {
             mAdProvider.trackShow();
-            mAdProvider.trackEventShow(getStyleType());
+            mAdProvider.trackEventShow();
             mListener.onAdExposure(mProviderType);
         }
     }
@@ -143,7 +143,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
     public void onAdVideoBarClick() {
         if (mListener != null) {
             mAdProvider.trackClick();
-            mAdProvider.trackEventClick(getStyleType());
+            mAdProvider.trackEventClick();
             mListener.onAdClick(mProviderType);
         }
     }
@@ -151,7 +151,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
     @Override
     public void onAdClose() {
         if (mListener != null) {
-            mAdProvider.trackEventClose(getStyleType());
+            mAdProvider.trackEventClose();
             mListener.onAdClose(mProviderType);
         }
     }
@@ -163,7 +163,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackComplete(getStyleType());
+            mAdProvider.trackComplete();
         }
     }
 
@@ -174,14 +174,14 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackSkip(getStyleType());
+            mAdProvider.trackSkip();
         }
     }
 
     @Override
     public void run() {
         if (mAdProvider != null) {
-            mAdProvider.trackEventStart(getStyleType());
+            mAdProvider.trackEventStart();
         }
         createFullScreenVideoAd();
     }
@@ -198,7 +198,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
         }
 
         if (mAdProvider != null) {
-            mAdProvider.trackStartShow(getStyleType());
+            mAdProvider.trackStartShow();
         }
     }
 

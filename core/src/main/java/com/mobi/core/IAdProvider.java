@@ -3,6 +3,7 @@ package com.mobi.core;
 import android.app.Activity;
 import android.view.ViewGroup;
 
+import com.mobi.core.analysis.AdPushParams;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
@@ -20,26 +21,33 @@ import com.mobi.core.strategy.AdRunnable;
 public interface IAdProvider {
 
     /**
-     * 用于上报使用
+     * 推送上传所需要的数据
      *
-     * @param mobiCodeId
+     * @param pushParams
      */
-    void setMobiCodeId(String mobiCodeId);
+    void setPushParams(AdPushParams pushParams);
 
-
-    void setMd5(String md5);
-
-    /**
-     *
-     * @param sortType
-     */
-    void setSortType(int sortType);
-
-    /**
-     * 是否上传消息
-     * @param pushMessage
-     */
-    void setPushMessage(boolean pushMessage);
+//    /**
+//     * 用于上报使用
+//     *
+//     * @param mobiCodeId
+//     */
+//    void setMobiCodeId(String mobiCodeId);
+//
+//
+//    void setMd5(String md5);
+//
+//    /**
+//     *
+//     * @param sortType
+//     */
+//    void setSortType(int sortType);
+//
+//    /**
+//     * 是否上传消息
+//     * @param pushMessage
+//     */
+//    void setPushMessage(boolean pushMessage);
 
     /**
      * @param activity

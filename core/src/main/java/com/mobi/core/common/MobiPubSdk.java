@@ -10,6 +10,8 @@ import com.mobi.core.AdParams;
 import com.mobi.core.AdProviderManager;
 import com.mobi.core.IAdProvider;
 import com.mobi.core.LocalAdParams;
+import com.mobi.core.MobiConstantValue;
+import com.mobi.core.analysis.AdPushParams;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.listener.IExpressListener;
@@ -89,7 +91,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, STYLE.SPLASH, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -99,7 +101,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, STYLE.SPLASH, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 
@@ -112,10 +114,14 @@ public class MobiPubSdk {
             LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean, md5Value);
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
-                provider.setMobiCodeId(localAdParams.getMobiCodeId());
-                provider.setMd5(localAdParams.getMd5());
-                provider.setSortType(sortType);
-                provider.setPushMessage(showAdBean.isPushMessage());
+                AdPushParams adPushParams = AdPushParams.create(localAdParams.getMobiCodeId(),
+                        localAdParams.getMd5(),
+                        sortType,
+                        STYLE.SPLASH,
+                        showAdBean.isPushOtherEvent());
+
+                provider.setPushParams(adPushParams);
+
                 AdRunnable runnable = provider
                         .splash(activity,
                                 splashContainer,
@@ -159,7 +165,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, STYLE.NATIVE_EXPRESS, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -168,7 +174,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, STYLE.NATIVE_EXPRESS, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 
@@ -182,10 +188,13 @@ public class MobiPubSdk {
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
-                provider.setMobiCodeId(localAdParams.getMobiCodeId());
-                provider.setMd5(localAdParams.getMd5());
-                provider.setSortType(sortType);
-                provider.setPushMessage(showAdBean.isPushMessage());
+                AdPushParams adPushParams = AdPushParams.create(localAdParams.getMobiCodeId(),
+                        localAdParams.getMd5(),
+                        sortType,
+                        STYLE.NATIVE_EXPRESS,
+                        showAdBean.isPushOtherEvent());
+
+                provider.setPushParams(adPushParams);
                 AdRunnable runnable = provider
                         .nativeExpress(activity,
                                 viewContainer,
@@ -212,7 +221,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, STYLE.FULL_SCREEN, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -221,7 +230,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, STYLE.FULL_SCREEN, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 
@@ -235,10 +244,14 @@ public class MobiPubSdk {
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
-                provider.setMobiCodeId(localAdParams.getMobiCodeId());
-                provider.setMd5(localAdParams.getMd5());
-                provider.setSortType(sortType);
-                provider.setPushMessage(showAdBean.isPushMessage());
+                AdPushParams adPushParams = AdPushParams.create(localAdParams.getMobiCodeId(),
+                        localAdParams.getMd5(),
+                        sortType,
+                        STYLE.FULL_SCREEN,
+                        showAdBean.isPushOtherEvent());
+
+                provider.setPushParams(adPushParams);
+
                 AdRunnable runnable = provider
                         .fullscreen(activity,
                                 localAdParams,
@@ -266,7 +279,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, STYLE.REWARD, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -275,7 +288,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, STYLE.REWARD, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 
@@ -289,10 +302,14 @@ public class MobiPubSdk {
 
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
-                provider.setMobiCodeId(localAdParams.getMobiCodeId());
-                provider.setMd5(localAdParams.getMd5());
-                provider.setSortType(sortType);
-                provider.setPushMessage(showAdBean.isPushMessage());
+                AdPushParams adPushParams = AdPushParams.create(localAdParams.getMobiCodeId(),
+                        localAdParams.getMd5(),
+                        sortType,
+                        STYLE.REWARD,
+                        showAdBean.isPushOtherEvent());
+
+                provider.setPushParams(adPushParams);
+
                 AdRunnable runnable = provider
                         .rewardVideo(activity,
                                 localAdParams,
@@ -325,7 +342,7 @@ public class MobiPubSdk {
         LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
-            callOnFail(adParams.getCodeId(), 0, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
+            callOnFail(adParams.getCodeId(), 0, STYLE.INTERACTION_EXPRESS, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
             return;
         }
 
@@ -334,7 +351,7 @@ public class MobiPubSdk {
 
         IShowAdStrategy strategy = localAdBean.getAdStrategy();
         if (strategy == null) {
-            callOnFail(adParams.getCodeId(), sortType, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
+            callOnFail(adParams.getCodeId(), sortType, STYLE.INTERACTION_EXPRESS, TYPE_LOCAL_MOBI, SDK_CODE_10006, SDK_MESSAGE_10006, listener);
             return;
         }
 
@@ -347,10 +364,14 @@ public class MobiPubSdk {
             LocalAdParams localAdParams = LocalAdParams.create(sortType, adParams, showAdBean, md5Value);
             IAdProvider provider = AdProviderManager.get().getProvider(showAdBean.getProviderType());
             if (provider != null) {
-                provider.setMobiCodeId(localAdParams.getMobiCodeId());
-                provider.setMd5(localAdParams.getMd5());
-                provider.setSortType(sortType);
-                provider.setPushMessage(showAdBean.isPushMessage());
+                AdPushParams adPushParams = AdPushParams.create(localAdParams.getMobiCodeId(),
+                        localAdParams.getMd5(),
+                        sortType,
+                        STYLE.INTERACTION_EXPRESS,
+                        showAdBean.isPushOtherEvent());
+
+                provider.setPushParams(adPushParams);
+
                 AdRunnable runnable = provider
                         .interactionExpress(activity,
                                 localAdParams,
