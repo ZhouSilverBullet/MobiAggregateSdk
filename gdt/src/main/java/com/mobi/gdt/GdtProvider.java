@@ -1,6 +1,7 @@
 package com.mobi.gdt;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.ViewGroup;
 
 import com.mobi.core.BaseAdProvider;
@@ -79,13 +80,13 @@ public class GdtProvider extends BaseAdProvider {
     }
 
     @Override
-    public AdRunnable nativeExpress(Activity mContext,
+    public AdRunnable nativeExpress(Context context,
                                     ViewGroup viewContainer,
                                     LocalAdParams adParams,
                                     IExpressListener mListener) {
 
         NativeExpressAdWrapper nativeExpressAdWrap = new NativeExpressAdWrapper(this,
-                mContext,
+                context,
                 viewContainer,
                 adParams,
                 mListener);

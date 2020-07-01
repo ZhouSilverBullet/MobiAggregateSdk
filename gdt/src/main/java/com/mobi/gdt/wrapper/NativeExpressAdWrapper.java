@@ -1,6 +1,7 @@
 package com.mobi.gdt.wrapper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,14 +30,14 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     private final BaseAdProvider mAdProvider;
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
-    Activity mContext;
+    Context mContext;
     ViewGroup mViewContainer;
     IExpressListener mListener;
     private NativeExpressAD mNativeExpressAD;
     private List<NativeExpressADView> mNativeExpressADViews;
 
     public NativeExpressAdWrapper(BaseAdProvider adProvider,
-                                  Activity context,
+                                  Context context,
                                   ViewGroup viewContainer,
                                   LocalAdParams params,
                                   IExpressListener listener) {

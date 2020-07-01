@@ -99,14 +99,14 @@ public class CsjProvider extends BaseAdProvider {
     }
 
     @Override
-    public AdRunnable nativeExpress(Activity activity,
+    public AdRunnable nativeExpress(Context context,
                                     ViewGroup viewContainer,
                                     LocalAdParams adParams,
                                     IExpressListener mListener) {
 
         NativeExpressAdWrapper nativeExpressAdWrap = new NativeExpressAdWrapper(
                 this,
-                activity,
+                context,
                 viewContainer,
                 adParams,
                 mListener);

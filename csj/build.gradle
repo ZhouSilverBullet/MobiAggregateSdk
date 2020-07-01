@@ -37,6 +37,7 @@ android {
 
 
 dependencies {
+//    embed
     api fileTree(dir: "libs", include: ["*.jar", '*.aar'])
     implementation project(path: ':core')
 //    api(name: 'open_ad_sdk', ext: 'aar')

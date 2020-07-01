@@ -1,6 +1,7 @@
 package com.mobi.core;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.ViewGroup;
 
 import com.mobi.core.analysis.AdPushParams;
@@ -88,12 +89,12 @@ public interface IAdProvider {
     /**
      * 信息流
      *
-     * @param activity
+     * @param context
      * @param viewContainer
      * @param adParams
      * @param listener
      */
-    AdRunnable nativeExpress(Activity activity,
+    AdRunnable nativeExpress(Context context,
                              ViewGroup viewContainer,
                              LocalAdParams adParams,
                              IExpressListener listener);

@@ -53,6 +53,14 @@ class SdkUtils {
         return true;
     }
 
+    static boolean checkSafe(Context context) {
+        if (context == null) {
+            throw new MobiNullPointerException("context == null");
+        }
+
+        return true;
+    }
+
     static boolean checkSafe(View view) {
         if (view == null) {
             throw new MobiNullPointerException("view == null");

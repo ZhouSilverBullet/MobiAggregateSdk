@@ -140,19 +140,17 @@ public class MobiPubSdk {
     /**
      * 信息流
      *
-     * @param activity
+     * @param context
      * @param viewContainer
      * @param adParams
      * @param listener
      */
     @MainThread
-    public static void showNativeExpress(Activity activity,
+    public static void showNativeExpress(Context context,
                                          ViewGroup viewContainer,
                                          AdParams adParams,
                                          IExpressListener listener) {
-        if (!checkSafe(activity)) {
-            return;
-        }
+        checkSafe(context);
         checkSafe(viewContainer);
         checkSafe(adParams);
 
@@ -162,7 +160,7 @@ public class MobiPubSdk {
 //        fragmentManager.beginTransaction()
 //                .add(new AdFragment(), "mobiad")
 //                .commitAllowingStateLoss();
-        LocalAdBean localAdBean = findsShowAdBean(activity.getApplicationContext(), adParams.getCodeId());
+        LocalAdBean localAdBean = findsShowAdBean(context.getApplicationContext(), adParams.getCodeId());
 
         if (isAdInvalid(localAdBean)) {
             callOnFail(adParams.getCodeId(), 0, STYLE.NATIVE_EXPRESS, TYPE_LOCAL_MOBI, SDK_CODE_10005, SDK_MESSAGE_10005, listener);
@@ -196,7 +194,7 @@ public class MobiPubSdk {
 
                 provider.setPushParams(adPushParams);
                 AdRunnable runnable = provider
-                        .nativeExpress(activity,
+                        .nativeExpress(context,
                                 viewContainer,
                                 localAdParams,
                                 listener);

@@ -1,6 +1,7 @@
 package com.mobi.csj.wrapper;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,13 +31,13 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;
-    Activity mContext;
+    Context mContext;
     ViewGroup mViewContainer;
     IExpressListener mListener;
     private List<TTNativeExpressAd> mList;
 
     public NativeExpressAdWrapper(BaseAdProvider adProvider,
-                                  Activity context,
+                                  Context context,
                                   ViewGroup viewContainer,
                                   LocalAdParams adParams,
                                   IExpressListener listener) {
@@ -67,7 +68,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
                 .setSupportDeepLink(mAdParams.isSupportDeepLink())
                 .setAdCount(getLoadCount(mAdParams.getAdCount()))
                 .setExpressViewAcceptedSize(mAdParams.getExpressViewWidth(), mAdParams.getExpressViewHeight())
-                .setImageAcceptedSize(mAdParams.getImageWidth(), mAdParams.getExpressViewHeight())
+                .setImageAcceptedSize(mAdParams.getImageWidth(), mAdParams.getImageHeight())
                 .build();
 
         mTTAdNative.loadNativeExpressAd(adSlot, this);
