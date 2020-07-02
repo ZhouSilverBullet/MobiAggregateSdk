@@ -1,6 +1,5 @@
 package com.mobi.csj.wrapper;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,14 +60,14 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
         }
 
 
-        TTAdNative mTTAdNative = createAdNative(mContext.getApplicationContext());
+        TTAdNative mTTAdNative = createAdNative(mContext);
 
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(mAdParams.getPostId())
                 .setSupportDeepLink(mAdParams.isSupportDeepLink())
                 .setAdCount(getLoadCount(mAdParams.getAdCount()))
-                .setExpressViewAcceptedSize(mAdParams.getExpressViewWidth(), mAdParams.getExpressViewHeight())
                 .setImageAcceptedSize(mAdParams.getImageWidth(), mAdParams.getImageHeight())
+                .setExpressViewAcceptedSize(mAdParams.getExpressViewWidth(), mAdParams.getExpressViewHeight())
                 .build();
 
         mTTAdNative.loadNativeExpressAd(adSlot, this);
@@ -78,9 +77,9 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     @Override
     public void onError(int code, String message) {
 
-        if (mViewContainer != null) {
-            mViewContainer.removeAllViews();
-        }
+//        if (mViewContainer != null) {
+//            mViewContainer.removeAllViews();
+//        }
 
         localExecFail(mAdProvider, code, message);
 
@@ -189,15 +188,15 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
 
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
-        // todo
-        if (mViewContainer.getVisibility() != View.VISIBLE) {
-            mViewContainer.setVisibility(View.VISIBLE);
-        }
-        //防止广告重叠显示
-        if (mViewContainer.getChildCount() > 0) {
-            mViewContainer.removeAllViews();
-        }
+
         if (mViewContainer != null) {
+            if (mViewContainer.getVisibility() != View.VISIBLE) {
+                mViewContainer.setVisibility(View.VISIBLE);
+            }
+            //防止广告重叠显示
+            if (mViewContainer.getChildCount() > 0) {
+                mViewContainer.removeAllViews();
+            }
             mViewContainer.addView(view);
         }
 

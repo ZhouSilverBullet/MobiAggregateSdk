@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOrientation(MobiConstantValue.VERTICAL)
                 .setAdCount(1)
                 .setImageAcceptedSize(640, 320)
-                .setExpressViewAcceptedSize(300, 0)
+                .setExpressViewAcceptedSize(350, 0)
                 .build();
 
         //native

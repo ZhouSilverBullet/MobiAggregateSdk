@@ -37,11 +37,21 @@
         android:onClick="btnExpress"
         android:text="显示信息流广告" />
 
-    <FrameLayout
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/flContainer"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content" />-->
+
+    <LinearLayout
         android:id="@+id/flContainer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="14dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical" />
 
 </LinearLayout>

@@ -1,6 +1,5 @@
 package com.mobi.gdt.wrapper;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,9 +136,9 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
 //        }
         mNativeExpressADViews = list;
 
-        if (mViewContainer.getChildCount() > 0) {
-            mViewContainer.removeAllViews();
-        }
+//        if (mViewContainer.getChildCount() > 0) {
+//            mViewContainer.removeAllViews();
+//        }
 
         for (NativeExpressADView nativeExpressADView : list) {
             mViewContainer.addView(nativeExpressADView);
@@ -152,9 +151,9 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
 
     @Override
     public void onRenderFail(NativeExpressADView nativeExpressADView) {
-        if (mViewContainer != null) {
-            mViewContainer.removeAllViews();
-        }
+//        if (mViewContainer != null) {
+//            mViewContainer.removeAllViews();
+//        }
         //广告渲染失败
         localRenderFail(mAdProvider, MobiConstantValue.ERROR.TYPE_RENDER_ERROR,
                 MobiConstantValue.GDT_ERROR_RENDER_MESSAGE);
