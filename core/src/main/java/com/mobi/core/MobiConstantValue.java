@@ -15,15 +15,15 @@ public class MobiConstantValue {
 
     public static final String DEVICE_ID = "device_id";
 
-    public static final int VERTICAL = 1;
-    public static final int HORIZONTAL = 2;
+    public static final int VERTICAL = ConstantValue.VERTICAL;
+    public static final int HORIZONTAL = ConstantValue.HORIZONTAL;
 
     public static String PLATFORM = "android";
     public static String SDK_VERSION = BuildConfig.VERSION_NAME;
 
     public static String CHANNEL = "";//渠道
 
-    public static final String LOCAL_URL = "http://dev.findwxapp.com/flow-mediation/v1/ad";
+    public static final String LOCAL_URL = BuildConfig.DEBUG ? "http://dev.findwxapp.com/flow-mediation/v1/ad/" : "http://proto.findwxapp.com/flow-mediation/v1/ad/";
 //    public static final String LOCAL_URL = "http://www.zhousaito.top:8080/config";
 
 
@@ -37,7 +37,7 @@ public class MobiConstantValue {
     /**
      * 本地个类型，告知给外面
      */
-    public static final String TYPE_LOCAL_MOBI= "MobiType";
+    public static final String TYPE_LOCAL_MOBI = "MobiType";
 
     public static final int SDK_CODE_10005 = 10005;
     public static final String SDK_MESSAGE_10005 = "mobi codeid 不正确 或者 codeId == null";
@@ -72,7 +72,6 @@ public class MobiConstantValue {
          * 点击
          */
         public static final int CLICK = 40;
-
 
 
         /**
@@ -201,7 +200,6 @@ public class MobiConstantValue {
          * postId 获取的时候为空错误
          */
         public static final int TYPE_POSTID_EMPTY_ERROR = SDK_CODE_10008;
-
 
 
     }

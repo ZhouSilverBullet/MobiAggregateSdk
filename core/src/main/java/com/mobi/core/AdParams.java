@@ -112,7 +112,7 @@ public class AdParams {
         return autoShowAd;
     }
 
-    public static final class Builder {
+    public static class Builder {
         private String codeId = "";
         private boolean supportDeepLink = true;
         private int expressViewWidth = 300;

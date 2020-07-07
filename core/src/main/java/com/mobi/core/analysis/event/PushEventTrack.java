@@ -32,12 +32,16 @@ public class PushEventTrack {
     public static String DEVELOPER_URL = "";
 
     /**
+     * 然后后面上传是，通过获取 {@link CoreSession#getReportUrl()}
+     */
+    public static String REPORT_URL = "";
+
+    /**
      * 是否上传失败了的标志
      * 默认第一次是true的，这样第一次上报的时候
-     *
+     * <p>
      * 就会去扫描本地的数据库，有数据的话，
      * 就会同时带着第一次的数据上传给服务器了
-     *
      */
     private static volatile boolean isFailReport = true;
 
@@ -92,6 +96,13 @@ public class PushEventTrack {
             return;
         }
 
+        if (!updateReportUrlGetSuccess()) {
+            LogUtils.e(TAG, "reportUrl为空 数据存数据库里头");
+            saveDb(bean);
+            isFailReport = true;
+            return;
+        }
+
         if (!DeviceUtil.isNetAvailable(CoreSession.get().getContext())) {
             //网络不可用存数据库里头
             LogUtils.e(TAG, "网络不可用 数据存数据库里头");
@@ -119,8 +130,9 @@ public class PushEventTrack {
         //把数据变成json数据传给后台
         String fromBody = PushEventUtil.toPushEventJson(beanList);
 
+        String url = isMushPushEvent(bean.getEvent()) ? REPORT_URL : DEVELOPER_URL;
         Request request = new Request.Builder()
-                .setUrl(DEVELOPER_URL)
+                .setUrl(url)
                 .setMethod(Request.POST)
                 .setFromBody(fromBody)
                 .build();
@@ -169,6 +181,17 @@ public class PushEventTrack {
         if (TextUtils.isEmpty(DEVELOPER_URL)) {
             DEVELOPER_URL = CoreSession.get().getDeveloperUrl();
             if (TextUtils.isEmpty(DEVELOPER_URL)) {
+                LogUtils.e(TAG, "连接还是空的");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean updateReportUrlGetSuccess() {
+        if (TextUtils.isEmpty(REPORT_URL)) {
+            REPORT_URL = CoreSession.get().getReportUrl();
+            if (TextUtils.isEmpty(REPORT_URL)) {
                 LogUtils.e(TAG, "连接还是空的");
                 return false;
             }

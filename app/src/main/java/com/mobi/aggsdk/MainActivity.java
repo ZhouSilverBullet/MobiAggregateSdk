@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobi.core.ConstantValue;
 import com.mobi.core.common.MobiPubSdk;
 import com.mobi.core.AdParams;
 import com.mobi.core.MobiConstantValue;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public void btnFullScreen(View view) {
         AdParams adParams = new AdParams.Builder()
                 .setCodeId("1024002")
-                .setOrientation(MobiConstantValue.VERTICAL)
+                .setOrientation(ConstantValue.VERTICAL)
                 .build();
 
         MobiPubSdk.showFullscreen(this, adParams, new IFullScreenVideoAdListener() {
@@ -218,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
     public void btnExpress(View view) {
         AdParams adParams = new AdParams.Builder()
                 .setCodeId("1024001")
-                .setOrientation(MobiConstantValue.VERTICAL)
                 .setAdCount(1)
                 .setImageAcceptedSize(640, 320)
                 .setExpressViewAcceptedSize(350, 0)

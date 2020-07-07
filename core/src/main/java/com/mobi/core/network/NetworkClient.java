@@ -156,7 +156,7 @@ public class NetworkClient {
             SpUtil.putCommitString(MobiConstantValue.PROTO_CONFIG, resContent);
 
             ConfigBean configBean = ConfigBeanUtil.getConfigBean(resContent);
-            Log.e(TAG, "configBean ： " + configBean);
+            Log.e(TAG, "configBean2 ： " + configBean);
             if (configBean != null) {
                 if (configBean.getConfigAdBean() != null) {
                     long timeout = configBean.getConfigAdBean().getTimeout();
