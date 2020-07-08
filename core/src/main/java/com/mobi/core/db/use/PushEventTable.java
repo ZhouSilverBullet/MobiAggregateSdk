@@ -58,6 +58,7 @@ public class PushEventTable {
             + APPID + " TEXT, "
             + DAY + " TEXT, "
             + TIME + " TEXT, "
+            + IS_PUSH_SUCCESS + " INTEGER, "
             + TIMESTAMP + " BIGINT)";
 
 

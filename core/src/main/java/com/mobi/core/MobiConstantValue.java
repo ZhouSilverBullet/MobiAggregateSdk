@@ -23,8 +23,8 @@ public class MobiConstantValue {
 
     public static String CHANNEL = "";//渠道
 
-//    public static final String LOCAL_URL = BuildConfig.DEBUG ? "http://dev.findwxapp.com/flow-mediation/v1/ad/" : "http://proto.findwxapp.com/flow-mediation/v1/ad/";
-    public static final String LOCAL_URL = "http://www.zhousaito.top:8080/config";
+    public static final String LOCAL_URL = BuildConfig.DEBUG ? "http://dev.findwxapp.com/flow-mediation/v1/ad/" : "http://proto.findwxapp.com/flow-mediation/v1/ad/";
+//    public static final String LOCAL_URL = "http://www.zhousaito.top:8080/config";
 
 
     public static final String ALL_CONFIG = "all_config";

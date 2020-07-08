@@ -27,7 +27,7 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(AnalysisTable.CREATE_ANALYSIS_TABLE);
+//        db.execSQL(AnalysisTable.CREATE_ANALYSIS_TABLE);
         db.execSQL(PushEventTable.CREATE_PUSH_EVENT_TABLE);
     }
 
