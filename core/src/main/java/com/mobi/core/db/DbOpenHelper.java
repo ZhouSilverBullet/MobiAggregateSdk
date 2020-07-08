@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.mobi.core.db.use.AnalysisTable;
 import com.mobi.core.db.use.PushEventTable;
+import com.mobi.core.utils.LogUtils;
 
 /**
  * @author zhousaito
@@ -16,7 +17,7 @@ import com.mobi.core.db.use.PushEventTable;
  */
 public class DbOpenHelper extends SQLiteOpenHelper {
     //数据库版本号
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     //数据库名字
     public static final String DB_NAME = "mobi_ad_sdk.db";
 
@@ -32,6 +33,9 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // 数据库升级版本的时候调用
+        if (newVersion > oldVersion) {
+            db.execSQL("ALTER TABLE " + PushEventTable.TABLE_NAME + " ADD COLUMN " + PushEventTable.IS_PUSH_SUCCESS + " INTEGER DEFAULT 0");
+        }
+        LogUtils.e("数据库升级加入新字段");
     }
 }

@@ -46,6 +46,11 @@ public class PushEvent {
     private long timestamp;
     private String bundle;
     private String appId;
+    /**
+     * 1.成功
+     * 0.失败
+     */
+    private int isPushSuccess;
 
     public PushEvent(int event,
                      int styleType,
@@ -184,6 +189,14 @@ public class PushEvent {
         this.appId = appId;
     }
 
+    public int getIsPushSuccess() {
+        return isPushSuccess;
+    }
+
+    public void setIsPushSuccess(int isPushSuccess) {
+        this.isPushSuccess = isPushSuccess;
+    }
+
     @Override
     public String toString() {
         return "PushEvent{" +
@@ -203,6 +216,7 @@ public class PushEvent {
                 ", timestamp=" + timestamp +
                 ", bundle='" + bundle + '\'' +
                 ", appId='" + appId + '\'' +
+                ", isPushSuccess=" + isPushSuccess +
                 '}';
     }
 }

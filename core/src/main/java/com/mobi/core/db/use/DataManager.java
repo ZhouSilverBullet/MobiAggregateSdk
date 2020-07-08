@@ -93,6 +93,13 @@ public class DataManager {
         return contentResolver.delete(uri, null, null);
     }
 
+    public static int deletePushEventFromPushSuccess(Context context, int pushSuccess) {
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = PushEventTable.getContentUri();
+        return contentResolver.delete(uri, PushEventTable.IS_PUSH_SUCCESS + "=?",
+                new String[]{String.valueOf(pushSuccess)});
+    }
+
     public static List<PushEvent> getAllPushEvent(Context context) {
         ArrayList<PushEvent> list = new ArrayList<>();
         ContentResolver contentResolver = context.getContentResolver();
@@ -109,5 +116,47 @@ public class DataManager {
         }
 
         return list;
+    }
+
+    /**
+     * 获取根据pushSuccess来进行获取的库里面的字段
+     *
+     * @param context
+     * @param pushSuccess
+     * @return
+     */
+    public static List<PushEvent> getPushEventPushSuccessList(Context context, int pushSuccess) {
+        ArrayList<PushEvent> list = new ArrayList<>();
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = PushEventTable.getContentUri();
+        Cursor cursor = contentResolver.query(uri,
+                null,
+                PushEventTable.IS_PUSH_SUCCESS + "=?",
+                new String[]{String.valueOf(pushSuccess)}, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                PushEvent bean = PushEventTable.getValues(cursor);
+                list.add(bean);
+                //要往下一个跑
+//                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+
+        return list;
+    }
+
+    public static void updatePushEvent(Context context, PushEvent bean) {
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = PushEventTable.getContentUri();
+        ContentValues contentValues = PushEventTable.putValues(bean);
+        contentResolver.update(uri, contentValues, PushEventTable.TIMESTAMP + "=? AND " + PushEventTable.POSTID + "=?",
+                new String[]{String.valueOf(bean.getTimestamp()), bean.getPostId()});
+    }
+
+    public static void updatePushEventList(Context context, List<PushEvent> beanList) {
+        for (PushEvent pushEvent : beanList) {
+            updatePushEvent(context, pushEvent);
+        }
     }
 }

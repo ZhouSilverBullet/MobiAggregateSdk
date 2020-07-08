@@ -4,8 +4,6 @@ import android.text.TextUtils;
 
 import com.mobi.core.CoreSession;
 import com.mobi.core.MobiConstantValue;
-import com.mobi.core.analysis.AnalysisBean;
-import com.mobi.core.analysis.AnalysisUtil;
 import com.mobi.core.db.use.DataManager;
 import com.mobi.core.network.HttpClient;
 import com.mobi.core.network.Request;
@@ -36,6 +34,9 @@ public class PushEventTrack {
      */
     public static String REPORT_URL = "";
 
+
+    private static volatile boolean isFirstReport = true;
+
     /**
      * 是否上传失败了的标志
      * 默认第一次是true的，这样第一次上报的时候
@@ -43,7 +44,8 @@ public class PushEventTrack {
      * 就会去扫描本地的数据库，有数据的话，
      * 就会同时带着第一次的数据上传给服务器了
      */
-    private static volatile boolean isFailReport = true;
+    private static volatile boolean isFailureReport = true;
+
 
     public static void trackAD(int event,
                                int styleType,
@@ -88,26 +90,33 @@ public class PushEventTrack {
     }
 
     private static void trackAD(PushEvent bean) {
+
+        //用户启动app第一次
+        //删除本地已经上传过的数据
+        if (isFirstReport) {
+            int count = DataManager.deletePushEventFromPushSuccess(CoreSession.get().getContext(), 1);
+            LogUtils.e(TAG, "删除了成功的个数" + count);
+            //进行状态改变
+            isFirstReport = false;
+        }
+
+        //一开始就存库里面
+        saveDb(bean);
+
         //获取UpdateUrl
         if (!updateUrlGetSuccess()) {
             LogUtils.e(TAG, "updateUrl为空 数据存数据库里头");
-            saveDb(bean);
-            isFailReport = true;
             return;
         }
 
         if (!updateReportUrlGetSuccess()) {
             LogUtils.e(TAG, "reportUrl为空 数据存数据库里头");
-            saveDb(bean);
-            isFailReport = true;
             return;
         }
 
         if (!DeviceUtil.isNetAvailable(CoreSession.get().getContext())) {
             //网络不可用存数据库里头
             LogUtils.e(TAG, "网络不可用 数据存数据库里头");
-            saveDb(bean);
-            isFailReport = true;
             return;
         }
 
@@ -116,15 +125,10 @@ public class PushEventTrack {
         List<PushEvent> beanList = new ArrayList<>();
         beanList.add(bean);
 
-        //有上传失败的时候，就把库里面的也读出来
-        boolean isDbDataNotEmpty = false;
-        if (isFailReport) {
-            //获取库里面所有的数据
-            List<PushEvent> dpList = DataManager.getAllPushEvent(CoreSession.get().getContext());
-            if (!dpList.isEmpty()) {
-                beanList.addAll(dpList);
-                isDbDataNotEmpty = true;
-            }
+        //读取库里面的所有未上传的数据
+        List<PushEvent> dpList = DataManager.getPushEventPushSuccessList(CoreSession.get().getContext(), 0);
+        if (!dpList.isEmpty()) {
+            beanList.addAll(dpList);
         }
 
         //把数据变成json数据传给后台
@@ -140,10 +144,6 @@ public class PushEventTrack {
         RequestUtil.putEventHeader(request);
 
         Response response = httpClient.execute(request);
-
-        //默认都算上传失败
-        isFailReport = true;
-
         if (response.getCode() == 200) {
             String body = response.body();
             try {
@@ -151,28 +151,21 @@ public class PushEventTrack {
                 int serverCode = jsonObject.optInt("code");
                 if (serverCode == 200) {
                     LogUtils.e(TAG, "上传成功 postId : " + bean.getPostId() + " network : " + bean.getNetwork());
-                    isFailReport = false;
-
-                    if (isDbDataNotEmpty) {
-                        int index = DataManager.deleteAllPushEvent(CoreSession.get().getContext());
-                        LogUtils.e(TAG, " 删除了所有数据库的数据条数：" + index);
+                    //上传成功的标志修改，用于第一次启动app去删除
+                    for (PushEvent pushEvent : beanList) {
+                        pushEvent.setIsPushSuccess(1);
                     }
+                    //更新数据库上传的数据状态
+                    DataManager.updatePushEventList(CoreSession.get().getContext(), beanList);
 
                 } else {
-                    //失败了就存数据库里头
-                    saveDb(bean);
                     LogUtils.e(TAG, "上传失败 code = " + serverCode + " postId : " + bean.getPostId() + " network : " + bean.getNetwork());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                //失败了就存数据库里头
-                saveDb(bean);
                 LogUtils.e(TAG, "上传失败 e = " + e.getMessage());
-
             }
         } else {
-            //失败了就存数据库里头
-            saveDb(bean);
             LogUtils.e(TAG, "上传失败 postId : " + bean.getPostId() + " network : " + bean.getNetwork());
         }
     }

@@ -1,6 +1,7 @@
 package com.mobi.core.network;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobi.core.BuildConfig;
@@ -191,6 +192,9 @@ public class NetworkClient {
     }
 
     private String getRequestUrl(String reqUrl) {
+        if (TextUtils.isEmpty(reqUrl)) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder(reqUrl);
         sb.append("?sdkv=").append(BuildConfig.VERSION_NAME);
         sb.append("&imei=").append(DeviceUtil.getDeviceId(CoreSession.get().getContext()));

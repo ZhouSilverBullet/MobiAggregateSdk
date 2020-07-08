@@ -54,4 +54,9 @@
         android:gravity="center"
         android:orientation="vertical" />
 
+    <Button
+        android:onClick="btnQuery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

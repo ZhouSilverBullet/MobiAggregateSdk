@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mobi.core.ConstantValue;
+import com.mobi.core.analysis.event.PushEvent;
 import com.mobi.core.common.MobiPubSdk;
 import com.mobi.core.AdParams;
 import com.mobi.core.MobiConstantValue;
@@ -272,5 +274,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, delayTime);
         }
+    }
+
+    public void btnQuery(View view) {
+        new Thread(() -> {
+            List<PushEvent> eventList = DataManager.getAllPushEvent(this);
+            Log.e(TAG, " size = " + eventList.size());
+            for (PushEvent pushEvent : eventList) {
+                Log.e(TAG, pushEvent.toString());
+            }
+        }).start();
     }
 }

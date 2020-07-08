@@ -39,6 +39,7 @@ public class PushEventTable {
     public static final String TIMESTAMP = "timestamp";
     public static final String BUNDLE = "bundle";
     public static final String APPID = "appId";
+    public static final String IS_PUSH_SUCCESS = "isPushSuccess";
 
 
     public static final String CREATE_PUSH_EVENT_TABLE = "CREATE TABLE " + TABLE_NAME +
@@ -91,6 +92,7 @@ public class PushEventTable {
         values.put(TIMESTAMP, info.getTimestamp());
         values.put(BUNDLE, info.getBundle());
         values.put(APPID, info.getAppId());
+        values.put(IS_PUSH_SUCCESS, info.getIsPushSuccess());
 
         return values;
     }
@@ -113,6 +115,7 @@ public class PushEventTable {
         long timestamp = getLongValue(cursor, TIMESTAMP);
         String day = getStringValue(cursor, DAY);
         String time = getStringValue(cursor, TIME);
+        int isPushSuccess = getIntValue(cursor, IS_PUSH_SUCCESS);
 
         PushEvent pushEvent = new PushEvent(event, styleType, postid, sortType, network, md5);
         pushEvent.setId(id);
@@ -125,6 +128,7 @@ public class PushEventTable {
         pushEvent.setTimestamp(timestamp);
         pushEvent.setDay(day);
         pushEvent.setTime(time);
+        pushEvent.setIsPushSuccess(isPushSuccess);
 
         return pushEvent;
     }
