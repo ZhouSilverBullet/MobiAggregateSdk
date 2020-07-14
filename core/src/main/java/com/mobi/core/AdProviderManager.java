@@ -17,11 +17,13 @@ public class AdProviderManager {
     public static final String TAG = "AdProviderManager";
 
     public static final String[] SKD_PLATFORM = new String[]{
-            "tt", "gdt"};
+            "tt", "gdt", "ks"};
     public static final String TYPE_CSJ = SKD_PLATFORM[0];
     public static final String TYPE_CSJ_PATH = "com.mobi.csj.CsjSession";
     public static final String TYPE_GDT = SKD_PLATFORM[1];
     public static final String TYPE_GDT_PATH = "com.mobi.gdt.GdtSession";
+    public static final String TYPE_KS = SKD_PLATFORM[2];
+    public static final String TYPE_KS_PATH = "com.mobi.ks.KsSession";
 
     private Map<String, ILazyCreateProvider> mAdProviderMap;
     /**

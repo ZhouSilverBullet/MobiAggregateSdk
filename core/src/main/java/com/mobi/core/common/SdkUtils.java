@@ -197,6 +197,8 @@ class SdkUtils {
                 clazzPath = AdProviderManager.TYPE_CSJ_PATH;
             } else if (AdProviderManager.TYPE_GDT.equals(providerType)) {
                 clazzPath = AdProviderManager.TYPE_GDT_PATH;
+            } else if (AdProviderManager.TYPE_KS.equals(providerType)) {
+                clazzPath = AdProviderManager.TYPE_KS_PATH;
             }
             if (!TextUtils.isEmpty(clazzPath)) {
                 Object o = SdkReflection.findInitSession(context, clazzPath,
