@@ -2,19 +2,26 @@ package com.mobi.core.listener;
 
 import android.support.annotation.NonNull;
 
+import com.mobi.core.feature.SplashAdView;
+
 /**
  * @author zhousaito
  * @version 1.0
  * @date 2020/6/1 18:48
  * @Dec 略
  */
-public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListener, IAdLoadListener {
+public interface ISplashAdListener extends ITTAppDownloadListener, IAdFailListener {
     /**
      * 开始
      *
      * @param providerType
      */
     void onAdStartRequest(@NonNull String providerType);
+
+    /**
+     * @param providerType
+     */
+    void onAdLoad(String providerType, SplashAdView view);
 
     /**
      * csj # onAdShow

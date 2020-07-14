@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
+import com.mobi.core.feature.ExpressAdView;
 import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.utils.LogUtils;
@@ -23,7 +24,7 @@ import java.util.List;
  * @date 2020/6/3 17:00
  * @Dec 略
  */
-public class NativeExpressAdWrapper extends BaseAdWrapper implements IAdView, NativeExpressAD.NativeExpressADListener {
+public class NativeExpressAdWrapper extends BaseAdWrapper implements ExpressAdView, NativeExpressAD.NativeExpressADListener {
     public static final String TAG = "GdtNativeExpressAd";
 
     private final BaseAdProvider mAdProvider;

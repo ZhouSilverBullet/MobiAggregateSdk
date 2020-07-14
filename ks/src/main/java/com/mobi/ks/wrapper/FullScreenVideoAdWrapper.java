@@ -12,6 +12,7 @@ import com.mobi.core.BaseAdProvider;
 import com.mobi.core.ConstantValue;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
+import com.mobi.core.feature.FullscreenAdView;
 import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.utils.LogUtils;
@@ -24,7 +25,7 @@ import java.util.List;
  * @date 2020/6/7 18:29
  * @Dec 略
  */
-public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IAdView, IAdRequestManager.FullScreenVideoAdListener, KsFullScreenVideoAd.FullScreenVideoAdInteractionListener {
+public class FullScreenVideoAdWrapper extends BaseAdWrapper implements FullscreenAdView, IAdRequestManager.FullScreenVideoAdListener, KsFullScreenVideoAd.FullScreenVideoAdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;

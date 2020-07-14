@@ -12,6 +12,7 @@ import com.kwad.sdk.protocol.model.AdScene;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
+import com.mobi.core.feature.ExpressAdView;
 import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.utils.LogUtils;
@@ -24,7 +25,7 @@ import java.util.List;
  * @date 2020/6/3 18:03
  * @Dec csj wrapper
  */
-public class NativeExpressAdWrapper extends BaseAdWrapper implements IAdView, IAdRequestManager.FeedAdListener, KsFeedAd.AdInteractionListener {
+public class NativeExpressAdWrapper extends BaseAdWrapper implements ExpressAdView, IAdRequestManager.FeedAdListener, KsFeedAd.AdInteractionListener {
     public static final String TAG = "CsjNativeExpressAd";
     private final BaseAdProvider mAdProvider;
     private final LocalAdParams mAdParams;

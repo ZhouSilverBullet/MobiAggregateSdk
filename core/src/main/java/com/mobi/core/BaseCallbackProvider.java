@@ -2,7 +2,11 @@ package com.mobi.core;
 
 import com.mobi.core.analysis.AdPushParams;
 import com.mobi.core.analysis.event.PushEventTrack;
+import com.mobi.core.feature.ExpressAdView;
 import com.mobi.core.feature.IAdView;
+import com.mobi.core.feature.InteractionAdView;
+import com.mobi.core.feature.RewardAdView;
+import com.mobi.core.feature.SplashAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
@@ -52,7 +56,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackSplashLoaded(ISplashAdListener listener, IAdView view, boolean isAutoShow) {
+    public final void callbackSplashLoaded(ISplashAdListener listener, SplashAdView view, boolean isAutoShow) {
         if (listener != null) {
             listener.onAdLoad(mProviderType, view);
         }
@@ -60,7 +64,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
 
     /////// 激励视频广告回调  start //////
 
-    public final void callbackRewardLoad(IRewardAdListener listener, IAdView view, boolean isAutoShow) {
+    public final void callbackRewardLoad(IRewardAdListener listener, RewardAdView view, boolean isAutoShow) {
         if (listener != null) {
             listener.onAdLoad(mProviderType, view);
         }
@@ -119,7 +123,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     /////// 插屏广告回调  start //////
 
 
-    public final void callbackInteractionLoad(IInteractionAdListener listener, IAdView view, boolean isAutoShow) {
+    public final void callbackInteractionLoad(IInteractionAdListener listener, InteractionAdView view, boolean isAutoShow) {
         if (listener != null) {
             listener.onAdLoad(mProviderType, view);
         }
@@ -166,7 +170,7 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackExpressLoad(IExpressListener listener, IAdView view, boolean isAutoShow) {
+    public final void callbackExpressLoad(IExpressListener listener, ExpressAdView view, boolean isAutoShow) {
         if (listener != null) {
             listener.onAdLoad(mProviderType, view);
         }

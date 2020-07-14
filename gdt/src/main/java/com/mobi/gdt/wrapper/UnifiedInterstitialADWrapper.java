@@ -6,6 +6,7 @@ import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IAdView;
+import com.mobi.core.feature.InteractionAdView;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.utils.LogUtils;
 import com.qq.e.ads.interstitial2.UnifiedInterstitialAD;
@@ -18,7 +19,7 @@ import com.qq.e.comm.util.AdError;
  * @date 2020/6/3 21:18
  * @Dec 略
  */
-public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements IAdView, UnifiedInterstitialADListener {
+public class UnifiedInterstitialADWrapper extends BaseAdWrapper implements InteractionAdView, UnifiedInterstitialADListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;

@@ -9,12 +9,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobi.core.AdParams;
 import com.mobi.core.ConstantValue;
 import com.mobi.core.analysis.event.PushEvent;
 import com.mobi.core.common.MobiPubSdk;
-import com.mobi.core.AdParams;
 import com.mobi.core.db.use.DataManager;
+import com.mobi.core.feature.ExpressAdView;
+import com.mobi.core.feature.FullscreenAdView;
 import com.mobi.core.feature.IAdView;
+import com.mobi.core.feature.InteractionAdView;
+import com.mobi.core.feature.RewardAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type, IAdView view) {
+            public void onAdLoad(String type, FullscreenAdView view) {
                 LogUtils.e(TAG, "onAdLoad ");
                 if (view != null) {
                     view.show();
@@ -118,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type, IAdView view) {
+            public void onAdLoad(String type, RewardAdView view) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
                 renderAd(view, true, 0);
             }
@@ -193,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type, IAdView view) {
+            public void onAdLoad(String type, InteractionAdView view) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
                 renderAd(view, true, 0);
             }
@@ -231,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type, IAdView view) {
+            public void onAdLoad(String type, ExpressAdView view) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
                 renderAd(view, true, 0);
             }

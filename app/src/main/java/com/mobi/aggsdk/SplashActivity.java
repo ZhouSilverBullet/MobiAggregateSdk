@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.mobi.core.common.MobiPubSdk;
 import com.mobi.core.AdParams;
 import com.mobi.core.feature.IAdView;
+import com.mobi.core.feature.SplashAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.splash.DefaultSplashSkipView;
@@ -86,7 +87,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String providerType, IAdView view) {
+            public void onAdLoad(String providerType, SplashAdView view) {
                 Log.e(TAG, "onAdLoaded " + "providerType: " + providerType);
                 if (view != null) {
                     view.show();

@@ -1,12 +1,17 @@
 package com.mobi.core.listener;
 
+import com.mobi.core.feature.IAdView;
+import com.mobi.core.feature.RewardAdView;
+
 /**
  * @author zhousaito
  * @version 1.0
  * @date 2020/6/3 11:17
  * @Dec 略
  */
-public interface IRewardAdListener extends ITTAppDownloadListener, IAdFailListener, IAdLoadListener {
+public interface IRewardAdListener extends ITTAppDownloadListener, IAdFailListener {
+
+    void onAdLoad(String providerType, RewardAdView view);
 
     void onAdExpose(String type);
 

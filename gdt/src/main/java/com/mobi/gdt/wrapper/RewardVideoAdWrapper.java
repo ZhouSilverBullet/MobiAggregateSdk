@@ -8,6 +8,7 @@ import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IAdView;
+import com.mobi.core.feature.RewardAdView;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
 import com.qq.e.ads.rewardvideo.RewardVideoAD;
@@ -20,7 +21,7 @@ import com.qq.e.comm.util.AdError;
  * @date 2020/6/4 11:29
  * @Dec 略
  */
-public class RewardVideoAdWrapper extends BaseAdWrapper implements IAdView, RewardVideoADListener {
+public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardAdView, RewardVideoADListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     BaseAdProvider mAdProvider;

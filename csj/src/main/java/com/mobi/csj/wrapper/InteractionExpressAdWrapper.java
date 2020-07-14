@@ -11,6 +11,7 @@ import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.IAdView;
+import com.mobi.core.feature.InteractionAdView;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.utils.LogUtils;
 
@@ -22,7 +23,7 @@ import java.util.List;
  * @date 2020/6/3 22:27
  * @Dec 略
  */
-public class InteractionExpressAdWrapper extends BaseAdWrapper implements IAdView, TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener {
+public class InteractionExpressAdWrapper extends BaseAdWrapper implements InteractionAdView, TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;
