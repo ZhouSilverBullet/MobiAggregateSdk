@@ -6,11 +6,11 @@ package com.mobi.core.feature;
  * @date 2020/6/16 14:22
  * @Dec 略
  */
-public interface IExpressAdView {
+public interface IAdView {
     /**
-     * 主动渲染
+     * 调用显示
      */
-    void render();
+    void show();
 
     /**
      * 销毁回调

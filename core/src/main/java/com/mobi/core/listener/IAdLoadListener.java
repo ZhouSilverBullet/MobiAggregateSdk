@@ -1,8 +1,6 @@
 package com.mobi.core.listener;
 
-import android.support.annotation.Nullable;
-
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 
 /**
  * @author zhousaito
@@ -14,7 +12,5 @@ public interface IAdLoadListener {
     /**
      * @param providerType
      */
-    void onAdLoad(String providerType,
-                  @Nullable IExpressAdView view,
-                  boolean isAutoShow);
+    void onAdLoad(String providerType, IAdView view);
 }

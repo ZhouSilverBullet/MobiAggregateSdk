@@ -74,7 +74,7 @@ public class MobiPubSdk {
     }
 
     @MainThread
-    public static void showSplash(Activity activity,
+    public static void loadSplash(Activity activity,
                                   ViewGroup splashContainer,
                                   @Nullable BaseSplashSkipView skipView,
                                   AdParams adParams,
@@ -146,7 +146,7 @@ public class MobiPubSdk {
      * @param listener
      */
     @MainThread
-    public static void showNativeExpress(Context context,
+    public static void loadNativeExpress(Context context,
                                          ViewGroup viewContainer,
                                          AdParams adParams,
                                          IExpressListener listener) {
@@ -207,7 +207,7 @@ public class MobiPubSdk {
     }
 
     @MainThread
-    public static void showFullscreen(Activity activity,
+    public static void loadFullscreen(Activity activity,
                                       AdParams adParams,
                                       IFullScreenVideoAdListener listener) {
 
@@ -265,7 +265,7 @@ public class MobiPubSdk {
     }
 
     @MainThread
-    public static void showRewardView(Activity activity,
+    public static void loadRewardView(Activity activity,
                                       AdParams adParams,
                                       IRewardAdListener listener) {
 
@@ -328,7 +328,7 @@ public class MobiPubSdk {
      * @param listener
      */
     @MainThread
-    public static void showInteractionExpress(Activity activity,
+    public static void loadInteractionExpress(Activity activity,
                                               AdParams adParams,
                                               IInteractionAdListener listener) {
 

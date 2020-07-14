@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.utils.LogUtils;
@@ -22,7 +22,7 @@ import com.qq.e.comm.util.AdError;
  * @date 2020/6/4 15:02
  * @Dec 略
  */
-public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, SplashADListener {
+public class SplashAdWrapper extends BaseAdWrapper implements IAdView, SplashADListener {
     public static final String TAG = "SplashAdWrapper";
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
@@ -187,7 +187,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, Sp
     }
 
     @Override
-    public void render() {
+    public void show() {
         if (mSplashAD != null) {
             mSplashAD.showAd(mSplashContainer);
         }

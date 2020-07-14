@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.utils.LogUtils;
 import com.qq.e.ads.cfg.VideoOption;
@@ -23,7 +23,7 @@ import java.util.List;
  * @date 2020/6/3 17:00
  * @Dec 略
  */
-public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdView, NativeExpressAD.NativeExpressADListener {
+public class NativeExpressAdWrapper extends BaseAdWrapper implements IAdView, NativeExpressAD.NativeExpressADListener {
     public static final String TAG = "GdtNativeExpressAd";
 
     private final BaseAdProvider mAdProvider;
@@ -252,7 +252,7 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements IExpressAdV
     }
 
     @Override
-    public void render() {
+    public void show() {
         if (mNativeExpressADViews == null) {
             return;
         }

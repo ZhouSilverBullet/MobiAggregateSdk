@@ -2,7 +2,7 @@ package com.mobi.core;
 
 import com.mobi.core.analysis.AdPushParams;
 import com.mobi.core.analysis.event.PushEventTrack;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
@@ -52,17 +52,17 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackSplashLoaded(ISplashAdListener listener, IExpressAdView view, boolean isAutoShow) {
+    public final void callbackSplashLoaded(ISplashAdListener listener, IAdView view, boolean isAutoShow) {
         if (listener != null) {
-            listener.onAdLoad(mProviderType, view, isAutoShow);
+            listener.onAdLoad(mProviderType, view);
         }
     }
 
     /////// 激励视频广告回调  start //////
 
-    public final void callbackRewardLoad(IRewardAdListener listener, IExpressAdView view, boolean isAutoShow) {
+    public final void callbackRewardLoad(IRewardAdListener listener, IAdView view, boolean isAutoShow) {
         if (listener != null) {
-            listener.onAdLoad(mProviderType, view, isAutoShow);
+            listener.onAdLoad(mProviderType, view);
         }
     }
 
@@ -119,9 +119,9 @@ public abstract class BaseCallbackProvider implements IAdProvider {
     /////// 插屏广告回调  start //////
 
 
-    public final void callbackInteractionLoad(IInteractionAdListener listener, IExpressAdView view, boolean isAutoShow) {
+    public final void callbackInteractionLoad(IInteractionAdListener listener, IAdView view, boolean isAutoShow) {
         if (listener != null) {
-            listener.onAdLoad(mProviderType, view, isAutoShow);
+            listener.onAdLoad(mProviderType, view);
         }
     }
 
@@ -166,9 +166,9 @@ public abstract class BaseCallbackProvider implements IAdProvider {
         }
     }
 
-    public final void callbackExpressLoad(IExpressListener listener, IExpressAdView view, boolean isAutoShow) {
+    public final void callbackExpressLoad(IExpressListener listener, IAdView view, boolean isAutoShow) {
         if (listener != null) {
-            listener.onAdLoad(mProviderType, view, isAutoShow);
+            listener.onAdLoad(mProviderType, view);
         }
     }
 

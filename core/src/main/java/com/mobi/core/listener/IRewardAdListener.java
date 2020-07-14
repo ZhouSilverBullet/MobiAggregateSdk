@@ -1,7 +1,5 @@
 package com.mobi.core.listener;
 
-import com.mobi.core.feature.IExpressAdView;
-
 /**
  * @author zhousaito
  * @version 1.0

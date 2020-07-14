@@ -12,7 +12,8 @@ import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
+import com.mobi.core.feature.SplashAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.utils.LogUtils;
@@ -24,7 +25,7 @@ import com.mobi.csj.splash.CsjSplashSkipViewControl;
  * @date 2020/6/4 14:07
  * @Dec 略
  */
-public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TTAdNative.SplashAdListener, TTSplashAd.AdInteractionListener, TTAppDownloadListener {
+public class SplashAdWrapper extends BaseAdWrapper implements SplashAdView, TTAdNative.SplashAdListener, TTSplashAd.AdInteractionListener, TTAppDownloadListener {
     public static final String TAG = "SplashAdWrapper";
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
@@ -262,7 +263,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements IExpressAdView, TT
     }
 
     @Override
-    public void render() {
+    public void show() {
         if (mTtSplashAd != null) {
             showAdView(mTtSplashAd);
         }

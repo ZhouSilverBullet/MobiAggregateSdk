@@ -9,7 +9,7 @@ import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.utils.LogUtils;
 
@@ -19,7 +19,7 @@ import com.mobi.core.utils.LogUtils;
  * @date 2020/6/7 18:29
  * @Dec 略
  */
-public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressAdView, TTAdNative.FullScreenVideoAdListener, TTFullScreenVideoAd.FullScreenVideoAdInteractionListener {
+public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IAdView, TTAdNative.FullScreenVideoAdListener, TTFullScreenVideoAd.FullScreenVideoAdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;
@@ -115,7 +115,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
         }
 
         if (mListener != null) {
-            mListener.onAdLoad(mProviderType, this, mAdParams.isAutoShowAd());
+            mListener.onAdLoad(mProviderType, this);
         }
     }
 
@@ -192,7 +192,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
     }
 
     @Override
-    public void render() {
+    public void show() {
         if (mTtFullScreenVideoAd != null) {
             mTtFullScreenVideoAd.showFullScreenVideoAd(mActivity);
         }

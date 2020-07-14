@@ -12,7 +12,7 @@ import com.mobi.core.BaseAdProvider;
 import com.mobi.core.ConstantValue;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.utils.LogUtils;
 
@@ -24,7 +24,7 @@ import java.util.List;
  * @date 2020/6/7 18:29
  * @Dec 略
  */
-public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressAdView, IAdRequestManager.FullScreenVideoAdListener, KsFullScreenVideoAd.FullScreenVideoAdInteractionListener {
+public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IAdView, IAdRequestManager.FullScreenVideoAdListener, KsFullScreenVideoAd.FullScreenVideoAdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;
@@ -95,7 +95,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
         mFullScreenVideoAd.setFullScreenVideoAdInteractionListener(this);
 
         if (mListener != null) {
-            mListener.onAdLoad(mProviderType, this, mAdParams.isAutoShowAd());
+            mListener.onAdLoad(mProviderType, this);
         }
     }
 
@@ -183,7 +183,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements IExpressA
     }
 
     @Override
-    public void render() {
+    public void show() {
         if (mFullScreenVideoAd != null) {
             VideoPlayConfig videoPlayConfig = new VideoPlayConfig.Builder()
                     // true: 横屏播放

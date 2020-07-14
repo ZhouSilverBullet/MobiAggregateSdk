@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.mobi.core.common.MobiPubSdk;
 import com.mobi.core.AdParams;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.ISplashAdListener;
 import com.mobi.core.splash.BaseSplashSkipView;
 import com.mobi.core.splash.DefaultSplashSkipView;
@@ -51,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
                 .setSupportDeepLink(true)
                 .build();
 
-        MobiPubSdk.showSplash(this, clRoot, view, adParams, new ISplashAdListener() {
+        MobiPubSdk.loadSplash(this, clRoot, view, adParams, new ISplashAdListener() {
             @Override
             public void onAdFail(List<StrategyError> strategyErrorList) {
                 for (StrategyError strategyError : strategyErrorList) {
@@ -86,10 +86,10 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String providerType, IExpressAdView view, boolean isAutoShow) {
+            public void onAdLoad(String providerType, IAdView view) {
                 Log.e(TAG, "onAdLoaded " + "providerType: " + providerType);
                 if (view != null) {
-                    view.render();
+                    view.show();
                 }
             }
         });
@@ -97,12 +97,12 @@ public class SplashActivity extends AppCompatActivity {
 
 
 
-    private void renderAd(IExpressAdView view, boolean isAutoShow, long delayTime) {
+    private void renderAd(IAdView view, boolean isAutoShow, long delayTime) {
         if (view != null) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    view.render();
+                    view.show();
                 }
             }, delayTime);
         }

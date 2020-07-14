@@ -2,10 +2,6 @@ package com.mobi.core.listener;
 
 import android.support.annotation.NonNull;
 
-import com.mobi.core.feature.IExpressAdView;
-
-import java.util.List;
-
 /**
  * @author zhousaito
  * @version 1.0

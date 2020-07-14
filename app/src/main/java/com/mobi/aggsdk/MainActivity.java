@@ -13,15 +13,12 @@ import com.mobi.core.ConstantValue;
 import com.mobi.core.analysis.event.PushEvent;
 import com.mobi.core.common.MobiPubSdk;
 import com.mobi.core.AdParams;
-import com.mobi.core.MobiConstantValue;
-import com.mobi.core.analysis.AnalysisBean;
 import com.mobi.core.db.use.DataManager;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
-import com.mobi.core.network.SdkExecutors;
 import com.mobi.core.strategy.StrategyError;
 import com.mobi.core.utils.LogUtils;
 
@@ -56,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOrientation(ConstantValue.VERTICAL)
                 .build();
 
-        MobiPubSdk.showFullscreen(this, adParams, new IFullScreenVideoAdListener() {
+        MobiPubSdk.loadFullscreen(this, adParams, new IFullScreenVideoAdListener() {
             @Override
             public void onAdFail(List<StrategyError> strategyErrorList) {
                 for (StrategyError strategyError : strategyErrorList) {
@@ -71,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
+            public void onAdLoad(String type, IAdView view) {
                 LogUtils.e(TAG, "onAdLoad ");
                 if (view != null) {
-                    view.render();
+                    view.show();
                 }
             }
 
@@ -111,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 .setCodeId("1024003")
                 .build();
 
-        MobiPubSdk.showRewardView(this, adParams, new IRewardAdListener() {
+        MobiPubSdk.loadRewardView(this, adParams, new IRewardAdListener() {
             @Override
             public void onAdFail(List<StrategyError> strategyErrorList) {
                 for (StrategyError strategyError : strategyErrorList) {
@@ -121,9 +118,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
+            public void onAdLoad(String type, IAdView view) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
-                renderAd(view, isAutoShow, 0);
+                renderAd(view, true, 0);
             }
 
             @Override
@@ -173,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 .setCodeId("1024004")
                 .setAutoShowAd(true)
                 .build();
-        MobiPubSdk.showInteractionExpress(this, adParams, new IInteractionAdListener() {
+        MobiPubSdk.loadInteractionExpress(this, adParams, new IInteractionAdListener() {
             @Override
             public void onAdFail(List<StrategyError> strategyErrorList) {
                 for (StrategyError strategyError : strategyErrorList) {
@@ -196,9 +193,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
+            public void onAdLoad(String type, IAdView view) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
-                renderAd(view, isAutoShow, 0);
+                renderAd(view, true, 0);
             }
 
             @Override
@@ -227,16 +224,16 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         //native
-        MobiPubSdk.showNativeExpress(this, flContainer, adParams, new IExpressListener() {
+        MobiPubSdk.loadNativeExpress(this, flContainer, adParams, new IExpressListener() {
             @Override
             public void onAdClick(String type) {
                 LogUtils.e(TAG, "onAdClick type : " + type);
             }
 
             @Override
-            public void onAdLoad(String type, IExpressAdView view, boolean isAutoShow) {
+            public void onAdLoad(String type, IAdView view) {
                 LogUtils.e(TAG, "onAdLoad type : " + type);
-                renderAd(view, isAutoShow, 0);
+                renderAd(view, true, 0);
             }
 
             @Override
@@ -265,12 +262,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void renderAd(IExpressAdView view, boolean isAutoShow, long delayTime) {
+    private void renderAd(IAdView view, boolean isAutoShow, long delayTime) {
         if (view != null) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    view.render();
+                    view.show();
                 }
             }, delayTime);
         }

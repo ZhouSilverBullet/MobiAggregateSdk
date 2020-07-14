@@ -12,7 +12,7 @@ import com.mobi.core.BaseAdProvider;
 import com.mobi.core.ConstantValue;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
 
@@ -24,7 +24,7 @@ import java.util.List;
  * @date 2020/6/4 10:53
  * @Dec 略
  */
-public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdView, IAdRequestManager.RewardVideoAdListener, KsRewardVideoAd.RewardAdInteractionListener {
+public class RewardVideoAdWrapper extends BaseAdWrapper implements IAdView, IAdRequestManager.RewardVideoAdListener, KsRewardVideoAd.RewardAdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     BaseAdProvider mAdProvider;
@@ -141,7 +141,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements IExpressAdVie
     }
 
     @Override
-    public void render() {
+    public void show() {
         if (mRewardVideoAd != null) {
             VideoPlayConfig videoPlayConfig = new VideoPlayConfig.Builder()
                     // true: 横屏播放

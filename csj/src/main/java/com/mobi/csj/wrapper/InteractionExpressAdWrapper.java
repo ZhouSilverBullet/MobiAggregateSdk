@@ -10,7 +10,7 @@ import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
-import com.mobi.core.feature.IExpressAdView;
+import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.utils.LogUtils;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * @date 2020/6/3 22:27
  * @Dec 略
  */
-public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpressAdView, TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener {
+public class InteractionExpressAdWrapper extends BaseAdWrapper implements IAdView, TTAdNative.NativeExpressAdListener, TTNativeExpressAd.AdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;
@@ -189,7 +189,7 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements IExpre
     }
 
     @Override
-    public void render() {
+    public void show() {
         if (mTTNativeExpressAds == null) {
             return;
         }
