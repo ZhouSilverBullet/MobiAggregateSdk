@@ -88,7 +88,9 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAdLoad(String providerType, IExpressAdView view, boolean isAutoShow) {
                 Log.e(TAG, "onAdLoaded " + "providerType: " + providerType);
-                renderAd(view, isAutoShow, 0);
+                if (view != null) {
+                    view.render();
+                }
             }
         });
     }

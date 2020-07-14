@@ -206,7 +206,7 @@ public class MobiPubSdk {
         strategy.execShow();
     }
 
-
+    @MainThread
     public static void showFullscreen(Activity activity,
                                       AdParams adParams,
                                       IFullScreenVideoAdListener listener) {
