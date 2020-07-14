@@ -2,7 +2,6 @@ package com.mobi.aggsdk;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.bytedance.sdk.openadsdk.TTAdConfig;

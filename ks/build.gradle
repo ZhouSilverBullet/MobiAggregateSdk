@@ -25,12 +25,30 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    repositories {
-        flatDir {
-            //jitpack.io编译使用
-            //https://blog.csdn.net/runstoppable/article/details/72743888
-            dirs project(':ks').file('libs')
+    android.libraryVariants.all { variant ->
+        println("variant===================")
+        println(variant)
+        println(variant.buildType)
+        println(variant.buildType.name)
+        if (variant.buildType.name == 'release') {//在release包的时候才修改
+            variant.outputs.all { output ->
+                println("output===================")
+                println(output)
+                outputFileName = "mobi_mediation_ks_${defaultConfig.versionName}.aar"
+            }
+        } else if (variant.buildType.name == 'debug') {//在release包的时候才修改
+            variant.outputs.all { output ->
+                println("output===================")
+                println(output)
+                outputFileName = "mobi_mediation_ks_debug_${defaultConfig.versionName}.aar"
+            }
         }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
     }
 }
 

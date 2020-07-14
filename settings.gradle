@@ -1,3 +1,5 @@
+include ':GDTSDK.unionNormal.4.230.1100'
+include ':open_ad_sdk'
 include ':ks'//include ':common'
 include ':gdt'
 include ':core'

@@ -45,16 +45,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
 
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
+repositories {
+    flatDir {
+        dirs 'libs'
     }
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    api(name: 'msa_mdid_1.0.13', ext: 'aar')
 
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
@@ -62,6 +64,7 @@ dependencies {
     implementation project(path: ':core')
     implementation project(path: ':csj')
     implementation project(path: ':gdt')
+    implementation project(path: ':open_ad_sdk')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

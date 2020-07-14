@@ -24,11 +24,39 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+//    android.libraryVariants.all { variant ->
+//        variant.outputs.all {
+//            outputFileName = "mobi_mediation_${defaultConfig.versionName}.aar"
+//        }
+//    }
+
+    android.libraryVariants.all { variant ->
+        println("variant===================")
+        println(variant)
+        println(variant.buildType)
+        println(variant.buildType.name)
+        if (variant.buildType.name == 'release') {//在release包的时候才修改
+            variant.outputs.all { output ->
+                println("output===================")
+                println(output)
+                outputFileName = "mobi_mediation_${defaultConfig.versionName}.aar"
+            }
+        } else if (variant.buildType.name == 'debug') {//在release包的时候才修改
+            variant.outputs.all { output ->
+                println("output===================")
+                println(output)
+                outputFileName = "mobi_mediation_debug_${defaultConfig.versionName}.aar"
+            }
+        }
+    }
 }
+
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation project(path: ':open_ad_sdk')
     testImplementation 'junit:junit:4.12'
 //    api 'com.google.code.gson:gson:2.8.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

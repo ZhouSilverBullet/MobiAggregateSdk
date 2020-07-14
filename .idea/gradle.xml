@@ -11,11 +11,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/GDTSDK.unionNormal.4.230.1100" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/csj" />
             <option value="$PROJECT_DIR$/gdt" />
             <option value="$PROJECT_DIR$/ks" />
+            <option value="$PROJECT_DIR$/open_ad_sdk" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
