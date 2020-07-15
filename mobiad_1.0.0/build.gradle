@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('mobiad_1.0.0_debug.aar'))

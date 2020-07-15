@@ -2,6 +2,7 @@ package com.mobi.mobiexchanger;
 
 import android.content.Context;
 
+import com.mobi.adsdk.MobiSdk;
 import com.mobi.core.AdProviderManager;
 import com.mobi.core.IAdSession;
 import com.mobi.core.common.MobiPubSdk;
@@ -35,10 +36,10 @@ public class MobiAdSession implements IAdSession {
             return;
         }
 
-        MobiPubSdk.init(context, appId, isDebug);
+        MobiSdk.init(context);
 
-        AdProviderManager.get().putCreateProvider(AdProviderManager.TYPE_MOBI,
-                () -> new MobiAdProvider(AdProviderManager.TYPE_MOBI));
+        AdProviderManager.get().putCreateProvider(AdProviderManager.TYPE_MOBI_SDK,
+                () -> new MobiAdProvider(AdProviderManager.TYPE_MOBI_SDK));
 
         isAppDebug = isDebug;
         mContext = context;

@@ -199,8 +199,8 @@ class SdkUtils {
                 clazzPath = AdProviderManager.TYPE_GDT_PATH;
             } else if (AdProviderManager.TYPE_KS.equals(providerType)) {
                 clazzPath = AdProviderManager.TYPE_KS_PATH;
-            } else if (AdProviderManager.TYPE_MOBI.equals(providerType)) {
-                clazzPath = AdProviderManager.TYPE_MOBI_PATH;
+            } else if (AdProviderManager.TYPE_MOBI_SDK.equals(providerType)) {
+                clazzPath = AdProviderManager.TYPE_MOBIS_SDK_PATH;
             }
             if (!TextUtils.isEmpty(clazzPath)) {
                 Object o = SdkReflection.findInitSession(context, clazzPath,

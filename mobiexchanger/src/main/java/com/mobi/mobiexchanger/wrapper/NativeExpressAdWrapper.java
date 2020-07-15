@@ -1,6 +1,5 @@
 package com.mobi.mobiexchanger.wrapper;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +61,10 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements ExpressAdVi
 
         MobiAdSlot slot = new MobiAdSlot.Builder()
                 .setCodeId(postId)
+                .setExpressViewAcceptedSize(mAdParams.getExpressViewWidth(), mAdParams.getExpressViewHeight())
                 .build();
 
-        MobiSdk.loadMobiNativeExpressAd((Activity) mContext, slot, this);
+        MobiSdk.loadMobiNativeExpressAd(mContext, slot, this);
 
     }
 
