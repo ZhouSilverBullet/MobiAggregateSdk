@@ -233,8 +233,8 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashAdView, TTAd
 
         if (mAdProvider != null) {
 //            mAdProvider.trackEventClose(getStyleType());
-            mAdProvider.callbackSplashDismissed(mListener);
             mAdProvider.trackSkip();
+            mAdProvider.callbackSplashDismissed(mListener);
         }
 
     }
@@ -243,6 +243,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashAdView, TTAd
     public void onAdTimeOver() {
         LogUtils.e(TAG, "onAdTimeOver");
         if (mAdProvider != null) {
+            mAdProvider.trackEventClose();
             mAdProvider.callbackSplashDismissed(mListener);
         }
 

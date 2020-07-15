@@ -95,20 +95,20 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashAdView, Mobi
 
         //load成功前判断一下，是否已经把任务给取消了
         if (isCancel()) {
-            LogUtils.e(TAG, "mobi SplashAdWrapper load isCancel");
+            LogUtils.e(TAG, "Mobi SplashAdWrapper load isCancel");
             localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_CANCEL, "isCancel");
             return;
         }
 
         if (isTimeOut()) {
-            LogUtils.e(TAG, "mobi SplashAdWrapper load isTimeOut");
+            LogUtils.e(TAG, "Mobi SplashAdWrapper load isTimeOut");
             localExecFail(mAdProvider, MobiConstantValue.ERROR.TYPE_TIMEOUT, "isTimeOut");
             return;
         }
 
         if (mSplashContainer.getChildCount() >= 1) {
-            LogUtils.e(TAG, "mobi SplashAdWrapper mSplashContainer.getChildCount() >= 1 isCancel");
-            localExecFail(mAdProvider, -105, "Csj splashContainer.getChildCount() >= 1 isCancel");
+            LogUtils.e(TAG, "Mobi SplashAdWrapper mSplashContainer.getChildCount() >= 1 isCancel");
+            localExecFail(mAdProvider, -105, "Mobi splashContainer.getChildCount() >= 1 isCancel");
             return;
         }
 
@@ -122,60 +122,6 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashAdView, Mobi
             mAdProvider.callbackSplashLoaded(mListener, this, mAdParams.isAutoShowAd());
         }
     }
-
-//    @Override
-//    public void onTimeout() {
-//        //todo
-//        localExecFail(mAdProvider, 0, "请求超时");
-//    }
-
-
-//    public void showAdView(TTSplashAd ttSplashAd) {
-//        if (ttSplashAd == null) {
-//            LogUtils.e(TAG, "ttSplashAd == null");
-//            return;
-//        }
-//        //获取SplashView
-//        View view = ttSplashAd.getSplashView();
-//        if (view != null && mSplashContainer != null && !mActivity.isFinishing()) {
-//
-//            mSplashContainer.removeAllViews();
-//            //把SplashView 添加到ViewGroup中,注意开屏广告view：width >=70%屏幕宽；height >=50%屏幕高
-//            mSplashContainer.addView(view);
-//            //设置不开启开屏广告倒计时功能以及不显示跳过按钮,如果这么设置，您需要自定义倒计时逻辑
-//            if (mBaseSplashSkipView != null) {
-//                handleSplashSkipView(mSplashContainer);
-//            }
-//        } else {
-////          goToMainActivity();
-//            //activity已经销毁了，或者传进来的container为null
-//            LogUtils.e(TAG, "goToMainActivity");
-//            if (mAdProvider != null) {
-//                mAdProvider.callbackSplashDismissed(mListener);
-//            }
-//
-//        }
-//    }
-
-//    public void handleSplashSkipView(ViewGroup splashContainer) {
-//
-//        CsjSplashSkipViewControl csjSplashSkipViewControl = new CsjSplashSkipViewControl(mBaseSplashSkipView);
-//        //里面做跳过的逻辑
-//        csjSplashSkipViewControl.setSkipCallback(this::onAdSkip);
-//        csjSplashSkipViewControl.handleSplashSkipView(splashContainer);
-//
-//    }
-
-
-//    @Override
-//    public void onAdClicked(View view, int type) {
-//
-//    }
-//
-//    @Override
-//    public void onAdShow(View view, int type) {
-//
-//    }
 
     @Override
     public void onAdClicked() {
@@ -191,6 +137,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashAdView, Mobi
     @Override
     public void onAdShow() {
         LogUtils.e(TAG, "onAdShow");
+        execStartShow();
 
         if (mAdProvider != null) {
             mAdProvider.trackShow();
@@ -215,6 +162,7 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashAdView, Mobi
     public void onAdTimeOver() {
         LogUtils.e(TAG, "onAdTimeOver");
         if (mAdProvider != null) {
+            mAdProvider.trackEventClose();
             mAdProvider.callbackSplashDismissed(mListener);
         }
 
@@ -247,6 +195,11 @@ public class SplashAdWrapper extends BaseAdWrapper implements SplashAdView, Mobi
 
     @Override
     public void show() {
+//        自有的sdk在show的时候才调用view显示
+//        execStartShow();
+    }
+
+    private void execStartShow() {
         mSplashContainer.removeAllViews();
         if (mTtSplashAd != null) {
 //            showAdView(mTtSplashAd);

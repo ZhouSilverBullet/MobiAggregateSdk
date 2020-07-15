@@ -100,6 +100,11 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements Intera
         setExecSuccess(true);
         localExecSuccess(mAdProvider);
 
+        //todo 这个startShow提前了
+        if (mAdProvider != null) {
+            mAdProvider.trackStartShow();
+        }
+
         mTTNativeExpressAds = list;
         for (InterstitalAd ttNativeExpressAd : mTTNativeExpressAds) {
             ttNativeExpressAd.setListener(this);
@@ -178,9 +183,9 @@ public class InteractionExpressAdWrapper extends BaseAdWrapper implements Intera
 //            ttFullScreenVideoAd.render();
 //        }
 
-        if (mAdProvider != null) {
-            mAdProvider.trackStartShow();
-        }
+//        if (mAdProvider != null) {
+//            mAdProvider.trackStartShow();
+//        }
     }
 
     @Override
