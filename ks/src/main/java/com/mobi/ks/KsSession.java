@@ -40,7 +40,7 @@ public class KsSession implements IAdSession {
 
     @Override
     public boolean isInit() {
-        return mIsDebug;
+        return mContext != null;
     }
 
     @Override
