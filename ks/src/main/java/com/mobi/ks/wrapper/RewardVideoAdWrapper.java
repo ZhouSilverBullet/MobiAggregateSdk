@@ -197,7 +197,12 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardAdView,
 
     @Override
     public void onVideoPlayStart() {
-
+        // todo ks 用start来表示show逻辑发送给后台
+        if (mAdProvider != null) {
+            mAdProvider.trackShow();
+            mAdProvider.trackEventShow();
+            mAdProvider.callbackRewardExpose(mListener);
+        }
     }
 
     @Override

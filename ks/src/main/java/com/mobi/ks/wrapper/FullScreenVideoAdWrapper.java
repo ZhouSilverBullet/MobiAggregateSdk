@@ -123,7 +123,12 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements Fullscree
 
     @Override
     public void onVideoPlayStart() {
-
+        // todo ks 用start来表示show逻辑发送给后台
+        if (mListener != null) {
+            mAdProvider.trackShow();
+            mAdProvider.trackEventShow();
+            mListener.onAdExposure(mProviderType);
+        }
     }
 
     @Override
