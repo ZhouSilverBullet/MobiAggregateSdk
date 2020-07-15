@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -159,6 +160,8 @@ public class ConfigBeanUtil {
             }
             networkList.add(adBean);
         }
+        //排序根据order
+        Collections.sort(networkList);
         return networkList;
     }
 }

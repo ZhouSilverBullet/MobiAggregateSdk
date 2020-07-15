@@ -6,6 +6,7 @@ import com.kwad.sdk.KsAdSDK;
 import com.kwad.sdk.SdkConfig;
 import com.mobi.core.AdProviderManager;
 import com.mobi.core.IAdSession;
+import com.mobi.core.utils.LogUtils;
 
 /**
  * @author zhousaito
@@ -14,9 +15,17 @@ import com.mobi.core.IAdSession;
  * @Dec 略
  */
 public class KsSession implements IAdSession {
+    public static final String TAG = "KsSession";
 
     private boolean mIsDebug;
     private Context mContext;
+
+    private KsSession() {
+    }
+
+    public static KsSession get() {
+        return SingletonHolder.INSTANCE;
+    }
 
     @Override
     public void init(Context context, String appId, String appName, boolean isDebug) {
@@ -28,7 +37,7 @@ public class KsSession implements IAdSession {
                 .appId(appId) // 测试aapId，请联系快手平台申请正式AppId，必填
                 .appName(appName) // 测试appName，请填写您应用的名称，非必填
                 .showNotification(true) // 是否展示下载通知栏
-                .debug(true)
+                .debug(isDebug)
                 .build());
 
         AdProviderManager.get().putCreateProvider(AdProviderManager.TYPE_KS,
@@ -36,6 +45,7 @@ public class KsSession implements IAdSession {
 
         mIsDebug = isDebug;
         mContext = context;
+        LogUtils.e(TAG, "ks init success");
     }
 
     @Override
@@ -46,5 +56,9 @@ public class KsSession implements IAdSession {
     @Override
     public Context getContext() {
         return mContext;
+    }
+
+    private static class SingletonHolder {
+        private static final KsSession INSTANCE = new KsSession();
     }
 }

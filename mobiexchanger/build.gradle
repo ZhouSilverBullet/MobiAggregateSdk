@@ -8,7 +8,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -20,9 +20,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android.libraryVariants.all { variant ->
+        println("variant===================")
+        println(variant)
+        println(variant.buildType)
+        println(variant.buildType.name)
+        if (variant.buildType.name == 'release') {//在release包的时候才修改
+            variant.outputs.all { output ->
+                println("output===================")
+                println(output)
+                outputFileName = "mobi_mediation_mobi_${defaultConfig.versionName}.aar"
+            }
+        } else if (variant.buildType.name == 'debug') {//在release包的时候才修改
+            variant.outputs.all { output ->
+                println("output===================")
+                println(output)
+                outputFileName = "mobi_mediation_mobi_debug_${defaultConfig.versionName}.aar"
+            }
+        }
     }
 }
 

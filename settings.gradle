@@ -1,3 +1,4 @@
+include ':ks_adsdk'
 include ':mobiexchanger'
 include ':GDTSDK.unionNormal.4.230.1100'
 include ':open_ad_sdk'

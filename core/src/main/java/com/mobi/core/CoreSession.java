@@ -255,13 +255,15 @@ public class CoreSession implements NetworkClient.InitCallback, OAIdSdk.ResultCa
                 showAdBean.setAppName(appname);
                 showAdBean.setSdk(sdk);
                 showAdBean.setPushOtherEvent(configItemBean.isPushOtherEvent());
-                if ("tt".equals(sdk)) {
-                    showAdBean.setProviderType(AdProviderManager.TYPE_CSJ);
-                    list.add(showAdBean);
-                } else if ("gdt".equals(sdk)) {
-                    showAdBean.setProviderType(AdProviderManager.TYPE_GDT);
-                    list.add(showAdBean);
-                }
+                showAdBean.setProviderType(sdk);
+                list.add(showAdBean);
+
+//                if ("tt".equals(sdk)) {
+//                    showAdBean.setProviderType(AdProviderManager.TYPE_CSJ);
+//                    list.add(showAdBean);
+//                } else if ("gdt".equals(sdk)) {
+//                    list.add(showAdBean);
+//                } else if("ks".equals())
             }
 
             //serviceOrderShowType 使用
