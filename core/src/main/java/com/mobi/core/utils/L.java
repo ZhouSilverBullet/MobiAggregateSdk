@@ -3,14 +3,13 @@ package com.mobi.core.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.mobi.core.BuildConfig;
 import com.mobi.core.CoreSession;
 
 /**
  * 作者: zhousaito
  * 日期: 2019/5/18
  */
-public class LogUtils {
+public class L {
     static String log_mobi = "MobiPub";
 
     //for error log
@@ -190,6 +189,6 @@ public class LogUtils {
     }
 
     private static boolean isDebug() {
-        return BuildConfig.DEBUG;
+        return CoreSession.isAppDebug();
     }
 }

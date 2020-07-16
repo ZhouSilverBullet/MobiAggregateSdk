@@ -9,6 +9,7 @@ import com.mobi.core.strategy.AdRunnable;
 import com.mobi.core.strategy.AdStrategyFactory;
 import com.mobi.core.strategy.IShowAdStrategy;
 import com.mobi.core.strategy.StrategyError;
+import com.mobi.core.utils.L;
 import com.mobi.core.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
     public void addADTask(List<AdRunnable> runList) {
         if (runList == null || runList.size() == 0) {
             LogUtils.e(TAG, "AdRunnable list add null or isEmpty");
+            L.e(TAG, "AdRunnable list add null or isEmpty");
             return;
         }
         mAdRunnableSyncList.addAll(runList);
@@ -60,6 +62,7 @@ public abstract class BaseShowAdStrategy implements IShowAdStrategy, AdRunnable.
     public void addADTask(AdRunnable run) {
         if (run == null) {
             LogUtils.e(TAG, "AdRunnable add null or isEmpty");
+            L.e(TAG, "AdRunnable add null or isEmpty");
             return;
         }
         mAdRunnableSyncList.add(run);

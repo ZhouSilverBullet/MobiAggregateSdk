@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 同时请求
  */
 public class TogetherShowAdStrategy extends BaseShowAdStrategy implements TimeOutRunnable.TimeOutCallback {
-    public static final String TAG = "TogetherShowAdStrategy";
+    public static final String TAG = TogetherShowAdStrategy.class.getSimpleName();
     AtomicInteger mFailCount;
     private List<Runnable> mRunnableList;
 

@@ -18,6 +18,7 @@ import com.mobi.core.bean.ShowAdBean;
 import com.mobi.core.listener.IAdFailListener;
 import com.mobi.core.reflection.SdkReflection;
 import com.mobi.core.strategy.StrategyError;
+import com.mobi.core.utils.L;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.core.exception.MobiNullPointerException;
 import com.mobi.core.utils.MD5Helper;
@@ -211,16 +212,19 @@ class SdkUtils {
                 } else if (o instanceof IAdSession) {
                     AdProviderManager.get().putAdSession(providerType, (IAdSession) o);
                 } else {
-                    LogUtils.e(TAG, "Platform : " + providerType + " 初始化失败！！！");
+                    LogUtils.e(TAG, "Platform : " + providerType + " init fail！！！");
+                    L.e("Platform : " + providerType + " init fail！！！");
                 }
             }
         } else {
             if (adSession instanceof FakeAdSession) {
                 if (AdProviderManager.TYPE_CSJ.equals(providerType)) {
                     LogUtils.e(TAG, "没有导入或者不支持 或者 穿山甲 初始化出错");
+                    L.e(TAG, "没有导入或者不支持 或者 穿山甲 初始化出错");
 
                 } else if (AdProviderManager.TYPE_GDT.equals(providerType)) {
                     LogUtils.e(TAG, "没有导入或者不支持 或者 广点通 初始化出错");
+                    L.e(TAG, "没有导入或者不支持 或者 广点通 初始化出错");
                 } else {
                     //todo 更多
                 }

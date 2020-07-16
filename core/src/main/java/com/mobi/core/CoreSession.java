@@ -17,6 +17,7 @@ import com.mobi.core.strategy.AdStrategyFactory;
 import com.mobi.core.strategy.IShowAdStrategy;
 import com.mobi.core.strategy.impl.ServiceOrderShowAdStrategy;
 import com.mobi.core.utils.DeviceUtil;
+import com.mobi.core.utils.L;
 import com.mobi.core.utils.LogUtils;
 import com.mobi.core.utils.OAIdSdk;
 
@@ -76,6 +77,9 @@ public class CoreSession implements NetworkClient.InitCallback, OAIdSdk.ResultCa
 
     @Override
     public void onSuccess(ConfigBean configBean) {
+        if (configBean == null) {
+            L.e( "config is empty； please on http://pub.findwxapp.com/ confirm config or appId");
+        }
         setConfigBean(configBean);
         if (configBean != null) {
             ConfigAdBean configAdBean = configBean.getConfigAdBean();
@@ -90,6 +94,7 @@ public class CoreSession implements NetworkClient.InitCallback, OAIdSdk.ResultCa
     @Override
     public void onFailure(int code, String message) {
         LogUtils.e(TAG, " 获取配置失败 ： " + message);
+        L.e( "config failure； please on http://pub.findwxapp.com/ confirm config or appId");
     }
 
     @Override

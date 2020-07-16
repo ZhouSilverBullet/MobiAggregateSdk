@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Dec 略
  */
 public class ServiceOrderShowAdStrategy extends BaseShowAdStrategy implements TimeOutRunnable.TimeOutCallback {
-    public static final String TAG = "OrderShowAdStrategy";
+    public static final String TAG = ServiceOrderShowAdStrategy.class.getSimpleName();
     AtomicInteger mFailCount;
     private TimeOutRunnable mTimeOutRunnable;
 

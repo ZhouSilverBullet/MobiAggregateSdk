@@ -11,6 +11,7 @@ import com.mobi.core.bean.ConfigAdBean;
 import com.mobi.core.bean.ConfigBean;
 import com.mobi.core.utils.ConfigBeanUtil;
 import com.mobi.core.utils.DeviceUtil;
+import com.mobi.core.utils.LogUtils;
 import com.mobi.core.utils.SpUtil;
 
 /**
@@ -86,7 +87,7 @@ public class NetworkClient {
             SpUtil.putCommitString(MobiConstantValue.PROTO_CONFIG, resContent);
 
             ConfigBean configBean = ConfigBeanUtil.getConfigBean(resContent);
-            Log.e(TAG, "configBean ： " + configBean);
+            LogUtils.e(TAG, "configBean ： " + configBean);
             if (configBean != null) {
                 SpUtil.putLongCommit(MobiConstantValue.PROTO_TIMEOUT,
                         System.currentTimeMillis() + configBean.getTimeout() * 1000);
@@ -157,7 +158,7 @@ public class NetworkClient {
             SpUtil.putCommitString(MobiConstantValue.PROTO_CONFIG, resContent);
 
             ConfigBean configBean = ConfigBeanUtil.getConfigBean(resContent);
-            Log.e(TAG, "configBean2 ： " + configBean);
+            LogUtils.e(TAG, "configBean2 ： " + configBean);
             if (configBean != null) {
                 if (configBean.getConfigAdBean() != null) {
                     long timeout = configBean.getConfigAdBean().getTimeout();
