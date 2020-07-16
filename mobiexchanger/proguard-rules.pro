@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class com.mobi.mobiexchanger.wrapper.FullScreenVideoAdWrapper {*;}
+-keep class com.mobi.mobiexchanger.wrapper.InteractionExpressAdWrapper {*;}
+-keep class com.mobi.mobiexchanger.wrapper.NativeExpressAdWrapper {*;}
+-keep class com.mobi.mobiexchanger.wrapper.RewardVideoAdWrapper {*;}
+-keep class com.mobi.mobiexchanger.wrapper.SplashAdWrapper {*;}
+
+-keep class com.mobi.mobiexchanger.MobiAdSession {*;}

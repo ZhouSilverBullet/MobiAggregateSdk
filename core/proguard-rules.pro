@@ -84,37 +84,52 @@
 #-keep public class * extends android.view.View
 
 
-#-keep class com.mobi.core.common.MobiPubSdk {*;}
-#
-#-keep class com.mobi.core.ConstantValue {*;}
-#-keep class com.mobi.core.listener.* {*;}
-#
-#-keep class com.mobi.core.splash.* {*;}
-#-keep class com.mobi.core.utils.LogUtils {*;}
-#
-#-keep class com.mobi.core.IAdProvider {*;}
-#
-#-keepattributes InnerClasses
-#-keep public class com.mobi.core.AdParams$Builder {*;}
-#-keep class com.mobi.core.AdParams {
-#*;
-#}
-#
-#-keep class com.mobi.core.AdProviderManager$ILazyCreateProvider {
-#*;
-#}
-#-keep class com.mobi.core.AdProviderManager {*;}
-#-keep class com.mobi.core.BaseAdProvider {*;}
-#-keep class com.mobi.core.BaseCallbackProvider {*;}
-#
-#
-#-keep class com.mobi.core.IAdSession {*;}
-#-keep class com.mobi.core.strategy.AdRunnable {*;}
-#-keep class com.mobi.core.strategy.IShowAdStrategy {*;}
-#
-#-keep class com.mobi.core.db.AdProvider {*;}
-#-keep class com.mobi.core.feature.IExpressAdView {*;}
-#-keep class com.mobi.core.strategy.StrategyError {*;}
+-keep class com.mobi.core.common.MobiPubSdk {
+public <methods>;
+}
+
+-keep class com.mobi.core.ConstantValue {*;}
+-keep class com.mobi.core.listener.* {*;}
+
+-keep class com.mobi.core.splash.* {*;}
+-keep class com.mobi.core.utils.LogUtils {*;}
+
+-keep class com.mobi.core.IAdProvider {*;}
+
+-keepattributes InnerClasses
+-keep public class com.mobi.core.AdParams$* {
+public <methods>;
+}
+-keep class com.mobi.core.AdParams {
+public <methods>;
+}
+
+-keep class com.mobi.core.AdProviderManager$* {
+*;
+}
+-keep class com.mobi.core.AdProviderManager {*;}
+-keep class com.mobi.core.BaseAdProvider {*;}
+-keep class com.mobi.core.BaseCallbackProvider {*;}
+
+
+-keep class com.mobi.core.IAdSession {*;}
+#-keep class com.mobi.core.FakeAdSession {*;}
+-keep class com.mobi.core.strategy.AdRunnable {
+<methods>;
+}
+#-keep class com.mobi.core.strategy.AdRunnable$ExecCallback{*;}
+-keep class com.mobi.core.LocalAdParams {
+public <methods>;
+}
+
+-keep class com.mobi.core.strategy.IShowAdStrategy {*;}
+
+-keep class com.mobi.core.db.AdProvider {*;}
+-keep class com.mobi.core.feature.* {*;}
+
+-keep class com.mobi.core.strategy.StrategyError {
+public <methods>;
+}
 
 -keep class *.R -keepclasseswithmembers class **.R$* { public static <fields>;}
--keep class com.mobi.** {*;}
+#-keep class com.mobi.** {*;}
