@@ -1,6 +1,6 @@
 package com.mobi.core.network;
 
-import android.support.v4.util.ArrayMap;
+import androidx.collection.ArrayMap;
 
 import com.mobi.core.utils.DeviceUtil;
 

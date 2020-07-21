@@ -1,6 +1,6 @@
 package com.mobi.core.listener;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.mobi.core.feature.SplashAdView;
 

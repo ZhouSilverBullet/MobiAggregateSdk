@@ -9,11 +9,10 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.mobi.core.CoreSession;
-import com.mobi.core.analysis.event.PushEventTrack;
 import com.mobi.core.db.use.AnalysisTable;
 import com.mobi.core.db.use.PushEventTable;
 import com.mobi.core.utils.LogUtils;

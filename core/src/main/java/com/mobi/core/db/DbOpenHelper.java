@@ -3,9 +3,8 @@ package com.mobi.core.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
-import com.mobi.core.db.use.AnalysisTable;
 import com.mobi.core.db.use.PushEventTable;
 import com.mobi.core.utils.LogUtils;
 

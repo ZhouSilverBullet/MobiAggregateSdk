@@ -2,15 +2,14 @@ package com.mobi.core.common;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.MainThread;
-import android.support.annotation.Nullable;
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
 import android.view.ViewGroup;
 
 import com.mobi.core.AdParams;
 import com.mobi.core.AdProviderManager;
 import com.mobi.core.IAdProvider;
 import com.mobi.core.LocalAdParams;
-import com.mobi.core.MobiConstantValue;
 import com.mobi.core.analysis.AdPushParams;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ShowAdBean;

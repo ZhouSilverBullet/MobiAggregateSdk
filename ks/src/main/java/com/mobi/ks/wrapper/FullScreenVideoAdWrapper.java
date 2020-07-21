@@ -1,7 +1,7 @@
 package com.mobi.ks.wrapper;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.kwad.sdk.KsAdSDK;
 import com.kwad.sdk.export.i.IAdRequestManager;
@@ -13,7 +13,6 @@ import com.mobi.core.ConstantValue;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.FullscreenAdView;
-import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.utils.LogUtils;
 
