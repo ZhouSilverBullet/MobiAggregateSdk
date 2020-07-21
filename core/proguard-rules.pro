@@ -133,3 +133,11 @@ public <methods>;
 
 -keep class *.R -keepclasseswithmembers class **.R$* { public static <fields>;}
 #-keep class com.mobi.** {*;}
+
+-keep class com.google.android.material.** {*;}
+-keep class androidx.** {*;}
+-keep public class * extends androidx.**
+-keep interface androidx.** {*;}
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
+-dontwarn androidx.**
