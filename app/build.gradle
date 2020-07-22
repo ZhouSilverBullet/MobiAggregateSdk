@@ -67,6 +67,7 @@ dependencies {
     implementation project(path: ':open_ad_sdk')
     implementation project(path: ':ks')
     implementation project(path: ':mobiexchanger')
+    implementation project(path: ':admob')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

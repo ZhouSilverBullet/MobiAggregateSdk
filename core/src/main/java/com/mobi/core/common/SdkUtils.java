@@ -202,6 +202,8 @@ class SdkUtils {
                 clazzPath = AdProviderManager.TYPE_KS_PATH;
             } else if (AdProviderManager.TYPE_MOBI_SDK.equals(providerType)) {
                 clazzPath = AdProviderManager.TYPE_MOBIS_SDK_PATH;
+            } else if (AdProviderManager.TYPE_ADMOB.equals(providerType)) {
+                clazzPath = AdProviderManager.TYPE_ADMOB_PATH;
             }
             if (!TextUtils.isEmpty(clazzPath)) {
                 Object o = SdkReflection.findInitSession(context, clazzPath,
