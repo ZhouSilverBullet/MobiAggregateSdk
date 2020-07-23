@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobi.core.BuildConfig;
+import com.mobi.core.CoreSession;
 
 /**
  * 作者: zhousaito
@@ -14,7 +15,7 @@ public class LogUtils {
 
     //for error log
     public static void error(String msg) {
-        if (Log.isLoggable(log_mobi, Log.ERROR)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.e(log_mobi, msg);
         }
@@ -22,7 +23,7 @@ public class LogUtils {
 
     //for warming log
     public static void warn(String msg) {
-        if (Log.isLoggable(log_mobi, Log.WARN)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.w(log_mobi, msg);
         }
@@ -30,7 +31,7 @@ public class LogUtils {
 
     //for info log
     public static void info(String msg) {
-        if (Log.isLoggable(log_mobi, Log.INFO)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.i(log_mobi, msg);
         }
@@ -38,7 +39,7 @@ public class LogUtils {
 
     //for debug log
     public static void debug(String msg) {
-        if (Log.isLoggable(log_mobi, Log.DEBUG)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.d(log_mobi, msg);
         }
@@ -46,7 +47,7 @@ public class LogUtils {
 
     //for verbose log
     public static void verbose(String msg) {
-        if (Log.isLoggable(log_mobi, Log.VERBOSE)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.v(log_mobi, msg);
         }
@@ -54,7 +55,7 @@ public class LogUtils {
 
     //for error log
     public static void e(String msg) {
-        if (Log.isLoggable(log_mobi, Log.ERROR)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.e(log_mobi, msg);
         }
@@ -62,7 +63,7 @@ public class LogUtils {
 
     //for warming log
     public static void w(String msg) {
-        if (Log.isLoggable(log_mobi, Log.WARN)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.w(log_mobi, msg);
         }
@@ -70,7 +71,7 @@ public class LogUtils {
 
     //for info log
     public static void i(String msg) {
-        if (Log.isLoggable(log_mobi, Log.INFO)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.i(log_mobi, msg);
         }
@@ -78,7 +79,7 @@ public class LogUtils {
 
     //for debug log
     public static void d(String msg) {
-        if (Log.isLoggable(log_mobi, Log.DEBUG)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.d(log_mobi, msg);
         }
@@ -86,7 +87,7 @@ public class LogUtils {
 
     //for verbose log
     public static void v(String msg) {
-        if (Log.isLoggable(log_mobi, Log.VERBOSE)) {
+        if (isDebug()) {
             msg = handleMsg(msg);
             Log.v(log_mobi, msg);
         }
@@ -95,56 +96,56 @@ public class LogUtils {
 
     //for warming log
     public static void w(String tag, String msg) {
-        if (Log.isLoggable(log_mobi, Log.WARN)) {
+        if (isDebug()) {
             if (tag == null || "".equalsIgnoreCase(tag.trim())) {
                 tag = log_mobi;
             }
             msg = handleMsg(msg);
-            Log.w(log_mobi, tag + "--" + msg);
+            Log.w(tag, msg);
         }
     }
 
     //for info log
     public static void i(String tag, String msg) {
-        if (Log.isLoggable(log_mobi, Log.INFO)) {
+        if (isDebug()) {
             if (tag == null || "".equalsIgnoreCase(tag.trim())) {
                 tag = log_mobi;
             }
             msg = handleMsg(msg);
-            Log.i(log_mobi, tag + "--" + msg);
+            Log.i(tag, msg);
         }
     }
 
     //for debug log
     public static void d(String tag, String msg) {
-        if (Log.isLoggable(log_mobi, Log.DEBUG)) {
+        if (isDebug()) {
             if (tag == null || "".equalsIgnoreCase(tag.trim())) {
                 tag = log_mobi;
             }
             msg = handleMsg(msg);
-            Log.d(log_mobi, tag + "--" +  msg);
+            Log.d(tag, msg);
         }
     }
 
     //for verbose log
     public static void v(String tag, String msg) {
-        if (Log.isLoggable(log_mobi, Log.VERBOSE)) {
+        if (isDebug()) {
             if (tag == null || "".equalsIgnoreCase(tag.trim())) {
                 tag = log_mobi;
             }
             msg = handleMsg(msg);
-            Log.v(log_mobi, tag + "--" +  msg);
+            Log.v(tag, msg);
         }
     }
 
     //for verbose log
     public static void e(String tag, String msg) {
-        if (Log.isLoggable(log_mobi, Log.ERROR)) {
+        if (isDebug()) {
             if (tag == null || "".equalsIgnoreCase(tag.trim())) {
                 tag = log_mobi;
             }
             msg = handleMsg(msg);
-            Log.e(log_mobi, tag + "--" + msg);
+            Log.e(tag, msg);
         }
     }
 
@@ -160,7 +161,7 @@ public class LogUtils {
      * 点击Log跳转到指定源码位置
      */
     public static void showLog(String tag, String msg) {
-        if (Log.isLoggable(log_mobi, Log.INFO) && !TextUtils.isEmpty(msg)) {
+        if (isDebug() && !TextUtils.isEmpty(msg)) {
             if (TextUtils.isEmpty(tag)) {
                 tag = log_mobi;
             }
@@ -180,10 +181,10 @@ public class LogUtils {
                 String lineNumber = String
                         .valueOf(stackTraceElement[currentIndex].getLineNumber());
 
-                Log.i(log_mobi, tag + "--" + msg + "\n  ---->at " + className + "." + methodName + "("
+                Log.i(tag, msg + "\n  ---->at " + className + "." + methodName + "("
                         + className + ".java:" + lineNumber + ")");
             } else {
-                Log.i(log_mobi, tag + "--" +  msg);
+                Log.i(tag, msg);
             }
         }
     }
