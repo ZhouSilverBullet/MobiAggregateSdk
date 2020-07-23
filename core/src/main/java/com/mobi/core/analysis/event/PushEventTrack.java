@@ -54,11 +54,15 @@ public class PushEventTrack {
                                String network,
                                String md5) {
 
-        SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
+        CoreSession.get().getDispatcher().execute(new Runnable() {
             @Override
             public void run() {
-                PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network, md5);
-                trackAD(pushEvent);
+                try {
+                    PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network, md5);
+                    trackAD(pushEvent);
+                } finally {
+                    CoreSession.get().getDispatcher().finishRunnable(this);
+                }
             }
         });
 
@@ -75,15 +79,19 @@ public class PushEventTrack {
                                String message,
                                String debug) {
 
-        SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
+        CoreSession.get().getDispatcher().execute(new Runnable() {
             @Override
             public void run() {
-                PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network, md5);
-                pushEvent.setType(errorType);
-                pushEvent.setCode(code);
-                pushEvent.setMessage(message);
-                pushEvent.setDebug(debug);
-                trackAD(pushEvent);
+                try {
+                    PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network, md5);
+                    pushEvent.setType(errorType);
+                    pushEvent.setCode(code);
+                    pushEvent.setMessage(message);
+                    pushEvent.setDebug(debug);
+                    trackAD(pushEvent);
+                } finally {
+                    CoreSession.get().getDispatcher().finishRunnable(this);
+                }
             }
         });
 

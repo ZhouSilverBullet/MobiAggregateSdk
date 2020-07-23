@@ -44,29 +44,30 @@ public class NetUtil {
      * @return int
      */
     public static int getNetworkState(Context context) {
-        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE); // 获取网络服务
-        if (null == connManager) { // 为空则认为无网络
-            return NETWORK_NONE;
-        }
-        // 获取网络类型，如果为空，返回无网络
-        NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
-        if (activeNetInfo == null || !activeNetInfo.isAvailable()) {
-            return NETWORK_NONE;
-        }
-        // 判断是否为WIFI
-        NetworkInfo wifiInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (null != wifiInfo) {
-            NetworkInfo.State state = wifiInfo.getState();
-            if (null != state) {
-                if (state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING) {
-                    return NETWORK_WIFI;
+        try {
+            ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE); // 获取网络服务
+            if (null == connManager) { // 为空则认为无网络
+                return NETWORK_NONE;
+            }
+            // 获取网络类型，如果为空，返回无网络
+            NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();
+            if (activeNetInfo == null || !activeNetInfo.isAvailable()) {
+                return NETWORK_NONE;
+            }
+            // 判断是否为WIFI
+            NetworkInfo wifiInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (null != wifiInfo) {
+                NetworkInfo.State state = wifiInfo.getState();
+                if (null != state) {
+                    if (state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING) {
+                        return NETWORK_WIFI;
+                    }
                 }
             }
-        }
-        // 若不是WIFI，则去判断是2G、3G、4G网
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        int networkType = telephonyManager.getNetworkType();
-        switch (networkType) {
+            // 若不是WIFI，则去判断是2G、3G、4G网
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            int networkType = telephonyManager.getNetworkType();
+            switch (networkType) {
             /*
              GPRS : 2G(2.5) General Packet Radia Service 114kbps
              EDGE : 2G(2.75G) Enhanced Data Rate for GSM Evolution 384kbps
@@ -84,33 +85,36 @@ public class NetUtil {
              EHRPD : 3G CDMA2000向LTE 4G的中间产物 Evolved High Rate Packet Data HRPD的升级
              HSPAP : 3G HSPAP 比 HSDPA 快些
              */
-            // 2G网络
-            case TelephonyManager.NETWORK_TYPE_GPRS:
-            case TelephonyManager.NETWORK_TYPE_CDMA:
-            case TelephonyManager.NETWORK_TYPE_EDGE:
-            case TelephonyManager.NETWORK_TYPE_1xRTT:
-            case TelephonyManager.NETWORK_TYPE_IDEN:
-                return NETWORK_2G;
-            // 3G网络
-            case TelephonyManager.NETWORK_TYPE_EVDO_A:
-            case TelephonyManager.NETWORK_TYPE_UMTS:
-            case TelephonyManager.NETWORK_TYPE_EVDO_0:
-            case TelephonyManager.NETWORK_TYPE_HSDPA:
-            case TelephonyManager.NETWORK_TYPE_HSUPA:
-            case TelephonyManager.NETWORK_TYPE_HSPA:
-            case TelephonyManager.NETWORK_TYPE_EVDO_B:
-            case TelephonyManager.NETWORK_TYPE_EHRPD:
-            case TelephonyManager.NETWORK_TYPE_HSPAP:
-                return NETWORK_3G;
-            // 4G网络
-            case TelephonyManager.NETWORK_TYPE_LTE:
-                return NETWORK_4G;
+                // 2G网络
+                case TelephonyManager.NETWORK_TYPE_GPRS:
+                case TelephonyManager.NETWORK_TYPE_CDMA:
+                case TelephonyManager.NETWORK_TYPE_EDGE:
+                case TelephonyManager.NETWORK_TYPE_1xRTT:
+                case TelephonyManager.NETWORK_TYPE_IDEN:
+                    return NETWORK_2G;
+                // 3G网络
+                case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                case TelephonyManager.NETWORK_TYPE_UMTS:
+                case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                case TelephonyManager.NETWORK_TYPE_HSDPA:
+                case TelephonyManager.NETWORK_TYPE_HSUPA:
+                case TelephonyManager.NETWORK_TYPE_HSPA:
+                case TelephonyManager.NETWORK_TYPE_EVDO_B:
+                case TelephonyManager.NETWORK_TYPE_EHRPD:
+                case TelephonyManager.NETWORK_TYPE_HSPAP:
+                    return NETWORK_3G;
+                // 4G网络
+                case TelephonyManager.NETWORK_TYPE_LTE:
+                    return NETWORK_4G;
 //            case TelephonyManager.NETWORK_TYPE_NR:
-            case 20:
-                return NETWORK_5G;
-            default:
-                return NETWORK_MOBILE;
+                case 20:
+                    return NETWORK_5G;
+                default:
+                    return NETWORK_MOBILE;
+            }
+        } catch (Exception e) {
         }
+        return NETWORK_NONE;
     }
 
     public static String getNetworkName(Context context) {

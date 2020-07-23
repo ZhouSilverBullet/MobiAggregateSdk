@@ -12,6 +12,7 @@ import com.mobi.core.bean.ConfigItemBean;
 import com.mobi.core.bean.LocalAdBean;
 import com.mobi.core.bean.ParameterBean;
 import com.mobi.core.bean.ShowAdBean;
+import com.mobi.core.network.Dispatcher;
 import com.mobi.core.network.NetworkClient;
 import com.mobi.core.strategy.AdStrategyFactory;
 import com.mobi.core.strategy.IShowAdStrategy;
@@ -39,6 +40,9 @@ public class CoreSession implements NetworkClient.InitCallback, OAIdSdk.ResultCa
     private NetworkClient mNetworkClient;
     private volatile ConfigBean configBean;
     private volatile ConfigAdBean configAdBean;
+
+
+    private Dispatcher mDispatcher;
 
     private String deviceNo;
 
@@ -69,6 +73,7 @@ public class CoreSession implements NetworkClient.InitCallback, OAIdSdk.ResultCa
 
     private CoreSession() {
         mHandler = new Handler(Looper.getMainLooper());
+        mDispatcher = new Dispatcher();
     }
 
     public static CoreSession get() {
@@ -348,5 +353,9 @@ public class CoreSession implements NetworkClient.InitCallback, OAIdSdk.ResultCa
             oaId = "";
         }
         return oaId;
+    }
+
+    public Dispatcher getDispatcher() {
+        return mDispatcher;
     }
 }
