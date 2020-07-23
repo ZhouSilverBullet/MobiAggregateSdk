@@ -7,7 +7,6 @@ import com.mobi.core.db.use.DataManager;
 import com.mobi.core.network.HttpClient;
 import com.mobi.core.network.Request;
 import com.mobi.core.network.Response;
-import com.mobi.core.network.SdkExecutors;
 import com.mobi.core.utils.DeviceUtil;
 import com.mobi.core.utils.LogUtils;
 
@@ -43,11 +42,15 @@ public class AdAnalysis {
      */
     public static void trackAD(String network, String posid, int pv, int click) {
 
-        SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
+        CoreSession.get().getDispatcher().execute(new Runnable() {
             @Override
             public void run() {
-                AnalysisBean bean = new AnalysisBean(network, posid, pv, click);
-                trackAD(bean);
+                try {
+                    AnalysisBean bean = new AnalysisBean(network, posid, pv, click);
+                    trackAD(bean);
+                } finally {
+                    CoreSession.get().getDispatcher().finishRunnable(this);
+                }
             }
         });
 

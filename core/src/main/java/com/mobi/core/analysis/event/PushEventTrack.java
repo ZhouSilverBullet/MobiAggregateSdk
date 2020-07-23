@@ -54,11 +54,26 @@ public class PushEventTrack {
                                String network,
                                String md5) {
 
-        SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
+        SdkExecutors.DB_OPERATION_POOL.execute(new Runnable() {
             @Override
             public void run() {
+
                 PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network, md5);
-                trackAD(pushEvent);
+                //一开始就存库里面
+                //存库操作放子线程里面
+                saveDb(pushEvent);
+
+                //然后再执行上报操作
+                CoreSession.get().getDispatcher().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            trackAD(pushEvent);
+                        } finally {
+                            CoreSession.get().getDispatcher().finishRunnable(this);
+                        }
+                    }
+                });
             }
         });
 
@@ -75,7 +90,7 @@ public class PushEventTrack {
                                String message,
                                String debug) {
 
-        SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
+        SdkExecutors.DB_OPERATION_POOL.execute(new Runnable() {
             @Override
             public void run() {
                 PushEvent pushEvent = new PushEvent(event, styleType, postId, sortType, network, md5);
@@ -83,13 +98,25 @@ public class PushEventTrack {
                 pushEvent.setCode(code);
                 pushEvent.setMessage(message);
                 pushEvent.setDebug(debug);
-                trackAD(pushEvent);
+                //一开始就存库里面
+                saveDb(pushEvent);
+
+                CoreSession.get().getDispatcher().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            trackAD(pushEvent);
+                        } finally {
+                            CoreSession.get().getDispatcher().finishRunnable(this);
+                        }
+                    }
+                });
             }
         });
 
     }
 
-    private static void trackAD(PushEvent bean) {
+    private static synchronized void trackAD(PushEvent bean) {
 
         //用户启动app第一次
         //删除本地已经上传过的数据
@@ -99,9 +126,6 @@ public class PushEventTrack {
             //进行状态改变
             isFirstReport = false;
         }
-
-        //一开始就存库里面
-        saveDb(bean);
 
         //获取UpdateUrl
         if (!updateUrlGetSuccess()) {

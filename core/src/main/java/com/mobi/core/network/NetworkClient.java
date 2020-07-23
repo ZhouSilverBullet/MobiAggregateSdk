@@ -25,49 +25,65 @@ public class NetworkClient {
 
 
     public void init(Context context, InitCallback callback) {
-        SdkExecutors.SDK_THREAD_POOL.execute(() -> {
+        CoreSession.get().getDispatcher().execute(new Runnable() {
+            @Override
+            public void run() {
 
-            //读取存好的文件
-            //这个带有configURL的接口
-            String serviceConfig = SpUtil.getString(MobiConstantValue.ALL_CONFIG);
-            ConfigAdBean configAdBean = ConfigBeanUtil.getConfigAdBean(serviceConfig);
-            CoreSession.get().setConfigAdBean(configAdBean);
+                try {
+                    //读取存好的文件
+                    //这个带有configURL的接口
+                    String serviceConfig = SpUtil.getString(MobiConstantValue.ALL_CONFIG);
+                    ConfigAdBean configAdBean = ConfigBeanUtil.getConfigAdBean(serviceConfig);
+                    CoreSession.get().setConfigAdBean(configAdBean);
 
-            //获取这个serviceConfig把ConfigBean重新设置一下
-            ConfigBean configBean = ConfigBeanUtil.getConfigBean(serviceConfig);
-            if (configBean != null) {
-                CoreSession.get().setConfigBean(configBean);
-            }
+                    //获取这个serviceConfig把ConfigBean重新设置一下
+                    ConfigBean configBean = ConfigBeanUtil.getConfigBean(serviceConfig);
+                    if (configBean != null) {
+                        CoreSession.get().setConfigBean(configBean);
+                    }
 
-            if (configAdBean == null) {
-                //请求config
-                requestConfig(callback);
-            } else {
-                if (isTimeout(configAdBean)) {
-                    //刷新本地的config
-                    requestConfig(callback);
-                } else {
-                    //普通config
-                    requestProtoConfig(callback);
+                    if (configAdBean == null) {
+                        //请求config
+                        NetworkClient.this.requestConfig(callback);
+                    } else {
+                        if (NetworkClient.this.isTimeout(configAdBean)) {
+                            //刷新本地的config
+                            NetworkClient.this.requestConfig(callback);
+                        } else {
+                            //普通config
+                            NetworkClient.this.requestProtoConfig(callback);
+                        }
+                    }
+                } finally {
+                    CoreSession.get().getDispatcher().finishRunnable(this);
                 }
             }
         });
     }
 
     public void timeoutRequestConfig(InitCallback callback) {
-        SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
+        CoreSession.get().getDispatcher().execute(new Runnable() {
             @Override
             public void run() {
-                requestConfig(callback);
+                try {
+                    requestConfig(callback);
+                } finally {
+                    CoreSession.get().getDispatcher().finishRunnable(this);
+                }
+
             }
         });
     }
 
     public void timeoutRequestProtoConfig(InitCallback callback) {
-        SdkExecutors.SDK_THREAD_POOL.execute(new Runnable() {
+        CoreSession.get().getDispatcher().execute(new Runnable() {
             @Override
             public void run() {
-                requestProtoConfig(callback);
+                try {
+                    requestProtoConfig(callback);
+                } finally {
+                    CoreSession.get().getDispatcher().finishRunnable(this);
+                }
             }
         });
     }
