@@ -54,4 +54,31 @@ public interface IFullScreenVideoAdListener extends ITTAppDownloadListener, IAdF
      */
     void onSkippedVideo(String providerType);
 
+
+    /**
+     * gdt
+     *
+     * @param type
+     */
+    default void onGdtOpened(String type) {
+
+    }
+
+    /**
+     * gdt 独有
+     *
+     * @param type
+     */
+    default void onGdtCached(String type) {
+
+    }
+
+    /**
+     * gdt 独有
+     *
+     * @param type
+     */
+    default void onGdtLeftApplication(String type) {
+
+    }
 }
