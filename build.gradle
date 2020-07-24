@@ -26,3 +26,8 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    sdkVersionCode = 10001
+    sdkVersionName = '1.0.1'
+}
