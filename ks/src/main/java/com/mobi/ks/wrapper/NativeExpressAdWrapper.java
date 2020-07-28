@@ -5,15 +5,14 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kwad.sdk.KsAdSDK;
-import com.kwad.sdk.export.i.IAdRequestManager;
-import com.kwad.sdk.export.i.KsFeedAd;
-import com.kwad.sdk.protocol.model.AdScene;
+import com.kwad.sdk.api.KsAdSDK;
+import com.kwad.sdk.api.KsFeedAd;
+import com.kwad.sdk.api.KsLoadManager;
+import com.kwad.sdk.api.KsScene;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.ExpressAdView;
-import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IExpressListener;
 import com.mobi.core.utils.LogUtils;
 
@@ -25,7 +24,7 @@ import java.util.List;
  * @date 2020/6/3 18:03
  * @Dec csj wrapper
  */
-public class NativeExpressAdWrapper extends BaseAdWrapper implements ExpressAdView, IAdRequestManager.FeedAdListener, KsFeedAd.AdInteractionListener {
+public class NativeExpressAdWrapper extends BaseAdWrapper implements ExpressAdView, KsLoadManager.FeedAdListener, KsFeedAd.AdInteractionListener {
     public static final String TAG = "CsjNativeExpressAd";
     private final BaseAdProvider mAdProvider;
     private final LocalAdParams mAdParams;
@@ -60,9 +59,8 @@ public class NativeExpressAdWrapper extends BaseAdWrapper implements ExpressAdVi
             return;
         }
 
-        AdScene scene = new AdScene(getPostId(postId));
-        scene.adNum = mAdParams.getAdCount();
-        KsAdSDK.getAdManager().loadFeedAd(scene, this);
+        KsScene scene = new KsScene.Builder(getPostId(postId)).adNum(mAdParams.getAdCount()).build();
+        KsAdSDK.getLoadManager().loadFeedAd(scene, this);
 
     }
 

@@ -1,2 +1,2 @@
 configurations.maybeCreate("default")
-artifacts.add("default", file('ks_adsdk-2.6.4.1.aar'))
+artifacts.add("default", file('ks_adsdk_ad_3.2.0.aar'))

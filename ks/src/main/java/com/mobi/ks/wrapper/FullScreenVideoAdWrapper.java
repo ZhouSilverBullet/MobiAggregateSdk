@@ -2,18 +2,18 @@ package com.mobi.ks.wrapper;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;
+import android.transition.Scene;
 
-import com.kwad.sdk.KsAdSDK;
-import com.kwad.sdk.export.i.IAdRequestManager;
-import com.kwad.sdk.export.i.KsFullScreenVideoAd;
-import com.kwad.sdk.protocol.model.AdScene;
-import com.kwad.sdk.video.VideoPlayConfig;
+import com.kwad.sdk.api.KsAdSDK;
+import com.kwad.sdk.api.KsFullScreenVideoAd;
+import com.kwad.sdk.api.KsLoadManager;
+import com.kwad.sdk.api.KsScene;
+import com.kwad.sdk.api.KsVideoPlayConfig;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.ConstantValue;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
 import com.mobi.core.feature.FullscreenAdView;
-import com.mobi.core.feature.IAdView;
 import com.mobi.core.listener.IFullScreenVideoAdListener;
 import com.mobi.core.utils.LogUtils;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2020/6/7 18:29
  * @Dec 略
  */
-public class FullScreenVideoAdWrapper extends BaseAdWrapper implements FullscreenAdView, IAdRequestManager.FullScreenVideoAdListener, KsFullScreenVideoAd.FullScreenVideoAdInteractionListener {
+public class FullScreenVideoAdWrapper extends BaseAdWrapper implements FullscreenAdView, KsLoadManager.FullScreenVideoAdListener, KsFullScreenVideoAd.FullScreenVideoAdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     private String mProviderType;
@@ -54,9 +54,8 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements Fullscree
             return;
         }
 
-        AdScene scene = new AdScene(getPostId(postId));
-
-        KsAdSDK.getAdManager().loadFullScreenVideoAd(scene, this);
+        KsScene scene = new KsScene.Builder(getPostId(postId)).build();
+        KsAdSDK.getLoadManager().loadFullScreenVideoAd(scene, this);
     }
 
     @Override
@@ -191,7 +190,7 @@ public class FullScreenVideoAdWrapper extends BaseAdWrapper implements Fullscree
     @Override
     public void show() {
         if (mFullScreenVideoAd != null) {
-            VideoPlayConfig videoPlayConfig = new VideoPlayConfig.Builder()
+            KsVideoPlayConfig videoPlayConfig = new KsVideoPlayConfig.Builder()
                     // true: 横屏播放
                     .showLandscape(mAdParams.getOrientation() == ConstantValue.HORIZONTAL)
                     .build();

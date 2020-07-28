@@ -3,16 +3,15 @@ package com.mobi.ks.wrapper;
 import android.app.Activity;
 import android.support.annotation.Nullable;
 
-import com.kwad.sdk.KsAdSDK;
-import com.kwad.sdk.export.i.IAdRequestManager;
-import com.kwad.sdk.export.i.KsRewardVideoAd;
-import com.kwad.sdk.protocol.model.AdScene;
-import com.kwad.sdk.video.VideoPlayConfig;
+import com.kwad.sdk.api.KsAdSDK;
+import com.kwad.sdk.api.KsLoadManager;
+import com.kwad.sdk.api.KsRewardVideoAd;
+import com.kwad.sdk.api.KsScene;
+import com.kwad.sdk.api.KsVideoPlayConfig;
 import com.mobi.core.BaseAdProvider;
 import com.mobi.core.ConstantValue;
 import com.mobi.core.LocalAdParams;
 import com.mobi.core.MobiConstantValue;
-import com.mobi.core.feature.IAdView;
 import com.mobi.core.feature.RewardAdView;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.utils.LogUtils;
@@ -25,7 +24,7 @@ import java.util.List;
  * @date 2020/6/4 10:53
  * @Dec 略
  */
-public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardAdView, IAdRequestManager.RewardVideoAdListener, KsRewardVideoAd.RewardAdInteractionListener {
+public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardAdView, KsLoadManager.RewardVideoAdListener, KsRewardVideoAd.RewardAdInteractionListener {
     private final LocalAdParams mAdParams;
     private final String mMobiCodeId;
     BaseAdProvider mAdProvider;
@@ -50,8 +49,8 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardAdView,
             return;
         }
 
-        AdScene scene = new AdScene(getPostId(postId));
-        KsAdSDK.getAdManager().loadRewardVideoAd(scene, this);
+        KsScene scene = new KsScene.Builder(getPostId(postId)).adNum(mAdParams.getAdCount()).build();
+        KsAdSDK.getLoadManager().loadRewardVideoAd(scene, this);
     }
 
     @Override
@@ -144,7 +143,7 @@ public class RewardVideoAdWrapper extends BaseAdWrapper implements RewardAdView,
     @Override
     public void show() {
         if (mRewardVideoAd != null) {
-            VideoPlayConfig videoPlayConfig = new VideoPlayConfig.Builder()
+            KsVideoPlayConfig videoPlayConfig = new KsVideoPlayConfig.Builder()
                     // true: 横屏播放
                     .showLandscape(mAdParams.getOrientation() == ConstantValue.HORIZONTAL)
                     .build();
