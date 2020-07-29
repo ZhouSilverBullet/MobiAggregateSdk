@@ -90,6 +90,7 @@ public <methods>;
 
 -keep class com.mobi.core.ConstantValue {*;}
 -keep class com.mobi.core.listener.* {*;}
+-keep class com.mobi.core.listener.impl.* {*;}
 
 -keep class com.mobi.core.splash.* {*;}
 -keep class com.mobi.core.utils.LogUtils {*;}
