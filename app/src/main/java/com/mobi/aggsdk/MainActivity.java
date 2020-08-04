@@ -25,6 +25,7 @@ import com.mobi.core.listener.IInteractionAdListener;
 import com.mobi.core.listener.IRewardAdListener;
 import com.mobi.core.strategy.StrategyError;
 import com.mobi.core.utils.LogUtils;
+import com.mobi.unityads.UnityInit;
 
 import java.util.List;
 
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
         flContainer = findViewById(R.id.flContainer);
 
+        UnityInit.init(this, "14851", true);
+        UnityInit.setDebugMode(true);
     }
 
     public void btnSplash(View view) {

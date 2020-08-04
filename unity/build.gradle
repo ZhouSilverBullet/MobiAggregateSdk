@@ -20,11 +20,44 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android.libraryVariants.all { variant ->
+        println("variant===================")
+        println(variant)
+        println(variant.buildType)
+        println(variant.buildType.name)
+        if (variant.buildType.name == 'release') {//在release包的时候才修改
+            variant.outputs.all { output ->
+                println("output===================")
+                println(output)
+                outputFileName = "mobi_mediation_tt_${defaultConfig.versionName}.aar"
+            }
+        } else if (variant.buildType.name == 'debug') {//在release包的时候才修改
+            variant.outputs.all { output ->
+                println("output===================")
+                println(output)
+                outputFileName = "mobi_mediation_tt_debug_${defaultConfig.versionName}.aar"
+            }
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation project(path: ':unity_sdk')
+    implementation project(path: ':core')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

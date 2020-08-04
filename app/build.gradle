@@ -67,6 +67,7 @@ dependencies {
     implementation project(path: ':gdt')
     implementation project(path: ':ks')
     implementation project(path: ':mobi')
+    implementation project(path: ':unity')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
