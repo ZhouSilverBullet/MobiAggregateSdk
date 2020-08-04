@@ -150,7 +150,7 @@ public class PushEventTrack {
         beanList.add(bean);
 
         //读取库里面的所有未上传的数据
-        List<PushEvent> dpList = DataManager.getPushEventPushSuccessList(CoreSession.get().getContext(), 0);
+        List<PushEvent> dpList = DataManager.getPushEventPushSuccessList(CoreSession.get().getContext(), 0, bean);
         if (!dpList.isEmpty()) {
             beanList.addAll(dpList);
         }

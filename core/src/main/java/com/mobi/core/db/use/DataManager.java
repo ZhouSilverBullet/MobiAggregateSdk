@@ -125,14 +125,18 @@ public class DataManager {
      * @param pushSuccess
      * @return
      */
-    public static List<PushEvent> getPushEventPushSuccessList(Context context, int pushSuccess) {
+    public static List<PushEvent> getPushEventPushSuccessList(Context context, int pushSuccess, PushEvent event) {
         ArrayList<PushEvent> list = new ArrayList<>();
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = PushEventTable.getContentUri();
+
         Cursor cursor = contentResolver.query(uri,
                 null,
-                PushEventTable.IS_PUSH_SUCCESS + "=?",
-                new String[]{String.valueOf(pushSuccess)}, null);
+                PushEventTable.IS_PUSH_SUCCESS + "=? AND " + PushEventTable.TIMESTAMP + "!=? AND "
+                        + PushEventTable.POSTID + "!=?",
+                new String[]{String.valueOf(pushSuccess), String.valueOf(event.getTimestamp()),
+                        event.getPostId()}, null);
+
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 PushEvent bean = PushEventTable.getValues(cursor);
