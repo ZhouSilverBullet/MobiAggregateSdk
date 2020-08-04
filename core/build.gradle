@@ -56,7 +56,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation project(path: ':open_ad_sdk')
+    implementation project(path: ':tt_sdk')
     testImplementation 'junit:junit:4.12'
 //    api 'com.google.code.gson:gson:2.8.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
